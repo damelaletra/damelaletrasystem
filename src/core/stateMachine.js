@@ -5,6 +5,7 @@ import { rankEligibleCandidates } from "./matching.js";
 import { cascadingEngine } from "./cascading.js";
 import { channels } from "./channels.js";
 import { handleExternalFallback } from "./fallback.js";
+import { concierge } from "./concierge.js";
 
 /**
  * Request State Machine & Master Orchestrator
@@ -16,21 +17,26 @@ import { handleExternalFallback } from "./fallback.js";
 export class RequestStateMachine {
   async processCustomerInput(rawMessage, channel = "WEB", conversationRef = "conv-1") {
     const text = (rawMessage || "").trim();
-    const lower = text.toLowerCase();
 
     // 1a. Check if there is an active request waiting for customer confirmation on this conversation
     const activeWaitingCustomer = db.getRequests(
       r => r.conversation_reference === conversationRef && r.status === "WAITING_CUSTOMER"
     )[0];
 
-    if (activeWaitingCustomer) {
-      return await this.handleCustomerConfirmation(activeWaitingCustomer, text);
-    }
-
     // 1b. Check if customer is answering a provider's clarifying question
     const activeWaitingClarification = db.getRequests(
       r => r.conversation_reference === conversationRef && r.status === "WAITING_CUSTOMER_CLARIFICATION"
     )[0];
+
+    const customerAnalysis = concierge.analyzeCustomerMessage(text, activeWaitingCustomer || activeWaitingClarification);
+
+    if (customerAnalysis.intent === "CUSTOMER_ACCEPT_QUOTE" && activeWaitingCustomer) {
+      return await this.handleCustomerConfirmation(activeWaitingCustomer, text);
+    }
+
+    if ((customerAnalysis.intent === "CUSTOMER_DECLINE_QUOTE" || customerAnalysis.intent === "CUSTOMER_REQUEST_ANOTHER") && activeWaitingCustomer) {
+      return await this.handleCustomerConfirmation(activeWaitingCustomer, text);
+    }
 
     if (activeWaitingClarification) {
       const provider = db.getProviderById(activeWaitingClarification.matched_provider_id);
@@ -39,8 +45,8 @@ export class RequestStateMachine {
       });
       db.logEvent(activeWaitingClarification.id, "CUSTOMER_CLARIFICATION_PROVIDED", "CUSTOMER", { text });
 
-      const forwardToProvider = `El cliente respondió: "${text}". ¿Puedes atenderlo? ¿Cuánto le cotizas y cuándo puedes ir?`;
       if (provider) {
+        const forwardToProvider = concierge.formatCustomerAnswerRelay(provider, text);
         await channels.sendProviderBriefing(provider, activeWaitingClarification, forwardToProvider);
       }
 
@@ -58,7 +64,7 @@ export class RequestStateMachine {
 
     // Zero-friction First Customer Experience Response:
     // "Dame un momento."
-    await channels.sendCustomerMessage(request, "Dame un momento.");
+    await channels.sendCustomerMessage(request, concierge.formatCustomerFirstResponse());
 
     // Transition -> UNDERSTANDING
     db.updateRequest(request.id, { status: "UNDERSTANDING" });
@@ -166,9 +172,8 @@ export class RequestStateMachine {
       });
 
       // Final zero-friction Customer Closing
-      const connectMessage =
-        `Perfecto. Te conecto con ${provider.name} ahora: Tel. ${provider.phone}.\n` +
-        `Ya le pasé la información de tu solicitud y está en camino (${request.estimated_arrival}).`;
+      const priceDisplay = request.quoted_price_display || `$${request.quoted_price}`;
+      const connectMessage = concierge.formatConnectionForCustomer(provider, request.estimated_arrival);
 
       await channels.sendCustomerMessage(request, connectMessage, {
         connected: true,
@@ -177,9 +182,8 @@ export class RequestStateMachine {
       });
 
       // Notify provider of connection
-      await channels.sendProviderBriefing(provider, request,
-        `¡Conexión Confirmada! El cliente aceptó tu cotización de $${request.quoted_price}. Contacto: ${request.conversation_reference}. ¡Gracias por atender a la comunidad!`
-      );
+      const providerConfirmMsg = concierge.formatConnectionForProvider(request.conversation_reference, priceDisplay);
+      await channels.sendProviderBriefing(provider, request, providerConfirmMsg);
 
       return { status: "CONNECTED", connection };
     } else {

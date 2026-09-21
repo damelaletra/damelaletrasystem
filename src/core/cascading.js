@@ -1,6 +1,7 @@
 import { db } from "./db.js";
 import { channels } from "./channels.js";
 import { handleExternalFallback } from "./fallback.js";
+import { concierge } from "./concierge.js";
 
 // Active timers for cascading steps
 const activeTimeouts = new Map();
@@ -146,29 +147,21 @@ export class CascadingEngine {
 
     if (!provider) return { error: "Provider not found" };
 
-    const text = (rawResponse || "").toLowerCase();
+    const analysis = concierge.analyzeProviderMessage(rawResponse, request, provider);
 
     // 1. Check progressive profile updates (UNKNOWN != NO)
-    if (text.includes("hago comercial") || text.includes("hacemos comercial") || (text.includes("comercial") && (text.includes("sí") || text.includes("si")))) {
-      db.updateProvider(provider.id, { commercial_capable: 1 });
+    if (analysis.commercialLearned !== null) {
+      db.updateProvider(provider.id, { commercial_capable: analysis.commercialLearned });
       db.logEvent(request ? request.id : null, "PROVIDER_PROFILE_LEARNED", "SYSTEM", {
         provider_id: provider.id,
         field: "commercial_capable",
-        value: 1
+        value: analysis.commercialLearned
       });
-      console.log(`[PROGRESSIVE PROFILE] Learned: Provider ${provider.name} commercial_capable = 1`);
-    } else if (text.includes("no hago comercial") || text.includes("solo residencial")) {
-      db.updateProvider(provider.id, { commercial_capable: 0 });
-      db.logEvent(request ? request.id : null, "PROVIDER_PROFILE_LEARNED", "SYSTEM", {
-        provider_id: provider.id,
-        field: "commercial_capable",
-        value: 0
-      });
-      console.log(`[PROGRESSIVE PROFILE] Learned: Provider ${provider.name} commercial_capable = 0`);
+      console.log(`[PROGRESSIVE PROFILE] Learned: Provider ${provider.name} commercial_capable = ${analysis.commercialLearned}`);
     }
 
     // 2. Operational availability rules
-    if (text.includes("hoy no trabajo") || text.includes("no trabajo hoy") || text.includes("no puedo hoy")) {
+    if (analysis.intent === "PROVIDER_OFF_DUTY") {
       db.updateProvider(provider.id, { availability_status: "OFF_DUTY" });
       console.log(`[OPERATIONAL AVAILABILITY] ${provider.name} marked OFF_DUTY for today.`);
     }
@@ -183,10 +176,7 @@ export class CascadingEngine {
     }
 
     // 3. Check if declined
-    const declineWords = ["no puedo", "ocupado", "no llego", "paso", "no hago ese trabajo", "imposible"];
-    const isDecline = declineWords.some(w => text.includes(w)) || text.trim() === "no";
-
-    if (isDecline && !text.includes("sí") && !text.includes("si")) {
+    if (analysis.intent === "PROVIDER_DECLINED") {
       db.logEvent(request.id, "PROVIDER_DECLINED", "PROVIDER", {
         provider_id: provider.id,
         response: rawResponse
@@ -199,104 +189,50 @@ export class CascadingEngine {
     }
 
     // 4. Check if provider is asking a clarifying question to the customer
-    const isQuestion = rawResponse.includes("?") ||
-      /^(que|qué|cuanto|cuánto|cuantos|cuántos|donde|dónde|cual|cuál|es de|tiene|dime el tamaño|tamaño|cuartos|pisos)/i.test(text.trim()) ||
-      (text.includes("tamaño") && !text.includes("cobro") && !text.includes("costo"));
-
-    if (isQuestion && !text.includes("$") && !text.includes("costo") && !text.includes("cobro") && !text.includes("precio")) {
+    if (analysis.intent === "PROVIDER_ASK_QUESTION") {
       db.logEvent(request.id, "PROVIDER_ASKED_CLARIFICATION", "PROVIDER", {
         provider_id: provider.id,
-        question: rawResponse
+        question: analysis.question
       });
 
       db.updateRequest(request.id, {
         status: "WAITING_CUSTOMER_CLARIFICATION"
       });
 
-      const questionToCustomer = `${provider.name} (${provider.display_name || provider.category}) te pregunta:\n\n"${rawResponse}"\n\nRespóndele aquí directamente para darte el precio exacto.`;
+      const questionToCustomer = concierge.formatProviderClarificationRelay(provider, analysis.question);
 
       await channels.sendCustomerMessage(request, questionToCustomer, {
         isProviderQuestion: true,
         providerId: provider.id
       });
 
-      return { success: true, status: "WAITING_CUSTOMER_CLARIFICATION", question: rawResponse };
+      return { success: true, status: "WAITING_CUSTOMER_CLARIFICATION", question: analysis.question };
     }
 
-    // 5. Parse Quote (Price & ETA)
-    // Extract ETA
-    let eta = "lo antes posible";
-    if (text.includes("mañana")) {
-      eta = "mañana";
-    } else if (text.includes("hoy")) {
-      eta = "hoy";
-    } else {
-      const etaMatch = text.match(/(\d{1,3})\s*(minutos?|mins?|horas?|hrs?)/i);
-      if (etaMatch) {
-        eta = `${etaMatch[1]} ${etaMatch[2]}`;
-      } else if (provider.conditional_rules && provider.conditional_rules.standard_response_time_min) {
-        eta = `${provider.conditional_rules.standard_response_time_min} minutos`;
-      }
-    }
-
-    // Extract price (handles ranges like "entre 100 y 200", "100 a 200", "$150", "150")
-    let priceDisplay = null;
-    let numericPrice = null;
-
-    const rangeMatch = text.match(/(?:entre|de)\s*\$?(\d{2,4})\s*(?:y|a|-)\s*\$?(\d{2,4})/i);
-    if (rangeMatch) {
-      priceDisplay = `$${rangeMatch[1]} - $${rangeMatch[2]}`;
-      numericPrice = (parseFloat(rangeMatch[1]) + parseFloat(rangeMatch[2])) / 2;
-    } else {
-      const dollarMatch = text.match(/\$\s*(\d{2,4})/);
-      if (dollarMatch) {
-        numericPrice = parseFloat(dollarMatch[1]);
-        priceDisplay = `$${dollarMatch[1]}`;
-      } else {
-        const verbPriceMatch = text.match(/(?:cobro|son|serian|cuesta|precio|costo|costo esta en|costo esta entre|entre)\s*\$?(\d{2,4})/i);
-        if (verbPriceMatch) {
-          numericPrice = parseFloat(verbPriceMatch[1]);
-          priceDisplay = `$${verbPriceMatch[1]}`;
-        } else {
-          const allNums = [...text.matchAll(/\b(\d{2,4})\b/g)];
-          for (const numMatch of allNums) {
-            numericPrice = parseFloat(numMatch[1]);
-            priceDisplay = `$${numMatch[1]}`;
-            break;
-          }
-        }
-      }
-    }
-
-    if (!priceDisplay) {
-      numericPrice = provider.conditional_rules?.default_callout_fee || 80;
-      priceDisplay = `$${numericPrice}`;
-    }
-
-    // Create quote
+    // 5. Provider Gave Quote
     const quote = db.createQuote({
       request_id: request.id,
       provider_id: provider.id,
-      quoted_price: numericPrice,
-      estimated_arrival: eta,
+      quoted_price: analysis.price,
+      quoted_price_display: analysis.priceDisplay,
+      estimated_arrival: analysis.eta,
       notes: rawResponse
     });
 
     db.updateRequest(request.id, {
       status: "QUOTE_RECEIVED",
-      quoted_price: numericPrice,
-      quoted_price_display: priceDisplay,
-      estimated_arrival: eta
+      quoted_price: analysis.price,
+      quoted_price_display: analysis.priceDisplay,
+      estimated_arrival: analysis.eta
     });
 
-    // Zero-friction Customer Response
-    const customerResponse = `Listo. ${provider.display_name} puede atenderte ${eta} y cobra ${priceDisplay}. ¿Quieres que te lo conecte?`;
+    const customerResponse = concierge.formatQuoteForCustomer(provider, analysis);
 
     await channels.sendCustomerMessage(request, customerResponse, {
       quoteId: quote.id,
       providerName: provider.display_name,
-      price: priceDisplay,
-      eta: eta,
+      price: analysis.priceDisplay,
+      eta: analysis.eta,
       promptConfirmation: true
     });
 

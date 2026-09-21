@@ -79,7 +79,7 @@ async function runTests() {
     console.log("  ✔ Request entered WAITING_PROVIDER, dispatched to eligible provider");
 
     console.log("  Step 2: Provider replies 'Sí, puedo llegar en 20 minutos y cobro $65'");
-    const res2 = cascadingEngine.handleProviderResponse(activeReq.matched_provider_id, "Sí, puedo llegar en 20 minutos y cobro $65", activeReq.id);
+    const res2 = await cascadingEngine.handleProviderResponse(activeReq.matched_provider_id, "Sí, puedo llegar en 20 minutos y cobro $65", activeReq.id);
     assert.strictEqual(res2.success, true);
 
     const reqWaitingCustomer = db.getRequestById(activeReq.id);
@@ -88,7 +88,7 @@ async function runTests() {
     console.log("  ✔ Quote parsed ($65, 20 minutos) and customer informed: 'Listo. Puede atenderte...'");
 
     console.log("  Step 3: Customer confirms 'Sí, dale'");
-    const res3 = stateMachine.processCustomerInput("Sí, dale", "WHATSAPP", convId);
+    const res3 = await stateMachine.processCustomerInput("Sí, dale", "WHATSAPP", convId);
 
     const reqCompleted = db.getRequestById(activeReq.id);
     assert.strictEqual(reqCompleted.status, "CONNECTED");
@@ -107,7 +107,7 @@ async function runTests() {
       location_raw: "Louisville, KY"
     });
 
-    const fallbackResult = handleExternalFallback(rareReq);
+    const fallbackResult = await handleExternalFallback(rareReq);
     assert.strictEqual(fallbackResult.type, "EXTERNAL_DISCOVERY");
     assert(fallbackResult.message.includes("no forma parte de nuestra red directa"), "Must include transparent disclaimer");
     console.log("  ✔ Transparent External Fallback presented with disclaimer (PASS)");
