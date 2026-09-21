@@ -22,6 +22,18 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false })); // Needed for Twilio Webhooks
 app.use(express.static(path.join(__dirname, "public")));
 
+// Health check
+app.get("/api/health", (req, res) => {
+  res.json({
+    status: "ok",
+    twilioReady: !!channels.twilioClient,
+    twilioPhone: process.env.TWILIO_PHONE_NUMBER || null,
+    accountSidSet: !!process.env.TWILIO_ACCOUNT_SID,
+    authTokenSet: !!process.env.TWILIO_AUTH_TOKEN,
+    nodeEnv: process.env.NODE_ENV || "development"
+  });
+});
+
 // 1. Real-time Server-Sent Events (SSE)
 app.get("/api/events", (req, res) => {
   res.setHeader("Content-Type", "text/event-stream");
