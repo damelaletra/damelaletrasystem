@@ -1,6 +1,29 @@
-﻿{
+{
   "version": 2,
   "rewrites": [
-    { "source": "/api/(.*)", "destination": "/server.js" }
+    {
+      "source": "/api/(.*)",
+      "destination": "/api/index.js"
+    },
+    {
+      "source": "/css/(.*)",
+      "destination": "/public/css/$1"
+    },
+    {
+      "source": "/js/(.*)",
+      "destination": "/public/js/$1"
+    },
+    {
+      "source": "/provider.html",
+      "destination": "/public/provider.html"
+    },
+    {
+      "source": "/admin.html",
+      "destination": "/public/admin.html"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/public/index.html"
+    }
   ]
 }
