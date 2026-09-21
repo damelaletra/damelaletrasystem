@@ -147,7 +147,7 @@ export class CascadingEngine {
 
     if (!provider) return { error: "Provider not found" };
 
-    const analysis = concierge.analyzeProviderMessage(rawResponse, request, provider);
+    const analysis = await concierge.analyzeProviderMessageAsync(rawResponse, request, provider);
 
     // 1. Check progressive profile updates (UNKNOWN != NO)
     if (analysis.commercialLearned !== null) {

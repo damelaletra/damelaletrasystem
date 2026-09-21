@@ -3,6 +3,7 @@
 // warm Cuban/Latino concierge persona, and multi-turn dialogue state management.
 
 import { understandRequest } from "./semantic.js";
+import { geminiService } from "./gemini.js";
 
 export const CUSTOMER_YES_WORDS = [
   "sí", "si", "dale", "dale luz verde", "conéctalo", "conéctame", "conecta",
@@ -276,6 +277,43 @@ export class ConversationalConcierge {
 
   formatConnectionForProvider(customerPhone, priceDisplay) {
     return `¡Conexión Confirmada! El cliente aceptó tu cotización de ${priceDisplay}. Contacto directo del cliente: ${customerPhone}. ¡Gracias por atender a la comunidad!`;
+  }
+
+  /**
+   * Async analysis leveraging Gemini LLM with instant local fallback
+   */
+  async analyzeCustomerMessageAsync(rawText, activeRequest = null) {
+    if (geminiService.isAvailable()) {
+      const llmResult = await geminiService.understandCustomerMessage(rawText, activeRequest);
+      if (llmResult && llmResult.confidence >= 0.70) {
+        if (llmResult.is_affirmation && activeRequest && (activeRequest.status === "WAITING_CUSTOMER" || activeRequest.status === "CUSTOMER_DECLINED")) {
+          return { intent: "CUSTOMER_ACCEPT_QUOTE", confidence: llmResult.confidence, text: rawText };
+        }
+        if (llmResult.is_decline && activeRequest && activeRequest.status === "WAITING_CUSTOMER") {
+          return { intent: "CUSTOMER_DECLINE_QUOTE", confidence: llmResult.confidence, text: rawText };
+        }
+      }
+    }
+    return this.analyzeCustomerMessage(rawText, activeRequest);
+  }
+
+  async analyzeProviderMessageAsync(rawText, activeRequest = null, provider = null) {
+    if (geminiService.isAvailable()) {
+      const llmResult = await geminiService.analyzeProviderMessage(rawText, activeRequest, provider);
+      if (llmResult && llmResult.confidence >= 0.75) {
+        return {
+          intent: llmResult.intent,
+          confidence: llmResult.confidence,
+          price: llmResult.price,
+          priceDisplay: llmResult.price_display || (llmResult.price ? `$${llmResult.price}` : null),
+          eta: llmResult.estimated_arrival || "lo antes posible",
+          question: llmResult.question_to_customer,
+          commercialLearned: llmResult.commercial_learned,
+          text: rawText
+        };
+      }
+    }
+    return this.analyzeProviderMessage(rawText, activeRequest, provider);
   }
 }
 

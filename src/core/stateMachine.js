@@ -28,7 +28,7 @@ export class RequestStateMachine {
       r => r.conversation_reference === conversationRef && r.status === "WAITING_CUSTOMER_CLARIFICATION"
     )[0];
 
-    const customerAnalysis = concierge.analyzeCustomerMessage(text, activeWaitingCustomer || activeWaitingClarification);
+    const customerAnalysis = await concierge.analyzeCustomerMessageAsync(text, activeWaitingCustomer || activeWaitingClarification);
 
     if (customerAnalysis.intent === "CUSTOMER_ACCEPT_QUOTE" && activeWaitingCustomer) {
       return await this.handleCustomerConfirmation(activeWaitingCustomer, text, true);
