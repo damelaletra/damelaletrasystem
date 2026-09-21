@@ -23,7 +23,7 @@ app.use(express.urlencoded({ extended: false })); // Needed for Twilio Webhooks
 app.use(express.static(path.join(__dirname, "public")));
 
 // Health check
-app.get("/api/health", (req, res) => {
+app.get(["/api/health", "/health"], (req, res) => {
   res.json({
     status: "ok",
     twilioReady: !!channels.twilioClient,
@@ -35,7 +35,7 @@ app.get("/api/health", (req, res) => {
 });
 
 // 1. Real-time Server-Sent Events (SSE)
-app.get("/api/events", (req, res) => {
+app.get(["/api/events", "/events"], (req, res) => {
   res.setHeader("Content-Type", "text/event-stream");
   res.setHeader("Cache-Control", "no-cache");
   res.setHeader("Connection", "keep-alive");
@@ -47,7 +47,7 @@ app.get("/api/events", (req, res) => {
 });
 
 // 2. Real Twilio Webhook (SMS & WhatsApp Gateway)
-app.post("/api/webhooks/twilio", async (req, res) => {
+app.post(["/api/webhooks/twilio", "/webhooks/twilio"], async (req, res) => {
   try {
     const rawFrom = req.body.From || "";
     const bodyText = (req.body.Body || "").trim();
@@ -78,7 +78,7 @@ app.post("/api/webhooks/twilio", async (req, res) => {
 });
 
 // 3. Customer Message Ingestion (Web UI Gateway)
-app.post("/api/customer/message", async (req, res) => {
+app.post(["/api/customer/message", "/customer/message"], async (req, res) => {
   try {
     const { message, conversationRef = "web-client-1", channel = "WEB" } = req.body;
     if (!message || !message.trim()) {
@@ -94,14 +94,14 @@ app.post("/api/customer/message", async (req, res) => {
 });
 
 // 4. Provider Response Gateway (Web Simulator Gateway)
-app.post("/api/provider/response", async (req, res) => {
+app.post(["/api/provider/response", "/provider/response"], async (req, res) => {
   try {
     const { providerId, response, requestId } = req.body;
     if (!providerId || !response) {
       return res.status(400).json({ error: "providerId and response are required." });
     }
 
-    const result = cascadingEngine.handleProviderResponse(providerId, response, requestId);
+    const result = await cascadingEngine.handleProviderResponse(providerId, response, requestId);
     return res.json({ success: true, result });
   } catch (err) {
     console.error("[API] Provider response error:", err);
