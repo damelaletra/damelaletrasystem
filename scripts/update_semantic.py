@@ -1,4 +1,6 @@
-// Semantic Layer: Translates natural human speech into structured intents.
+﻿# -*- coding: utf-8 -*-
+
+content = """// Semantic Layer: Translates natural human speech into structured intents.
 
 // Louisville landmarks & geo references
 const LOUISVILLE_LOCATIONS = [
@@ -286,3 +288,8 @@ export function calculateDistanceMiles(lat1, lon1, lat2, lon2) {
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   return parseFloat((R * c).toFixed(2));
 }
+"""
+
+with open("src/core/semantic.js", "w", encoding="utf-8") as f:
+    f.write(content)
+print("Updated src/core/semantic.js with 10 full service categories!")

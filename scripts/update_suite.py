@@ -1,4 +1,6 @@
-import assert from "assert";
+﻿# -*- coding: utf-8 -*-
+
+content = """import assert from "assert";
 import { understandRequest } from "../src/core/semantic.js";
 import { checkProviderEligibility, filterEligibleProviders } from "../src/core/eligibility.js";
 import { rankEligibleCandidates } from "../src/core/matching.js";
@@ -10,7 +12,7 @@ import { handleExternalFallback } from "../src/core/fallback.js";
 async function runTests() {
   console.log("=================================================");
   console.log("   DAME LA LETRA (DML) - MASTER TEST SUITE      ");
-  console.log("=================================================\n");
+  console.log("=================================================\\n");
 
   db.seed();
 
@@ -35,7 +37,7 @@ async function runTests() {
   }
 
   // TEST 2: Deterministic Eligibility Engine & UNKNOWN != NO
-  console.log("\n▶ TEST 2: Deterministic Eligibility Engine & UNKNOWN != NO");
+  console.log("\\n▶ TEST 2: Deterministic Eligibility Engine & UNKNOWN != NO");
   {
     const allProviders = db.getProviders();
     const jose = allProviders.find(p => p.category === "PLUMBING");
@@ -68,7 +70,7 @@ async function runTests() {
   }
 
   // TEST 3: Full End-to-End Zero-Friction Customer Lifecycle
-  console.log("\n▶ TEST 3: Full Lifecycle: 'Necesito esto' -> 'Dame un momento' -> 'Listo'");
+  console.log("\\n▶ TEST 3: Full Lifecycle: 'Necesito esto' -> 'Dame un momento' -> 'Listo'");
   {
     const convId = "test-customer-lifecycle-" + Date.now();
 
@@ -98,7 +100,7 @@ async function runTests() {
   }
 
   // TEST 4: External Fallback Engine
-  console.log("\n▶ TEST 4: External Fallback with Transparent Disclaimer");
+  console.log("\\n▶ TEST 4: External Fallback with Transparent Disclaimer");
   {
     const rareReq = db.createRequest({
       raw_message: "Necesito una grúa pesada de 50 toneladas para levantar maquinaria",
@@ -113,12 +115,17 @@ async function runTests() {
     console.log("  ✔ Transparent External Fallback presented with disclaimer (PASS)");
   }
 
-  console.log("\n=================================================");
+  console.log("\\n=================================================");
   console.log("   ALL TEST SUITES PASSED FLAWLESSLY!           ");
-  console.log("=================================================\n");
+  console.log("=================================================\\n");
 }
 
 runTests().catch(err => {
   console.error("❌ TEST SUITE FAILED:", err);
   process.exit(1);
 });
+"""
+
+with open("test/suite.js", "w", encoding="utf-8") as f:
+    f.write(content)
+print("Updated test/suite.js cleanly!")
