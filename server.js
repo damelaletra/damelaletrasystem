@@ -8,6 +8,7 @@ import { stateMachine } from "./src/core/stateMachine.js";
 import { cascadingEngine } from "./src/core/cascading.js";
 import { channels } from "./src/core/channels.js";
 import { getObservabilityMetrics } from "./src/core/observability.js";
+import { stripeService } from "./src/core/stripeService.js";
 
 dotenv.config();
 
@@ -163,6 +164,76 @@ app.post("/api/admin/reset", (req, res) => {
 app.get("/api/metrics", (req, res) => {
   const metrics = getObservabilityMetrics();
   return res.json(metrics);
+});
+
+// 9. Stripe Payments, Billing, Invoicing & Connect API
+app.post("/api/stripe/subscribe", async (req, res) => {
+  try {
+    const { providerId, planTier } = req.body;
+    const provider = db.getProviderById(providerId);
+    if (!provider) return res.status(404).json({ error: "Provider not found" });
+
+    const session = await stripeService.createSubscriptionCheckout(provider, planTier);
+    return res.json({ success: true, url: session.url, sessionId: session.id });
+  } catch (err) {
+    console.error("[API STRIPE ERROR]", err);
+    return res.status(500).json({ error: err.message });
+  }
+});
+
+app.post("/api/stripe/lead-fee", async (req, res) => {
+  try {
+    const { providerId, requestId } = req.body;
+    const provider = db.getProviderById(providerId);
+    const request = db.getRequestById(requestId);
+    if (!provider || !request) return res.status(404).json({ error: "Provider or Request not found" });
+
+    const session = await stripeService.createLeadFeeCheckout(provider, request);
+    return res.json({ success: true, url: session.url, sessionId: session.id });
+  } catch (err) {
+    console.error("[API STRIPE ERROR]", err);
+    return res.status(500).json({ error: err.message });
+  }
+});
+
+app.post("/api/stripe/connect", async (req, res) => {
+  try {
+    const { providerId } = req.body;
+    const provider = db.getProviderById(providerId);
+    if (!provider) return res.status(404).json({ error: "Provider not found" });
+
+    const accountLink = await stripeService.createConnectOnboardingLink(provider);
+    return res.json({ success: true, url: accountLink.url });
+  } catch (err) {
+    console.error("[API STRIPE ERROR]", err);
+    return res.status(500).json({ error: err.message });
+  }
+});
+
+app.post("/api/stripe/invoice", async (req, res) => {
+  try {
+    const { providerId } = req.body;
+    const provider = db.getProviderById(providerId);
+    if (!provider) return res.status(404).json({ error: "Provider not found" });
+
+    const completed = db.getRequests(r => r.matched_provider_id === providerId && r.status === "CONNECTED");
+    const invoice = await stripeService.createMonthlyLeadInvoice(provider, completed);
+    return res.json({ success: true, invoice });
+  } catch (err) {
+    console.error("[API STRIPE ERROR]", err);
+    return res.status(500).json({ error: err.message });
+  }
+});
+
+app.post("/api/webhooks/stripe", async (req, res) => {
+  try {
+    const event = req.body;
+    await stripeService.handleWebhookEvent(event);
+    return res.json({ received: true });
+  } catch (err) {
+    console.error("[STRIPE WEBHOOK ERROR]", err);
+    return res.status(400).send(`Webhook Error: ${err.message}`);
+  }
 });
 
 app.listen(PORT, () => {

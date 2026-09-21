@@ -26,9 +26,9 @@
   </header>
 
   <main class="customer-layout" style="max-width: 520px;">
-    <div style="margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: center;">
-      <label for="provider-select" style="font-weight: 700; font-size: 0.9rem; color: var(--text-muted);">Seleccionar Proveedor Activo:</label>
-      <select id="provider-select" style="background: var(--bg-card); color: var(--text-main); border: 1px solid var(--border); padding: 0.4rem 0.8rem; border-radius: 8px; font-weight: 600;">
+    <div style="margin-bottom: 0.75rem; display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+      <label for="provider-select" style="font-weight: 700; font-size: 0.85rem; color: var(--text-muted);">Proveedor Activo:</label>
+      <select id="provider-select" style="background: var(--bg-card); color: var(--text-main); border: 1px solid var(--border); padding: 0.4rem 0.8rem; border-radius: 8px; font-weight: 600; flex: 1; max-width: 320px;">
         <option value="prov-roberto-gonzalez">Roberto (Gomas & Grúa 502)</option>
         <option value="prov-jose-martinez">José Martínez (Plomero)</option>
         <option value="prov-carlos-ruiz">Carlos Ruiz (HVAC / Aire)</option>
@@ -36,6 +36,21 @@
         <option value="prov-yoelvis-silva">Yoelvis Silva (Árboles & Yard)</option>
         <option value="prov-andres-electric">Andrés Ramos (Electricista Master)</option>
       </select>
+    </div>
+
+    <!-- Stripe Provider Portal Actions -->
+    <div style="background: rgba(99, 102, 241, 0.08); border: 1px solid rgba(99, 102, 241, 0.25); border-radius: 12px; padding: 0.75rem 1rem; margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+      <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span style="font-size: 1.1rem;">💳</span>
+        <div>
+          <div style="font-size: 0.82rem; font-weight: 700; color: var(--text-main);">Stripe Billing & Connect</div>
+          <div style="font-size: 0.72rem; color: var(--text-muted);" id="stripe-status-label">Membresía $49.99/mes · Pagos directos</div>
+        </div>
+      </div>
+      <div style="display: flex; gap: 0.5rem;">
+        <button id="btn-stripe-subscribe" class="btn-small" style="background: #6366f1; color: white; border: none; font-weight: 600; cursor: pointer; padding: 0.35rem 0.75rem; border-radius: 6px; font-size: 0.75rem;">⚡ Activar Membresía</button>
+        <button id="btn-stripe-connect" class="btn-small" style="background: transparent; border: 1px solid #6366f1; color: #a5b4fc; font-weight: 600; cursor: pointer; padding: 0.35rem 0.75rem; border-radius: 6px; font-size: 0.75rem;">🏦 Vincular Banco</button>
+      </div>
     </div>
 
     <!-- Mobile Screen Frame -->

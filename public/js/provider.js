@@ -71,6 +71,65 @@ document.querySelectorAll(".btn-quick-reply").forEach(btn => {
   });
 });
 
+// Stripe Billing: Subscribe button
+const btnStripeSubscribe = document.getElementById("btn-stripe-subscribe");
+if (btnStripeSubscribe) {
+  btnStripeSubscribe.addEventListener("click", async () => {
+    btnStripeSubscribe.disabled = true;
+    btnStripeSubscribe.textContent = "Cargando Stripe...";
+    try {
+      const res = await fetch("/api/stripe/subscribe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          providerId: currentProviderId,
+          planTier: "FOUNDING"
+        })
+      });
+      const data = await res.json();
+      if (data.url) {
+        window.open(data.url, "_blank");
+      } else {
+        alert("Error al iniciar checkout: " + (data.error || "Desconocido"));
+      }
+    } catch (e) {
+      alert("Error de conexión con Stripe: " + e.message);
+    } finally {
+      btnStripeSubscribe.disabled = false;
+      btnStripeSubscribe.textContent = "⚡ Activar Membresía";
+    }
+  });
+}
+
+// Stripe Connect: Onboarding button
+const btnStripeConnect = document.getElementById("btn-stripe-connect");
+if (btnStripeConnect) {
+  btnStripeConnect.addEventListener("click", async () => {
+    btnStripeConnect.disabled = true;
+    btnStripeConnect.textContent = "Conectando...";
+    try {
+      const res = await fetch("/api/stripe/connect", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          providerId: currentProviderId
+        })
+      });
+      const data = await res.json();
+      if (data.url) {
+        window.open(data.url, "_blank");
+      } else {
+        alert("Error al crear onboarding: " + (data.error || "Desconocido"));
+      }
+    } catch (e) {
+      alert("Error de conexión con Stripe: " + e.message);
+    } finally {
+      btnStripeConnect.disabled = false;
+      btnStripeConnect.textContent = "🏦 Vincular Banco";
+    }
+  });
+}
+
 providerSelect.addEventListener("change", () => {
   currentProviderId = providerSelect.value;
   phoneMessages.innerHTML = `
