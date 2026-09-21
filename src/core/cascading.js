@@ -198,64 +198,104 @@ export class CascadingEngine {
       return await this.dispatchNextCandidate(request.id);
     }
 
-    // 4. Parse Quote (Price & ETA)
-    // Extract ETA first to isolate duration numbers
-    let eta = "30 minutos";
-    const etaMatch = text.match(/(\d{1,3})\s*(minutos?|mins?|horas?|hrs?)/i);
-    let matchedEtaNum = null;
-    if (etaMatch) {
-      matchedEtaNum = etaMatch[1];
-      eta = `${etaMatch[1]} ${etaMatch[2]}`;
-    } else if (provider.conditional_rules && provider.conditional_rules.standard_response_time_min) {
-      eta = `${provider.conditional_rules.standard_response_time_min} minutos`;
+    // 4. Check if provider is asking a clarifying question to the customer
+    const isQuestion = rawResponse.includes("?") ||
+      /^(que|qué|cuanto|cuánto|cuantos|cuántos|donde|dónde|cual|cuál|es de|tiene|dime el tamaño|tamaño|cuartos|pisos)/i.test(text.trim()) ||
+      (text.includes("tamaño") && !text.includes("cobro") && !text.includes("costo"));
+
+    if (isQuestion && !text.includes("$") && !text.includes("costo") && !text.includes("cobro") && !text.includes("precio")) {
+      db.logEvent(request.id, "PROVIDER_ASKED_CLARIFICATION", "PROVIDER", {
+        provider_id: provider.id,
+        question: rawResponse
+      });
+
+      db.updateRequest(request.id, {
+        status: "WAITING_CUSTOMER_CLARIFICATION"
+      });
+
+      const questionToCustomer = `${provider.name} (${provider.display_name || provider.category}) te pregunta:\n\n"${rawResponse}"\n\nRespóndele aquí directamente para darte el precio exacto.`;
+
+      await channels.sendCustomerMessage(request, questionToCustomer, {
+        isProviderQuestion: true,
+        providerId: provider.id
+      });
+
+      return { success: true, status: "WAITING_CUSTOMER_CLARIFICATION", question: rawResponse };
     }
 
-    // Extract price
-    let price = null;
-    const dollarMatch = text.match(/\$\s*(\d{2,4})/);
-    if (dollarMatch) {
-      price = parseFloat(dollarMatch[1]);
+    // 5. Parse Quote (Price & ETA)
+    // Extract ETA
+    let eta = "lo antes posible";
+    if (text.includes("mañana")) {
+      eta = "mañana";
+    } else if (text.includes("hoy")) {
+      eta = "hoy";
     } else {
-      const verbPriceMatch = text.match(/(?:cobro|son|serian|cuesta)\s*\$?(\d{2,4})/i);
-      if (verbPriceMatch) {
-        price = parseFloat(verbPriceMatch[1]);
+      const etaMatch = text.match(/(\d{1,3})\s*(minutos?|mins?|horas?|hrs?)/i);
+      if (etaMatch) {
+        eta = `${etaMatch[1]} ${etaMatch[2]}`;
+      } else if (provider.conditional_rules && provider.conditional_rules.standard_response_time_min) {
+        eta = `${provider.conditional_rules.standard_response_time_min} minutos`;
+      }
+    }
+
+    // Extract price (handles ranges like "entre 100 y 200", "100 a 200", "$150", "150")
+    let priceDisplay = null;
+    let numericPrice = null;
+
+    const rangeMatch = text.match(/(?:entre|de)\s*\$?(\d{2,4})\s*(?:y|a|-)\s*\$?(\d{2,4})/i);
+    if (rangeMatch) {
+      priceDisplay = `$${rangeMatch[1]} - $${rangeMatch[2]}`;
+      numericPrice = (parseFloat(rangeMatch[1]) + parseFloat(rangeMatch[2])) / 2;
+    } else {
+      const dollarMatch = text.match(/\$\s*(\d{2,4})/);
+      if (dollarMatch) {
+        numericPrice = parseFloat(dollarMatch[1]);
+        priceDisplay = `$${dollarMatch[1]}`;
       } else {
-        const allNums = [...text.matchAll(/\b(\d{2,4})\b/g)];
-        for (const numMatch of allNums) {
-          if (numMatch[1] !== matchedEtaNum) {
-            price = parseFloat(numMatch[1]);
+        const verbPriceMatch = text.match(/(?:cobro|son|serian|cuesta|precio|costo|costo esta en|costo esta entre|entre)\s*\$?(\d{2,4})/i);
+        if (verbPriceMatch) {
+          numericPrice = parseFloat(verbPriceMatch[1]);
+          priceDisplay = `$${verbPriceMatch[1]}`;
+        } else {
+          const allNums = [...text.matchAll(/\b(\d{2,4})\b/g)];
+          for (const numMatch of allNums) {
+            numericPrice = parseFloat(numMatch[1]);
+            priceDisplay = `$${numMatch[1]}`;
             break;
           }
         }
       }
     }
 
-    if (!price) {
-      price = provider.conditional_rules?.default_callout_fee || 80;
+    if (!priceDisplay) {
+      numericPrice = provider.conditional_rules?.default_callout_fee || 80;
+      priceDisplay = `$${numericPrice}`;
     }
 
     // Create quote
     const quote = db.createQuote({
       request_id: request.id,
       provider_id: provider.id,
-      quoted_price: price,
+      quoted_price: numericPrice,
       estimated_arrival: eta,
       notes: rawResponse
     });
 
     db.updateRequest(request.id, {
       status: "QUOTE_RECEIVED",
-      quoted_price: price,
+      quoted_price: numericPrice,
+      quoted_price_display: priceDisplay,
       estimated_arrival: eta
     });
 
     // Zero-friction Customer Response
-    const customerResponse = `Listo. ${provider.display_name} puede atenderte. Está aproximadamente a ${eta} y cobra $${price}. ¿Quieres que te lo conecte?`;
+    const customerResponse = `Listo. ${provider.display_name} puede atenderte ${eta} y cobra ${priceDisplay}. ¿Quieres que te lo conecte?`;
 
     await channels.sendCustomerMessage(request, customerResponse, {
       quoteId: quote.id,
       providerName: provider.display_name,
-      price: price,
+      price: priceDisplay,
       eta: eta,
       promptConfirmation: true
     });

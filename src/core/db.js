@@ -5,7 +5,9 @@ import { initialBusinesses, initialProviders, externalPublicDirectory } from "./
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const DB_FILE = path.join(__dirname, "../../data/dml_database.json");
+const DB_FILE = (process.env.VERCEL || process.env.NODE_ENV === "production")
+  ? path.join("/tmp", "dml_database.json")
+  : path.join(__dirname, "../../data/dml_database.json");
 
 class Database {
   constructor() {
@@ -57,7 +59,12 @@ class Database {
       }
       fs.writeFileSync(DB_FILE, JSON.stringify(this.data, null, 2), "utf-8");
     } catch (err) {
-      console.error("[DB] Save error:", err.message);
+      try {
+        const tmpFile = path.join("/tmp", "dml_database.json");
+        fs.writeFileSync(tmpFile, JSON.stringify(this.data, null, 2), "utf-8");
+      } catch (tmpErr) {
+        console.error("[DB] Save error:", err.message);
+      }
     }
   }
 
@@ -81,10 +88,46 @@ class Database {
 
   getActiveWaitingRequestForPhone(phone) {
     return this.data.requests.find(r => {
-      if (r.status !== "WAITING_PROVIDER") return false;
+      if (r.status !== "WAITING_PROVIDER" && r.status !== "WAITING_CUSTOMER_CLARIFICATION") return false;
       const provider = this.getProviderById(r.matched_provider_id);
       return provider && provider.phone === phone;
     });
+  }
+
+  async recoverActiveRequestForProvider(provider) {
+    const existing = this.data.requests.find(
+      r => r.status === "WAITING_PROVIDER" || r.status === "WAITING_CUSTOMER_CLARIFICATION" || r.status === "WAITING_CUSTOMER"
+    );
+    if (existing) {
+      if (!existing.matched_provider_id) existing.matched_provider_id = provider.id;
+      return existing;
+    }
+
+    try {
+      const { channels } = await import("./channels.js");
+      if (channels.twilioClient && process.env.TWILIO_PHONE_NUMBER) {
+        const msgs = await channels.twilioClient.messages.list({
+          to: process.env.TWILIO_PHONE_NUMBER,
+          limit: 10
+        });
+        const providerPhones = new Set(this.data.providers.map(p => p.phone));
+        const customerMsg = msgs.find(m => !providerPhones.has(m.from));
+        if (customerMsg) {
+          const req = this.createRequest({
+            channel: "SMS",
+            conversation_reference: customerMsg.from,
+            raw_message: customerMsg.body,
+            service_category: provider.category,
+            matched_provider_id: provider.id,
+            status: "WAITING_PROVIDER"
+          });
+          return req;
+        }
+      }
+    } catch (e) {
+      console.warn("[DB] recoverActiveRequest error:", e.message);
+    }
+    return null;
   }
 
   updateProvider(id, updates) {

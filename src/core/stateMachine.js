@@ -18,13 +18,34 @@ export class RequestStateMachine {
     const text = (rawMessage || "").trim();
     const lower = text.toLowerCase();
 
-    // 1. Check if there is an active request waiting for customer confirmation on this conversation
+    // 1a. Check if there is an active request waiting for customer confirmation on this conversation
     const activeWaitingCustomer = db.getRequests(
       r => r.conversation_reference === conversationRef && r.status === "WAITING_CUSTOMER"
     )[0];
 
     if (activeWaitingCustomer) {
       return await this.handleCustomerConfirmation(activeWaitingCustomer, text);
+    }
+
+    // 1b. Check if customer is answering a provider's clarifying question
+    const activeWaitingClarification = db.getRequests(
+      r => r.conversation_reference === conversationRef && r.status === "WAITING_CUSTOMER_CLARIFICATION"
+    )[0];
+
+    if (activeWaitingClarification) {
+      const provider = db.getProviderById(activeWaitingClarification.matched_provider_id);
+      db.updateRequest(activeWaitingClarification.id, {
+        status: "WAITING_PROVIDER"
+      });
+      db.logEvent(activeWaitingClarification.id, "CUSTOMER_CLARIFICATION_PROVIDED", "CUSTOMER", { text });
+
+      const forwardToProvider = `El cliente respondió: "${text}". ¿Puedes atenderlo? ¿Cuánto le cotizas y cuándo puedes ir?`;
+      if (provider) {
+        await channels.sendProviderBriefing(provider, activeWaitingClarification, forwardToProvider);
+      }
+
+      await channels.sendCustomerMessage(activeWaitingClarification, "Gracias. Ya le pasé los detalles a la especialista para que te dé el precio.");
+      return { request: activeWaitingClarification, status: "FORWARDED_TO_PROVIDER" };
     }
 
     // 2. New Request Pipeline
