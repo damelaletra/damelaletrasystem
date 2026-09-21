@@ -160,3 +160,5 @@ app.listen(PORT, () => {
   console.log(`  - Provider Simulator:  http://localhost:${PORT}/provider.html`);
   console.log(`======================================================\n`);
 });
+
+export default app;
