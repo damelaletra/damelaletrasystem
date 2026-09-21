@@ -54,29 +54,23 @@ class ChannelHub extends EventEmitter {
     this.broadcast("customer_message", messageObj);
     this.emit("customer_message", messageObj);
 
-    // Real Twilio Dispatch to Customer (if destination is a real phone number)
+    // Real Twilio Dispatch to Customer (Strictly from +15026731333)
     if (this.twilioClient && request.conversation_reference && request.conversation_reference.startsWith("+1")) {
       try {
         const isWhatsApp = request.channel === "WHATSAPP";
         const toNumber = isWhatsApp
           ? `whatsapp:${request.conversation_reference}`
           : request.conversation_reference;
+        const fromNumber = isWhatsApp
+          ? `whatsapp:${process.env.TWILIO_PHONE_NUMBER}`
+          : process.env.TWILIO_PHONE_NUMBER;
 
-        const msgConfig = {
+        const twilioMsg = await this.twilioClient.messages.create({
           body: text,
+          from: fromNumber,
           to: toNumber
-        };
-
-        if (isWhatsApp) {
-          msgConfig.from = `whatsapp:${process.env.TWILIO_PHONE_NUMBER}`;
-        } else if (process.env.TWILIO_MESSAGING_SERVICE_SID) {
-          msgConfig.messagingServiceSid = process.env.TWILIO_MESSAGING_SERVICE_SID;
-        } else {
-          msgConfig.from = process.env.TWILIO_PHONE_NUMBER;
-        }
-
-        const twilioMsg = await this.twilioClient.messages.create(msgConfig);
-        console.log(`[TWILIO -> CUSTOMER SUCCESS] SID: ${twilioMsg.sid} to ${toNumber}`);
+        });
+        console.log(`[TWILIO -> CUSTOMER SUCCESS] SID: ${twilioMsg.sid} from ${fromNumber} to ${toNumber}`);
       } catch (err) {
         console.error(`[TWILIO -> CUSTOMER ERROR] Failed to send to ${request.conversation_reference}:`, err.message);
       }
@@ -112,21 +106,15 @@ class ChannelHub extends EventEmitter {
         const toNumber = isWhatsApp
           ? `whatsapp:${provider.phone}`
           : provider.phone;
+        const fromNumber = isWhatsApp
+          ? `whatsapp:${process.env.TWILIO_PHONE_NUMBER}`
+          : process.env.TWILIO_PHONE_NUMBER;
 
-        const msgConfig = {
+        const twilioMsg = await this.twilioClient.messages.create({
           body: briefingText,
+          from: fromNumber,
           to: toNumber
-        };
-
-        if (isWhatsApp) {
-          msgConfig.from = `whatsapp:${process.env.TWILIO_PHONE_NUMBER}`;
-        } else if (process.env.TWILIO_MESSAGING_SERVICE_SID) {
-          msgConfig.messagingServiceSid = process.env.TWILIO_MESSAGING_SERVICE_SID;
-        } else {
-          msgConfig.from = process.env.TWILIO_PHONE_NUMBER;
-        }
-
-        const twilioMsg = await this.twilioClient.messages.create(msgConfig);
+        });
         console.log(`[TWILIO -> PROVIDER SUCCESS] SID: ${twilioMsg.sid} to ${provider.name} (${toNumber})`);
       } catch (err) {
         console.error(`[TWILIO -> PROVIDER ERROR] Failed to send to ${provider.phone}:`, err.message);
