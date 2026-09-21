@@ -9,7 +9,7 @@ import { channels } from "./channels.js";
  * - EXTERNAL_DISCOVERY
  * - NOT_FOUND
  */
-export function handleExternalFallback(request) {
+export async function handleExternalFallback(request) {
   const publicResults = db.searchPublicDirectory(request.service_category);
 
   if (publicResults.length > 0) {
@@ -26,17 +26,17 @@ export function handleExternalFallback(request) {
     const fallbackMessage =
       `No tengo un proveedor confirmado dentro de nuestra red para esto en este momento, ` +
       `pero encontré este negocio local en Louisville que ofrece el servicio:\n\n` +
-      `?? *${discovery.name}*\n` +
-      `?? Teléfono: ${discovery.phone}\n` +
-      `?? Dirección: ${discovery.address}\n\n` +
-      `?? *Nota transparente*: Este negocio no forma parte de nuestra red directa y no podemos garantizar su precio ni disponibilidad inmediata.`;
+      `*${discovery.name}*\n` +
+      `Tel: ${discovery.phone}\n` +
+      `Dir: ${discovery.address}\n\n` +
+      `Nota: Este negocio no forma parte de nuestra red directa y no podemos garantizar su precio ni disponibilidad inmediata.`;
 
     db.updateRequest(request.id, {
       status: "EXTERNAL_FALLBACK_OFFERED",
       updated_at: new Date().toISOString()
     });
 
-    channels.sendCustomerMessage(request, fallbackMessage, {
+    await channels.sendCustomerMessage(request, fallbackMessage, {
       fallbackType: "EXTERNAL_DISCOVERY",
       discovery: record
     });
@@ -56,7 +56,7 @@ export function handleExternalFallback(request) {
       updated_at: new Date().toISOString()
     });
 
-    channels.sendCustomerMessage(request, notFoundMessage, {
+    await channels.sendCustomerMessage(request, notFoundMessage, {
       fallbackType: "NOT_FOUND"
     });
 

@@ -2,17 +2,19 @@
 
 // Louisville landmarks & geo references
 const LOUISVILLE_LOCATIONS = [
-  { keywords: ["dixie", "dixie hwy", "dixie highway"], name: "Dixie Hwy, Louisville", lat: 38.1632, lng: -85.8341 },
-  { keywords: ["preston", "preston hwy", "preston highway", "okolona"], name: "Preston Hwy, Louisville", lat: 38.1510, lng: -85.7001 },
-  { keywords: ["bardstown", "bardstown rd", "highlands", "fern creek"], name: "Bardstown Rd, Louisville", lat: 38.2250, lng: -85.6980 },
-  { keywords: ["hurstbourne", "hurstbourne pkwy"], name: "Hurstbourne Pkwy, Louisville", lat: 38.2185, lng: -85.5890 },
-  { keywords: ["downtown", "centro"], name: "Downtown Louisville", lat: 38.2542, lng: -85.7594 },
-  { keywords: ["shively"], name: "Shively, Louisville", lat: 38.1928, lng: -85.8175 },
-  { keywords: ["portland"], name: "Portland, Louisville", lat: 38.2675, lng: -85.7942 },
-  { keywords: ["st matthews", "saint matthews"], name: "St. Matthews, Louisville", lat: 38.2514, lng: -85.6425 },
-  { keywords: ["j-town", "jeffersontown"], name: "Jeffersontown, Louisville", lat: 38.1945, lng: -85.5686 },
-  { keywords: ["valley station"], name: "Valley Station, Louisville", lat: 38.1200, lng: -85.8500 },
-  { keywords: ["i-65", "i65", "i-264", "i264", "watterson"], name: "Highway Corridor, Louisville", lat: 38.1820, lng: -85.8150 }
+  { keywords: ["dixie", "dixie hwy", "dixie highway", "south end"], name: "Dixie Hwy, Louisville", lat: 38.1632, lng: -85.8341 },
+  { keywords: ["preston", "preston hwy", "preston highway", "okolona", "outer loop", "jefferson mall"], name: "Preston Hwy / Okolona, Louisville", lat: 38.1510, lng: -85.7001 },
+  { keywords: ["bardstown", "bardstown rd", "highlands", "fern creek", "buechel"], name: "Bardstown Rd / Highlands, Louisville", lat: 38.2250, lng: -85.6980 },
+  { keywords: ["hurstbourne", "hurstbourne pkwy", "stonybrook"], name: "Hurstbourne Pkwy, Louisville", lat: 38.2185, lng: -85.5890 },
+  { keywords: ["downtown", "centro", "broadway", "4th st", "market st"], name: "Downtown Louisville", lat: 38.2542, lng: -85.7594 },
+  { keywords: ["shively", "crums lane"], name: "Shively, Louisville", lat: 38.1928, lng: -85.8175 },
+  { keywords: ["portland", "shawnee", "west end"], name: "West End / Portland, Louisville", lat: 38.2675, lng: -85.7942 },
+  { keywords: ["st matthews", "saint matthews", "mall st matthews", "oxmoor", "oxmoor mall", "shelbyville", "shelbyville rd", "mall"], name: "St. Matthews / Mall Area, Louisville", lat: 38.2514, lng: -85.6425 },
+  { keywords: ["j-town", "jeffersontown", "bluegrass industrial"], name: "Jeffersontown, Louisville", lat: 38.1945, lng: -85.5686 },
+  { keywords: ["middletown", "east end"], name: "Middletown / East End, Louisville", lat: 38.2434, lng: -85.5347 },
+  { keywords: ["valley station", "prp", "pleasure ridge park"], name: "Valley Station / PRP, Louisville", lat: 38.1200, lng: -85.8500 },
+  { keywords: ["new cut", "taylorsville", "hikes point"], name: "South / East Louisville", lat: 38.1680, lng: -85.7400 },
+  { keywords: ["i-65", "i65", "i-264", "i264", "i-71", "i71", "watterson", "gene snyder", "i-265"], name: "Highway Corridor, Louisville", lat: 38.1820, lng: -85.8150 }
 ];
 
 const SERVICE_PATTERNS = [
@@ -175,8 +177,9 @@ const SERVICE_PATTERNS = [
     category: "LOCKSMITH",
     service_type: "AUTO_LOCKOUT",
     keywords: [
-      "cerrajero", "cerrajería", "llave", "llaves", "candado", "cerradura",
-      "abrir carro", "quedé con las llaves adentro", "locksmith", "abrir puerta", "cambiar cerradura", "rekey"
+      "cerrajero", "cerrajería", "llave", "llaves", "llaven", "candado", "cerradura",
+      "abrir carro", "quedé con las llaves adentro", "se me quedaron las llaves", "se me quedaron las llaven",
+      "llaves adentro", "puerta trancada", "trancado", "cerrado el carro", "locksmith", "abrir puerta", "cambiar cerradura", "rekey"
     ],
     urgency: "HIGH",
     defaultIntent: "LOCKSMITH_SERVICE"

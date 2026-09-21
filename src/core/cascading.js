@@ -14,10 +14,10 @@ export class CascadingEngine {
     this.defaultTimeoutMs = timeoutMs;
   }
 
-  startCascade(request, rankedCandidates) {
+  async startCascade(request, rankedCandidates) {
     if (!rankedCandidates || rankedCandidates.length === 0) {
       console.log(`[CASCADE] No eligible candidates for request ${request.id}. Triggering fallback.`);
-      return handleExternalFallback(request);
+      return await handleExternalFallback(request);
     }
 
     const candidateIds = rankedCandidates.map(c => c.provider.id);
@@ -28,10 +28,10 @@ export class CascadingEngine {
       status: "CONTACTING_PROVIDER"
     });
 
-    return this.dispatchNextCandidate(request.id);
+    return await this.dispatchNextCandidate(request.id);
   }
 
-  dispatchNextCandidate(requestId) {
+  async dispatchNextCandidate(requestId) {
     if (activeTimeouts.has(requestId)) {
       clearTimeout(activeTimeouts.get(requestId));
       activeTimeouts.delete(requestId);
@@ -45,7 +45,7 @@ export class CascadingEngine {
 
     if (step >= candidateIds.length) {
       console.log(`[CASCADE] All ${candidateIds.length} candidates exhausted for request ${requestId}.`);
-      return handleExternalFallback(request);
+      return await handleExternalFallback(request);
     }
 
     const providerId = candidateIds[step];
@@ -53,7 +53,7 @@ export class CascadingEngine {
 
     if (!provider) {
       db.updateRequest(requestId, { cascade_step: step + 1 });
-      return this.dispatchNextCandidate(requestId);
+      return await this.dispatchNextCandidate(requestId);
     }
 
     let briefing = `Hola ${provider.name}. `;
@@ -99,7 +99,7 @@ export class CascadingEngine {
       briefing: briefing
     });
 
-    channels.sendProviderBriefing(provider, request, briefing, {
+    await channels.sendProviderBriefing(provider, request, briefing, {
       cascadeStep: step,
       totalCandidates: candidateIds.length,
       expiresInSec: Math.round(this.defaultTimeoutMs / 1000),
@@ -112,21 +112,21 @@ export class CascadingEngine {
       total: candidateIds.length
     });
 
-    const timer = setTimeout(() => {
+    const timer = setTimeout(async () => {
       console.log(`[CASCADE] Provider ${provider.name} timed out for request ${requestId}. Advancing.`);
       db.logEvent(requestId, "PROVIDER_TIMEOUT", "SYSTEM", {
         provider_id: provider.id,
         step: step
       });
       db.updateRequest(requestId, { cascade_step: step + 1 });
-      this.dispatchNextCandidate(requestId);
+      await this.dispatchNextCandidate(requestId);
     }, this.defaultTimeoutMs);
 
     activeTimeouts.set(requestId, timer);
     return { success: true, provider, step };
   }
 
-  handleProviderResponse(providerId, rawResponse, requestId = null) {
+  async handleProviderResponse(providerId, rawResponse, requestId = null) {
     let request;
     if (requestId) {
       request = db.getRequestById(requestId);
@@ -187,7 +187,7 @@ export class CascadingEngine {
       db.updateRequest(request.id, {
         cascade_step: (request.cascade_step || 0) + 1
       });
-      return this.dispatchNextCandidate(request.id);
+      return await this.dispatchNextCandidate(request.id);
     }
 
     // 4. Parse Quote (Price & ETA)
@@ -244,7 +244,7 @@ export class CascadingEngine {
     // Zero-friction Customer Response
     const customerResponse = `Listo. ${provider.display_name} puede atenderte. Está aproximadamente a ${eta} y cobra $${price}. ¿Quieres que te lo conecte?`;
 
-    channels.sendCustomerMessage(request, customerResponse, {
+    await channels.sendCustomerMessage(request, customerResponse, {
       quoteId: quote.id,
       providerName: provider.display_name,
       price: price,

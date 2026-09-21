@@ -24,7 +24,7 @@ export class RequestStateMachine {
     )[0];
 
     if (activeWaitingCustomer) {
-      return this.handleCustomerConfirmation(activeWaitingCustomer, text);
+      return await this.handleCustomerConfirmation(activeWaitingCustomer, text);
     }
 
     // 2. New Request Pipeline
@@ -37,7 +37,7 @@ export class RequestStateMachine {
 
     // Zero-friction First Customer Experience Response:
     // "Dame un momento."
-    channels.sendCustomerMessage(request, "Dame un momento.");
+    await channels.sendCustomerMessage(request, "Dame un momento.");
 
     // Transition -> UNDERSTANDING
     db.updateRequest(request.id, { status: "UNDERSTANDING" });
@@ -61,7 +61,7 @@ export class RequestStateMachine {
     if (understanding.confidence < 0.60 || !understanding.service_category) {
       db.updateRequest(request.id, { status: "HUMAN_REVIEW" });
       const clarifyText = "Quiero asegurarme de entenderte bien para buscar a la persona correcta. ¿Me podrías detallar un poco más lo que necesitas?";
-      channels.sendCustomerMessage(request, clarifyText, { requiresClarification: true });
+      await channels.sendCustomerMessage(request, clarifyText, { requiresClarification: true });
       return { request, status: "HUMAN_REVIEW" };
     }
 
@@ -79,7 +79,7 @@ export class RequestStateMachine {
 
     if (eligible.length === 0) {
       db.updateRequest(request.id, { status: "NO_PROVIDER" });
-      return handleExternalFallback(db.getRequestById(request.id));
+      return await handleExternalFallback(db.getRequestById(request.id));
     }
 
     // Transition -> MATCHING
@@ -95,7 +95,7 @@ export class RequestStateMachine {
     });
 
     // Start cascading dispatch (Contact Candidate #1)
-    cascadingEngine.startCascade(db.getRequestById(request.id), rankedCandidates);
+    await cascadingEngine.startCascade(db.getRequestById(request.id), rankedCandidates);
 
     return {
       request: db.getRequestById(request.id),
@@ -103,7 +103,7 @@ export class RequestStateMachine {
     };
   }
 
-  handleCustomerConfirmation(request, customerReply) {
+  async handleCustomerConfirmation(request, customerReply) {
     const lower = customerReply.toLowerCase().trim();
     const yesWords = ["sí", "si", "dale", "conéctalo", "conéctame", "claro", "por favor", "yes", "ok", "conecta"];
     const isYes = yesWords.some(w => lower.includes(w));
@@ -144,20 +144,19 @@ export class RequestStateMachine {
         completed_connections: (provider.completed_connections || 0) + 1
       });
 
-      // Final zero-friction Customer Closing:
-      // "Perfecto. Te conecto con José ahora. (+1 502-555-0192)"
+      // Final zero-friction Customer Closing
       const connectMessage =
-        `Perfecto. Te conecto con ${provider.name} ahora: ?? ${provider.phone}.\n` +
+        `Perfecto. Te conecto con ${provider.name} ahora: Tel. ${provider.phone}.\n` +
         `Ya le pasé la información de tu solicitud y está en camino (${request.estimated_arrival}).`;
 
-      channels.sendCustomerMessage(request, connectMessage, {
+      await channels.sendCustomerMessage(request, connectMessage, {
         connected: true,
         providerPhone: provider.phone,
         providerName: provider.name
       });
 
       // Notify provider of connection
-      channels.sendProviderBriefing(provider, request,
+      await channels.sendProviderBriefing(provider, request,
         `¡Conexión Confirmada! El cliente aceptó tu cotización de $${request.quoted_price}. Contacto: ${request.conversation_reference}. ¡Gracias por atender a la comunidad!`
       );
 
@@ -173,7 +172,7 @@ export class RequestStateMachine {
       const declineMessage =
         `Entendido. ¿Deseas que busque otro proveedor en la zona, o prefieres cancelar la solicitud?`;
 
-      channels.sendCustomerMessage(request, declineMessage, {
+      await channels.sendCustomerMessage(request, declineMessage, {
         options: ["Buscar otro", "Cancelar"]
       });
 

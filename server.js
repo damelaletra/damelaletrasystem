@@ -50,7 +50,7 @@ app.post("/api/webhooks/twilio", async (req, res) => {
 
     if (provider) {
       console.log(`[TWILIO WEBHOOK] Identified as Provider: ${provider.name}`);
-      cascadingEngine.handleProviderResponse(provider.id, bodyText);
+      await cascadingEngine.handleProviderResponse(provider.id, bodyText);
     } else {
       console.log(`[TWILIO WEBHOOK] Processing as Customer request: "${bodyText}"`);
       await stateMachine.processCustomerInput(bodyText, channel, cleanPhone);
