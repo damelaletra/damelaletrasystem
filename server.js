@@ -45,12 +45,13 @@ app.post("/api/webhooks/twilio", async (req, res) => {
 
     console.log(`[TWILIO WEBHOOK] Inbound ${channel} from ${cleanPhone}: "${bodyText}"`);
 
-    // Check if sender is a registered provider
-    const provider = db.getProviderByPhone(cleanPhone);
+    // 1. Check if there is an active request waiting for a provider response from this phone number
+    const waitingProviderRequest = db.getActiveWaitingRequestForPhone(cleanPhone);
 
-    if (provider) {
-      console.log(`[TWILIO WEBHOOK] Identified as Provider: ${provider.name}`);
-      await cascadingEngine.handleProviderResponse(provider.id, bodyText);
+    if (waitingProviderRequest) {
+      const provider = db.getProviderById(waitingProviderRequest.matched_provider_id);
+      console.log(`[TWILIO WEBHOOK] Inbound matched to pending Provider: ${provider?.name} (Request: ${waitingProviderRequest.id})`);
+      await cascadingEngine.handleProviderResponse(provider.id, bodyText, waitingProviderRequest.id);
     } else {
       console.log(`[TWILIO WEBHOOK] Processing as Customer request: "${bodyText}"`);
       await stateMachine.processCustomerInput(bodyText, channel, cleanPhone);

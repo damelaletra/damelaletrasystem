@@ -75,6 +75,18 @@ class Database {
     return this.data.providers.find(p => p.phone === phone);
   }
 
+  getProvidersByPhone(phone) {
+    return this.data.providers.filter(p => p.phone === phone);
+  }
+
+  getActiveWaitingRequestForPhone(phone) {
+    return this.data.requests.find(r => {
+      if (r.status !== "WAITING_PROVIDER") return false;
+      const provider = this.getProviderById(r.matched_provider_id);
+      return provider && provider.phone === phone;
+    });
+  }
+
   updateProvider(id, updates) {
     const idx = this.data.providers.findIndex(p => p.id === id);
     if (idx !== -1) {

@@ -135,7 +135,15 @@ export class CascadingEngine {
       request = activeRequests[0];
     }
 
-    const provider = db.getProviderById(providerId);
+    let provider = db.getProviderById(providerId);
+
+    if (!request && provider) {
+      request = db.getActiveWaitingRequestForPhone(provider.phone);
+      if (request && request.matched_provider_id) {
+        provider = db.getProviderById(request.matched_provider_id);
+      }
+    }
+
     if (!provider) return { error: "Provider not found" };
 
     const text = (rawResponse || "").toLowerCase();
