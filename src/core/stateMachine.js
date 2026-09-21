@@ -210,4 +210,5 @@ export class RequestStateMachine {
   }
 }
 
-export const stateMachine = new RequestStateMachine();
+export const stateMachine = new RequestStateMachine();
+
