@@ -5,7 +5,7 @@ import { rankEligibleCandidates } from "./matching.js";
 import { cascadingEngine } from "./cascading.js";
 import { channels } from "./channels.js";
 import { handleExternalFallback } from "./fallback.js";
-import { concierge } from "./concierge.js";
+import { isCustomerAcceptance, isCustomerDecline, concierge } from "./concierge.js";
 
 /**
  * Request State Machine & Master Orchestrator
@@ -18,9 +18,9 @@ export class RequestStateMachine {
   async processCustomerInput(rawMessage, channel = "WEB", conversationRef = "conv-1") {
     const text = (rawMessage || "").trim();
 
-    // 1a. Check if there is an active request waiting for customer confirmation on this conversation
+    // 1a. Check if there is an active request waiting for customer confirmation or recent clarification on this conversation
     const activeWaitingCustomer = db.getRequests(
-      r => r.conversation_reference === conversationRef && r.status === "WAITING_CUSTOMER"
+      r => r.conversation_reference === conversationRef && (r.status === "WAITING_CUSTOMER" || r.status === "CUSTOMER_DECLINED")
     )[0];
 
     // 1b. Check if customer is answering a provider's clarifying question
@@ -31,11 +31,11 @@ export class RequestStateMachine {
     const customerAnalysis = concierge.analyzeCustomerMessage(text, activeWaitingCustomer || activeWaitingClarification);
 
     if (customerAnalysis.intent === "CUSTOMER_ACCEPT_QUOTE" && activeWaitingCustomer) {
-      return await this.handleCustomerConfirmation(activeWaitingCustomer, text);
+      return await this.handleCustomerConfirmation(activeWaitingCustomer, text, true);
     }
 
     if ((customerAnalysis.intent === "CUSTOMER_DECLINE_QUOTE" || customerAnalysis.intent === "CUSTOMER_REQUEST_ANOTHER") && activeWaitingCustomer) {
-      return await this.handleCustomerConfirmation(activeWaitingCustomer, text);
+      return await this.handleCustomerConfirmation(activeWaitingCustomer, text, false);
     }
 
     if (activeWaitingClarification) {
@@ -130,14 +130,11 @@ export class RequestStateMachine {
     };
   }
 
-  async handleCustomerConfirmation(request, customerReply) {
-    const lower = customerReply.toLowerCase().trim();
-    const yesWords = ["sí", "si", "dale", "conéctalo", "conéctame", "claro", "por favor", "yes", "ok", "conecta"];
-    const isYes = yesWords.some(w => lower.includes(w));
-
+  async handleCustomerConfirmation(request, customerReply, isAccepted = null) {
+    const isYes = (isAccepted !== null) ? isAccepted : isCustomerAcceptance(customerReply);
     const provider = db.getProviderById(request.matched_provider_id);
 
-    if (isYes) {
+    if (isYes && provider) {
       // Transition: ACCEPTED -> CONNECTING -> CONNECTED
       db.updateRequest(request.id, {
         status: "ACCEPTED",

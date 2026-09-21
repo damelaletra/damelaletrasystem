@@ -4,6 +4,51 @@
 
 import { understandRequest } from "./semantic.js";
 
+export const CUSTOMER_YES_WORDS = [
+  "sí", "si", "dale", "dale luz verde", "conéctalo", "conéctame", "conecta",
+  "claro", "por favor", "yes", "ok", "okay", "perfecto", "me parece bien", "que venga",
+  "mándalo", "mandalo", "está bien", "esta bien", "trato hecho", "de acuerdo", "dale pues",
+  "confirmo", "confirma", "confírmale", "confirmale", "adelante", "bien", "vale",
+  "bueno", "excelente", "listo", "hecho", "vamos", "avanza", "dale viaje", "seguro", "va", "dale que si", "de una"
+];
+
+export const CUSTOMER_NO_WORDS = [
+  "no", "cancelar", "cancela", "muy caro", "está caro", "esta caro",
+  "no gracias", "déjalo", "dejalo", "no puedo", "busca otro", "otro", "ninguno", "demasiado caro"
+];
+
+export function isCustomerAcceptance(rawText) {
+  const text = (rawText || "").trim();
+  const lower = text.toLowerCase();
+
+  const hasYes = CUSTOMER_YES_WORDS.some(w => {
+    if (w.includes(" ")) return lower.includes(w);
+    const regex = new RegExp(`(^|\\s|[.,!¿¡])${w}($|\\s|[.,!¿¡])`, "i");
+    return regex.test(lower) || lower === w || lower.startsWith(w + " ") || lower.endsWith(" " + w);
+  });
+
+  const isExplicitDecline = (lower === "no" || lower === "cancela" || lower === "cancelar" || lower.startsWith("no gracias") || lower.includes("muy caro") || lower.includes("busca otro"));
+
+  if (hasYes && !isExplicitDecline) return true;
+  if (hasYes && isExplicitDecline) {
+    if (lower.startsWith("si") || lower.startsWith("sí") || lower.includes("confírmale") || lower.includes("confirmale") || lower.includes("dale")) {
+      return true;
+    }
+  }
+  return false;
+}
+
+export function isCustomerDecline(rawText) {
+  const text = (rawText || "").trim();
+  const lower = text.toLowerCase();
+  if (isCustomerAcceptance(text)) return false;
+  return CUSTOMER_NO_WORDS.some(w => {
+    if (w.includes(" ")) return lower.includes(w);
+    const regex = new RegExp(`(^|\\s|[.,!¿¡])${w}($|\\s|[.,!¿¡])`, "i");
+    return regex.test(lower) || lower === w;
+  });
+}
+
 export class ConversationalConcierge {
   /**
    * Analyze message coming from a Customer
@@ -12,29 +57,19 @@ export class ConversationalConcierge {
     const text = (rawText || "").trim();
     const lower = text.toLowerCase();
 
-    // 1. If customer is in an active confirmation state (WAITING_CUSTOMER)
-    if (activeRequest && activeRequest.status === "WAITING_CUSTOMER") {
-      const yesWords = [
-        "sí", "si", "dale", "dale luz verde", "conéctalo", "conéctame", "conecta",
-        "claro", "por favor", "yes", "ok", "perfecto", "me parece bien", "que venga",
-        "mándalo", "mandalo", "está bien", "esta bien", "trato hecho", "de acuerdo", "dale pues"
-      ];
-      const noWords = [
-        "no", "cancelar", "cancela", "muy caro", "está caro", "esta caro",
-        "no gracias", "déjalo", "dejalo", "no puedo", "busca otro", "otro"
-      ];
-
-      if (yesWords.some(w => lower.includes(w)) && !noWords.some(w => lower === w)) {
+    // 1. If customer is in an active confirmation state (WAITING_CUSTOMER or recent CUSTOMER_DECLINED)
+    if (activeRequest && (activeRequest.status === "WAITING_CUSTOMER" || activeRequest.status === "CUSTOMER_DECLINED")) {
+      if (isCustomerAcceptance(text)) {
         return {
           intent: "CUSTOMER_ACCEPT_QUOTE",
-          confidence: 0.95,
+          confidence: 0.98,
           text
         };
-      } else if (noWords.some(w => lower.includes(w))) {
+      } else if (isCustomerDecline(text)) {
         const wantsAnother = lower.includes("otro") || lower.includes("busca") || lower.includes("caro");
         return {
           intent: wantsAnother ? "CUSTOMER_REQUEST_ANOTHER" : "CUSTOMER_DECLINE_QUOTE",
-          confidence: 0.90,
+          confidence: 0.92,
           text
         };
       }

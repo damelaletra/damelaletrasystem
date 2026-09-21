@@ -164,6 +164,34 @@ async function runTests() {
     console.log("  ✔ Provider question and Customer answer cleanly relayed without creating false requests (PASS)");
   }
 
+  // TEST 7: Customer Natural Language Affirmations ("Perfecto", "Si confírmale")
+  console.log("\n▶ TEST 7: Natural Language Affirmations ('Perfecto', 'Si confírmale')");
+  {
+    const customerPhone = "+15027807332";
+
+    // Request 1: Painting with "Perfecto"
+    const res = await stateMachine.processCustomerInput("Hola quiero pintar mi casa de 4 cuartos en Preston hwy", "SMS", customerPhone);
+    const req = res.request;
+    assert.strictEqual(req.service_category, "HANDYMAN");
+
+    await cascadingEngine.handleProviderResponse(req.matched_provider_id, "cobro 200 voy mañana", req.id);
+    
+    // Customer confirms with "Perfecto"
+    const confRes1 = await stateMachine.processCustomerInput("Perfecto", "SMS", customerPhone);
+    assert.strictEqual(confRes1.status, "CONNECTED", "'Perfecto' must confirm the connection");
+    console.log("  ✔ Customer 'Perfecto' correctly established CONNECTED state (PASS)");
+
+    // Request 2: "Si confírmale"
+    const customerPhone2 = "+15027807333";
+    const res2 = await stateMachine.processCustomerInput("Se rompió un tubo de agua en Okolona", "SMS", customerPhone2);
+    const req2 = res2.request;
+    await cascadingEngine.handleProviderResponse(req2.matched_provider_id, "voy en 30 minutos cobro 80", req2.id);
+
+    const confRes2 = await stateMachine.processCustomerInput("Si confírmale", "SMS", customerPhone2);
+    assert.strictEqual(confRes2.status, "CONNECTED", "'Si confírmale' must confirm the connection");
+    console.log("  ✔ Customer 'Si confírmale' correctly established CONNECTED state (PASS)");
+  }
+
   console.log("\n=================================================");
   console.log("   ALL TEST SUITES PASSED FLAWLESSLY!           ");
   console.log("=================================================\n");
