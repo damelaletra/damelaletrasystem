@@ -113,6 +113,57 @@ async function runTests() {
     console.log("  ✔ Transparent External Fallback presented with disclaimer (PASS)");
   }
 
+  // TEST 5: Locksmith Auto Lockout & Exact Provider Quote Parsing ("son 100 de 15 a 20 minutos")
+  console.log("\n▶ TEST 5: Locksmith Quote Parsing & Accurate Provider Attribution");
+  {
+    const customerPhone = "+15024170732";
+    const providerSharedPhone = "+15026587853";
+
+    // 1. Customer asks for car lockout
+    const res = await stateMachine.processCustomerInput("Dejé la llave adentro del carro en St. Matthews", "SMS", customerPhone);
+    const req = res.request;
+    assert.strictEqual(req.service_category, "LOCKSMITH", "Should classify as LOCKSMITH");
+    assert.strictEqual(req.matched_provider_id, "prov-10-locksmith", "Should match Frank Cerrajería (prov-10-locksmith)");
+
+    // 2. Active waiting request lookup by phone
+    const waitingReq = db.getActiveWaitingRequestForPhone(providerSharedPhone);
+    assert(waitingReq !== undefined && waitingReq.id === req.id, "Should find the active waiting request for shared phone");
+    assert.strictEqual(waitingReq.matched_provider_id, "prov-10-locksmith");
+
+    // 3. Provider responds with "son 100 de 15 a 20 minutos"
+    const activeProviderId = waitingReq.matched_provider_id;
+    const providerResp = await cascadingEngine.handleProviderResponse(activeProviderId, "son 100 de 15 a 20 minutos", waitingReq.id);
+    assert.strictEqual(providerResp.success, true);
+    assert.strictEqual(providerResp.quote.quoted_price, 100, "Price should be 100, NOT 15 or 20");
+    assert.strictEqual(providerResp.quote.quoted_price_display, "$100", "Price display should be $100");
+    assert.strictEqual(providerResp.quote.estimated_arrival, "15 a 20 minutos", "ETA should be 15 a 20 minutos");
+    assert.strictEqual(providerResp.quote.provider_id, "prov-10-locksmith", "Provider MUST be Frank Cerrajería, NOT José Martínez");
+    console.log("  ✔ 'son 100 de 15 a 20 minutos' correctly parsed: Provider=Frank Cerrajería, Price=$100, ETA=15 a 20 minutos (PASS)");
+
+    // 4. Customer accepts
+    const acceptRes = await stateMachine.processCustomerInput("dale", "SMS", customerPhone);
+    assert.strictEqual(acceptRes.status, "CONNECTED");
+    console.log("  ✔ Connection successfully completed for Locksmith (PASS)");
+  }
+
+  // TEST 6: Multi-Turn Question Relay
+  console.log("\n▶ TEST 6: Multi-Turn Provider Clarification Relay");
+  {
+    const customerPhone = "+15024170799";
+    const res = await stateMachine.processCustomerInput("Necesito pintar la casa", "SMS", customerPhone);
+    const req = res.request;
+
+    // Provider asks question
+    const qRes = await cascadingEngine.handleProviderResponse(req.matched_provider_id, "¿Qué tamaño tiene la casa y cuántos cuartos?", req.id);
+    assert.strictEqual(qRes.status, "WAITING_CUSTOMER_CLARIFICATION");
+
+    // Customer answers
+    const ansRes = await stateMachine.processCustomerInput("Tiene 3 cuartos y unos 1500 sq ft", "SMS", customerPhone);
+    assert.strictEqual(ansRes.status, "FORWARDED_TO_PROVIDER");
+    assert.strictEqual(db.getRequestById(req.id).status, "WAITING_PROVIDER");
+    console.log("  ✔ Provider question and Customer answer cleanly relayed without creating false requests (PASS)");
+  }
+
   console.log("\n=================================================");
   console.log("   ALL TEST SUITES PASSED FLAWLESSLY!           ");
   console.log("=================================================\n");

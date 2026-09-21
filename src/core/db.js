@@ -214,6 +214,7 @@ class Database {
       request_id: quoteData.request_id,
       provider_id: quoteData.provider_id,
       quoted_price: quoteData.quoted_price,
+      quoted_price_display: quoteData.quoted_price_display || (quoteData.quoted_price ? `$${quoteData.quoted_price}` : null),
       estimated_arrival: quoteData.estimated_arrival,
       notes: quoteData.notes || "",
       status: "PENDING",

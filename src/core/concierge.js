@@ -127,34 +127,50 @@ export class ConversationalConcierge {
 
     // 5. Check Quote Offer (Price, Price Range, Conditions, Arrival Time)
     let eta = "lo antes posible";
-    if (lower.includes("mañana por la mañana") || lower.includes("mañana en la mañana")) {
-      eta = "mañana por la mañana";
-    } else if (lower.includes("mañana por la tarde") || lower.includes("mañana en la tarde")) {
-      eta = "mañana por la tarde";
-    } else if (lower.includes("mañana")) {
-      eta = "mañana";
-    } else if (lower.includes("hoy en la tarde") || lower.includes("esta tarde")) {
-      eta = "esta tarde";
-    } else if (lower.includes("hoy")) {
-      eta = "hoy";
-    } else if (lower.includes("ahora mismo") || lower.includes("voy saliendo") || lower.includes("ya mismo")) {
-      eta = "ahora mismo (en camino)";
+    let textWithoutEta = lower;
+
+    // A) Time ranges (e.g. 'de 15 a 20 minutos', '15-20 mins', 'entre 1 y 2 horas')
+    const timeRangeMatch = lower.match(/(?:en\s+|de\s+|entre\s+)?(\d{1,3})\s*(?:a|-|y)\s*(\d{1,3})\s*(minutos?|mins?|horas?|hrs?|días?|dias?)/i);
+    if (timeRangeMatch) {
+      eta = `${timeRangeMatch[1]} a ${timeRangeMatch[2]} ${timeRangeMatch[3]}`;
+      textWithoutEta = textWithoutEta.replace(timeRangeMatch[0], " ");
     } else {
-      const etaMatch = lower.match(/(\d{1,3})\s*(minutos?|mins?|horas?|hrs?)/i);
-      if (etaMatch) {
-        eta = `${etaMatch[1]} ${etaMatch[2]}`;
+      // B) Single duration (e.g. 'en 20 minutos', '1 hora', 'media hora')
+      const singleTimeMatch = lower.match(/(?:en\s+)?(\d{1,3})\s*(minutos?|mins?|horas?|hrs?)/i);
+      if (singleTimeMatch) {
+        eta = `${singleTimeMatch[1]} ${singleTimeMatch[2]}`;
+        textWithoutEta = textWithoutEta.replace(singleTimeMatch[0], " ");
+      } else if (lower.includes("media hora")) {
+        eta = "media hora";
+        textWithoutEta = textWithoutEta.replace(/media\s+hora/g, " ");
+      } else if (lower.includes("mañana por la mañana") || lower.includes("mañana en la mañana")) {
+        eta = "mañana por la mañana";
+        textWithoutEta = textWithoutEta.replace(/mañana\s+(?:por|en)\s+la\s+mañana/g, " ");
+      } else if (lower.includes("mañana por la tarde") || lower.includes("mañana en la tarde")) {
+        eta = "mañana por la tarde";
+        textWithoutEta = textWithoutEta.replace(/mañana\s+(?:por|en)\s+la\s+tarde/g, " ");
+      } else if (lower.includes("mañana")) {
+        eta = "mañana";
+        textWithoutEta = textWithoutEta.replace(/mañana/g, " ");
+      } else if (lower.includes("hoy en la tarde") || lower.includes("esta tarde")) {
+        eta = "esta tarde";
+        textWithoutEta = textWithoutEta.replace(/(?:hoy\s+en\s+la\s+tarde|esta\s+tarde)/g, " ");
+      } else if (lower.includes("hoy")) {
+        eta = "hoy";
+      } else if (lower.includes("ahora mismo") || lower.includes("voy saliendo") || lower.includes("ya mismo")) {
+        eta = "ahora mismo (en camino)";
       } else if (provider?.conditional_rules?.standard_response_time_min) {
         eta = `${provider.conditional_rules.standard_response_time_min} minutos`;
       }
     }
 
-    // Extract price and range
+    // Extract price and price range on textWithoutEta
     let priceDisplay = null;
     let numericPrice = null;
 
-    // A) Range: "entre 100 y 200", "de 120 a 160", "100-150"
-    const rangeMatch = lower.match(/(?:entre|de)\s*\$?(\d{2,4})\s*(?:y|a|-)\s*\$?(\d{2,4})/i);
-    const hyphenMatch = lower.match(/\$?(\d{2,4})\s*-\s*\$?(\d{2,4})/);
+    // A) Price Range: "entre 100 y 200", "de 120 a 160", "100-150"
+    const rangeMatch = textWithoutEta.match(/(?:entre|de)\s*\$?(\d{2,4})\s*(?:y|a|-)\s*\$?(\d{2,4})/i);
+    const hyphenMatch = textWithoutEta.match(/\$?(\d{2,4})\s*-\s*\$?(\d{2,4})/);
 
     if (rangeMatch) {
       priceDisplay = `$${rangeMatch[1]} - $${rangeMatch[2]}`;
@@ -164,8 +180,8 @@ export class ConversationalConcierge {
       numericPrice = (parseFloat(hyphenMatch[1]) + parseFloat(hyphenMatch[2])) / 2;
     } else {
       // B) Single price
-      const dollarMatch = lower.match(/\$\s*(\d{2,4})/);
-      const verbMatch = lower.match(/(?:cobro|son|serian|serían|cuesta|precio|costo|sale en|sale por|por)\s*\$?(\d{2,4})/i);
+      const dollarMatch = textWithoutEta.match(/\$\s*(\d{2,4})/);
+      const verbMatch = textWithoutEta.match(/(?:cobro|son|serian|serían|cuesta|precio|costo|sale en|sale por|por|de)\s*\$?(\d{2,4})/i);
 
       if (dollarMatch) {
         numericPrice = parseFloat(dollarMatch[1]);
@@ -174,7 +190,7 @@ export class ConversationalConcierge {
         numericPrice = parseFloat(verbMatch[1]);
         priceDisplay = `$${verbMatch[1]}`;
       } else {
-        const allNums = [...lower.matchAll(/\b(\d{2,4})\b/g)];
+        const allNums = [...textWithoutEta.matchAll(/\b(\d{2,4})\b/g)];
         for (const numMatch of allNums) {
           numericPrice = parseFloat(numMatch[1]);
           priceDisplay = `$${numMatch[1]}`;
