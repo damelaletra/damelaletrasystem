@@ -1,0 +1,291 @@
+﻿# -*- coding: utf-8 -*-
+import os
+
+SEED_DATA = """// Louisville, KY - Founding Provider Network & Fallback Directory
+export const initialBusinesses = [
+  {
+    id: "biz-martinez-plumbing",
+    name: "Plomería Martínez LLC",
+    contact_phone: "+15025550192",
+    contact_email: "jose@martinezplumbing502.com",
+    verified_status: "VERIFIED",
+    city: "Louisville",
+    state: "KY"
+  },
+  {
+    id: "biz-ruiz-hvac",
+    name: "Ruiz Climate & Air Solutions",
+    contact_phone: "+15025550183",
+    contact_email: "carlos@ruizhvac.com",
+    verified_status: "VERIFIED",
+    city: "Louisville",
+    state: "KY"
+  },
+  {
+    id: "biz-fernandez-commercial",
+    name: "Fernández Commercial Refrigeration",
+    contact_phone: "+15025550174",
+    contact_email: "miguel@fernandezcooling.com",
+    verified_status: "VERIFIED",
+    city: "Louisville",
+    state: "KY"
+  },
+  {
+    id: "biz-towing-502",
+    name: "502 Roadside & Tire Assistance",
+    contact_phone: "+15025550165",
+    contact_email: "roberto@towing502.com",
+    verified_status: "VERIFIED",
+    city: "Louisville",
+    state: "KY"
+  },
+  {
+    id: "biz-silva-tree",
+    name: "Silva Tree & Yard Care",
+    contact_phone: "+15025550156",
+    contact_email: "yoelvis@silvatree.com",
+    verified_status: "UNVERIFIED",
+    city: "Louisville",
+    state: "KY"
+  },
+  {
+    id: "biz-bluegrass-electric",
+    name: "Bluegrass Master Sparks",
+    contact_phone: "+15025550147",
+    contact_email: "andres@bluegrasselectric.com",
+    verified_status: "VERIFIED",
+    city: "Louisville",
+    state: "KY"
+  }
+];
+
+export const initialProviders = [
+  {
+    id: "prov-jose-martinez",
+    business_id: "biz-martinez-plumbing",
+    name: "José Martínez",
+    display_name: "José (Plomero)",
+    phone: "+15025550192",
+    preferred_channel: "WHATSAPP",
+    languages: ["es", "en"],
+    category: "PLUMBING",
+    services: ["PIPE_LEAK", "DRAIN_CLEARING", "FAUCET_REPAIR", "WATER_HEATER", "TOILET_REPAIR"],
+    residential_capable: 1,
+    commercial_capable: -1,
+    license_status: "VERIFIED",
+    license_details: "KY Journeyman Plumber #JP-84920",
+    base_location_name: "Dixie Hwy, Shively",
+    base_latitude: 38.1632,
+    base_longitude: -85.8341,
+    max_radius_miles: 25.0,
+    availability_status: "AVAILABLE",
+    capacity_today: 4,
+    capacity_used_today: 0,
+    conditional_rules: {
+      default_callout_fee: 80,
+      standard_response_time_min: 30
+    },
+    reliability_score: 0.98,
+    avg_response_time_sec: 45,
+    completed_connections: 42,
+    cancelled_connections: 1,
+    subscription_tier: "FOUNDING",
+    priority_score: 0.85
+  },
+  {
+    id: "prov-carlos-ruiz",
+    business_id: "biz-ruiz-hvac",
+    name: "Carlos Ruiz",
+    display_name: "Carlos (HVAC / Aire)",
+    phone: "+15025550183",
+    preferred_channel: "WHATSAPP",
+    languages: ["es", "en"],
+    category: "HVAC",
+    services: ["AC_REPAIR", "HEATING_REPAIR", "HVAC_MAINTENANCE", "THERMOSTAT", "FREON_LEAK"],
+    residential_capable: 1,
+    commercial_capable: 1,
+    license_status: "VERIFIED",
+    license_details: "KY Master HVAC #HM-39201",
+    base_location_name: "Preston Hwy, Okolona",
+    base_latitude: 38.1510,
+    base_longitude: -85.7001,
+    max_radius_miles: 30.0,
+    availability_status: "AVAILABLE",
+    capacity_today: 5,
+    capacity_used_today: 1,
+    conditional_rules: {
+      default_callout_fee: 90,
+      standard_response_time_min: 25
+    },
+    reliability_score: 0.95,
+    avg_response_time_sec: 60,
+    completed_connections: 58,
+    cancelled_connections: 2,
+    subscription_tier: "PREMIUM",
+    priority_score: 0.95
+  },
+  {
+    id: "prov-miguel-fernandez",
+    business_id: "biz-fernandez-commercial",
+    name: "Miguel Fernández",
+    display_name: "Miguel (Refrigeración Comercial)",
+    phone: "+15025550174",
+    preferred_channel: "WHATSAPP",
+    languages: ["es", "en"],
+    category: "HVAC",
+    services: ["AC_REPAIR", "COMMERCIAL_REFRIGERATION", "WALK_IN_COOLER", "ICE_MACHINE"],
+    residential_capable: 0,
+    commercial_capable: 1,
+    license_status: "VERIFIED",
+    license_details: "EPA Universal & KY HVAC #HM-44019",
+    base_location_name: "Downtown Louisville",
+    base_latitude: 38.2542,
+    base_longitude: -85.7594,
+    max_radius_miles: 35.0,
+    availability_status: "AVAILABLE",
+    capacity_today: 3,
+    capacity_used_today: 0,
+    conditional_rules: {
+      default_callout_fee: 140,
+      standard_response_time_min: 40
+    },
+    reliability_score: 0.92,
+    avg_response_time_sec: 90,
+    completed_connections: 19,
+    cancelled_connections: 0,
+    subscription_tier: "PREMIUM",
+    priority_score: 0.90
+  },
+  {
+    id: "prov-roberto-gonzalez",
+    business_id: "biz-towing-502",
+    name: "Roberto González",
+    display_name: "Roberto (Gomas & Grúa 502)",
+    phone: "+15025550165",
+    preferred_channel: "WHATSAPP",
+    languages: ["es", "en"],
+    category: "AUTOMOTIVE",
+    services: ["TIRE_CHANGE", "ROADSIDE_ASSISTANCE", "BATTERY_JUMP", "LOCKOUT", "TOWING"],
+    residential_capable: 1,
+    commercial_capable: 1,
+    license_status: "VERIFIED",
+    license_details: "DOT & KY Towing Lic #TW-1029",
+    base_location_name: "Dixie Hwy & I-264",
+    base_latitude: 38.1820,
+    base_longitude: -85.8150,
+    max_radius_miles: 25.0,
+    availability_status: "AVAILABLE",
+    capacity_today: 8,
+    capacity_used_today: 0,
+    conditional_rules: {
+      default_callout_fee: 65,
+      standard_response_time_min: 20
+    },
+    reliability_score: 0.99,
+    avg_response_time_sec: 30,
+    completed_connections: 110,
+    cancelled_connections: 1,
+    subscription_tier: "FOUNDING",
+    priority_score: 0.90
+  },
+  {
+    id: "prov-yoelvis-silva",
+    business_id: "biz-silva-tree",
+    name: "Yoelvis Silva",
+    display_name: "Yoelvis (Árboles & Jardinería)",
+    phone: "+15025550156",
+    preferred_channel: "SMS",
+    languages: ["es"],
+    category: "TREE_SERVICE",
+    services: ["TREE_REMOVAL", "TREE_TRIMMING", "STUMP_GRINDING", "LAWN_MOWING", "YARD_CLEANUP"],
+    residential_capable: 1,
+    commercial_capable: 1,
+    license_status: "UNVERIFIED",
+    license_details: "Insured / Local Registered",
+    base_location_name: "Bardstown Rd, Fern Creek",
+    base_latitude: 38.1680,
+    base_longitude: -85.6020,
+    max_radius_miles: 20.0,
+    availability_status: "AVAILABLE",
+    capacity_today: 2,
+    capacity_used_today: 0,
+    conditional_rules: {
+      default_callout_fee: 100,
+      standard_response_time_min: 45
+    },
+    reliability_score: 0.91,
+    avg_response_time_sec: 110,
+    completed_connections: 28,
+    cancelled_connections: 1,
+    subscription_tier: "FREE",
+    priority_score: 0.40
+  },
+  {
+    id: "prov-andres-electric",
+    business_id: "biz-bluegrass-electric",
+    name: "Andrés Ramos",
+    display_name: "Andrés (Electricista Master)",
+    phone: "+15025550147",
+    preferred_channel: "WHATSAPP",
+    languages: ["es", "en"],
+    category: "ELECTRICAL",
+    services: ["CIRCUIT_REPAIR", "BREAKER_PANEL", "OUTLET_INSTALL", "LIGHTING", "EMERGENCY_POWER"],
+    residential_capable: 1,
+    commercial_capable: 1,
+    license_status: "VERIFIED",
+    license_details: "KY Master Electrician #ME-51920",
+    base_location_name: "Hurstbourne Pkwy",
+    base_latitude: 38.2185,
+    base_longitude: -85.5890,
+    max_radius_miles: 30.0,
+    availability_status: "AVAILABLE",
+    capacity_today: 4,
+    capacity_used_today: 0,
+    conditional_rules: {
+      default_callout_fee: 95,
+      standard_response_time_min: 35
+    },
+    reliability_score: 0.96,
+    avg_response_time_sec: 50,
+    completed_connections: 35,
+    cancelled_connections: 0,
+    subscription_tier: "FOUNDING",
+    priority_score: 0.88
+  }
+];
+
+export const externalPublicDirectory = [
+  {
+    id: "ext-heavy-rigging-ky",
+    name: "Derby City Heavy Rigging & Crane Service",
+    phone: "+15025559001",
+    address: "7100 Grade Ln, Louisville, KY",
+    category: "CRANE_RIGGING",
+    services: ["CRANE_SERVICE", "HEAVY_MACHINERY_MOVE"],
+    notes: "Direct public directory listing. Not affiliated with DML."
+  },
+  {
+    id: "ext-industrial-ice-ky",
+    name: "Kentucky Industrial Ice Machine Experts",
+    phone: "+15025559002",
+    address: "1200 S 7th St, Louisville, KY",
+    category: "INDUSTRIAL_MACHINERY",
+    services: ["INDUSTRIAL_ICE_MACHINE", "AMMONIA_REFRIGERATION"],
+    notes: "Direct public directory listing. Not affiliated with DML."
+  },
+  {
+    id: "ext-piano-moving-502",
+    name: "River City Specialized Piano Movers",
+    phone: "+15025559003",
+    address: "2400 Crittenden Dr, Louisville, KY",
+    category: "SPECIALIZED_MOVING",
+    services: ["PIANO_MOVING", "ANTIQUE_SAFE_MOVE"],
+    notes: "Direct public directory listing. Not affiliated with DML."
+  }
+];
+"""
+
+with open("src/core/seedData.js", "w", encoding="utf-8") as f:
+    f.write(SEED_DATA)
+
+print("1. SeedData written in pure UTF-8 with correct accents.")

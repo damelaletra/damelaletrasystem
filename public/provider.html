@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simulador de Proveedor — DML</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header class="app-header">
+    <a href="/" class="brand-badge">
+      <div class="brand-icon">D</div>
+      <div>
+        <div class="brand-title">DAME LA LETRA</div>
+        <div class="brand-subtitle">Simulador de WhatsApp / SMS del Proveedor</div>
+      </div>
+    </a>
+    <nav class="nav-links">
+      <a href="/" class="nav-link">Cliente</a>
+      <a href="/provider.html" class="nav-link active">Simulador Proveedor</a>
+      <a href="/admin.html" class="nav-link">Despacho Concierge</a>
+    </nav>
+  </header>
+
+  <main class="customer-layout" style="max-width: 520px;">
+    <div style="margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: center;">
+      <label for="provider-select" style="font-weight: 700; font-size: 0.9rem; color: var(--text-muted);">Seleccionar Proveedor Activo:</label>
+      <select id="provider-select" style="background: var(--bg-card); color: var(--text-main); border: 1px solid var(--border); padding: 0.4rem 0.8rem; border-radius: 8px; font-weight: 600;">
+        <option value="prov-roberto-gonzalez">Roberto (Gomas & Grúa 502)</option>
+        <option value="prov-jose-martinez">José Martínez (Plomero)</option>
+        <option value="prov-carlos-ruiz">Carlos Ruiz (HVAC / Aire)</option>
+        <option value="prov-miguel-fernandez">Miguel Fernández (Refrigeración Comercial)</option>
+        <option value="prov-yoelvis-silva">Yoelvis Silva (Árboles & Yard)</option>
+        <option value="prov-andres-electric">Andrés Ramos (Electricista Master)</option>
+      </select>
+    </div>
+
+    <!-- Mobile Screen Frame -->
+    <div class="phone-frame">
+      <div class="phone-header">
+        <div class="phone-avatar">DML</div>
+        <div>
+          <div style="font-weight: 700; font-size: 0.95rem;">DAME LA LETRA (Despacho)</div>
+          <div id="provider-badge" style="font-size: 0.72rem; opacity: 0.85;">Conectado vía WhatsApp</div>
+        </div>
+      </div>
+
+      <div class="phone-body" id="phone-messages">
+        <div class="wa-bubble-incoming">
+          ?? Listo para recibir solicitudes de la comunidad de Louisville. Cuando un cliente necesite tu servicio cerca de ti, te avisaremos de forma directa.
+        </div>
+      </div>
+
+      <!-- Quick Reply Suggestions -->
+      <div class="phone-quick-replies" id="quick-replies">
+        <div style="font-size: 0.7rem; color: #8696a0; text-transform: uppercase; font-weight: 700; margin-bottom: 0.2rem;">Respuestas Rápidas (Lenguaje Natural):</div>
+        <button class="btn-quick-reply" data-reply="Sí, puedo llegar en 20 minutos y cobro $65">"Sí, puedo llegar en 20 minutos y cobro $65"</button>
+        <button class="btn-quick-reply" data-reply="Sí, cobro $80 y llego en 30 minutos">"Sí, cobro $80 y llego en 30 minutos"</button>
+        <button class="btn-quick-reply" data-reply="Sí, también hacemos comercial">"Sí, también hacemos comercial" (Aprende perfil)</button>
+        <button class="btn-quick-reply" data-reply="No puedo hoy, estoy lleno">"No puedo hoy, estoy lleno" (Pasa al siguiente)</button>
+      </div>
+
+      <div class="phone-input-bar">
+        <input type="text" id="phone-input" class="phone-input" placeholder="Escribe tu respuesta normal...">
+        <button id="phone-send-btn" class="btn-send" style="padding: 0.5rem 1rem; font-size: 0.85rem;">Enviar</button>
+      </div>
+    </div>
+  </main>
+
+  <script src="/js/provider.js"></script>
+</body>
+</html>
+

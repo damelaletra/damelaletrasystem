@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Despacho Concierge — DML Live Ops</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header class="app-header">
+    <a href="/" class="brand-badge">
+      <div class="brand-icon">D</div>
+      <div>
+        <div class="brand-title">DAME LA LETRA</div>
+        <div class="brand-subtitle">Centro de Control & Despacho Concierge · Louisville</div>
+      </div>
+    </a>
+    <nav class="nav-links">
+      <a href="/" class="nav-link">Cliente</a>
+      <a href="/provider.html" class="nav-link">Simulador Proveedor</a>
+      <a href="/admin.html" class="nav-link active">Despacho Concierge</a>
+      <button id="btn-reset-db" class="btn-small" style="color: var(--danger); border-color: rgba(239, 68, 68, 0.4);">Reiniciar Red</button>
+    </nav>
+  </header>
+
+  <main class="admin-container">
+    <!-- North Star & Volume Metrics Bar -->
+    <div class="metrics-bar">
+      <div class="metric-card highlight">
+        <span class="metric-title">North Star Metric (TTC)</span>
+        <span class="metric-value" id="metric-ttc">-- s</span>
+        <span class="metric-sub">Tiempo promedio desde "Necesito" hasta "Listo"</span>
+      </div>
+      <div class="metric-card">
+        <span class="metric-title">Total Solicitudes</span>
+        <span class="metric-value" id="metric-total-requests">0</span>
+        <span class="metric-sub">Ingresadas a la red</span>
+      </div>
+      <div class="metric-card">
+        <span class="metric-title">Tasa de Aceptación</span>
+        <span class="metric-value" id="metric-acceptance">0%</span>
+        <span class="metric-sub">Cotizaciones aceptadas por clientes</span>
+      </div>
+      <div class="metric-card">
+        <span class="metric-title">Proveedores Activos</span>
+        <span class="metric-value" id="metric-providers">6</span>
+        <span class="metric-sub">Red Louisville, KY</span>
+      </div>
+    </div>
+
+    <!-- Main Grid: Live Queue vs Demand & Event Logs -->
+    <div class="admin-columns">
+      <!-- Left Column: Live Request Queue -->
+      <div class="panel-card">
+        <div class="panel-title">
+          <span>?? Cola de Despacho & Máquina de Estados</span>
+          <span style="font-size: 0.8rem; color: var(--text-muted);">Actualización en tiempo real</span>
+        </div>
+
+        <div id="requests-list" style="display: flex; flex-direction: column; gap: 0.75rem;">
+          <div style="color: var(--text-dim); text-align: center; padding: 2rem;">Cargando solicitudes activas...</div>
+        </div>
+      </div>
+
+      <!-- Right Column: Demand Intelligence & Audit Logs -->
+      <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+        <!-- Demand Intelligence -->
+        <div class="panel-card">
+          <div class="panel-title">
+            <span>?? Inteligencia de Demanda</span>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+            <div>
+              <div style="font-size: 0.78rem; font-weight: 700; color: var(--accent); margin-bottom: 0.3rem;">ZONAS MÁS SOLICITADAS:</div>
+              <div id="demand-locations" style="font-size: 0.85rem; color: var(--text-muted);">-</div>
+            </div>
+            <div>
+              <div style="font-size: 0.78rem; font-weight: 700; color: var(--danger); margin-bottom: 0.3rem;">BRECHAS DE DEMANDA NO CUBIERTA:</div>
+              <div id="demand-gaps" style="font-size: 0.85rem; color: var(--text-muted);">-</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Live Audit Logs -->
+        <div class="panel-card" style="flex: 1;">
+          <div class="panel-title">
+            <span>? Registro de Eventos en Vivo</span>
+          </div>
+          <div id="audit-logs" style="max-height: 380px; overflow-y: auto; font-family: monospace; font-size: 0.78rem; display: flex; flex-direction: column; gap: 0.5rem; color: var(--text-muted);">
+            <div>Esperando eventos del sistema...</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="/js/admin.js"></script>
+</body>
+</html>
+

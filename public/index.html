@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dame la Letra — Red Local de Conexión</title>
+  <meta name="description" content="¿No sabes quién lo hace? Dame la Letra conecta personas que necesitan algo con proveedores locales capaces de resolverlo en Louisville.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header class="app-header">
+    <a href="/" class="brand-badge">
+      <div class="brand-icon">D</div>
+      <div>
+        <div class="brand-title">DAME LA LETRA</div>
+        <div class="brand-subtitle">Red Local de Conexión · Louisville</div>
+      </div>
+    </a>
+    <nav class="nav-links">
+      <a href="/" class="nav-link active">Cliente</a>
+      <a href="/provider.html" class="nav-link">Simulador Proveedor</a>
+      <a href="/admin.html" class="nav-link">Despacho Concierge</a>
+    </nav>
+  </header>
+
+  <main class="customer-layout">
+    <section class="hero-box">
+      <div class="hero-tag">?? Louisville, Kentucky</div>
+      <h1 class="hero-title">¿No sabes quién lo hace?</h1>
+      <p class="hero-desc">Dime qué necesitas. Nosotros nos encargamos de encontrar a la persona correcta y conectarte.</p>
+    </section>
+
+    <div class="chat-window">
+      <div class="chat-messages" id="chat-messages">
+        <div class="chat-bubble bubble-dml dml-highlight">
+          <strong>Hola.</strong> ¿Qué necesitas resolver hoy? Escríbeme normalmente como si le preguntaras a un vecino o amigo de confianza.
+        </div>
+      </div>
+
+      <div class="chat-input-bar">
+        <input type="text" id="customer-input" class="chat-input" placeholder="Ej: Se me ponchó la goma en Dixie Hwy..." autofocus>
+        <button id="send-btn" class="btn-send">Enviar</button>
+      </div>
+    </div>
+
+    <div class="example-chips">
+      <button class="chip-btn" data-text="Se me ponchó la goma en Dixie Hwy">?? "Se me ponchó la goma en Dixie"</button>
+      <button class="chip-btn" data-text="El aire no me está enfriando y la casa está hirviendo">?? "El aire no me está enfriando"</button>
+      <button class="chip-btn" data-text="Tengo una tremenda tupición en el fregadero de mi oficina">?? "Tupición en oficina"</button>
+      <button class="chip-btn" data-text="Necesito podar un árbol grande antes de que caiga">?? "Cortar un árbol"</button>
+      <button class="chip-btn" data-text="Se me fue la luz en media casa">? "Se me fue la luz"</button>
+      <button class="chip-btn" data-text="Necesito una grúa industrial pesada de 50 toneladas">??? "Grúa industrial (Fallback)"</button>
+    </div>
+  </main>
+
+  <script src="/js/customer.js"></script>
+</body>
+</html>
+
