@@ -1,55 +1,63 @@
 /**
  * DAME LA LETRA — Official Brand Landing Experience
- * Interactive Demo, Modal Controller, and Direct Connection Gateway
+ * Interactive Editorial Console, Modal Controller, and Direct Connection Gateway
  */
 
 document.addEventListener("DOMContentLoaded", () => {
-  // Brand Phone Number for Louisville
   const DML_PHONE = "+15026731333";
   const DML_WA_BASE = "https://wa.me/15026731333";
 
   // =========================================================================
-  // 1. HERO INTERACTIVE DEMO CONTROLLER
+  // 1. EDITORIAL DEMO CONSOLE CONTROLLER
   // =========================================================================
-  const demoStream = document.getElementById("demo-chat-stream");
-  const demoInput = document.getElementById("demo-input-field");
-  const demoSendBtn = document.getElementById("demo-send-btn");
-  const demoChips = document.querySelectorAll(".demo-chip-btn");
+  const userSpeechEl = document.getElementById("demo-user-speech");
+  const dmlSpeechEl = document.getElementById("demo-dml-speech");
+  const matchBoxEl = document.getElementById("demo-match-box");
+  const proNameEl = document.getElementById("demo-pro-name");
+  const proMetaEl = document.getElementById("demo-pro-meta");
+  const customInputEl = document.getElementById("demo-custom-input");
+  const customBtnEl = document.getElementById("demo-custom-btn");
+  const pillBtns = document.querySelectorAll(".demo-pill-btn");
 
   const DEMO_SCENARIOS = {
     "goma": {
-      provider: "Roberto González (Gomas & Grúa 502)",
-      eta: "15-20 minutos cerca de Shively / Dixie",
-      price: "$65 - $80",
-      category: "AUTOMOTRIZ / GRÚA"
+      quote: '"Se me ponchó la goma en Dixie Hwy."',
+      reply: '"Listo. Roberto (Gomas & Grúa 502) está a unos 15 minutos en Shively."',
+      proName: "Roberto González — Asistencia Vial & Gomas",
+      proMeta: "📍 Shively / Dixie Hwy · ⏱️ Llegada en ~15-20 min · 💵 $65 - $80",
+      queryText: "conectar con Roberto para asistencia vial en Dixie Hwy"
     },
     "aire": {
-      provider: "Carlos Ruiz (HVAC / Climatización)",
-      eta: "Disponible hoy después de las 12:00 PM",
-      price: "Diagnóstico estándar desde $75",
-      category: "HVAC & REFRIGERACIÓN"
+      quote: '"El aire está prendido pero no enfría."',
+      reply: '"Listo. Carlos Ruiz (HVAC / Aire) tiene disponibilidad para diagnóstico hoy."',
+      proName: "Carlos Ruiz — HVAC & Climatización Louisville",
+      proMeta: "📍 Zona Metropolitana Louisville · ⏱️ Hoy después de las 12 PM · 💵 Diagnóstico $75",
+      queryText: "conectar con Carlos Ruiz para revisión de aire acondicionado"
     },
     "arbol": {
-      provider: "Yoelvis Silva (Árboles & Yard Service)",
-      eta: "Visita y estimado gratuito hoy en la tarde",
-      price: "Según tamaño y cercanía a líneas",
-      category: "TREE SERVICE"
+      quote: '"Necesito alguien que corte un árbol en el patio."',
+      reply: '"Listo. Yoelvis Silva (Árboles & Yard) tiene cuadrilla y grúa disponible hoy."',
+      proName: "Yoelvis Silva — Árboles, Poda & Yard Service",
+      proMeta: "📍 Louisville & Alrededores · ⏱️ Estimado gratuito hoy · 💵 Según tamaño",
+      queryText: "conectar con Yoelvis Silva para poda de árbol"
     },
     "comida": {
-      provider: "Sabor Criollo Catering Louisville",
-      eta: "Reserva confirmada para fin de semana",
-      price: "Cotización por plato / menú completo",
-      category: "COMIDA & EVENTOS"
+      quote: '"¿Quién hace comida criolla para 50 personas el sábado?"',
+      reply: '"Listo. Encontramos servicio de catering con capacidad para eventos este fin de semana."',
+      proName: "Sabor Criollo — Catering & Eventos Louisville",
+      proMeta: "📍 Jefferson County · ⏱️ Reserva para fin de semana · 💵 Menú personalizado",
+      queryText: "conectar con catering para comida criolla para 50 personas"
     },
     "default": {
-      provider: "Profesional Verificado de la Red DML",
-      eta: "Respuesta en menos de 20 minutos",
-      price: "Tarifa directa sin intermediarios inflados",
-      category: "SERVICIO LOCAL LOUISVILLE"
+      quote: '"Necesito resolver un servicio en Louisville."',
+      reply: '"Listo. Encontramos a un profesional verificado de la red local para atenderte."',
+      proName: "Profesional Verificado de la Red DML",
+      proMeta: "📍 Louisville, KY · ⏱️ Respuesta en menos de 20 min · 💵 Tarifa directa",
+      queryText: "asistencia de servicio local"
     }
   };
 
-  function matchScenario(text) {
+  function parseScenario(text) {
     const lower = (text || "").toLowerCase();
     if (lower.includes("goma") || lower.includes("ponch") || lower.includes("llanta") || lower.includes("grua") || lower.includes("grúa")) {
       return DEMO_SCENARIOS.goma;
@@ -63,84 +71,73 @@ document.addEventListener("DOMContentLoaded", () => {
     if (lower.includes("comida") || lower.includes("cuban") || lower.includes("catering") || lower.includes("fiesta") || lower.includes("asado")) {
       return DEMO_SCENARIOS.comida;
     }
-    return DEMO_SCENARIOS.default;
+    return {
+      quote: `"${text}"`,
+      reply: '"Listo. Encontramos una opción adecuada en Louisville para tu solicitud."',
+      proName: "Proveedor Verificado para: " + text.slice(0, 30),
+      proMeta: "📍 Red Local Louisville · ⏱️ Disponibilidad confirmada · 💵 Trato directo",
+      queryText: text
+    };
   }
 
-  function appendDemoBubble(text, isUser = false) {
-    if (!demoStream) return;
-    const bubble = document.createElement("div");
-    bubble.className = isUser ? "demo-bubble user-bubble" : "demo-bubble dml-bubble";
-    bubble.textContent = text;
-    demoStream.appendChild(bubble);
-    demoStream.scrollTop = demoStream.scrollHeight;
-  }
+  function displayScenario(scenario) {
+    if (!userSpeechEl || !dmlSpeechEl) return;
 
-  function handleDemoSubmit(customText = null) {
-    const text = customText || (demoInput ? demoInput.value.trim() : "");
-    if (!text) return;
+    // 1. Update user question
+    userSpeechEl.textContent = scenario.quote;
 
-    if (demoInput) demoInput.value = "";
+    // 2. Cinematic transition: "Dame un momento..."
+    dmlSpeechEl.textContent = '"Dame un momento..."';
+    dmlSpeechEl.style.opacity = "0.6";
+    if (matchBoxEl) matchBoxEl.style.display = "none";
 
-    // 1. User bubble
-    appendDemoBubble(text, true);
-
-    // 2. Thinking indicator
-    const thinkingBubble = document.createElement("div");
-    thinkingBubble.className = "demo-bubble dml-bubble dml-thinking";
-    thinkingBubble.innerHTML = `
-      <span>Dame un momento</span>
-      <div class="typing-dots">
-        <div class="typing-dot"></div>
-        <div class="typing-dot"></div>
-        <div class="typing-dot"></div>
-      </div>
-    `;
-    demoStream.appendChild(thinkingBubble);
-    demoStream.scrollTop = demoStream.scrollHeight;
-
-    // 3. Response arrival after brief realistic pause
+    // 3. Reveal final response after 450ms
     setTimeout(() => {
-      thinkingBubble.remove();
+      dmlSpeechEl.textContent = scenario.reply;
+      dmlSpeechEl.style.opacity = "1";
 
-      const match = matchScenario(text);
-      const encodedMsg = encodeURIComponent(`Hola Dame La Letra, necesito: "${text}" en Louisville.`);
-      const waUrl = `${DML_WA_BASE}?text=${encodedMsg}`;
+      if (proNameEl) proNameEl.textContent = scenario.proName;
+      if (proMetaEl) proMetaEl.textContent = scenario.proMeta;
 
-      const resultBubble = document.createElement("div");
-      resultBubble.className = "demo-bubble dml-bubble";
-      resultBubble.innerHTML = `
-        <div style="font-weight: 800; font-size: 1.05rem; margin-bottom: 0.35rem; color: var(--accent-light);">Listo.</div>
-        <div>Encontramos una opción para resolver esto en Louisville:</div>
-        <div class="demo-result-card">
-          <div class="demo-result-header">🟢 CONFIRMADO EN LA RED</div>
-          <div class="demo-result-title">${match.provider}</div>
-          <div class="demo-result-meta">📍 ${match.eta} · 💵 ${match.price}</div>
-          <a href="${waUrl}" target="_blank" rel="noopener" class="btn-primary btn-small" style="width: 100%; text-align: center; text-decoration: none;">
-            💬 Conectar por WhatsApp (+1 502-673-1333)
-          </a>
-        </div>
-      `;
-      demoStream.appendChild(resultBubble);
-      demoStream.scrollTop = demoStream.scrollHeight;
-    }, 550);
+      if (matchBoxEl) {
+        matchBoxEl.style.display = "block";
+        const link = matchBoxEl.querySelector("a");
+        if (link) {
+          link.href = `${DML_WA_BASE}?text=${encodeURIComponent(`Hola Dame La Letra, necesito: "${scenario.queryText}" en Louisville, KY.`)}`;
+        }
+      }
+    }, 450);
   }
 
-  if (demoSendBtn) {
-    demoSendBtn.addEventListener("click", () => handleDemoSubmit());
-  }
-
-  if (demoInput) {
-    demoInput.addEventListener("keydown", (e) => {
-      if (e.key === "Enter") handleDemoSubmit();
-    });
-  }
-
-  demoChips.forEach(chip => {
-    chip.addEventListener("click", () => {
-      const text = chip.getAttribute("data-text");
-      handleDemoSubmit(text);
+  pillBtns.forEach(btn => {
+    btn.addEventListener("click", () => {
+      const text = btn.getAttribute("data-text");
+      const scenario = parseScenario(text);
+      displayScenario(scenario);
     });
   });
+
+  if (customBtnEl && customInputEl) {
+    customBtnEl.addEventListener("click", () => {
+      const val = customInputEl.value.trim();
+      if (val) {
+        const scenario = parseScenario(val);
+        displayScenario(scenario);
+        customInputEl.value = "";
+      }
+    });
+
+    customInputEl.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        const val = customInputEl.value.trim();
+        if (val) {
+          const scenario = parseScenario(val);
+          displayScenario(scenario);
+          customInputEl.value = "";
+        }
+      }
+    });
+  }
 
   // =========================================================================
   // 2. MODAL CONTROLLER (Concierge & Pro Onboarding)
@@ -200,7 +197,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // =========================================================================
-  // 3. FORM ACTIONS
+  // 3. FORM HANDLERS
   // =========================================================================
   const conciergeForm = document.getElementById("form-concierge");
   if (conciergeForm) {
