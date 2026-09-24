@@ -43,7 +43,7 @@ Reglas clave de Louisville:
 export class GeminiConciergeService {
   constructor() {
     this.client = aiClient;
-    this.modelName = "gemini-2.5-flash";
+    this.modelName = "models/gemini-flash-latest";
   }
 
   isAvailable() {
