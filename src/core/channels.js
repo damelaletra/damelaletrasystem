@@ -54,8 +54,14 @@ class ChannelHub extends EventEmitter {
     this.broadcast("customer_message", messageObj);
     this.emit("customer_message", messageObj);
 
-    // Real Twilio Dispatch to Customer (Strictly from +15026731333)
-    if (this.twilioClient && request.conversation_reference && request.conversation_reference.startsWith("+1")) {
+    // Real Twilio Dispatch to Customer (Strictly from +15026731333, never in test mode)
+    if (
+      process.env.NODE_ENV !== "test" &&
+      !this.disableTwilioForTesting &&
+      this.twilioClient &&
+      request.conversation_reference &&
+      request.conversation_reference.startsWith("+1")
+    ) {
       try {
         const isWhatsApp = request.channel === "WHATSAPP";
         const toNumber = isWhatsApp
@@ -99,8 +105,14 @@ class ChannelHub extends EventEmitter {
     this.broadcast("provider_briefing", briefingObj);
     this.emit("provider_briefing", briefingObj);
 
-    // Real Twilio Dispatch to Provider
-    if (this.twilioClient && provider.phone && provider.phone.startsWith("+1")) {
+    // Real Twilio Dispatch to Provider (Strictly to target provider, never in test mode)
+    if (
+      process.env.NODE_ENV !== "test" &&
+      !this.disableTwilioForTesting &&
+      this.twilioClient &&
+      provider.phone &&
+      provider.phone.startsWith("+1")
+    ) {
       try {
         const isWhatsApp = provider.preferred_channel === "WHATSAPP";
         const toNumber = isWhatsApp

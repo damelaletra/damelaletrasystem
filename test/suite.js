@@ -1,3 +1,4 @@
+process.env.NODE_ENV = "test";
 import assert from "assert";
 import { understandRequest } from "../src/core/semantic.js";
 import { checkProviderEligibility, filterEligibleProviders } from "../src/core/eligibility.js";
@@ -5,7 +6,10 @@ import { rankEligibleCandidates } from "../src/core/matching.js";
 import { db } from "../src/core/db.js";
 import { stateMachine } from "../src/core/stateMachine.js";
 import { cascadingEngine } from "../src/core/cascading.js";
+import { channels } from "../src/core/channels.js";
 import { handleExternalFallback } from "../src/core/fallback.js";
+
+channels.disableTwilioForTesting = true;
 
 async function runTests() {
   console.log("=================================================");
