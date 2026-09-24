@@ -236,9 +236,9 @@ app.post("/api/webhooks/stripe", async (req, res) => {
   }
 });
 
-app.listen(PORT, () => {
+app.listen(PORT, "0.0.0.0", () => {
   console.log(`\n======================================================`);
-  console.log(`  DAME LA LETRA (DML) - Core Engine Running on Port ${PORT}`);
+  console.log(`  DAME LA LETRA (DML) - Core Engine Running on Port ${PORT} (0.0.0.0)`);
   console.log(`  Twilio Louisville Inbound Webhook: /api/webhooks/twilio`);
   console.log(`  Louisville Network Operational (+1 502-673-1333)`);
   console.log(`  - Customer Portal:     http://localhost:${PORT}/`);
