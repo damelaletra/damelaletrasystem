@@ -50,6 +50,33 @@ export function isCustomerDecline(rawText) {
   });
 }
 
+export function normalizeSpanishNumberWords(str) {
+  if (!str) return "";
+  let s = str.toLowerCase();
+  const map = [
+    { word: "cuarenta y cinco", num: "45" },
+    { word: "treinta y cinco", num: "35" },
+    { word: "veinticinco", num: "25" },
+    { word: "cincuenta", num: "50" },
+    { word: "cuarenta", num: "40" },
+    { word: "treinta", num: "30" },
+    { word: "veinte", num: "20" },
+    { word: "quince", num: "15" },
+    { word: "diez", num: "10" },
+    { word: "cinco", num: "5" },
+    { word: "cuatro", num: "4" },
+    { word: "tres", num: "3" },
+    { word: "dos", num: "2" },
+    { word: "una", num: "1" },
+    { word: "un", num: "1" }
+  ];
+  for (const item of map) {
+    const regex = new RegExp(`\\b${item.word}\\b`, "gi");
+    s = s.replace(regex, item.num);
+  }
+  return s;
+}
+
 export class ConversationalConcierge {
   /**
    * Analyze message coming from a Customer
@@ -163,16 +190,16 @@ export class ConversationalConcierge {
 
     // 5. Check Quote Offer (Price, Price Range, Conditions, Arrival Time)
     let eta = "lo antes posible";
-    let textWithoutEta = lower;
+    let textWithoutEta = normalizeSpanishNumberWords(lower);
 
     // A) Time ranges (e.g. 'de 15 a 20 minutos', '15-20 mins', 'entre 1 y 2 horas')
-    const timeRangeMatch = lower.match(/(?:en\s+|de\s+|entre\s+)?(\d{1,3})\s*(?:a|-|y)\s*(\d{1,3})\s*(minutos?|mins?|horas?|hrs?|días?|dias?)/i);
+    const timeRangeMatch = textWithoutEta.match(/(?:en|de|entre|a|como en|como a|unos?)\s+(\d{1,3})\s*(?:a|-|y)\s*(\d{1,3})\s*(minutos?|mins?|horas?|hrs?|días?|dias?)/i);
     if (timeRangeMatch) {
       eta = `${timeRangeMatch[1]} a ${timeRangeMatch[2]} ${timeRangeMatch[3]}`;
       textWithoutEta = textWithoutEta.replace(timeRangeMatch[0], " ");
     } else {
-      // B) Single duration (e.g. 'en 20 minutos', '1 hora', 'media hora')
-      const singleTimeMatch = lower.match(/(?:en\s+)?(\d{1,3})\s*(minutos?|mins?|horas?|hrs?)/i);
+      // B) Single duration (e.g. 'en 20 minutos', 'estoy a diez minutos', '1 hora', 'media hora')
+      const singleTimeMatch = textWithoutEta.match(/(?:en|a|como en|como a|unos?|sobre|de|en unos)?\s*(\d{1,3})\s*(minutos?|mins?|horas?|hrs?)/i);
       if (singleTimeMatch) {
         eta = `${singleTimeMatch[1]} ${singleTimeMatch[2]}`;
         textWithoutEta = textWithoutEta.replace(singleTimeMatch[0], " ");
