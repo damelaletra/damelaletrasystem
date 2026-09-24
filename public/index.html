@@ -3,60 +3,766 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dame la Letra — Red Local de Conexión</title>
-  <meta name="description" content="¿No sabes quién lo hace? Dame la Letra conecta personas que necesitan algo con proveedores locales capaces de resolverlo en Louisville.">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+  <title>Dame la Letra | ¿No sabes quién lo hace?</title>
+  <meta name="description" content="¿No sabes quién puede ayudarte? Dime qué necesitas y Dame la Letra busca quién puede hacerlo en Louisville, KY. Sin tecnicismos ni búsquedas interminables.">
+  <link rel="canonical" href="https://www.damelaletra.com">
+  <link rel="icon" type="image/png" href="/assets/favicon.png">
+
+  <!-- Open Graph / Meta Social -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.damelaletra.com">
+  <meta property="og:title" content="Dame la Letra | ¿No sabes quién lo hace?">
+  <meta property="og:description" content="Tú dime qué necesitas. Nosotros buscamos quién puede ayudarte en Louisville, KY.">
+  <meta property="og:image" content="/assets/app prewiew.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Dame la Letra | ¿No sabes quién lo hace?">
+  <meta name="twitter:description" content="Tú dime qué necesitas. Nosotros buscamos quién puede ayudarte.">
+  <meta name="twitter:image" content="/assets/app prewiew.png">
+
+  <!-- Typography & Styles -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/css/style.css">
+
+  <!-- Structured Data JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Dame la Letra",
+    "url": "https://www.damelaletra.com",
+    "logo": "https://www.damelaletra.com/assets/logo.png",
+    "description": "Red local de conexión que ayuda a las personas a encontrar quién puede resolver lo que necesitan en Louisville, KY.",
+    "telephone": "+15026731333",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Louisville",
+      "addressRegion": "KY",
+      "addressCountry": "US"
+    }
+  }
+  </script>
 </head>
 <body>
-  <header class="app-header">
-    <a href="/" class="brand-badge">
-      <div class="brand-icon">D</div>
-      <div>
-        <div class="brand-title">DAME LA LETRA</div>
-        <div class="brand-subtitle">Red Local de Conexión · Louisville</div>
+
+  <!-- =========================================================================
+       STICKY HEADER / NAVIGATION
+       ========================================================================= -->
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="/" class="brand-anchor" aria-label="Dame la Letra - Inicio">
+        <img src="/assets/logo.png" alt="Logo Dame la Letra" class="brand-logo-img">
+        <div class="brand-text-block">
+          <span class="brand-name">DAME LA LETRA</span>
+          <span class="brand-subtext">Louisville, KY</span>
+        </div>
+      </a>
+
+      <nav aria-label="Navegación principal">
+        <ul class="nav-menu">
+          <li><a href="#como-funciona" class="nav-link-item">¿Cómo funciona?</a></li>
+          <li><a href="#el-problema" class="nav-link-item">El Problema</a></li>
+          <li><a href="#para-negocios" class="nav-link-item">Para Negocios</a></li>
+          <li><a href="#honestidad" class="nav-link-item">Honestidad</a></li>
+        </ul>
+      </nav>
+
+      <div class="header-actions">
+        <a href="https://wa.me/15026731333" target="_blank" rel="noopener" class="hero-location-badge" style="margin-bottom: 0; text-decoration: none;" title="Conexión directa por WhatsApp">
+          <span class="pulse-dot"></span> +1 (502) 673-1333
+        </a>
+        <button class="btn-primary btn-small btn-open-concierge">DAME LA LETRA</button>
       </div>
-    </a>
-    <nav class="nav-links">
-      <a href="/" class="nav-link active">Cliente</a>
-      <a href="/provider.html" class="nav-link">Simulador Proveedor</a>
-      <a href="/admin.html" class="nav-link">Despacho Concierge</a>
-    </nav>
+    </div>
   </header>
 
-  <main class="customer-layout">
-    <section class="hero-box">
-      <div class="hero-tag">?? Louisville, Kentucky</div>
-      <h1 class="hero-title">¿No sabes quién lo hace?</h1>
-      <p class="hero-desc">Dime qué necesitas. Nosotros nos encargamos de encontrar a la persona correcta y conectarte.</p>
+  <!-- =========================================================================
+       1. HERO SECTION
+       ========================================================================= -->
+  <main>
+    <section class="hero-section" id="inicio">
+      <div class="container">
+        <div class="hero-grid">
+          
+          <!-- Left: Value Proposition -->
+          <div class="hero-content">
+            <div class="hero-location-badge">
+              <span class="pulse-dot"></span> Red de Conexión Local · Louisville, KY
+            </div>
+            
+            <h1 class="hero-headline">
+              ¿NO SABES QUIÉN LO HACE?
+            </h1>
+            <span class="hero-brand-callout">DAME LA LETRA.</span>
+
+            <p class="hero-subtext">
+              Tú dime qué necesitas.<br>
+              <strong>Nosotros buscamos quién puede ayudarte.</strong>
+            </p>
+
+            <div class="hero-cta-group">
+              <button class="btn-primary btn-large btn-open-concierge">
+                DAME LA LETRA
+              </button>
+              <button class="btn-secondary btn-large btn-open-pro">
+                SOY NEGOCIO
+              </button>
+            </div>
+
+            <div class="hero-guarantee-strip">
+              <div class="hero-guarantee-item">
+                <span>✓</span> Sin cuentas innecesarias
+              </div>
+              <div class="hero-guarantee-item">
+                <span>✓</span> Directo por WhatsApp o SMS
+              </div>
+              <div class="hero-guarantee-item">
+                <span>✓</span> 100% humano y local
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: Interactive Live Demonstration (Sections 5 & 34) -->
+          <div class="hero-demo-card">
+            <div class="demo-card-header">
+              <div class="demo-brand-pill">
+                <img src="/assets/favicon.png" alt="DML" style="width: 18px; height: 18px; border-radius: 4px;">
+                <span>DAME LA LETRA — Demostración</span>
+              </div>
+              <div class="demo-status-pill">
+                <span class="pulse-dot" style="background: var(--success); width: 6px; height: 6px;"></span> En vivo
+              </div>
+            </div>
+
+            <div class="demo-chat-stream" id="demo-chat-stream">
+              <div class="demo-bubble dml-bubble">
+                <strong>¿Qué necesitas resolver hoy en Louisville?</strong><br>
+                Escríbelo exactamente como hablas, o pulsa un ejemplo abajo:
+              </div>
+            </div>
+
+            <!-- Quick Suggestion Chips -->
+            <div class="demo-prompt-chips">
+              <button class="demo-chip-btn" data-text="Se me ponchó la goma en Dixie Hwy">🚗 "Se me ponchó la goma en Dixie"</button>
+              <button class="demo-chip-btn" data-text="El aire está prendido pero no enfría">❄️ "El aire está prendido pero no enfría"</button>
+              <button class="demo-chip-btn" data-text="Necesito alguien que me corte un árbol en el patio">🌳 "Cortar un árbol grande"</button>
+              <button class="demo-chip-btn" data-text="¿Quién hace comida criolla para 50 personas el sábado?">🍲 "Comida criolla para 50 personas"</button>
+            </div>
+
+            <!-- Interactive Input Bar -->
+            <div class="demo-input-bar">
+              <input type="text" id="demo-input-field" class="demo-input-field" placeholder="Escribe lo que necesitas...">
+              <button id="demo-send-btn" class="demo-send-btn">Consultar</button>
+            </div>
+
+            <div class="demo-disclaimer">
+              * Demostración interactiva conectada a la red de despacho de Louisville.
+            </div>
+          </div>
+
+        </div>
+      </div>
     </section>
 
-    <div class="chat-window">
-      <div class="chat-messages" id="chat-messages">
-        <div class="chat-bubble bubble-dml dml-highlight">
-          <strong>Hola.</strong> ¿Qué necesitas resolver hoy? Escríbeme normalmente como si le preguntaras a un vecino o amigo de confianza.
+    <!-- =========================================================================
+         2. SECCIÓN — EL PROBLEMA ("Todos conocemos esa pregunta")
+         ========================================================================= -->
+    <section class="section" id="el-problema">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-tag">Lo cotidiano</div>
+          <h2 class="section-title">Todos conocemos esa pregunta.</h2>
+          <p class="section-subtitle">Pasa todos los días. En la casa, en el trabajo, en la calle o con la familia.</p>
+        </div>
+
+        <div class="problem-grid">
+          <div class="question-bubble-card">
+            <div class="question-avatar-tag">💬 Situación habitual</div>
+            <div class="question-quote">"¿Tú conoces a alguien que arregle esto?"</div>
+          </div>
+
+          <div class="question-bubble-card">
+            <div class="question-avatar-tag">💬 Belleza & Cuidado</div>
+            <div class="question-quote">"¿Quién hace keratina?"</div>
+          </div>
+
+          <div class="question-bubble-card">
+            <div class="question-avatar-tag">💬 Casa & Patio</div>
+            <div class="question-quote">"¿Quién corta árboles?"</div>
+          </div>
+
+          <div class="question-bubble-card">
+            <div class="question-avatar-tag">💬 Emergencia vial</div>
+            <div class="question-quote">"¿Quién tiene una grúa?"</div>
+          </div>
+
+          <div class="question-bubble-card">
+            <div class="question-avatar-tag">💬 Clima de Kentucky</div>
+            <div class="question-quote">"¿Quién arregla aires?"</div>
+          </div>
+
+          <div class="question-bubble-card">
+            <div class="question-avatar-tag">💬 Construcción</div>
+            <div class="question-quote">"¿Quién hace drywall?"</div>
+          </div>
+        </div>
+
+        <div class="problem-punchline-box">
+          <div class="problem-punchline-text">
+            El problema no siempre es encontrar el servicio.<br>
+            A veces es saber quién lo hace.
+          </div>
+          <div class="problem-punchline-sub">
+            Por eso existe <strong>Dame la Letra</strong>. Como esa persona que conoce a todo el mundo y te pasa el dato exacto.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================================
+         3. SECCIÓN — CÓMO FUNCIONA ("Tú preguntas. Nosotros buscamos.")
+         ========================================================================= -->
+    <section class="section" id="como-funciona" style="background: var(--bg-surface); border-top: 1px solid var(--border-subtle); border-bottom: 1px solid var(--border-subtle);">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-tag">Proceso Simple</div>
+          <h2 class="section-title">Tú preguntas. Nosotros buscamos.</h2>
+          <p class="section-subtitle">Tres pasos directos, sin rodeos, sin fricción técnica.</p>
+        </div>
+
+        <div class="steps-grid">
+          <div class="step-card">
+            <div class="step-number">01</div>
+            <h3 class="step-title">DIME QUÉ NECESITAS</h3>
+            <p class="step-desc">
+              Puedes escribirlo o decirlo exactamente como hablas. No necesitas saber el nombre técnico, ni la marca del equipo, ni navegar entre 10 páginas.
+            </p>
+          </div>
+
+          <div class="step-card">
+            <div class="step-number">02</div>
+            <h3 class="step-title">DAME UN MOMENTO</h3>
+            <p class="step-desc">
+              Buscamos entre nuestra red verificada quién tiene la habilidad, cercanía y disponibilidad real para atenderte en Louisville hoy.
+            </p>
+          </div>
+
+          <div class="step-card">
+            <div class="step-number">03</div>
+            <h3 class="step-title">LISTO</h3>
+            <p class="step-desc">
+              Te decimos quién puede hacerlo, cuándo puede llegar y el precio estimado. Si estás de acuerdo, te ponemos en contacto directo al instante.
+            </p>
+          </div>
+        </div>
+
+        <div style="text-align: center;">
+          <button class="btn-primary btn-large btn-open-concierge">DAME LA LETRA</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================================
+         4. SECCIÓN — NO NECESITAS SABER EL NOMBRE TÉCNICO
+         ========================================================================= -->
+    <section class="section">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-tag">Lenguaje Humano</div>
+          <h2 class="section-title">No necesitas saber el nombre técnico.</h2>
+          <p class="section-subtitle">Tú explicas tu problema con tus propias palabras. Nosotros traducimos la necesidad al oficio exacto.</p>
+        </div>
+
+        <div class="translations-grid">
+          <div class="translation-card">
+            <div class="translation-row">
+              <span class="translation-label">Tú dices:</span>
+              <span class="translation-user-text">"El aire está prendido pero no enfría."</span>
+            </div>
+            <div class="translation-arrow">↓</div>
+            <div class="translation-row">
+              <span class="translation-label">DML entiende:</span>
+              <div class="translation-system-badge">❄️ AC / HVAC / Diagnóstico de Compresor</div>
+            </div>
+          </div>
+
+          <div class="translation-card">
+            <div class="translation-row">
+              <span class="translation-label">Tú dices:</span>
+              <span class="translation-user-text">"Se me ponchó la goma en la autopista."</span>
+            </div>
+            <div class="translation-arrow">↓</div>
+            <div class="translation-row">
+              <span class="translation-label">DML entiende:</span>
+              <div class="translation-system-badge">🚗 Asistencia de Llanta / Roadside Assistance</div>
+            </div>
+          </div>
+
+          <div class="translation-card">
+            <div class="translation-row">
+              <span class="translation-label">Tú dices:</span>
+              <span class="translation-user-text">"Necesito unas divisiones para la oficina."</span>
+            </div>
+            <div class="translation-arrow">↓</div>
+            <div class="translation-row">
+              <span class="translation-label">DML entiende:</span>
+              <div class="translation-system-badge">🏢 Construcción Comercial / Particiones Drywall</div>
+            </div>
+          </div>
+
+          <div class="translation-card">
+            <div class="translation-row">
+              <span class="translation-label">Tú dices:</span>
+              <span class="translation-user-text">"Necesito alguien que me corte ese árbol."</span>
+            </div>
+            <div class="translation-arrow">↓</div>
+            <div class="translation-row">
+              <span class="translation-label">DML entiende:</span>
+              <div class="translation-system-badge">🌳 Tree Service / Poda Especializada</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="translations-summary-banner">
+          No tienes que saber cómo se llama el servicio. <span>Solo tienes que explicar qué necesitas.</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================================
+         5. SECCIÓN — NO SOMOS UN DIRECTORIO
+         ========================================================================= -->
+    <section class="section" id="filosofia" style="background: var(--bg-surface); border-top: 1px solid var(--border-subtle); border-bottom: 1px solid var(--border-subtle);">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-tag">Nuestra Diferencia</div>
+          <h2 class="section-title">No queremos darte una lista.<br>Queremos darte una respuesta.</h2>
+          <p class="section-subtitle">La diferencia entre buscar solo en internet y tener a alguien que te resuelva.</p>
+        </div>
+
+        <div class="comparison-grid">
+          <!-- Traditional Directory -->
+          <div class="comparison-box directory-box">
+            <div class="comparison-badge">Directorio Tradicional</div>
+            <h3 class="comparison-title">La experiencia vieja</h3>
+            <ul class="comparison-flow-list">
+              <li class="comparison-flow-item"><span class="icon">✕</span> Busca entre cientos de resultados</li>
+              <li class="comparison-flow-item"><span class="icon">✕</span> Filtra categorías que no entiendes</li>
+              <li class="comparison-flow-item"><span class="icon">✕</span> Compara reseñas dudosas</li>
+              <li class="comparison-flow-item"><span class="icon">✕</span> Llama a 5 números diferentes</li>
+              <li class="comparison-flow-item"><span class="icon">✕</span> Pregunta precios uno por uno</li>
+              <li class="comparison-flow-item"><span class="icon">✕</span> Espera a ver si alguien contesta</li>
+            </ul>
+          </div>
+
+          <!-- DAME LA LETRA -->
+          <div class="comparison-box dml-box">
+            <div class="comparison-badge">DAME LA LETRA</div>
+            <h3 class="comparison-title">La respuesta directa</h3>
+            <ul class="comparison-flow-list">
+              <li class="comparison-flow-item"><span class="icon">✓</span> "Necesito esto."</li>
+              <li class="comparison-flow-item" style="color: var(--accent-gold);"><span class="icon">↓</span> "Dame un momento."</li>
+              <li class="comparison-flow-item" style="color: var(--success);"><span class="icon">✓</span> "Listo. José puede ayudarte hoy."</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================================
+         6. SECCIÓN — PARA LOS NEGOCIOS
+         ========================================================================= -->
+    <section class="section business-section" id="para-negocios">
+      <div class="container">
+        <div class="business-grid">
+          <div>
+            <div class="section-tag">Para Proveedores & Oficios</div>
+            <h2 class="section-title">Si puedes hacerlo, queremos saber de ti.</h2>
+            <p class="section-subtitle">
+              DAME LA LETRA conecta personas que necesitan algo con negocios y profesionales capaces de resolverlo en Louisville.
+            </p>
+
+            <ul class="business-features-list">
+              <li class="business-feature-item">
+                <span class="check-icon">✓</span>
+                <span><strong>Recibe solicitudes relevantes</strong> en tus zonas preferidas de Louisville.</span>
+              </li>
+              <li class="business-feature-item">
+                <span class="check-icon">✓</span>
+                <span><strong>Indica cuándo estás disponible</strong> y cuándo descansas con un simple mensaje.</span>
+              </li>
+              <li class="business-feature-item">
+                <span class="check-icon">✓</span>
+                <span><strong>Define qué trabajos haces</strong> y tus condiciones de servicio.</span>
+              </li>
+              <li class="business-feature-item">
+                <span class="check-icon">✓</span>
+                <span><strong>Responde de forma natural</strong> por WhatsApp o SMS sin aplicaciones complicadas.</span>
+              </li>
+              <li class="business-feature-item">
+                <span class="check-icon">✓</span>
+                <span><strong>Oportunidades directas</strong> sin tener que gastar el día persiguiendo clientes.</span>
+              </li>
+            </ul>
+
+            <button class="btn-primary btn-large btn-open-pro">
+              QUIERO SER PARTE DE DAME LA LETRA
+            </button>
+          </div>
+
+          <!-- Philosophy Card (Section 12 of prompt) -->
+          <div class="business-philosophy-card">
+            <div class="business-quote">
+              "Primero resolvemos. Después construimos relaciones."
+            </div>
+            <p class="business-quote-sub">
+              Un negocio no necesariamente tiene que pagar para existir en el universo de DML. Si tenemos una solicitud y encontramos que tú tienes la solución ideal, te contactaremos para resolver la necesidad del cliente primero.
+            </p>
+            <div style="border-top: 1px solid var(--border-subtle); padding-top: 1rem; font-size: 0.85rem; color: var(--accent-light);">
+              📍 Activo en la comunidad de Louisville, Shively, Preston Hwy, Dixie Hwy y alrededores.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================================
+         7. SECCIÓN — PARA CUALQUIER TIPO DE NECESIDAD (MARQUEE)
+         ========================================================================= -->
+    <section class="section" style="padding: 3rem 0; overflow: hidden;">
+      <div class="container" style="text-align: center; margin-bottom: 1.5rem;">
+        <div class="section-tag">Amplitud de Red</div>
+        <h2 class="section-title" style="font-size: 2.2rem;">Para cualquier tipo de necesidad.</h2>
+        <p class="section-subtitle">No importa qué necesites. Si alguien puede hacerlo, te ayudamos a encontrarlo.</p>
+      </div>
+
+      <div class="marquee-container">
+        <div class="marquee-track">
+          <div class="marquee-pill">PLOMERÍA</div>
+          <div class="marquee-pill">HVAC & AIRE</div>
+          <div class="marquee-pill">MECÁNICA AUTOMOTRIZ</div>
+          <div class="marquee-pill">GRÚAS & GOMAS 24/7</div>
+          <div class="marquee-pill">ELECTRICIDAD RESIDENCIAL</div>
+          <div class="marquee-pill">ÁRBOLES & YARDS</div>
+          <div class="marquee-pill">DRYWALL & PINTURA</div>
+          <div class="marquee-pill">LIMPIEZA DE CASAS & OFICINAS</div>
+          <div class="marquee-pill">CERRAJERÍA DE EMERGENCIA</div>
+          <div class="marquee-pill">REFRIGERACIÓN COMERCIAL</div>
+          <div class="marquee-pill">COMIDA & CATERING CRIOLLO</div>
+          <div class="marquee-pill">BELLEZA & KERATINA</div>
+          <div class="marquee-pill">FOTOGRAFÍA & EVENTOS</div>
+          <div class="marquee-pill">TRANSPORTE LOCAL</div>
+          <div class="marquee-pill">EMPLEO & CONEXIONES</div>
+          <!-- Duplicate for seamless continuous loop -->
+          <div class="marquee-pill">PLOMERÍA</div>
+          <div class="marquee-pill">HVAC & AIRE</div>
+          <div class="marquee-pill">MECÁNICA AUTOMOTRIZ</div>
+          <div class="marquee-pill">GRÚAS & GOMAS 24/7</div>
+          <div class="marquee-pill">ELECTRICIDAD RESIDENCIAL</div>
+          <div class="marquee-pill">ÁRBOLES & YARDS</div>
+          <div class="marquee-pill">DRYWALL & PINTURA</div>
+          <div class="marquee-pill">LIMPIEZA DE CASAS & OFICINAS</div>
+          <div class="marquee-pill">CERRAJERÍA DE EMERGENCIA</div>
+          <div class="marquee-pill">REFRIGERACIÓN COMERCIAL</div>
+          <div class="marquee-pill">COMIDA & CATERING CRIOLLO</div>
+          <div class="marquee-pill">BELLEZA & KERATINA</div>
+          <div class="marquee-pill">FOTOGRAFÍA & EVENTOS</div>
+          <div class="marquee-pill">TRANSPORTE LOCAL</div>
+          <div class="marquee-pill">EMPLEO & CONEXIONES</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================================
+         8. SECCIÓN — EL MUNDO REAL
+         ========================================================================= -->
+    <section class="section" id="mundo-real" style="background: var(--bg-surface); border-top: 1px solid var(--border-subtle); border-bottom: 1px solid var(--border-subtle);">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-tag">Situaciones Reales</div>
+          <h2 class="section-title">El mundo real.</h2>
+          <p class="section-subtitle">Momentos cotidianos donde necesitas una solución sin perder tiempo.</p>
+        </div>
+
+        <div class="real-world-grid">
+          <div class="real-world-card">
+            <div class="real-world-situation">"Se me ponchó la goma saliendo del trabajo."</div>
+            <div class="real-world-action">➔ DML localiza asistencia inmediata con compresor y gato.</div>
+          </div>
+
+          <div class="real-world-card">
+            <div class="real-world-situation">"Necesito un fotógrafo para unos 15 años este sábado."</div>
+            <div class="real-world-action">➔ DML busca fotógrafos con fecha libre y portafolio local.</div>
+          </div>
+
+          <div class="real-world-card">
+            <div class="real-world-situation">"¿Quién hace comida cubana para 50 personas?"</div>
+            <div class="real-world-action">➔ DML conecta con servicios de catering y cocineros.</div>
+          </div>
+
+          <div class="real-world-card">
+            <div class="real-world-situation">"No enfría la nevera comercial de mi restaurante."</div>
+            <div class="real-world-action">➔ DML contacta técnico especializado en refrigeración comercial.</div>
+          </div>
+
+          <div class="real-world-card">
+            <div class="real-world-situation">"Tengo una rama enorme a punto de caer sobre el techo."</div>
+            <div class="real-world-action">➔ DML busca cuadrilla de tree service con grúa disponible hoy.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================================
+         9. SECCIÓN — DISPONIBILIDAD REAL
+         ========================================================================= -->
+    <section class="section">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-tag">Cero Fricción para Proveedores</div>
+          <h2 class="section-title">Entendemos cómo trabajas en la vida real.</h2>
+          <p class="section-subtitle">Sin paneles complicados. Los profesionales gestionan su día escribiendo con naturalidad.</p>
+        </div>
+
+        <div class="availability-grid">
+          <div class="avail-card">
+            <div class="avail-provider-speech">Proveedor: "Hoy no trabajo."</div>
+            <div class="avail-dml-reaction">✓ DISPONIBILIDAD PAUSADA AUTOMÁTICAMENTE</div>
+          </div>
+
+          <div class="avail-card">
+            <div class="avail-provider-speech">Proveedor: "Hoy descanso hasta las 12."</div>
+            <div class="avail-dml-reaction">✓ DISPONIBLE A PARTIR DE LAS 12:00 PM</div>
+          </div>
+
+          <div class="avail-card">
+            <div class="avail-provider-speech">Proveedor: "Hoy solo quiero hacer dos trabajos."</div>
+            <div class="avail-dml-reaction">✓ CAPACIDAD DEL DÍA FIJADA EN 2 TRABAJOS</div>
+          </div>
+
+          <div class="avail-card">
+            <div class="avail-provider-speech">Proveedor: "Después de las 2 no me mandes nada."</div>
+            <div class="avail-dml-reaction">✓ SIN SOLICITUDES DESPUÉS DE LAS 2:00 PM</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================================
+         10. SECCIÓN — HUMANO POR FUERA, SISTEMA POR DENTRO
+         ========================================================================= -->
+    <section class="section" style="background: var(--bg-surface); border-top: 1px solid var(--border-subtle); border-bottom: 1px solid var(--border-subtle); text-align: center;">
+      <div class="container" style="max-width: 820px;">
+        <div class="section-tag">Nuestra Esencia</div>
+        <h2 class="section-title">Humano por fuera.<br>Sistema por dentro.</h2>
+        <p class="section-subtitle" style="font-size: 1.25rem; line-height: 1.7; color: var(--text-main); margin-bottom: 1.5rem;">
+          Puede sentirse como preguntarle a esa persona que conoce a todo el mundo. Pero detrás existe una red que organiza la información, disponibilidad y conexiones para que todo suceda rápido y bien.
+        </p>
+        <p style="color: var(--accent-light); font-weight: 600; font-size: 1.1rem;">
+          La tecnología desaparece detrás de una experiencia humana.
+        </p>
+      </div>
+    </section>
+
+    <!-- =========================================================================
+         11. SECCIÓN — NO SABEMOS TODO (HONESTIDAD)
+         ========================================================================= -->
+    <section class="section" id="honestidad">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-tag">Transparencia Radical</div>
+          <h2 class="section-title">No sabemos todo.<br>Pero podemos buscar.</h2>
+          <p class="section-subtitle">No fingimos omnisciencia. La honestidad es parte fundamental de nuestra red.</p>
+        </div>
+
+        <div class="honesty-status-grid">
+          <div class="status-badge-card">
+            <div class="status-pill-head confirmed">🟢 CONFIRMADO</div>
+            <p class="status-card-desc">
+              Si tenemos a un proveedor verificado en nuestra red activa con disponibilidad confirmada, te conectamos directamente.
+            </p>
+          </div>
+
+          <div class="status-badge-card">
+            <div class="status-pill-head found">🟡 ENCONTRADO</div>
+            <p class="status-card-desc">
+              Si no tenemos a alguien directo en la red, buscamos y localizamos una opción externa capaz para ayudarte a resolver.
+            </p>
+          </div>
+
+          <div class="status-badge-card">
+            <div class="status-pill-head notfound">⚪ NO ENCONTRADO</div>
+            <p class="status-card-desc">
+              Y si no encontramos una opción confiable y segura, te lo decimos de frente. Sin rodeos ni falsas promesas.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================================
+         12. SECCIÓN — PRINCIPIOS DE CONFIANZA
+         ========================================================================= -->
+    <section class="section" style="padding-top: 0;">
+      <div class="container">
+        <div class="trust-principles-grid">
+          <div class="principle-item">🛡️ Sin cuentas innecesarias</div>
+          <div class="principle-item">⚡ Sin búsquedas interminables</div>
+          <div class="principle-item">🗣️ Sin tecnicismos</div>
+          <div class="principle-item">📍 Sin necesidad de saber a quién buscar</div>
+          <div class="principle-item">✨ Solo dime qué necesitas</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================================
+         13. SECCIÓN — CTA FINAL PODEROSO
+         ========================================================================= -->
+    <section class="final-cta-section">
+      <div class="container">
+        <div class="final-cta-box">
+          <h2 class="final-cta-headline">¿No sabes quién lo hace?</h2>
+          <div class="final-cta-brand">DAME LA LETRA.</div>
+          
+          <p class="final-cta-desc">
+            Tú dime qué necesitas.<br>
+            Nosotros buscamos quién puede ayudarte.
+          </p>
+
+          <div class="hero-cta-group" style="justify-content: center; margin-bottom: 0;">
+            <button class="btn-primary btn-large btn-open-concierge">
+              DAME LA LETRA
+            </button>
+            <button class="btn-secondary btn-large btn-open-pro">
+              SOY NEGOCIO
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- =========================================================================
+       14. FOOTER MINIMALISTA
+       ========================================================================= -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand-col">
+          <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.85rem;">
+            <img src="/assets/logo.png" alt="DML Logo" style="height: 32px; width: auto;">
+            <span style="font-family: var(--font-heading); font-weight: 800; font-size: 1.15rem; color: var(--text-main);">DAME LA LETRA</span>
+          </div>
+          <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 1rem;">
+            Red local de conexión comunitaria en Louisville, KY.<br>
+            ¿No sabes quién lo hace? Dame la Letra.
+          </p>
+          <div style="font-size: 0.8rem; color: var(--accent-gold); font-weight: 600;">
+            WhatsApp / SMS: +1 (502) 673-1333
+          </div>
+        </div>
+
+        <div class="footer-links-col">
+          <div class="footer-links-group">
+            <span class="footer-group-title">Experiencia</span>
+            <a href="#como-funciona" class="footer-link">¿Cómo funciona?</a>
+            <a href="#el-problema" class="footer-link">El Problema</a>
+            <a href="#mundo-real" class="footer-link">El Mundo Real</a>
+            <a href="#honestidad" class="footer-link">Honestidad y Confianza</a>
+          </div>
+
+          <div class="footer-links-group">
+            <span class="footer-group-title">Proveedores</span>
+            <a href="#para-negocios" class="footer-link">Para Negocios</a>
+            <button class="footer-link btn-open-pro" style="text-align: left; padding: 0;">Unir mi negocio</button>
+            <a href="/provider.html" class="footer-link" style="opacity: 0.6;" title="Portal de simulación y gestión de proveedores">Simulador de Proveedor</a>
+            <a href="/admin.html" class="footer-link" style="opacity: 0.6;" title="Centro de despacho concierge">Despacho Concierge</a>
+          </div>
+
+          <div class="footer-links-group">
+            <span class="footer-group-title">Contacto</span>
+            <a href="https://wa.me/15026731333" target="_blank" rel="noopener" class="footer-link">WhatsApp (+1 502-673-1333)</a>
+            <span class="footer-link" style="opacity: 0.7;">Louisville, Kentucky</span>
+          </div>
         </div>
       </div>
 
-      <div class="chat-input-bar">
-        <input type="text" id="customer-input" class="chat-input" placeholder="Ej: Se me ponchó la goma en Dixie Hwy..." autofocus>
-        <button id="send-btn" class="btn-send">Enviar</button>
+      <div class="footer-bottom-bar">
+        <div>© 2026 DAME LA LETRA. Todos los derechos reservados.</div>
+        <div style="display: flex; gap: 1.5rem;">
+          <span style="opacity: 0.6;">Términos de Servicio</span>
+          <span style="opacity: 0.6;">Política de Privacidad</span>
+        </div>
       </div>
     </div>
+  </footer>
 
-    <div class="example-chips">
-      <button class="chip-btn" data-text="Se me ponchó la goma en Dixie Hwy">?? "Se me ponchó la goma en Dixie"</button>
-      <button class="chip-btn" data-text="El aire no me está enfriando y la casa está hirviendo">?? "El aire no me está enfriando"</button>
-      <button class="chip-btn" data-text="Tengo una tremenda tupición en el fregadero de mi oficina">?? "Tupición en oficina"</button>
-      <button class="chip-btn" data-text="Necesito podar un árbol grande antes de que caiga">?? "Cortar un árbol"</button>
-      <button class="chip-btn" data-text="Se me fue la luz en media casa">? "Se me fue la luz"</button>
-      <button class="chip-btn" data-text="Necesito una grúa industrial pesada de 50 toneladas">??? "Grúa industrial (Fallback)"</button>
+  <!-- =========================================================================
+       MODAL 1: CONCIERGE ("DAME LA LETRA")
+       ========================================================================= -->
+  <div class="modal-backdrop" id="modal-concierge" role="dialog" aria-modal="true" aria-labelledby="modal-concierge-title">
+    <div class="modal-dialog">
+      <button class="modal-close-btn" aria-label="Cerrar modal">&times;</button>
+      <div class="modal-title" id="modal-concierge-title">Dime qué necesitas.</div>
+      <div class="modal-subtitle">
+        Escríbelo como hablas. Te conectamos por WhatsApp o SMS con la opción adecuada en Louisville.
+      </div>
+
+      <form class="modal-form" id="form-concierge">
+        <div class="form-group">
+          <label for="concierge-need-input" class="form-label">¿Qué necesitas resolver?</label>
+          <textarea id="concierge-need-input" class="form-textarea" rows="3" placeholder="Ej: Se me ponchó la goma en Dixie Hwy / El aire no enfría / Necesito podar un árbol..." required autofocus></textarea>
+        </div>
+
+        <button type="submit" class="btn-primary btn-large" style="width: 100%;">
+          💬 Enviar a Dame La Letra (WhatsApp)
+        </button>
+
+        <div style="font-size: 0.75rem; color: var(--text-dim); text-align: center;">
+          También puedes escribir directamente por SMS al <strong>+1 (502) 673-1333</strong>
+        </div>
+      </form>
     </div>
-  </main>
+  </div>
 
-  <script src="/js/customer.js"></script>
+  <!-- =========================================================================
+       MODAL 2: PRO ONBOARDING ("SOY NEGOCIO")
+       ========================================================================= -->
+  <div class="modal-backdrop" id="modal-pro" role="dialog" aria-modal="true" aria-labelledby="modal-pro-title">
+    <div class="modal-dialog">
+      <button class="modal-close-btn" aria-label="Cerrar modal">&times;</button>
+      <div class="modal-title" id="modal-pro-title">Únete a la red local.</div>
+      <div class="modal-subtitle">
+        Recibe solicitudes relevantes en Louisville sin tener que perseguir clientes.
+      </div>
+
+      <form class="modal-form" id="form-pro">
+        <div class="form-group">
+          <label for="pro-name-input" class="form-label">Tu Nombre o Nombre del Negocio</label>
+          <input type="text" id="pro-name-input" class="form-input" placeholder="Ej: José Martínez (Plomería Martínez)" required>
+        </div>
+
+        <div class="form-group">
+          <label for="pro-trade-input" class="form-label">Oficio o Servicio Principal</label>
+          <input type="text" id="pro-trade-input" class="form-input" placeholder="Ej: Plomería / HVAC / Cerrajería / Grúa..." required>
+        </div>
+
+        <div class="form-group">
+          <label for="pro-phone-input" class="form-label">Teléfono de Contacto (Louisville / WhatsApp)</label>
+          <input type="tel" id="pro-phone-input" class="form-input" placeholder="+1 (502) ..." required>
+        </div>
+
+        <button type="submit" class="btn-primary btn-large" style="width: 100%;">
+          🤝 Conectar mi Negocio a la Red
+        </button>
+
+        <div style="font-size: 0.75rem; color: var(--text-dim); text-align: center;">
+          Primero resolvemos. Después construimos relaciones.
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="/js/landing.js"></script>
 </body>
 </html>
-
