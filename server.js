@@ -23,6 +23,17 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false })); // Needed for Twilio Webhooks
 app.use(express.static(path.join(__dirname, "public")));
 
+// Direct Page Routes
+app.get(["/simulator", "/simulator.html"], (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "simulator.html"));
+});
+app.get(["/admin", "/admin.html"], (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "admin.html"));
+});
+app.get(["/provider", "/provider.html"], (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "provider.html"));
+});
+
 // Health check
 app.get(["/api/health", "/health"], (req, res) => {
   res.json({

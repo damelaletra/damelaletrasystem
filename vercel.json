@@ -14,6 +14,14 @@
       "destination": "/public/js/$1"
     },
     {
+      "source": "/simulator.html",
+      "destination": "/public/simulator.html"
+    },
+    {
+      "source": "/simulator",
+      "destination": "/public/simulator.html"
+    },
+    {
       "source": "/provider.html",
       "destination": "/public/provider.html"
     },
