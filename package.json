@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node server.js",
     "dev": "node server.js",
+    "simulate": "node scripts/simulate.js",
     "test": "node test/suite.js"
   },
   "dependencies": {

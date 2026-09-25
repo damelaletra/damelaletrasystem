@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Laboratorio de Pruebas y Simulador Dual — DML</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800;900&family=Playfair+Display:wght@600;700;800&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    :root {
+      --wa-bg: #0b141a;
+      --wa-header: #202c33;
+      --wa-bubble-in: #202c33;
+      --wa-bubble-out: #005c4b;
+      --wa-text: #e9edef;
+      --wa-meta: #8696a0;
+      --wa-input: #2a3942;
+    }
+
+    body {
+      background: #0f1117;
+      color: #e2e8f0;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+    }
+
+    .lab-header {
+      background: #181b24;
+      border-bottom: 1px solid #2d3343;
+      padding: 0.85rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .lab-title {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .lab-title h1 {
+      margin: 0;
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: -0.02em;
+    }
+
+    .lab-badge {
+      background: #8f1d14;
+      color: white;
+      font-size: 0.7rem;
+      font-weight: 800;
+      padding: 0.2rem 0.6rem;
+      border-radius: 9999px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .lab-nav {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .lab-nav a {
+      color: #94a3b8;
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 600;
+      padding: 0.4rem 0.8rem;
+      border-radius: 6px;
+      transition: all 0.2s;
+    }
+
+    .lab-nav a:hover, .lab-nav a.active {
+      color: #ffffff;
+      background: #282f3f;
+    }
+
+    .lab-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    /* Preset Buttons Bar */
+    .presets-card {
+      background: #181b24;
+      border: 1px solid #2d3343;
+      border-radius: 12px;
+      padding: 1rem 1.25rem;
+    }
+
+    .presets-title {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #94a3b8;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.75rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .presets-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .preset-btn {
+      background: #222734;
+      color: #cbd5e1;
+      border: 1px solid #333b4e;
+      padding: 0.45rem 0.85rem;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .preset-btn:hover {
+      background: #8f1d14;
+      color: white;
+      border-color: #8f1d14;
+      transform: translateY(-1px);
+    }
+
+    /* Dual Phone + HUD Layout */
+    .sim-layout {
+      display: grid;
+      grid-template-columns: 1fr 340px 1fr;
+      gap: 1.25rem;
+      align-items: start;
+    }
+
+    @media (max-width: 1100px) {
+      .sim-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* WhatsApp Phone Mockup */
+    .wa-phone {
+      background: var(--wa-bg);
+      border: 2px solid #2d3343;
+      border-radius: 20px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      height: 640px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+    }
+
+    .wa-topbar {
+      background: var(--wa-header);
+      padding: 0.75rem 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .wa-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #8f1d14;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 0.9rem;
+    }
+
+    .wa-meta-info {
+      flex: 1;
+    }
+
+    .wa-name {
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: var(--wa-text);
+      line-height: 1.2;
+    }
+
+    .wa-status {
+      font-size: 0.75rem;
+      color: #00a884;
+    }
+
+    .wa-messages {
+      flex: 1;
+      padding: 1rem;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      background-image: radial-gradient(rgba(255,255,255,0.03) 1px, transparent 0);
+      background-size: 16px 16px;
+    }
+
+    .wa-bubble {
+      max-width: 82%;
+      padding: 0.6rem 0.85rem;
+      border-radius: 10px;
+      font-size: 0.88rem;
+      line-height: 1.4;
+      position: relative;
+      word-wrap: break-word;
+    }
+
+    .wa-bubble.in {
+      align-self: flex-start;
+      background: var(--wa-bubble-in);
+      color: var(--wa-text);
+      border-top-left-radius: 2px;
+    }
+
+    .wa-bubble.out {
+      align-self: flex-end;
+      background: var(--wa-bubble-out);
+      color: var(--wa-text);
+      border-top-right-radius: 2px;
+    }
+
+    .wa-bubble-time {
+      font-size: 0.68rem;
+      color: var(--wa-meta);
+      float: right;
+      margin-left: 0.5rem;
+      margin-top: 0.3rem;
+    }
+
+    .wa-input-area {
+      background: var(--wa-header);
+      padding: 0.6rem 0.75rem;
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+    }
+
+    .wa-input {
+      flex: 1;
+      background: var(--wa-input);
+      border: none;
+      color: var(--wa-text);
+      padding: 0.65rem 0.9rem;
+      border-radius: 20px;
+      font-size: 0.88rem;
+      outline: none;
+      font-family: inherit;
+    }
+
+    .wa-send-btn {
+      background: #00a884;
+      color: white;
+      border: none;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: transform 0.1s;
+    }
+
+    .wa-send-btn:hover {
+      transform: scale(1.05);
+    }
+
+    .wa-quick-actions {
+      padding: 0.5rem 0.75rem;
+      background: #141b21;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      display: flex;
+      gap: 0.4rem;
+      overflow-x: auto;
+    }
+
+    .wa-action-chip {
+      background: #202c33;
+      color: #94a3b8;
+      border: 1px solid #2d3d47;
+      padding: 0.3rem 0.65rem;
+      border-radius: 12px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      white-space: nowrap;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .wa-action-chip:hover {
+      background: #00a884;
+      color: white;
+      border-color: #00a884;
+    }
+
+    /* Center AI HUD */
+    .ai-hud {
+      background: #181b24;
+      border: 1px solid #2d3343;
+      border-radius: 16px;
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+
+    .hud-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #2d3343;
+      padding-bottom: 0.75rem;
+    }
+
+    .hud-header h2 {
+      margin: 0;
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .stat-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.4rem 0;
+      border-bottom: 1px dashed rgba(255,255,255,0.08);
+      font-size: 0.82rem;
+    }
+
+    .stat-label {
+      color: #94a3b8;
+      font-weight: 600;
+    }
+
+    .stat-val {
+      color: #38bdf8;
+      font-weight: 700;
+      font-family: 'Fira Code', monospace;
+    }
+
+    .status-badge {
+      display: inline-block;
+      padding: 0.2rem 0.6rem;
+      border-radius: 9999px;
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+    }
+
+    .status-new { background: #334155; color: #94a3b8; }
+    .status-waiting { background: #854d0e; color: #fef08a; }
+    .status-connected { background: #14532d; color: #86efac; }
+    .status-fallback { background: #7c2d12; color: #fdba74; }
+
+    /* Feedback / Eval Box */
+    .eval-box {
+      background: #11141c;
+      border: 1px solid #252b3b;
+      border-radius: 10px;
+      padding: 0.85rem;
+      margin-top: 0.5rem;
+    }
+
+    .eval-title {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #cbd5e1;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.5rem;
+    }
+
+    .eval-buttons {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .eval-btn {
+      flex: 1;
+      padding: 0.45rem;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.3rem;
+      transition: all 0.15s;
+    }
+
+    .eval-btn.good { background: #1e3a2f; color: #4ade80; border: 1px solid #22c55e; }
+    .eval-btn.good:hover { background: #22c55e; color: black; }
+
+    .eval-btn.bad { background: #3d1d1d; color: #f87171; border: 1px solid #ef4444; }
+    .eval-btn.bad:hover { background: #ef4444; color: white; }
+
+    .json-preview {
+      background: #090b10;
+      border: 1px solid #1e2433;
+      border-radius: 8px;
+      padding: 0.6rem;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.72rem;
+      color: #a5b4fc;
+      max-height: 120px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="lab-header">
+    <div class="lab-title">
+      <div style="background: #8f1d14; color: white; width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 900;">D</div>
+      <div>
+        <h1>DAME LA LETRA — Testing Lab & Simulador Dual</h1>
+      </div>
+      <span class="lab-badge">Gemini AI Active</span>
+    </div>
+
+    <nav class="lab-nav">
+      <a href="/simulator.html" class="active">🧪 Simulador Dual</a>
+      <a href="/admin.html">🎛️ Despacho Concierge</a>
+      <a href="/">🏠 Portal Cliente</a>
+      <a href="/provider.html">📲 Portal Técnico</a>
+    </nav>
+  </header>
+
+  <div class="lab-container">
+    
+    <!-- Presets Bar -->
+    <div class="presets-card">
+      <div class="presets-title">
+        <span>⚡ Casos de Prueba Rápidos (Haz clic para probar en vivo):</span>
+        <button id="btn-reset-db" style="background: #334155; color: white; border: none; font-size: 0.75rem; padding: 0.25rem 0.6rem; border-radius: 4px; cursor: pointer;">🔄 Reiniciar Base de Datos</button>
+      </div>
+      <div class="presets-grid">
+        <button class="preset-btn" data-msg="Asere se me tupió el fregadero en Dixie">🇨🇺 Tupición (Cubano)</button>
+        <button class="preset-btn" data-msg="El aire no tira frío y hace tremendo calor">❄️ AC no enfría (HVAC)</button>
+        <button class="preset-btn" data-msg="Se me ponchó una goma en Preston Hwy">🚗 Goma ponchada (Roadside)</button>
+        <button class="preset-btn" data-msg="Dejé las llaves adentro de la troca en St. Matthews">🔑 Llaves adentro (Cerrajería)</button>
+        <button class="preset-btn" data-msg="Tengo tremenda gotera botándose en el techo">🏠 Gotera / Techo (Roofing)</button>
+        <button class="preset-btn" data-msg="Quiero pintar una casa de 4 cuartos">🎨 Pintar casa (Handyman)</button>
+        <button class="preset-btn" data-msg="Se me fue la luz en media casa">⚡ Breaker quemado (Electricidad)</button>
+        <button class="preset-btn" data-msg="Se rompió la máquina de hielo en el restaurante">🏢 Refri Comercial (Comercial)</button>
+        <button class="preset-btn" data-msg="Necesito una grúa pesada para levantar una viga">🏗️ Grúa Pesada (Fallback Externo)</button>
+      </div>
+    </div>
+
+    <!-- Dual Simulation + AI HUD -->
+    <div class="sim-layout">
+      
+      <!-- Phone 1: Cliente -->
+      <div class="wa-phone">
+        <div class="wa-topbar">
+          <div class="wa-avatar">DML</div>
+          <div class="wa-meta-info">
+            <div class="wa-name">Dame La Letra Concierge</div>
+            <div class="wa-status">● en línea (+1 502-673-1333)</div>
+          </div>
+          <span style="font-size: 0.75rem; background: #8f1d14; color: white; padding: 0.2rem 0.5rem; border-radius: 4px; font-weight: 700;">CLIENTE</span>
+        </div>
+
+        <div class="wa-messages" id="customer-chat">
+          <div class="wa-bubble in">
+            ¡Hola! Dime qué servicio necesitas en Louisville y te encuentro al especialista verificado indicado en minutos.
+            <span class="wa-bubble-time">DML</span>
+          </div>
+        </div>
+
+        <div class="wa-quick-actions">
+          <button class="wa-action-chip" onclick="sendCustomerQuick('Sí, dale conéctame')">👍 Sí, dale</button>
+          <button class="wa-action-chip" onclick="sendCustomerQuick('Perfecto')">✅ Perfecto</button>
+          <button class="wa-action-chip" onclick="sendCustomerQuick('Muy caro, busca otro')">👎 Muy caro</button>
+          <button class="wa-action-chip" onclick="sendCustomerQuick('Cancelar')">❌ Cancelar</button>
+        </div>
+
+        <form class="wa-input-area" id="customer-form">
+          <input type="text" class="wa-input" id="customer-input" placeholder="Escribe como cliente (ej. se me ponchó la goma)..." autocomplete="off">
+          <button type="submit" class="wa-send-btn">➤</button>
+        </form>
+      </div>
+
+      <!-- Center: AI Intelligence HUD & Evaluator -->
+      <div class="ai-hud">
+        <div class="hud-header">
+          <h2>🧠 Gemini AI Inspector</h2>
+          <span class="status-badge status-new" id="hud-status">STANDBY</span>
+        </div>
+
+        <div>
+          <div class="stat-row">
+            <span class="stat-label">Intención / Servicio:</span>
+            <span class="stat-val" id="hud-intent">—</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">Categoría:</span>
+            <span class="stat-val" id="hud-category">—</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">Ubicación Louisville:</span>
+            <span class="stat-val" id="hud-location">—</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">Urgencia:</span>
+            <span class="stat-val" id="hud-urgency">—</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">Técnico Contactado:</span>
+            <span class="stat-val" id="hud-provider" style="color: #4ade80;">—</span>
+          </div>
+        </div>
+
+        <div>
+          <div style="font-size: 0.75rem; font-weight: 700; color: #94a3b8; text-transform: uppercase; margin-bottom: 0.3rem;">Raw Analysis JSON:</div>
+          <div class="json-preview" id="hud-json">{ "status": "waiting_for_input" }</div>
+        </div>
+
+        <!-- Evaluation / Feedback box -->
+        <div class="eval-box">
+          <div class="eval-title">⭐ Calificar Interpretación:</div>
+          <div class="eval-buttons">
+            <button class="eval-btn good" onclick="recordFeedback(true)">👍 Bien entendido</button>
+            <button class="eval-btn bad" onclick="recordFeedback(false)">👎 Mal entendido</button>
+          </div>
+          <div id="eval-feedback-status" style="font-size: 0.72rem; color: #94a3b8; text-align: center; margin-top: 0.4rem;"></div>
+        </div>
+      </div>
+
+      <!-- Phone 2: Proveedor / Técnico -->
+      <div class="wa-phone">
+        <div class="wa-topbar" style="background: #1f2937;">
+          <div class="wa-avatar" style="background: #2563eb;" id="prov-avatar">JM</div>
+          <div class="wa-meta-info">
+            <div class="wa-name" id="prov-header-name">José Martínez (Plomería)</div>
+            <div class="wa-status" style="color: #60a5fa;">Técnico Louisville</div>
+          </div>
+          <span style="font-size: 0.75rem; background: #2563eb; color: white; padding: 0.2rem 0.5rem; border-radius: 4px; font-weight: 700;">PROVEEDOR</span>
+        </div>
+
+        <div class="wa-messages" id="provider-chat">
+          <div class="wa-bubble in" style="background: #1f2937;">
+            [DML Alertas]: Esperando nuevas solicitudes en tu zona...
+            <span class="wa-bubble-time">Sistema</span>
+          </div>
+        </div>
+
+        <div class="wa-quick-actions">
+          <button class="wa-action-chip" onclick="sendProviderQuick('Cobro $80 y llego en diez minutos')">⚡ $80 en 10 min</button>
+          <button class="wa-action-chip" onclick="sendProviderQuick('Son $100 llego en media hora')">⚡ $100 en 30m</button>
+          <button class="wa-action-chip" onclick="sendProviderQuick('¿Qué tamaño tiene la casa y cuántos cuartos?')">❓ Preguntar tamaño</button>
+          <button class="wa-action-chip" onclick="sendProviderQuick('No puedo hoy')">❌ No puedo</button>
+        </div>
+
+        <form class="wa-input-area" id="provider-form">
+          <input type="text" class="wa-input" id="provider-input" placeholder="Responde como técnico (ej. cobro 80 en 10m)..." autocomplete="off">
+          <button type="submit" class="wa-send-btn" style="background: #2563eb;">➤</button>
+        </form>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    let activeRequestId = null;
+    let activeProviderId = "prov-01-plumbing";
+    let clientRef = "test-client-" + Date.now();
+
+    // Elements
+    const customerChat = document.getElementById("customer-chat");
+    const providerChat = document.getElementById("provider-chat");
+    const customerInput = document.getElementById("customer-input");
+    const providerInput = document.getElementById("provider-input");
+
+    const hudStatus = document.getElementById("hud-status");
+    const hudIntent = document.getElementById("hud-intent");
+    const hudCategory = document.getElementById("hud-category");
+    const hudLocation = document.getElementById("hud-location");
+    const hudUrgency = document.getElementById("hud-urgency");
+    const hudProvider = document.getElementById("hud-provider");
+    const hudJson = document.getElementById("hud-json");
+
+    function addCustomerBubble(text, type = "in") {
+      const b = document.createElement("div");
+      b.className = "wa-bubble " + type;
+      b.innerHTML = text.replace(/\\n/g, "<br>") + `<span class="wa-bubble-time">${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>`;
+      customerChat.appendChild(b);
+      customerChat.scrollTop = customerChat.scrollHeight;
+    }
+
+    function addProviderBubble(text, type = "in") {
+      const b = document.createElement("div");
+      b.className = "wa-bubble " + type;
+      b.innerHTML = text.replace(/\\n/g, "<br>") + `<span class="wa-bubble-time">${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>`;
+      providerChat.appendChild(b);
+      providerChat.scrollTop = providerChat.scrollHeight;
+    }
+
+    async function sendCustomer(text) {
+      if (!text || !text.trim()) return;
+      addCustomerBubble(text, "out");
+      customerInput.value = "";
+
+      hudStatus.textContent = "UNDERSTANDING...";
+      hudStatus.className = "status-badge status-waiting";
+
+      try {
+        const res = await fetch("/api/customer/message", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            message: text,
+            conversationRef: clientRef,
+            channel: "WHATSAPP"
+          })
+        });
+        const data = await res.json();
+        
+        if (data.result && data.result.request) {
+          const r = data.result.request;
+          activeRequestId = r.id;
+          
+          hudStatus.textContent = r.status;
+          hudIntent.textContent = r.normalized_intent || "Detected";
+          hudCategory.textContent = r.service_category || "N/A";
+          hudLocation.textContent = r.location_raw || "Louisville Metro";
+          hudUrgency.textContent = r.urgency || "MEDIUM";
+          hudJson.textContent = JSON.stringify(r, null, 2);
+
+          if (r.status === "CONNECTED") {
+            hudStatus.className = "status-badge status-connected";
+          }
+        }
+      } catch (err) {
+        console.error("Send error:", err);
+      }
+    }
+
+    async function sendProvider(text) {
+      if (!text || !text.trim()) return;
+      addProviderBubble(text, "out");
+      providerInput.value = "";
+
+      try {
+        const res = await fetch("/api/provider/response", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            providerId: activeProviderId,
+            response: text,
+            requestId: activeRequestId
+          })
+        });
+        const data = await res.json();
+        console.log("Provider response result:", data);
+      } catch (err) {
+        console.error("Provider reply error:", err);
+      }
+    }
+
+    function sendCustomerQuick(text) {
+      sendCustomer(text);
+    }
+
+    function sendProviderQuick(text) {
+      sendProvider(text);
+    }
+
+    document.getElementById("customer-form").addEventListener("submit", (e) => {
+      e.preventDefault();
+      sendCustomer(customerInput.value);
+    });
+
+    document.getElementById("provider-form").addEventListener("submit", (e) => {
+      e.preventDefault();
+      sendProvider(providerInput.value);
+    });
+
+    // Preset buttons
+    document.querySelectorAll(".preset-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        sendCustomer(btn.getAttribute("data-msg"));
+      });
+    });
+
+    // Reset DB
+    document.getElementById("btn-reset-db").addEventListener("click", async () => {
+      if (confirm("¿Reiniciar la base de datos de pruebas a estado inicial?")) {
+        await fetch("/api/admin/reset", { method: "POST" });
+        clientRef = "test-client-" + Date.now();
+        customerChat.innerHTML = '<div class="wa-bubble in">Base de datos reiniciada. ¿Qué necesitas en Louisville?</div>';
+        providerChat.innerHTML = '<div class="wa-bubble in">[DML Alertas]: Esperando nuevas solicitudes...</div>';
+        hudStatus.textContent = "RESET";
+        hudStatus.className = "status-badge status-new";
+      }
+    });
+
+    // Live Server Sent Events (SSE)
+    const evtSource = new EventSource("/api/events");
+    evtSource.addEventListener("customer_message", (e) => {
+      const data = JSON.parse(e.data);
+      if (data.conversationRef === clientRef || data.requestId === activeRequestId) {
+        addCustomerBubble(data.text, "in");
+      }
+    });
+
+    evtSource.addEventListener("provider_briefing", (e) => {
+      const data = JSON.parse(e.data);
+      activeProviderId = data.providerId;
+      document.getElementById("prov-header-name").textContent = data.providerName;
+      document.getElementById("prov-avatar").textContent = data.providerName.slice(0, 2).toUpperCase();
+      hudProvider.textContent = data.providerName;
+      addProviderBubble(data.text, "in");
+    });
+
+    evtSource.addEventListener("request_status_update", (e) => {
+      const data = JSON.parse(e.data);
+      if (data.requestId === activeRequestId) {
+        hudStatus.textContent = data.status;
+        if (data.status === "CONNECTED") {
+          hudStatus.className = "status-badge status-connected";
+        }
+      }
+    });
+
+    function recordFeedback(isGood) {
+      const st = document.getElementById("eval-feedback-status");
+      st.textContent = isGood ? "✔ Calificación registrada: 'Bien entendido' 👏" : "✖ Calificación registrada: 'Mal entendido'. Lo analizaremos.";
+      st.style.color = isGood ? "#4ade80" : "#f87171";
+      setTimeout(() => { st.textContent = ""; }, 4000);
+    }
+  </script>
+</body>
+</html>
