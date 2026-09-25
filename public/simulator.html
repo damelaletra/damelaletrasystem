@@ -458,22 +458,57 @@
 
   <div class="lab-container">
     
-    <!-- Presets Bar -->
-    <div class="presets-card">
-      <div class="presets-title">
-        <span>⚡ Casos de Prueba Rápidos (Haz clic para probar en vivo):</span>
-        <button id="btn-reset-db" style="background: #334155; color: white; border: none; font-size: 0.75rem; padding: 0.25rem 0.6rem; border-radius: 4px; cursor: pointer;">🔄 Reiniciar Base de Datos</button>
+    <!-- 1. Free-Text Natural Input Bar (Hero) -->
+    <div class="presets-card" style="background: linear-gradient(135deg, #1e2433 0%, #151922 100%); border: 1px solid #3b82f6; box-shadow: 0 8px 24px rgba(0,0,0,0.35);">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.85rem; flex-wrap: wrap; gap: 0.5rem;">
+        <div style="display: flex; align-items: center; gap: 0.6rem;">
+          <span style="font-size: 1.25rem;">✍️</span>
+          <div>
+            <div style="font-size: 0.95rem; font-weight: 800; color: #ffffff; letter-spacing: -0.01em;">Modo Libre — Escribe lo que quieras sin elegir categorías</div>
+            <div style="font-size: 0.78rem; color: #94a3b8;">Prueba con cualquier frase coloquial, jerga cubana/latina, spanglish o problema real. La IA clasificará el oficio y buscará al técnico automáticamente.</div>
+          </div>
+        </div>
+        <div style="display: flex; gap: 0.5rem;">
+          <button id="btn-toggle-examples" onclick="toggleExamples()" style="background: #252d3d; color: #cbd5e1; border: 1px solid #3b4252; font-size: 0.75rem; font-weight: 700; padding: 0.35rem 0.75rem; border-radius: 6px; cursor: pointer;">💡 Ver Frases de Ejemplo</button>
+          <button id="btn-reset-db" style="background: #334155; color: white; border: none; font-size: 0.75rem; font-weight: 700; padding: 0.35rem 0.75rem; border-radius: 6px; cursor: pointer;">🔄 Reiniciar Red</button>
+        </div>
       </div>
-      <div class="presets-grid">
-        <button class="preset-btn" data-msg="Asere se me tupió el fregadero en Dixie">🇨🇺 Tupición (Cubano)</button>
-        <button class="preset-btn" data-msg="El aire no tira frío y hace tremendo calor">❄️ AC no enfría (HVAC)</button>
-        <button class="preset-btn" data-msg="Se me ponchó una goma en Preston Hwy">🚗 Goma ponchada (Roadside)</button>
-        <button class="preset-btn" data-msg="Dejé las llaves adentro de la troca en St. Matthews">🔑 Llaves adentro (Cerrajería)</button>
-        <button class="preset-btn" data-msg="Tengo tremenda gotera botándose en el techo">🏠 Gotera / Techo (Roofing)</button>
-        <button class="preset-btn" data-msg="Quiero pintar una casa de 4 cuartos">🎨 Pintar casa (Handyman)</button>
-        <button class="preset-btn" data-msg="Se me fue la luz en media casa">⚡ Breaker quemado (Electricidad)</button>
-        <button class="preset-btn" data-msg="Se rompió la máquina de hielo en el restaurante">🏢 Refri Comercial (Comercial)</button>
-        <button class="preset-btn" data-msg="Necesito una grúa pesada para levantar una viga">🏗️ Grúa Pesada (Fallback Externo)</button>
+
+      <!-- Prominent Free-Text Form -->
+      <form id="hero-free-form" onsubmit="handleHeroSubmit(event)" style="display: flex; gap: 0.6rem; align-items: center;">
+        <input 
+          type="text" 
+          id="hero-free-input" 
+          placeholder="Escribe aquí libremente (ej. 'Asere tengo una pipa botando agua en Preston' o 'Necesito cambiar las 4 gomas a mi camioneta')..." 
+          style="flex: 1; background: #0b0f17; border: 1.5px solid #334155; border-radius: 10px; color: #ffffff; padding: 0.85rem 1.1rem; font-size: 0.95rem; outline: none; transition: border-color 0.2s;"
+          onfocus="this.style.borderColor='#3b82f6'" 
+          onblur="this.style.borderColor='#334155'"
+          autocomplete="off"
+        >
+        <button 
+          type="submit" 
+          style="background: #8f1d14; color: white; border: none; font-weight: 800; font-size: 0.9rem; padding: 0.85rem 1.4rem; border-radius: 10px; cursor: pointer; display: flex; align-items: center; gap: 0.4rem; transition: background 0.15s; white-space: nowrap;"
+          onmouseover="this.style.background='#a8231a'" 
+          onmouseout="this.style.background='#8f1d14'"
+        >
+          🚀 Probar Mensaje
+        </button>
+      </form>
+
+      <!-- Collapsible Examples Drawer -->
+      <div id="examples-drawer" style="display: none; margin-top: 1rem; padding-top: 0.85rem; border-top: 1px dashed #2d3343;">
+        <div style="font-size: 0.75rem; font-weight: 700; color: #64748b; text-transform: uppercase; margin-bottom: 0.5rem;">Ideas rápidas si quieres hacer clic:</div>
+        <div class="presets-grid">
+          <button class="preset-btn" data-msg="Asere se me tupió el fregadero en Dixie">🇨🇺 "Asere se me tupió el fregadero en Dixie"</button>
+          <button class="preset-btn" data-msg="El aire no tira frío y hace tremendo calor">❄️ "El aire no tira frío y hace tremendo calor"</button>
+          <button class="preset-btn" data-msg="Se me ponchó una goma en Preston Hwy">🚗 "Se me ponchó una goma en Preston Hwy"</button>
+          <button class="preset-btn" data-msg="Dejé las llaves adentro de la troca en St. Matthews">🔑 "Dejé las llaves adentro de la troca en St. Matthews"</button>
+          <button class="preset-btn" data-msg="Tengo tremenda gotera botándose en el techo">🏠 "Tengo tremenda gotera botándose en el techo"</button>
+          <button class="preset-btn" data-msg="Quiero pintar una casa de 4 cuartos">🎨 "Quiero pintar una casa de 4 cuartos"</button>
+          <button class="preset-btn" data-msg="Se me fue la luz en media casa">⚡ "Se me fue la luz en media casa"</button>
+          <button class="preset-btn" data-msg="Se rompió la máquina de hielo en el restaurante">🏢 "Se rompió la máquina de hielo en el restaurante"</button>
+          <button class="preset-btn" data-msg="Necesito una grúa pesada para levantar una viga">🏗️ "Necesito una grúa pesada para levantar una viga"</button>
+        </div>
       </div>
     </div>
 
@@ -705,6 +740,27 @@
       e.preventDefault();
       sendProvider(providerInput.value);
     });
+
+    function handleHeroSubmit(e) {
+      e.preventDefault();
+      const inp = document.getElementById("hero-free-input");
+      if (inp && inp.value.trim()) {
+        sendCustomer(inp.value.trim());
+        inp.value = "";
+      }
+    }
+
+    function toggleExamples() {
+      const drawer = document.getElementById("examples-drawer");
+      const btn = document.getElementById("btn-toggle-examples");
+      if (drawer.style.display === "none" || !drawer.style.display) {
+        drawer.style.display = "block";
+        btn.textContent = "✖ Ocultar Ejemplos";
+      } else {
+        drawer.style.display = "none";
+        btn.textContent = "💡 Ver Frases de Ejemplo";
+      }
+    }
 
     // Preset buttons
     document.querySelectorAll(".preset-btn").forEach(btn => {
