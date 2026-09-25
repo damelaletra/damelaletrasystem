@@ -54,11 +54,13 @@ class ChannelHub extends EventEmitter {
     this.broadcast("customer_message", messageObj);
     this.emit("customer_message", messageObj);
 
-    // Real Twilio Dispatch to Customer (Strictly from +15026731333, never in test mode)
+    // Real Twilio Dispatch to Customer (Only for real external inbound channels SMS/WHATSAPP)
+    const isRealExternalCustomer = request.channel === "SMS" || request.channel === "WHATSAPP";
     if (
       process.env.NODE_ENV !== "test" &&
       !this.disableTwilioForTesting &&
       this.twilioClient &&
+      isRealExternalCustomer &&
       request.conversation_reference &&
       request.conversation_reference.startsWith("+1")
     ) {
@@ -105,11 +107,13 @@ class ChannelHub extends EventEmitter {
     this.broadcast("provider_briefing", briefingObj);
     this.emit("provider_briefing", briefingObj);
 
-    // Real Twilio Dispatch to Provider (Strictly to target provider, never in test mode)
+    // Real Twilio Dispatch to Provider (Only for real external customer requests, NEVER for WEB simulator testing)
+    const isRealExternalRequest = request && (request.channel === "SMS" || request.channel === "WHATSAPP");
     if (
       process.env.NODE_ENV !== "test" &&
       !this.disableTwilioForTesting &&
       this.twilioClient &&
+      isRealExternalRequest &&
       provider.phone &&
       provider.phone.startsWith("+1")
     ) {
