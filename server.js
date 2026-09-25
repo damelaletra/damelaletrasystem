@@ -10,6 +10,8 @@ import { channels } from "./src/core/channels.js";
 import { getObservabilityMetrics } from "./src/core/observability.js";
 import { stripeService } from "./src/core/stripeService.js";
 
+import { providerOnboarding } from "./src/core/providerOnboarding.js";
+
 dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
@@ -69,7 +71,7 @@ app.post(["/api/webhooks/twilio", "/webhooks/twilio"], async (req, res) => {
 
     console.log(`[TWILIO WEBHOOK] Inbound ${channel} from ${cleanPhone}: "${bodyText}"`);
 
-    // 1. Check if sender is a registered provider with an active pending request waiting for their response
+    // 1. Check if sender is a registered provider
     const provider = db.getProviderByPhone(cleanPhone);
     const waitingReq = provider ? db.getActiveWaitingRequestForPhone(cleanPhone) : null;
 
@@ -78,6 +80,9 @@ app.post(["/api/webhooks/twilio", "/webhooks/twilio"], async (req, res) => {
       const resolvedProvider = db.getProviderById(activeProviderId) || provider;
       console.log(`[TWILIO WEBHOOK] Inbound identified as Provider Quote: ${resolvedProvider.name} (${cleanPhone}) for request: ${waitingReq.id}`);
       await cascadingEngine.handleProviderResponse(activeProviderId, bodyText, waitingReq.id);
+    } else if (provider && !waitingReq) {
+      console.log(`[TWILIO WEBHOOK] Inbound identified as Provider Conversational Onboarding: ${provider.name} (${cleanPhone})`);
+      await providerOnboarding.handleProviderDirectMessage(provider, bodyText, channel);
     } else {
       console.log(`[TWILIO WEBHOOK] Processing as Customer request from ${cleanPhone}: "${bodyText}"`);
       await stateMachine.processCustomerInput(bodyText, channel, cleanPhone);
@@ -107,7 +112,7 @@ app.post(["/api/customer/message", "/customer/message"], async (req, res) => {
   }
 });
 
-// 4. Provider Response Gateway (Web Simulator Gateway)
+// 4. Provider Response Gateway (Web Simulator Gateway for Quotes)
 app.post(["/api/provider/response", "/provider/response"], async (req, res) => {
   try {
     const { providerId, response, requestId } = req.body;
@@ -119,6 +124,22 @@ app.post(["/api/provider/response", "/provider/response"], async (req, res) => {
     return res.json({ success: true, result });
   } catch (err) {
     console.error("[API] Provider response error:", err);
+    return res.status(500).json({ error: err.message });
+  }
+});
+
+// 4.1 Provider Direct Conversational Message (Profile Updates & Onboarding)
+app.post(["/api/provider/message", "/provider/message"], async (req, res) => {
+  try {
+    const { providerId, message, channel = "WHATSAPP" } = req.body;
+    const provider = db.getProviderById(providerId) || db.getProviderByPhone(providerId);
+    if (!provider) {
+      return res.status(404).json({ error: "Provider not found" });
+    }
+    const result = await providerOnboarding.handleProviderDirectMessage(provider, message, channel);
+    return res.json({ success: true, result });
+  } catch (err) {
+    console.error("[API] Provider direct message error:", err);
     return res.status(500).json({ error: err.message });
   }
 });

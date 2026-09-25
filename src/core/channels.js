@@ -140,9 +140,71 @@ class ChannelHub extends EventEmitter {
     return briefingObj;
   }
 
+  async sendProviderDirectMessage(provider, text, meta = {}) {
+    const msgObj = {
+      id: "prov-msg-" + Date.now(),
+      recipient: "PROVIDER",
+      providerId: provider.id,
+      providerName: provider.name,
+      channel: provider.preferred_channel || "WHATSAPP",
+      phone: provider.phone,
+      text: text,
+      timestamp: new Date().toISOString(),
+      ...meta
+    };
+
+    console.log(`[CHANNEL -> PROVIDER DIRECT (${provider.preferred_channel})] To: ${provider.name} (${provider.phone}) | "${text}"`);
+    this.broadcast("provider_direct_message", msgObj);
+    this.emit("provider_direct_message", msgObj);
+
+    if (
+      process.env.NODE_ENV !== "test" &&
+      !this.disableTwilioForTesting &&
+      this.twilioClient &&
+      provider.phone &&
+      provider.phone.startsWith("+1")
+    ) {
+      try {
+        const isWhatsApp = provider.preferred_channel === "WHATSAPP";
+        const toNumber = isWhatsApp
+          ? `whatsapp:${provider.phone}`
+          : provider.phone;
+        const fromNumber = isWhatsApp
+          ? `whatsapp:${process.env.TWILIO_PHONE_NUMBER}`
+          : process.env.TWILIO_PHONE_NUMBER;
+
+        let twilioMsg;
+        try {
+          twilioMsg = await this.twilioClient.messages.create({
+            body: text,
+            from: fromNumber,
+            to: toNumber
+          });
+          console.log(`[TWILIO -> PROVIDER DIRECT SUCCESS] SID: ${twilioMsg.sid} to ${provider.name} (${toNumber})`);
+        } catch (waErr) {
+          if (isWhatsApp) {
+            console.warn(`[TWILIO -> PROVIDER DIRECT] WhatsApp sender not active yet, falling back to SMS:`, waErr.message);
+            twilioMsg = await this.twilioClient.messages.create({
+              body: text,
+              from: process.env.TWILIO_PHONE_NUMBER,
+              to: provider.phone
+            });
+            console.log(`[TWILIO -> PROVIDER DIRECT SMS FALLBACK SUCCESS] SID: ${twilioMsg.sid} to ${provider.name} (${provider.phone})`);
+          } else {
+            throw waErr;
+          }
+        }
+      } catch (err) {
+        console.error(`[TWILIO -> PROVIDER DIRECT ERROR] Failed to send to ${provider.phone}:`, err.message);
+      }
+    }
+
+    return msgObj;
+  }
+
   notifyStatusUpdate(request, status, meta = {}) {
     const payload = {
-      requestId: request.id,
+      requestId: request ? request.id : null,
       status: status,
       timestamp: new Date().toISOString(),
       ...meta

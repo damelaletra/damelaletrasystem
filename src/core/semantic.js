@@ -185,7 +185,22 @@ const SERVICE_PATTERNS = [
     defaultIntent: "LOCKSMITH_SERVICE"
   },
 
-  // 11. Heavy Fallbacks
+  // 11. Tech, Software Development & Design (Miguel Sosa)
+  {
+    category: "TECH_SOFTWARE",
+    service_type: "SOFTWARE_DEVELOPMENT",
+    keywords: [
+      "software", "programador", "developer", "desarrollo", "código", "programar",
+      "página web", "pagina web", "sitio web", "website", "web", "diseño web",
+      "diseñador", "designer", "ui/ux", "figma", "app", "aplicación", "aplicacion",
+      "tienda online", "ecommerce", "shopify", "nextjs", "react", "ia", "inteligencia artificial",
+      "logo", "branding", "sistema", "plataforma"
+    ],
+    urgency: "MEDIUM",
+    defaultIntent: "SOFTWARE_DEVELOPMENT"
+  },
+
+  // 12. Heavy Fallbacks
   {
     category: "CRANE_RIGGING",
     service_type: "CRANE_SERVICE",

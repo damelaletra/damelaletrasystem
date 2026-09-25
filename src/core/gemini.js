@@ -135,6 +135,100 @@ Devuelve ÚNICAMENTE un JSON con:
       return null;
     }
   }
+
+  /**
+   * Conversational Provider Profile Onboarding & Dynamic Updates
+   * Understands what business data a provider is communicating (skills, rates, availability, bio, portfolio, etc.)
+   */
+  async extractProviderProfileUpdates(rawText, currentProfile = {}) {
+    if (!this.isAvailable()) {
+      return this.heuristicProviderProfileExtraction(rawText, currentProfile);
+    }
+
+    try {
+      const prompt = `Eres el asistente de gestión de negocios y proveedores de "Dame La Letra".
+Un proveedor registrado está conversando contigo para actualizar los datos de su negocio o informarte sobre sus servicios.
+
+Mensaje del proveedor: "${rawText}"
+Perfil actual del proveedor: ${JSON.stringify(currentProfile, null, 2)}
+
+Extrae los datos actualizados y redacta una respuesta conversacional cálida, profesional y concisa en español (estilo WhatsApp).
+Devuelve ÚNICAMENTE un JSON con este formato:
+{
+  "updated_fields": {
+    "bio": string | null (resumen/descripción profesional si la menciona),
+    "services": array de strings | null (servicios nuevos o lista de habilidades como "SOFTWARE_DEVELOPMENT", "WEB_DESIGN", "REACT", "NEXTJS", "FIGMA", "SEO", "APP_DEVELOPMENT", etc.),
+    "pricing_notes": string | null (tarifas, costo por hora, costo base, presupuestos),
+    "website": string | null (url del portafolio o página web),
+    "availability_status": "AVAILABLE" | "OFF_DUTY" | "BUSY" | null,
+    "base_location_name": string | null (cobertura geográfica o modalidad remoto/presencial),
+    "preferred_channel": "WHATSAPP" | "SMS" | null
+  },
+  "summary_changes": string (breve frase de qué cambió, ej: "Actualicé tus servicios a diseño web y tus tarifas por hora"),
+  "reply_message": string (mensaje natural y profesional para enviarle al proveedor por WhatsApp confirmando lo que se guardó y preguntándole si falta algo más)
+}`;
+
+      const response = await this.client.models.generateContent({
+        model: this.modelName,
+        contents: prompt,
+        config: {
+          systemInstruction: SYSTEM_PROMPT,
+          responseMimeType: "application/json"
+        }
+      });
+
+      const parsed = JSON.parse(response.text.trim());
+      return parsed;
+    } catch (err) {
+      console.warn("[GEMINI LLM] extractProviderProfileUpdates error:", err.message);
+      return this.heuristicProviderProfileExtraction(rawText, currentProfile);
+    }
+  }
+
+  heuristicProviderProfileExtraction(rawText, currentProfile = {}) {
+    const textLower = rawText.toLowerCase();
+    const updates = {};
+    const changes = [];
+
+    // 1. Rates
+    const priceMatch = rawText.match(/\$(\d+)(\s*(?:la\s*hora|\/hr|\/hora|por\s*hora|base|mínimo))?/i);
+    if (priceMatch) {
+      updates.pricing_notes = `Tarifa: ${priceMatch[0]}`;
+      changes.push(`Tarifa: ${priceMatch[0]}`);
+    }
+
+    // 2. Status
+    if (textLower.includes("no puedo") || textLower.includes("ocupado") || textLower.includes("off duty") || textLower.includes("no disponible")) {
+      updates.availability_status = "OFF_DUTY";
+      changes.push("Estado: Ocupado / Fuera de servicio");
+    } else if (textLower.includes("disponible") || textLower.includes("libre") || textLower.includes("activo")) {
+      updates.availability_status = "AVAILABLE";
+      changes.push("Estado: Disponible");
+    }
+
+    // 3. Website / Portfolio
+    const urlMatch = rawText.match(/(https?:\/\/[^\s]+|[a-zA-Z0-9-]+\.(?:com|dev|io|net|org|app)[^\s]*)/i);
+    if (urlMatch) {
+      updates.website = urlMatch[0];
+      changes.push(`Sitio web: ${urlMatch[0]}`);
+    }
+
+    // 4. Bio / Services
+    if (rawText.length > 20) {
+      updates.bio = rawText;
+      changes.push("Descripción actualizada");
+    }
+
+    const reply = changes.length > 0
+      ? `¡Hola ${currentProfile.name || "Colega"}! He registrado las actualizaciones en tu perfil de Dame La Letra:\n• ${changes.join("\n• ")}\n\n¿Quieres agregar algún otro detalle a tu negocio?`
+      : `¡Hola ${currentProfile.name || "Colega"}! Recibí tu mensaje: "${rawText}". Tu perfil está activo en Dame La Letra. Dime si deseas cambiar tarifas, servicios o disponibilidad.`;
+
+    return {
+      updated_fields: updates,
+      summary_changes: changes.join(", ") || "Perfil revisado",
+      reply_message: reply
+    };
+  }
 }
 
 export const geminiService = new GeminiConciergeService();

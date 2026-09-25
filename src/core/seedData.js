@@ -1,9 +1,19 @@
-// Louisville, KY - 10 Founding Verified Providers (1 per key category, all routed to +15026587853 for testing)
+// Louisville, KY - Founding Verified Providers & Businesses Network
+// Miguel Sosa (+15026587853) is the exclusive software developer, designer & tech specialist.
 export const initialBusinesses = [
+  {
+    "id": "biz-miguel-sosa",
+    "name": "Miguel Sosa — Software Development & Design Studio",
+    "contact_phone": "+15026587853",
+    "contact_email": "miguel@damelaletra.com",
+    "verified_status": "VERIFIED",
+    "city": "Louisville",
+    "state": "KY"
+  },
   {
     "id": "biz-01-plumbing",
     "name": "Plomería Martínez",
-    "contact_phone": "+15026587853",
+    "contact_phone": "+15025550101",
     "contact_email": "contacto@plomeriamartinez.com",
     "verified_status": "VERIFIED",
     "city": "Louisville",
@@ -12,7 +22,7 @@ export const initialBusinesses = [
   {
     "id": "biz-02-hvac",
     "name": "Ruiz Climate & Air",
-    "contact_phone": "+15026587853",
+    "contact_phone": "+15025550102",
     "contact_email": "contacto@ruizclimate.com",
     "verified_status": "VERIFIED",
     "city": "Louisville",
@@ -21,7 +31,7 @@ export const initialBusinesses = [
   {
     "id": "biz-03-automotive",
     "name": "502 Roadside & Tire Assistance",
-    "contact_phone": "+15026587853",
+    "contact_phone": "+15025550103",
     "contact_email": "contacto@502roadside.com",
     "verified_status": "VERIFIED",
     "city": "Louisville",
@@ -30,7 +40,7 @@ export const initialBusinesses = [
   {
     "id": "biz-04-tree",
     "name": "Silva Tree & Yard Care",
-    "contact_phone": "+15026587853",
+    "contact_phone": "+15025550104",
     "contact_email": "contacto@silvatreecare.com",
     "verified_status": "VERIFIED",
     "city": "Louisville",
@@ -39,7 +49,7 @@ export const initialBusinesses = [
   {
     "id": "biz-05-electrical",
     "name": "Ramos Electric Pros",
-    "contact_phone": "+15026587853",
+    "contact_phone": "+15025550105",
     "contact_email": "contacto@ramoselectric.com",
     "verified_status": "VERIFIED",
     "city": "Louisville",
@@ -48,7 +58,7 @@ export const initialBusinesses = [
   {
     "id": "biz-06-roofing",
     "name": "Nelson Roofing & Gutters",
-    "contact_phone": "+15026587853",
+    "contact_phone": "+15025550106",
     "contact_email": "contacto@nelsonroofing.com",
     "verified_status": "VERIFIED",
     "city": "Louisville",
@@ -57,7 +67,7 @@ export const initialBusinesses = [
   {
     "id": "biz-07-handyman",
     "name": "502 Drywall & Handyman",
-    "contact_phone": "+15026587853",
+    "contact_phone": "+15025550107",
     "contact_email": "contacto@502drywall.com",
     "verified_status": "VERIFIED",
     "city": "Louisville",
@@ -66,7 +76,7 @@ export const initialBusinesses = [
   {
     "id": "biz-08-appliance",
     "name": "502 Appliance Fix",
-    "contact_phone": "+15026587853",
+    "contact_phone": "+15025550108",
     "contact_email": "contacto@502appliance.com",
     "verified_status": "VERIFIED",
     "city": "Louisville",
@@ -75,7 +85,7 @@ export const initialBusinesses = [
   {
     "id": "biz-09-cleaning",
     "name": "Derby Deep Cleaning Services",
-    "contact_phone": "+15026587853",
+    "contact_phone": "+15025550109",
     "contact_email": "contacto@derbycleaning.com",
     "verified_status": "VERIFIED",
     "city": "Louisville",
@@ -84,7 +94,7 @@ export const initialBusinesses = [
   {
     "id": "biz-10-locksmith",
     "name": "502 Quick Locksmith",
-    "contact_phone": "+15026587853",
+    "contact_phone": "+15025550110",
     "contact_email": "contacto@502locksmith.com",
     "verified_status": "VERIFIED",
     "city": "Louisville",
@@ -94,11 +104,57 @@ export const initialBusinesses = [
 
 export const initialProviders = [
   {
+    "id": "prov-miguel-sosa",
+    "business_id": "biz-miguel-sosa",
+    "name": "Miguel Sosa",
+    "display_name": "Miguel Sosa (Software & Design Studio)",
+    "phone": "+15026587853",
+    "preferred_channel": "WHATSAPP",
+    "languages": [
+      "es",
+      "en"
+    ],
+    "category": "TECH_SOFTWARE",
+    "services": [
+      "SOFTWARE_DEVELOPMENT",
+      "WEB_DEVELOPMENT",
+      "UI_UX_DESIGN",
+      "GRAPHIC_DESIGN",
+      "MOBILE_APPS",
+      "AI_INTEGRATIONS",
+      "FULL_STACK"
+    ],
+    "residential_capable": 1,
+    "commercial_capable": 1,
+    "license_status": "VERIFIED",
+    "license_details": "Senior Full-Stack Developer & UI/UX Specialist",
+    "base_location_name": "Louisville Metro & Remoto",
+    "base_latitude": 38.2527,
+    "base_longitude": -85.7585,
+    "max_radius_miles": 50,
+    "availability_status": "AVAILABLE",
+    "capacity_today": 8,
+    "capacity_used_today": 0,
+    "conditional_rules": {
+      "default_callout_fee": 75,
+      "standard_response_time_min": 15
+    },
+    "reliability_score": 1.0,
+    "avg_response_time_sec": 20,
+    "completed_connections": 100,
+    "cancelled_connections": 0,
+    "subscription_tier": "FOUNDING",
+    "priority_score": 1.0,
+    "pricing_notes": "Tarifas por hora o proyecto a convenir",
+    "bio": "Desarrollador de software y diseñador especializado en aplicaciones web modernas, sistemas full-stack, interfaces UI/UX e integraciones de Inteligencia Artificial.",
+    "website": "https://damelaletra.com"
+  },
+  {
     "id": "prov-01-plumbing",
     "business_id": "biz-01-plumbing",
     "name": "José Martínez",
     "display_name": "José Martínez (Plomería Martínez)",
-    "phone": "+15026587853",
+    "phone": "+15025550101",
     "preferred_channel": "SMS",
     "languages": [
       "es",
@@ -139,7 +195,7 @@ export const initialProviders = [
     "business_id": "biz-02-hvac",
     "name": "Carlos Ruiz",
     "display_name": "Carlos Ruiz (Ruiz Climate & Air)",
-    "phone": "+15026587853",
+    "phone": "+15025550102",
     "preferred_channel": "SMS",
     "languages": [
       "es",
@@ -180,7 +236,7 @@ export const initialProviders = [
     "business_id": "biz-03-automotive",
     "name": "Roberto González",
     "display_name": "Roberto González (502 Roadside & Tire)",
-    "phone": "+15026587853",
+    "phone": "+15025550103",
     "preferred_channel": "SMS",
     "languages": [
       "es",
@@ -221,7 +277,7 @@ export const initialProviders = [
     "business_id": "biz-04-tree",
     "name": "Yoelvis Silva",
     "display_name": "Yoelvis Silva (Silva Tree & Yard Care)",
-    "phone": "+15026587853",
+    "phone": "+15025550104",
     "preferred_channel": "SMS",
     "languages": [
       "es",
@@ -262,7 +318,7 @@ export const initialProviders = [
     "business_id": "biz-05-electrical",
     "name": "Andrés Ramos",
     "display_name": "Andrés Ramos (Ramos Electric Pros)",
-    "phone": "+15026587853",
+    "phone": "+15025550105",
     "preferred_channel": "SMS",
     "languages": [
       "es",
@@ -303,7 +359,7 @@ export const initialProviders = [
     "business_id": "biz-06-roofing",
     "name": "Nelson Techos y Goteras",
     "display_name": "Nelson Techos (Nelson Roofing & Gutters)",
-    "phone": "+15026587853",
+    "phone": "+15025550106",
     "preferred_channel": "SMS",
     "languages": [
       "es",
@@ -344,7 +400,7 @@ export const initialProviders = [
     "business_id": "biz-07-handyman",
     "name": "José Antonio Drywall",
     "display_name": "José Antonio Drywall (502 Handyman)",
-    "phone": "+15026587853",
+    "phone": "+15025550107",
     "preferred_channel": "SMS",
     "languages": [
       "es",
@@ -385,7 +441,7 @@ export const initialProviders = [
     "business_id": "biz-08-appliance",
     "name": "Guillermo Lavadoras y Secadoras",
     "display_name": "Guillermo (502 Appliance Fix)",
-    "phone": "+15026587853",
+    "phone": "+15025550108",
     "preferred_channel": "SMS",
     "languages": [
       "es",
@@ -426,7 +482,7 @@ export const initialProviders = [
     "business_id": "biz-09-cleaning",
     "name": "Yaimara Casas y Mudanzas",
     "display_name": "Yaimara (Derby Deep Cleaning)",
-    "phone": "+15026587853",
+    "phone": "+15025550109",
     "preferred_channel": "SMS",
     "languages": [
       "es",
@@ -467,7 +523,7 @@ export const initialProviders = [
     "business_id": "biz-10-locksmith",
     "name": "Frank Cerrajería y Aperturas",
     "display_name": "Frank Cerrajería (502 Quick Locksmith)",
-    "phone": "+15026587853",
+    "phone": "+15025550110",
     "preferred_channel": "SMS",
     "languages": [
       "es",
@@ -509,7 +565,7 @@ export const externalPublicDirectory = [
   {
     "id": "ext-heavy-rigging-ky",
     "name": "Derby City Heavy Rigging & Crane Service",
-    "phone": "+15026587853",
+    "phone": "+15025550199",
     "address": "7100 Grade Ln, Louisville, KY",
     "category": "CRANE_RIGGING",
     "services": [
@@ -521,7 +577,7 @@ export const externalPublicDirectory = [
   {
     "id": "ext-industrial-ice-ky",
     "name": "Kentucky Industrial Ice Machine Experts",
-    "phone": "+15026587853",
+    "phone": "+15025550198",
     "address": "1200 S 7th St, Louisville, KY",
     "category": "INDUSTRIAL_MACHINERY",
     "services": [
