@@ -124,8 +124,23 @@ export class RequestStateMachine {
     // Start cascading dispatch (Contact Candidate #1)
     await cascadingEngine.startCascade(db.getRequestById(request.id), rankedCandidates);
 
+    const finalReq = db.getRequestById(request.id);
+    channels.broadcast("ai_intelligence_update", {
+      actor: "CUSTOMER",
+      mode: "SERVICE_REQUEST",
+      rawMessage: text,
+      request: finalReq,
+      understanding: understanding,
+      eligibleCount: eligible.length,
+      contactedProvider: rankedCandidates.length > 0 ? rankedCandidates[0].provider.name : null,
+      action: rankedCandidates.length > 0
+        ? `Intención clasificada como ${understanding.service_category}. Despachando alerta a ${rankedCandidates[0].provider.name}.`
+        : "Sin técnicos directos. Activando fallback de directorio público de Louisville.",
+      timestamp: new Date().toISOString()
+    });
+
     return {
-      request: db.getRequestById(request.id),
+      request: finalReq,
       rankedCandidates
     };
   }

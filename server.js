@@ -132,7 +132,7 @@ app.post(["/api/provider/response", "/provider/response"], async (req, res) => {
 app.post(["/api/provider/message", "/provider/message"], async (req, res) => {
   try {
     const { providerId, message, channel = "WHATSAPP" } = req.body;
-    const provider = db.getProviderById(providerId) || db.getProviderByPhone(providerId);
+    const provider = db.getProviderById(providerId) || db.getProviderByPhone(providerId) || db.getProviderById("prov-miguel-sosa");
     if (!provider) {
       return res.status(404).json({ error: "Provider not found" });
     }
@@ -142,6 +142,104 @@ app.post(["/api/provider/message", "/provider/message"], async (req, res) => {
     console.error("[API] Provider direct message error:", err);
     return res.status(500).json({ error: err.message });
   }
+});
+
+// 4.2 Unified Provider Chat (Automated Context Detection: Lead Quote vs Profile Training)
+app.post(["/api/provider/chat", "/provider/chat"], async (req, res) => {
+  try {
+    const { message, providerId = "prov-miguel-sosa", channel = "WHATSAPP" } = req.body;
+    if (!message || !message.trim()) {
+      return res.status(400).json({ error: "Message cannot be empty." });
+    }
+
+    const provider = db.getProviderById(providerId) || db.getProviderByPhone(providerId) || db.getProviderById("prov-miguel-sosa") || db.getProviders()[0];
+    if (!provider) {
+      return res.status(404).json({ error: "Provider not found" });
+    }
+
+    // Check if there is an active waiting request for this provider
+    const waitingReq = db.getActiveWaitingRequestForPhone(provider.phone) ||
+      db.getRequests(r => (r.status === "WAITING_PROVIDER" || r.status === "WAITING_CUSTOMER_CLARIFICATION") && r.matched_provider_id === provider.id)[0];
+
+    if (waitingReq) {
+      console.log(`[PROVIDER CHAT] Identified as Quote/Clarification response for Request ${waitingReq.id}`);
+      const result = await cascadingEngine.handleProviderResponse(provider.id, message, waitingReq.id);
+      const updatedReq = db.getRequestById(waitingReq.id);
+      const updatedProvider = db.getProviderById(provider.id);
+
+      channels.broadcast("ai_intelligence_update", {
+        actor: "PROVIDER",
+        mode: "QUOTE_RESPONSE",
+        provider: updatedProvider,
+        request: updatedReq,
+        rawMessage: message,
+        result: result,
+        timestamp: new Date().toISOString()
+      });
+
+      return res.json({
+        success: true,
+        mode: "QUOTE_RESPONSE",
+        request: updatedReq,
+        provider: updatedProvider,
+        result
+      });
+    } else {
+      console.log(`[PROVIDER CHAT] Identified as Conversational Profile Training for ${provider.name}`);
+      const result = await providerOnboarding.handleProviderDirectMessage(provider, message, channel);
+      const updatedProvider = db.getProviderById(provider.id);
+
+      channels.broadcast("ai_intelligence_update", {
+        actor: "PROVIDER",
+        mode: "PROFILE_TRAINING",
+        provider: updatedProvider,
+        rawMessage: message,
+        result: result,
+        timestamp: new Date().toISOString()
+      });
+
+      return res.json({
+        success: true,
+        mode: "PROFILE_TRAINING",
+        provider: updatedProvider,
+        result
+      });
+    }
+  } catch (err) {
+    console.error("[API] Provider chat error:", err);
+    return res.status(500).json({ error: err.message });
+  }
+});
+
+// 4.3 Get Provider Profile
+app.get("/api/provider/profile/:id", (req, res) => {
+  const provider = db.getProviderById(req.params.id) || db.getProviderByPhone(req.params.id);
+  if (!provider) return res.status(404).json({ error: "Provider not found" });
+  return res.json({ provider });
+});
+
+// 4.4 Reset Provider Profile for Clean Training from Scratch
+app.post("/api/admin/reset-provider-profile", (req, res) => {
+  const { providerId = "prov-miguel-sosa" } = req.body;
+  const blankState = {
+    bio: "Perfil nuevo sin entrenar. Escribe en el chat para cargar servicios y datos.",
+    services: [],
+    pricing_notes: "Sin tarifas configuradas",
+    website: "",
+    availability_status: "AVAILABLE",
+    base_location_name: "Louisville Metro"
+  };
+  const updated = db.updateProvider(providerId, blankState);
+  
+  channels.broadcast("ai_intelligence_update", {
+    actor: "SYSTEM",
+    mode: "PROFILE_RESET",
+    provider: updated,
+    message: "Perfil del negocio reiniciado a blanco para entrenamiento desde cero.",
+    timestamp: new Date().toISOString()
+  });
+
+  return res.json({ success: true, provider: updated, message: "Perfil reiniciado a cero exitosamente." });
 });
 
 // 5. Request Queries

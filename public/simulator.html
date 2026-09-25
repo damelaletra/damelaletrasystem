@@ -3,209 +3,230 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Laboratorio de Pruebas y Simulador Dual — DML</title>
+  <title>Entrenamiento en Vivo — Cliente | Cerebro IA | Negocio — DML</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800;900&family=Playfair+Display:wght@600;700;800&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     :root {
+      --bg: #090c10;
+      --panel-bg: #121721;
+      --card-bg: #182030;
+      --border: #232d42;
+      --border-focus: #3b82f6;
+      --text-main: #f1f5f9;
+      --text-muted: #94a3b8;
+      --text-sub: #64748b;
+      
       --wa-bg: #0b141a;
-      --wa-header: #202c33;
+      --wa-header: #1f2c34;
       --wa-bubble-in: #202c33;
-      --wa-bubble-out: #005c4b;
+      --wa-bubble-out-cust: #005c4b;
+      --wa-bubble-out-prov: #1e3a8a;
       --wa-text: #e9edef;
-      --wa-meta: #8696a0;
-      --wa-input: #2a3942;
+      --wa-input-bg: #2a3942;
+      
+      --accent-green: #10b981;
+      --accent-blue: #3b82f6;
+      --accent-purple: #8b5cf6;
+      --accent-amber: #f59e0b;
+      --accent-red: #ef4444;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
 
     body {
-      background: #0f1117;
-      color: #e2e8f0;
+      background: var(--bg);
+      color: var(--text-main);
       font-family: 'Plus Jakarta Sans', sans-serif;
-      margin: 0;
-      padding: 0;
-      min-height: 100vh;
-    }
-
-    .lab-header {
-      background: #181b24;
-      border-bottom: 1px solid #2d3343;
-      padding: 0.85rem 1.5rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 1rem;
-    }
-
-    .lab-title {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-    }
-
-    .lab-title h1 {
-      margin: 0;
-      font-size: 1.25rem;
-      font-weight: 800;
-      color: #ffffff;
-      letter-spacing: -0.02em;
-    }
-
-    .lab-badge {
-      background: #8f1d14;
-      color: white;
-      font-size: 0.7rem;
-      font-weight: 800;
-      padding: 0.2rem 0.6rem;
-      border-radius: 9999px;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-
-    .lab-nav {
-      display: flex;
-      gap: 0.5rem;
-    }
-
-    .lab-nav a {
-      color: #94a3b8;
-      text-decoration: none;
-      font-size: 0.85rem;
-      font-weight: 600;
-      padding: 0.4rem 0.8rem;
-      border-radius: 6px;
-      transition: all 0.2s;
-    }
-
-    .lab-nav a:hover, .lab-nav a.active {
-      color: #ffffff;
-      background: #282f3f;
-    }
-
-    .lab-container {
-      max-width: 1400px;
-      margin: 0 auto;
-      padding: 1.5rem;
+      height: 100vh;
       display: flex;
       flex-direction: column;
-      gap: 1.5rem;
+      overflow: hidden;
     }
 
-    /* Preset Buttons Bar */
-    .presets-card {
-      background: #181b24;
-      border: 1px solid #2d3343;
-      border-radius: 12px;
-      padding: 1rem 1.25rem;
-    }
-
-    .presets-title {
-      font-size: 0.82rem;
-      font-weight: 700;
-      color: #94a3b8;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      margin-bottom: 0.75rem;
+    /* Minimal Top Navigation */
+    .top-bar {
+      background: #0f141c;
+      border-bottom: 1px solid var(--border);
+      padding: 0.65rem 1.25rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      flex-shrink: 0;
     }
 
-    .presets-grid {
+    .brand {
       display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
+      align-items: center;
+      gap: 0.6rem;
     }
 
-    .preset-btn {
-      background: #222734;
-      color: #cbd5e1;
-      border: 1px solid #333b4e;
-      padding: 0.45rem 0.85rem;
-      border-radius: 8px;
-      font-size: 0.82rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.15s ease;
+    .brand-logo {
+      background: linear-gradient(135deg, #8f1d14 0%, #dc2626 100%);
+      color: white;
+      font-weight: 800;
+      font-size: 0.95rem;
+      width: 30px;
+      height: 30px;
+      border-radius: 7px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .brand-title {
+      font-size: 0.95rem;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+      color: #ffffff;
+    }
+
+    .brand-sub {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .top-actions {
+      display: flex;
+      gap: 0.6rem;
+      align-items: center;
+    }
+
+    .status-pill {
       display: flex;
       align-items: center;
       gap: 0.4rem;
+      background: #15221c;
+      border: 1px solid #165b3d;
+      color: #34d399;
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 0.25rem 0.6rem;
+      border-radius: 999px;
     }
 
-    .preset-btn:hover {
-      background: #8f1d14;
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #34d399;
+      box-shadow: 0 0 8px #34d399;
+    }
+
+    .btn-reset-memory {
+      background: #2a1b1b;
+      color: #f87171;
+      border: 1px solid #5a2727;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 0.35rem 0.75rem;
+      border-radius: 6px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      transition: all 0.15s;
+    }
+
+    .btn-reset-memory:hover {
+      background: #ef4444;
       color: white;
-      border-color: #8f1d14;
-      transform: translateY(-1px);
+      border-color: #ef4444;
     }
 
-    /* Dual Phone + HUD Layout */
-    .sim-layout {
+    /* 3-Column Layout */
+    .lab-grid {
       display: grid;
-      grid-template-columns: 1fr 340px 1fr;
-      gap: 1.25rem;
-      align-items: start;
+      grid-template-columns: 1fr 1.15fr 1fr;
+      flex: 1;
+      gap: 0;
+      height: calc(100vh - 51px);
+      overflow: hidden;
     }
 
     @media (max-width: 1100px) {
-      .sim-layout {
+      .lab-grid {
         grid-template-columns: 1fr;
+        overflow-y: auto;
+        height: auto;
       }
     }
 
-    /* WhatsApp Phone Mockup */
-    .wa-phone {
+    /* Column Styles */
+    .col-chat {
       background: var(--wa-bg);
-      border: 2px solid #2d3343;
-      border-radius: 20px;
-      overflow: hidden;
       display: flex;
       flex-direction: column;
-      height: 640px;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+      height: 100%;
+      border-right: 1px solid var(--border);
     }
 
-    .wa-topbar {
+    .col-chat.right {
+      border-right: none;
+      border-left: 1px solid var(--border);
+    }
+
+    .chat-header {
       background: var(--wa-header);
       padding: 0.75rem 1rem;
       display: flex;
       align-items: center;
       gap: 0.75rem;
       border-bottom: 1px solid rgba(255,255,255,0.06);
+      flex-shrink: 0;
     }
 
-    .wa-avatar {
-      width: 40px;
-      height: 40px;
+    .chat-avatar {
+      width: 38px;
+      height: 38px;
       border-radius: 50%;
-      background: #8f1d14;
-      color: white;
       display: flex;
       align-items: center;
       justify-content: center;
       font-weight: 800;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
+      color: white;
+      flex-shrink: 0;
     }
 
-    .wa-meta-info {
+    .avatar-cust { background: #8f1d14; }
+    .avatar-prov { background: #2563eb; }
+
+    .chat-info {
       flex: 1;
     }
 
-    .wa-name {
-      font-size: 0.92rem;
+    .chat-title {
+      font-size: 0.9rem;
       font-weight: 700;
       color: var(--wa-text);
       line-height: 1.2;
     }
 
-    .wa-status {
-      font-size: 0.75rem;
+    .chat-status {
+      font-size: 0.72rem;
       color: #00a884;
     }
 
-    .wa-messages {
+    .chat-badge {
+      font-size: 0.68rem;
+      font-weight: 800;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .badge-cust { background: #8f1d14; color: white; }
+    .badge-prov { background: #2563eb; color: white; }
+
+    .chat-messages {
       flex: 1;
       padding: 1rem;
       overflow-y: auto;
@@ -216,60 +237,78 @@
       background-size: 16px 16px;
     }
 
-    .wa-bubble {
-      max-width: 82%;
+    .bubble {
+      max-width: 84%;
       padding: 0.6rem 0.85rem;
       border-radius: 10px;
-      font-size: 0.88rem;
-      line-height: 1.4;
+      font-size: 0.86rem;
+      line-height: 1.45;
       position: relative;
       word-wrap: break-word;
+      animation: fadeIn 0.15s ease-out;
     }
 
-    .wa-bubble.in {
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .bubble.in {
       align-self: flex-start;
       background: var(--wa-bubble-in);
       color: var(--wa-text);
       border-top-left-radius: 2px;
     }
 
-    .wa-bubble.out {
+    .bubble.out-cust {
       align-self: flex-end;
-      background: var(--wa-bubble-out);
+      background: var(--wa-bubble-out-cust);
       color: var(--wa-text);
       border-top-right-radius: 2px;
     }
 
-    .wa-bubble-time {
-      font-size: 0.68rem;
-      color: var(--wa-meta);
-      float: right;
-      margin-left: 0.5rem;
-      margin-top: 0.3rem;
+    .bubble.out-prov {
+      align-self: flex-end;
+      background: var(--wa-bubble-out-prov);
+      color: var(--wa-text);
+      border-top-right-radius: 2px;
     }
 
-    .wa-input-area {
+    .bubble-time {
+      font-size: 0.65rem;
+      color: #8696a0;
+      float: right;
+      margin-left: 0.6rem;
+      margin-top: 0.25rem;
+    }
+
+    .chat-input-box {
       background: var(--wa-header);
-      padding: 0.6rem 0.75rem;
+      padding: 0.6rem 0.8rem;
       display: flex;
       gap: 0.5rem;
       align-items: center;
+      flex-shrink: 0;
+      border-top: 1px solid rgba(255,255,255,0.05);
     }
 
-    .wa-input {
+    .chat-input {
       flex: 1;
-      background: var(--wa-input);
+      background: var(--wa-input-bg);
       border: none;
       color: var(--wa-text);
-      padding: 0.65rem 0.9rem;
-      border-radius: 20px;
+      padding: 0.65rem 0.95rem;
+      border-radius: 22px;
       font-size: 0.88rem;
       outline: none;
       font-family: inherit;
     }
 
-    .wa-send-btn {
-      background: #00a884;
+    .chat-input:focus {
+      box-shadow: 0 0 0 1.5px #3b82f6;
+    }
+
+    .chat-send-btn {
       color: white;
       border: none;
       width: 38px;
@@ -281,393 +320,411 @@
       cursor: pointer;
       font-size: 1rem;
       transition: transform 0.1s;
+      flex-shrink: 0;
     }
 
-    .wa-send-btn:hover {
-      transform: scale(1.05);
+    .chat-send-btn:hover {
+      transform: scale(1.06);
     }
 
-    .wa-quick-actions {
-      padding: 0.5rem 0.75rem;
-      background: #141b21;
-      border-top: 1px solid rgba(255,255,255,0.05);
-      display: flex;
-      gap: 0.4rem;
-      overflow-x: auto;
-    }
+    .btn-send-cust { background: #00a884; }
+    .btn-send-prov { background: #2563eb; }
 
-    .wa-action-chip {
-      background: #202c33;
-      color: #94a3b8;
-      border: 1px solid #2d3d47;
-      padding: 0.3rem 0.65rem;
-      border-radius: 12px;
-      font-size: 0.75rem;
-      font-weight: 600;
-      white-space: nowrap;
-      cursor: pointer;
-      transition: all 0.15s;
-    }
-
-    .wa-action-chip:hover {
-      background: #00a884;
-      color: white;
-      border-color: #00a884;
-    }
-
-    /* Center AI HUD */
-    .ai-hud {
-      background: #181b24;
-      border: 1px solid #2d3343;
-      border-radius: 16px;
-      padding: 1.25rem;
+    /* Center Column: HUD / Brain */
+    .col-hud {
+      background: var(--panel-bg);
       display: flex;
       flex-direction: column;
+      height: 100%;
+      overflow-y: auto;
+      padding: 1rem;
       gap: 1rem;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
     }
 
-    .hud-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border-bottom: 1px solid #2d3343;
-      padding-bottom: 0.75rem;
-    }
-
-    .hud-header h2 {
-      margin: 0;
-      font-size: 0.95rem;
-      font-weight: 800;
-      color: #ffffff;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .stat-row {
+    .hud-title-bar {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 0.4rem 0;
-      border-bottom: 1px dashed rgba(255,255,255,0.08);
-      font-size: 0.82rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border);
     }
 
-    .stat-label {
-      color: #94a3b8;
-      font-weight: 600;
-    }
-
-    .stat-val {
-      color: #38bdf8;
-      font-weight: 700;
-      font-family: 'Fira Code', monospace;
-    }
-
-    .status-badge {
-      display: inline-block;
-      padding: 0.2rem 0.6rem;
-      border-radius: 9999px;
-      font-size: 0.72rem;
+    .hud-title {
+      font-size: 0.9rem;
       font-weight: 800;
-      letter-spacing: 0.05em;
-    }
-
-    .status-new { background: #334155; color: #94a3b8; }
-    .status-waiting { background: #854d0e; color: #fef08a; }
-    .status-connected { background: #14532d; color: #86efac; }
-    .status-fallback { background: #7c2d12; color: #fdba74; }
-
-    /* Feedback / Eval Box */
-    .eval-box {
-      background: #11141c;
-      border: 1px solid #252b3b;
-      border-radius: 10px;
-      padding: 0.85rem;
-      margin-top: 0.5rem;
-    }
-
-    .eval-title {
-      font-size: 0.75rem;
-      font-weight: 700;
-      color: #cbd5e1;
       text-transform: uppercase;
       letter-spacing: 0.05em;
-      margin-bottom: 0.5rem;
+      color: #93c5fd;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
     }
 
-    .eval-buttons {
+    .hud-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.85rem 1rem;
       display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .card-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+    }
+
+    .metric-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
       gap: 0.5rem;
     }
 
-    .eval-btn {
-      flex: 1;
-      padding: 0.45rem;
+    .metric-box {
+      background: #0f1420;
+      border: 1px solid #1e2638;
       border-radius: 6px;
-      font-size: 0.8rem;
-      font-weight: 700;
-      border: none;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.3rem;
-      transition: all 0.15s;
+      padding: 0.5rem 0.65rem;
     }
 
-    .eval-btn.good { background: #1e3a2f; color: #4ade80; border: 1px solid #22c55e; }
-    .eval-btn.good:hover { background: #22c55e; color: black; }
+    .metric-label {
+      font-size: 0.68rem;
+      color: var(--text-sub);
+      font-weight: 600;
+      text-transform: uppercase;
+      margin-bottom: 0.15rem;
+    }
 
-    .eval-btn.bad { background: #3d1d1d; color: #f87171; border: 1px solid #ef4444; }
-    .eval-btn.bad:hover { background: #ef4444; color: white; }
+    .metric-val {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #ffffff;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
 
-    .json-preview {
-      background: #090b10;
-      border: 1px solid #1e2433;
-      border-radius: 8px;
+    .metric-val.highlight {
+      color: #38bdf8;
+    }
+
+    .action-box {
+      background: #0f172a;
+      border-left: 3px solid #3b82f6;
+      border-radius: 0 6px 6px 0;
+      padding: 0.65rem 0.8rem;
+      font-size: 0.82rem;
+      line-height: 1.4;
+      color: #cbd5e1;
+    }
+
+    .profile-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+    }
+
+    .service-chip {
+      background: #1e293b;
+      color: #60a5fa;
+      border: 1px solid #3b82f6;
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+    }
+
+    .json-code {
+      background: #090c12;
+      border: 1px solid #1a2233;
+      border-radius: 6px;
       padding: 0.6rem;
       font-family: 'Fira Code', monospace;
       font-size: 0.72rem;
       color: #a5b4fc;
-      max-height: 120px;
+      max-height: 140px;
       overflow-y: auto;
       white-space: pre-wrap;
+    }
+
+    .timeline-log {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      max-height: 120px;
+      overflow-y: auto;
+    }
+
+    .log-item {
+      font-size: 0.74rem;
+      padding: 0.35rem 0.5rem;
+      background: #0b0f17;
+      border-radius: 4px;
+      border-left: 2px solid #10b981;
+      color: #94a3b8;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .log-item.provider {
+      border-left-color: #3b82f6;
     }
   </style>
 </head>
 <body>
 
-  <header class="lab-header">
-    <div class="lab-title">
-      <div style="background: #8f1d14; color: white; width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 900;">D</div>
+  <!-- Top Status Bar -->
+  <header class="top-bar">
+    <div class="brand">
+      <div class="brand-logo">D</div>
       <div>
-        <h1>DAME LA LETRA — Testing Lab & Simulador Dual</h1>
+        <div class="brand-title">DAME LA LETRA — Laboratorio de Entrenamiento y Supervisión IA</div>
+        <div class="brand-sub">Entrenamiento conversacional sin guías · Cliente ➔ Cerebro Gemini ➔ Negocio</div>
       </div>
-      <span class="lab-badge">Gemini AI Active</span>
     </div>
 
-    <nav class="lab-nav">
-      <a href="/simulator.html" class="active">🧪 Simulador Dual</a>
-      <a href="/admin.html">🎛️ Despacho Concierge</a>
-      <a href="/">🏠 Portal Cliente</a>
-      <a href="/provider.html">📲 Portal Técnico</a>
-    </nav>
+    <div class="top-actions">
+      <div class="status-pill">
+        <span class="status-dot"></span>
+        <span id="top-engine-status">Gemini Flash Activo</span>
+      </div>
+      <button class="btn-reset-memory" onclick="resetMemoryFromZero()">
+        🗑️ Reiniciar Memoria del Negocio
+      </button>
+    </div>
   </header>
 
-  <div class="lab-container">
-    
-    <!-- 1. Free-Text Natural Input Bar (Hero) -->
-    <div class="presets-card" style="background: linear-gradient(135deg, #1e2433 0%, #151922 100%); border: 1px solid #3b82f6; box-shadow: 0 8px 24px rgba(0,0,0,0.35);">
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.85rem; flex-wrap: wrap; gap: 0.5rem;">
-        <div style="display: flex; align-items: center; gap: 0.6rem;">
-          <span style="font-size: 1.25rem;">✍️</span>
-          <div>
-            <div style="font-size: 0.95rem; font-weight: 800; color: #ffffff; letter-spacing: -0.01em;">Modo Libre — Escribe lo que quieras sin elegir categorías</div>
-            <div style="font-size: 0.78rem; color: #94a3b8;">Prueba con cualquier frase coloquial, jerga cubana/latina, spanglish o problema real. La IA clasificará el oficio y buscará al técnico automáticamente.</div>
-          </div>
+  <!-- 3-Column Laboratory -->
+  <main class="lab-grid">
+
+    <!-- 1. Left Column: Cliente Chat (Clean WhatsApp) -->
+    <section class="col-chat">
+      <div class="chat-header">
+        <div class="chat-avatar avatar-cust">CL</div>
+        <div class="chat-info">
+          <div class="chat-title">Cliente (Consumidor)</div>
+          <div class="chat-status">● En línea (+1 502-673-1333)</div>
         </div>
-        <div style="display: flex; gap: 0.5rem;">
-          <button id="btn-toggle-examples" onclick="toggleExamples()" style="background: #252d3d; color: #cbd5e1; border: 1px solid #3b4252; font-size: 0.75rem; font-weight: 700; padding: 0.35rem 0.75rem; border-radius: 6px; cursor: pointer;">💡 Ver Frases de Ejemplo</button>
-          <button id="btn-reset-db" style="background: #334155; color: white; border: none; font-size: 0.75rem; font-weight: 700; padding: 0.35rem 0.75rem; border-radius: 6px; cursor: pointer;">🔄 Reiniciar Red</button>
+        <span class="chat-badge badge-cust">CLIENTE</span>
+      </div>
+
+      <div class="chat-messages" id="chat-customer-stream">
+        <div class="bubble in">
+          ¡Hola! Escribe con tus propias palabras cualquier necesidad, servicio o problema en Louisville.
+          <span class="bubble-time">DML</span>
         </div>
       </div>
 
-      <!-- Prominent Free-Text Form -->
-      <form id="hero-free-form" onsubmit="handleHeroSubmit(event)" style="display: flex; gap: 0.6rem; align-items: center;">
+      <form class="chat-input-box" id="form-cust" onsubmit="handleSendCustomer(event)">
         <input 
           type="text" 
-          id="hero-free-input" 
-          placeholder="Escribe aquí libremente (ej. 'Asere tengo una pipa botando agua en Preston' o 'Necesito cambiar las 4 gomas a mi camioneta')..." 
-          style="flex: 1; background: #0b0f17; border: 1.5px solid #334155; border-radius: 10px; color: #ffffff; padding: 0.85rem 1.1rem; font-size: 0.95rem; outline: none; transition: border-color 0.2s;"
-          onfocus="this.style.borderColor='#3b82f6'" 
-          onblur="this.style.borderColor='#334155'"
+          class="chat-input" 
+          id="input-cust" 
+          placeholder="Escribe como cliente (ej. 'Busco alguien que me haga una página web')..." 
           autocomplete="off"
         >
-        <button 
-          type="submit" 
-          style="background: #8f1d14; color: white; border: none; font-weight: 800; font-size: 0.9rem; padding: 0.85rem 1.4rem; border-radius: 10px; cursor: pointer; display: flex; align-items: center; gap: 0.4rem; transition: background 0.15s; white-space: nowrap;"
-          onmouseover="this.style.background='#a8231a'" 
-          onmouseout="this.style.background='#8f1d14'"
-        >
-          🚀 Probar Mensaje
-        </button>
+        <button type="submit" class="chat-send-btn btn-send-cust">➤</button>
       </form>
+    </section>
 
-      <!-- Collapsible Examples Drawer -->
-      <div id="examples-drawer" style="display: none; margin-top: 1rem; padding-top: 0.85rem; border-top: 1px dashed #2d3343;">
-        <div style="font-size: 0.75rem; font-weight: 700; color: #64748b; text-transform: uppercase; margin-bottom: 0.5rem;">Ideas rápidas si quieres hacer clic:</div>
-        <div class="presets-grid">
-          <button class="preset-btn" data-msg="Asere se me tupió el fregadero en Dixie">🇨🇺 "Asere se me tupió el fregadero en Dixie"</button>
-          <button class="preset-btn" data-msg="El aire no tira frío y hace tremendo calor">❄️ "El aire no tira frío y hace tremendo calor"</button>
-          <button class="preset-btn" data-msg="Se me ponchó una goma en Preston Hwy">🚗 "Se me ponchó una goma en Preston Hwy"</button>
-          <button class="preset-btn" data-msg="Dejé las llaves adentro de la troca en St. Matthews">🔑 "Dejé las llaves adentro de la troca en St. Matthews"</button>
-          <button class="preset-btn" data-msg="Tengo tremenda gotera botándose en el techo">🏠 "Tengo tremenda gotera botándose en el techo"</button>
-          <button class="preset-btn" data-msg="Quiero pintar una casa de 4 cuartos">🎨 "Quiero pintar una casa de 4 cuartos"</button>
-          <button class="preset-btn" data-msg="Se me fue la luz en media casa">⚡ "Se me fue la luz en media casa"</button>
-          <button class="preset-btn" data-msg="Se rompió la máquina de hielo en el restaurante">🏢 "Se rompió la máquina de hielo en el restaurante"</button>
-          <button class="preset-btn" data-msg="Necesito una grúa pesada para levantar una viga">🏗️ "Necesito una grúa pesada para levantar una viga"</button>
-        </div>
-      </div>
-    </div>
 
-    <!-- Dual Simulation + AI HUD -->
-    <div class="sim-layout">
+    <!-- 2. Middle Column: AI Intelligence & Live Action HUD -->
+    <section class="col-hud">
       
-      <!-- Phone 1: Cliente -->
-      <div class="wa-phone">
-        <div class="wa-topbar">
-          <div class="wa-avatar">DML</div>
-          <div class="wa-meta-info">
-            <div class="wa-name">Dame La Letra Concierge</div>
-            <div class="wa-status">● en línea (+1 502-673-1333)</div>
-          </div>
-          <span style="font-size: 0.75rem; background: #8f1d14; color: white; padding: 0.2rem 0.5rem; border-radius: 4px; font-weight: 700;">CLIENTE</span>
-        </div>
-
-        <div class="wa-messages" id="customer-chat">
-          <div class="wa-bubble in">
-            ¡Hola! Dime qué servicio necesitas en Louisville y te encuentro al especialista verificado indicado en minutos.
-            <span class="wa-bubble-time">DML</span>
-          </div>
-        </div>
-
-        <div class="wa-quick-actions">
-          <button class="wa-action-chip" onclick="sendCustomerQuick('Sí, dale conéctame')">👍 Sí, dale</button>
-          <button class="wa-action-chip" onclick="sendCustomerQuick('Perfecto')">✅ Perfecto</button>
-          <button class="wa-action-chip" onclick="sendCustomerQuick('Muy caro, busca otro')">👎 Muy caro</button>
-          <button class="wa-action-chip" onclick="sendCustomerQuick('Cancelar')">❌ Cancelar</button>
-        </div>
-
-        <form class="wa-input-area" id="customer-form">
-          <input type="text" class="wa-input" id="customer-input" placeholder="Escribe como cliente (ej. se me ponchó la goma)..." autocomplete="off">
-          <button type="submit" class="wa-send-btn">➤</button>
-        </form>
+      <div class="hud-title-bar">
+        <div class="hud-title">🧠 CEREBRO IA — ¿QUÉ ENTIENDE Y QUÉ HACE?</div>
+        <span id="hud-last-actor" style="font-size: 0.72rem; color: #38bdf8; font-weight: 700;">STANDBY</span>
       </div>
 
-      <!-- Center: AI Intelligence HUD & Evaluator -->
-      <div class="ai-hud">
-        <div class="hud-header">
-          <h2>🧠 Gemini AI Inspector</h2>
-          <span class="status-badge status-new" id="hud-status">STANDBY</span>
+      <!-- Card 1: Lo que Entiende el Modelo -->
+      <div class="hud-card">
+        <div class="card-header-row">
+          <span>🔍 1. Lo que Entiende el Modelo (NLU)</span>
+          <span id="hud-confidence" style="color: #34d399;">100% Confianza</span>
         </div>
 
-        <div>
-          <div class="stat-row">
-            <span class="stat-label">Intención / Servicio:</span>
-            <span class="stat-val" id="hud-intent">—</span>
+        <div class="metric-grid">
+          <div class="metric-box">
+            <div class="metric-label">Intención / Objetivo:</div>
+            <div class="metric-val highlight" id="hud-intent">Esperando mensaje...</div>
           </div>
-          <div class="stat-row">
-            <span class="stat-label">Categoría:</span>
-            <span class="stat-val" id="hud-category">—</span>
+          <div class="metric-box">
+            <div class="metric-label">Categoría / Oficio:</div>
+            <div class="metric-val" id="hud-category">—</div>
           </div>
-          <div class="stat-row">
-            <span class="stat-label">Ubicación Louisville:</span>
-            <span class="stat-val" id="hud-location">—</span>
+          <div class="metric-box">
+            <div class="metric-label">Ubicación / Cobertura:</div>
+            <div class="metric-val" id="hud-location">—</div>
           </div>
-          <div class="stat-row">
-            <span class="stat-label">Urgencia:</span>
-            <span class="stat-val" id="hud-urgency">—</span>
-          </div>
-          <div class="stat-row">
-            <span class="stat-label">Técnico Contactado:</span>
-            <span class="stat-val" id="hud-provider" style="color: #4ade80;">—</span>
+          <div class="metric-box">
+            <div class="metric-label">Urgencia / SLA:</div>
+            <div class="metric-val" id="hud-urgency">—</div>
           </div>
         </div>
 
         <div>
-          <div style="font-size: 0.75rem; font-weight: 700; color: #94a3b8; text-transform: uppercase; margin-bottom: 0.3rem;">Raw Analysis JSON:</div>
-          <div class="json-preview" id="hud-json">{ "status": "waiting_for_input" }</div>
-        </div>
-
-        <!-- Evaluation / Feedback box -->
-        <div class="eval-box">
-          <div class="eval-title">⭐ Calificar Interpretación:</div>
-          <div class="eval-buttons">
-            <button class="eval-btn good" onclick="recordFeedback(true)">👍 Bien entendido</button>
-            <button class="eval-btn bad" onclick="recordFeedback(false)">👎 Mal entendido</button>
-          </div>
-          <div id="eval-feedback-status" style="font-size: 0.72rem; color: #94a3b8; text-align: center; margin-top: 0.4rem;"></div>
+          <div style="font-size: 0.7rem; color: var(--text-sub); font-weight: 700; text-transform: uppercase; margin-bottom: 0.25rem;">Extracción Estructurada JSON:</div>
+          <div class="json-code" id="hud-json-view">{ "status": "listening_to_chats" }</div>
         </div>
       </div>
 
-      <!-- Phone 2: Proveedor / Técnico -->
-      <div class="wa-phone">
-        <div class="wa-topbar" style="background: #1f2937;">
-          <div class="wa-avatar" style="background: #2563eb;" id="prov-avatar">JM</div>
-          <div class="wa-meta-info">
-            <div class="wa-name" id="prov-header-name">José Martínez (Plomería)</div>
-            <div class="wa-status" style="color: #60a5fa;">Técnico Louisville</div>
-          </div>
-          <span style="font-size: 0.75rem; background: #2563eb; color: white; padding: 0.2rem 0.5rem; border-radius: 4px; font-weight: 700;">PROVEEDOR</span>
+      <!-- Card 2: Qué Hace el Sistema (Acción Ejecutada) -->
+      <div class="hud-card">
+        <div class="card-header-row">
+          <span>⚙️ 2. Acción Ejecutada por el Sistema</span>
+          <span id="hud-state-badge" style="background: #1e3a8a; color: #93c5fd; padding: 0.15rem 0.5rem; border-radius: 4px;">IDLE</span>
         </div>
 
-        <div class="wa-messages" id="provider-chat">
-          <div class="wa-bubble in" style="background: #1f2937;">
-            [DML Alertas]: Esperando nuevas solicitudes en tu zona...
-            <span class="wa-bubble-time">Sistema</span>
-          </div>
+        <div class="action-box" id="hud-action-text">
+          El sistema está esperando mensajes para clasificar, despachar o actualizar la base de datos de Louisville.
         </div>
-
-        <div class="wa-quick-actions">
-          <button class="wa-action-chip" onclick="sendProviderQuick('Cobro $80 y llego en diez minutos')">⚡ $80 en 10 min</button>
-          <button class="wa-action-chip" onclick="sendProviderQuick('Son $100 llego en media hora')">⚡ $100 en 30m</button>
-          <button class="wa-action-chip" onclick="sendProviderQuick('¿Qué tamaño tiene la casa y cuántos cuartos?')">❓ Preguntar tamaño</button>
-          <button class="wa-action-chip" onclick="sendProviderQuick('No puedo hoy')">❌ No puedo</button>
-        </div>
-
-        <form class="wa-input-area" id="provider-form">
-          <input type="text" class="wa-input" id="provider-input" placeholder="Responde como técnico (ej. cobro 80 en 10m)..." autocomplete="off">
-          <button type="submit" class="wa-send-btn" style="background: #2563eb;">➤</button>
-        </form>
       </div>
 
-    </div>
-  </div>
+      <!-- Card 3: Ficha Viva del Negocio (Memoria de Miguel Sosa) -->
+      <div class="hud-card" style="border-color: #3b82f6;">
+        <div class="card-header-row">
+          <span style="color: #60a5fa;">📊 3. Memoria Activa del Negocio (Miguel Sosa)</span>
+          <span id="hud-business-status" style="color: #34d399; font-weight: 700;">● DISPONIBLE</span>
+        </div>
+
+        <div style="font-size: 0.8rem; color: #cbd5e1; line-height: 1.35;" id="hud-business-bio">
+          Cargando datos del perfil de Miguel Sosa...
+        </div>
+
+        <div>
+          <div style="font-size: 0.7rem; color: var(--text-sub); font-weight: 700; text-transform: uppercase; margin-bottom: 0.35rem;">Especialidades Registradas en Memoria:</div>
+          <div class="profile-chips" id="hud-business-services">
+            <span class="service-chip">Sin especialidades</span>
+          </div>
+        </div>
+
+        <div class="metric-grid">
+          <div class="metric-box">
+            <div class="metric-label">Tarifas / Precios:</div>
+            <div class="metric-val" id="hud-business-rates">A convenir</div>
+          </div>
+          <div class="metric-box">
+            <div class="metric-label">Web / Portfolio:</div>
+            <div class="metric-val" id="hud-business-web">—</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 4: Timeline en Vivo -->
+      <div class="hud-card">
+        <div class="card-header-row">
+          <span>📜 Timeline de Acciones en Tiempo Real</span>
+        </div>
+        <div class="timeline-log" id="hud-timeline">
+          <div class="log-item">
+            <span>Sistema iniciado</span>
+            <span>Ahora</span>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+
+    <!-- 3. Right Column: Negocio Chat (Miguel Sosa / Proveedor) -->
+    <section class="col-chat right">
+      <div class="chat-header" style="background: #182230;">
+        <div class="chat-avatar avatar-prov">MS</div>
+        <div class="chat-info">
+          <div class="chat-title">Negocio: Miguel Sosa</div>
+          <div class="chat-status" style="color: #60a5fa;">● Software & Design (+1 502-658-7853)</div>
+        </div>
+        <span class="chat-badge badge-prov">NEGOCIO</span>
+      </div>
+
+      <div class="chat-messages" id="chat-provider-stream">
+        <div class="bubble in" style="background: #182230;">
+          ¡Hola Miguel! Escribe aquí para entrenar tu perfil desde cero (servicios, tarifas, portafolio, disponibilidad) o responder cotizaciones.
+          <span class="bubble-time">DML</span>
+        </div>
+      </div>
+
+      <form class="chat-input-box" id="form-prov" onsubmit="handleSendProvider(event)" style="background: #182230;">
+        <input 
+          type="text" 
+          class="chat-input" 
+          id="input-prov" 
+          placeholder="Escribe como negocio (ej. 'Hago tiendas Shopify y cobro $80/h')..." 
+          autocomplete="off"
+        >
+        <button type="submit" class="chat-send-btn btn-send-prov">➤</button>
+      </form>
+    </section>
+
+  </main>
 
   <script>
-    let activeRequestId = null;
-    let activeProviderId = "prov-01-plumbing";
     let clientRef = "test-client-" + Date.now();
+    let currentRequestId = null;
+    let providerId = "prov-miguel-sosa";
 
-    // Elements
-    const customerChat = document.getElementById("customer-chat");
-    const providerChat = document.getElementById("provider-chat");
-    const customerInput = document.getElementById("customer-input");
-    const providerInput = document.getElementById("provider-input");
+    // DOM Elements
+    const custStream = document.getElementById("chat-customer-stream");
+    const provStream = document.getElementById("chat-provider-stream");
+    const inputCust = document.getElementById("input-cust");
+    const inputProv = document.getElementById("input-prov");
 
-    const hudStatus = document.getElementById("hud-status");
+    // HUD Elements
+    const hudLastActor = document.getElementById("hud-last-actor");
+    const hudConfidence = document.getElementById("hud-confidence");
     const hudIntent = document.getElementById("hud-intent");
     const hudCategory = document.getElementById("hud-category");
     const hudLocation = document.getElementById("hud-location");
     const hudUrgency = document.getElementById("hud-urgency");
-    const hudProvider = document.getElementById("hud-provider");
-    const hudJson = document.getElementById("hud-json");
+    const hudJsonView = document.getElementById("hud-json-view");
+    const hudStateBadge = document.getElementById("hud-state-badge");
+    const hudActionText = document.getElementById("hud-action-text");
+    const hudBusinessBio = document.getElementById("hud-business-bio");
+    const hudBusinessServices = document.getElementById("hud-business-services");
+    const hudBusinessRates = document.getElementById("hud-business-rates");
+    const hudBusinessWeb = document.getElementById("hud-business-web");
+    const hudBusinessStatus = document.getElementById("hud-business-status");
+    const hudTimeline = document.getElementById("hud-timeline");
 
-    function addCustomerBubble(text, type = "in") {
-      const b = document.createElement("div");
-      b.className = "wa-bubble " + type;
-      b.innerHTML = text.replace(/\\n/g, "<br>") + `<span class="wa-bubble-time">${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>`;
-      customerChat.appendChild(b);
-      customerChat.scrollTop = customerChat.scrollHeight;
+    function getTimeStr() {
+      return new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     }
 
-    function addProviderBubble(text, type = "in") {
+    function addBubble(container, text, type) {
       const b = document.createElement("div");
-      b.className = "wa-bubble " + type;
-      b.innerHTML = text.replace(/\\n/g, "<br>") + `<span class="wa-bubble-time">${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>`;
-      providerChat.appendChild(b);
-      providerChat.scrollTop = providerChat.scrollHeight;
+      b.className = "bubble " + type;
+      b.innerHTML = text.replace(/\\n/g, "<br>") + `<span class="bubble-time">${getTimeStr()}</span>`;
+      container.appendChild(b);
+      container.scrollTop = container.scrollHeight;
     }
 
-    async function sendCustomer(text) {
-      if (!text || !text.trim()) return;
-      addCustomerBubble(text, "out");
-      customerInput.value = "";
+    function addLog(text, isProvider = false) {
+      const item = document.createElement("div");
+      item.className = "log-item" + (isProvider ? " provider" : "");
+      item.innerHTML = `<span>${text}</span><span>${getTimeStr()}</span>`;
+      hudTimeline.insertBefore(item, hudTimeline.firstChild);
+    }
 
-      hudStatus.textContent = "UNDERSTANDING...";
-      hudStatus.className = "status-badge status-waiting";
+    // 1. Send Customer Message (Left Chat)
+    async function handleSendCustomer(e) {
+      e.preventDefault();
+      const text = inputCust.value.trim();
+      if (!text) return;
+
+      addBubble(custStream, text, "out-cust");
+      inputCust.value = "";
+
+      hudLastActor.textContent = "CLIENTE ➔ ANALIZANDO";
+      hudStateBadge.textContent = "UNDERSTANDING";
+      hudActionText.textContent = `Analizando solicitud de cliente con Gemini Flash: "${text}"...`;
+      addLog(`Cliente envió: "${text.slice(0, 35)}..."`);
 
       try {
         const res = await fetch("/api/customer/message", {
@@ -679,142 +736,184 @@
             channel: "WHATSAPP"
           })
         });
-        const data = await res.json();
-        
-        if (data.result && data.result.request) {
-          const r = data.result.request;
-          activeRequestId = r.id;
-          
-          hudStatus.textContent = r.status;
-          hudIntent.textContent = r.normalized_intent || "Detected";
-          hudCategory.textContent = r.service_category || "N/A";
-          hudLocation.textContent = r.location_raw || "Louisville Metro";
-          hudUrgency.textContent = r.urgency || "MEDIUM";
-          hudJson.textContent = JSON.stringify(r, null, 2);
 
-          if (r.status === "CONNECTED") {
-            hudStatus.className = "status-badge status-connected";
+        const data = await res.json();
+        console.log("Customer response data:", data);
+
+        if (data.result && data.result.request) {
+          const req = data.result.request;
+          currentRequestId = req.id;
+          
+          hudIntent.textContent = req.normalized_intent || "Detected";
+          hudCategory.textContent = req.service_category || "N/A";
+          hudLocation.textContent = req.location_raw || "Louisville Metro";
+          hudUrgency.textContent = req.urgency || "MEDIUM";
+          hudStateBadge.textContent = req.status;
+          hudJsonView.textContent = JSON.stringify(req, null, 2);
+
+          if (req.status === "WAITING_PROVIDER") {
+            hudActionText.textContent = `Intención clasificada como [${req.service_category}]. Solicitud creada (#${req.id}) y alerta despachada al técnico asignado en Louisville.`;
+            addLog(`Alerta despachada a técnico para orden #${req.id}`);
+          } else if (req.status === "CONNECTED") {
+            hudActionText.textContent = `¡Conexión Confirmada! El cliente aceptó y se entregaron los datos directos del especialista.`;
+            addLog(`Conexión exitosa para orden #${req.id}`);
           }
         }
       } catch (err) {
-        console.error("Send error:", err);
+        console.error("Customer send error:", err);
       }
     }
 
-    async function sendProvider(text) {
-      if (!text || !text.trim()) return;
-      addProviderBubble(text, "out");
-      providerInput.value = "";
+    // 2. Send Provider / Business Message (Right Chat)
+    async function handleSendProvider(e) {
+      e.preventDefault();
+      const text = inputProv.value.trim();
+      if (!text) return;
+
+      addBubble(provStream, text, "out-prov");
+      inputProv.value = "";
+
+      hudLastActor.textContent = "NEGOCIO ➔ PROCESANDO";
+      hudActionText.textContent = `Gemini extrayendo datos del negocio desde mensaje: "${text}"...`;
+      addLog(`Negocio envió: "${text.slice(0, 35)}..."`, true);
 
       try {
-        const res = await fetch("/api/provider/response", {
+        const res = await fetch("/api/provider/chat", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            providerId: activeProviderId,
-            response: text,
-            requestId: activeRequestId
+            message: text,
+            providerId: providerId,
+            channel: "WHATSAPP"
           })
         });
+
         const data = await res.json();
-        console.log("Provider response result:", data);
+        console.log("Provider chat data:", data);
+
+        if (data.success) {
+          if (data.mode === "PROFILE_TRAINING") {
+            hudIntent.textContent = "ACTUALIZAR_PERFIL_NEGOCIO";
+            hudCategory.textContent = data.provider.category || "TECH_SOFTWARE";
+            hudStateBadge.textContent = "PROFILE_LEARNED";
+            hudJsonView.textContent = JSON.stringify(data.result, null, 2);
+            hudActionText.textContent = `Datos aprendidos e indexados en la memoria de Miguel Sosa en SQLite: ${JSON.stringify(data.result.updates || {})}`;
+            
+            // Render confirmation bubble in provider chat
+            if (data.result && data.result.reply) {
+              addBubble(provStream, data.result.reply, "in");
+            }
+
+            renderProviderProfile(data.provider);
+            addLog(`Perfil de negocio actualizado para ${data.provider.name}`, true);
+          } else if (data.mode === "QUOTE_RESPONSE") {
+            hudIntent.textContent = "COTIZACION_PROVEEDOR";
+            hudStateBadge.textContent = "QUOTE_RECEIVED";
+            hudJsonView.textContent = JSON.stringify(data.result, null, 2);
+            hudActionText.textContent = `Cotización del negocio recibida. Generando propuesta estructurada para el cliente.`;
+            addLog(`Cotización enviada al cliente para orden #${data.request.id}`, true);
+          }
+        }
       } catch (err) {
-        console.error("Provider reply error:", err);
+        console.error("Provider send error:", err);
       }
     }
 
-    function sendCustomerQuick(text) {
-      sendCustomer(text);
-    }
+    // 3. Render Provider Profile Live in HUD
+    function renderProviderProfile(p) {
+      if (!p) return;
+      hudBusinessBio.textContent = p.bio || "Sin descripción aún. Escribe en el chat derecho para describirte.";
+      hudBusinessRates.textContent = p.pricing_notes || "A convenir";
+      hudBusinessWeb.textContent = p.website || "No especificado";
+      hudBusinessStatus.textContent = p.availability_status === "AVAILABLE" ? "● DISPONIBLE" : "● FUERA DE TURNO";
+      hudBusinessStatus.style.color = p.availability_status === "AVAILABLE" ? "#34d399" : "#f87171";
 
-    function sendProviderQuick(text) {
-      sendProvider(text);
-    }
-
-    document.getElementById("customer-form").addEventListener("submit", (e) => {
-      e.preventDefault();
-      sendCustomer(customerInput.value);
-    });
-
-    document.getElementById("provider-form").addEventListener("submit", (e) => {
-      e.preventDefault();
-      sendProvider(providerInput.value);
-    });
-
-    function handleHeroSubmit(e) {
-      e.preventDefault();
-      const inp = document.getElementById("hero-free-input");
-      if (inp && inp.value.trim()) {
-        sendCustomer(inp.value.trim());
-        inp.value = "";
-      }
-    }
-
-    function toggleExamples() {
-      const drawer = document.getElementById("examples-drawer");
-      const btn = document.getElementById("btn-toggle-examples");
-      if (drawer.style.display === "none" || !drawer.style.display) {
-        drawer.style.display = "block";
-        btn.textContent = "✖ Ocultar Ejemplos";
+      const services = p.services || [];
+      if (services.length === 0) {
+        hudBusinessServices.innerHTML = `<span class="service-chip" style="color:#94a3b8; border-color:#334155;">Sin especialidades registradas</span>`;
       } else {
-        drawer.style.display = "none";
-        btn.textContent = "💡 Ver Frases de Ejemplo";
+        hudBusinessServices.innerHTML = services.map(s => `<span class="service-chip">${s}</span>`).join("");
       }
     }
 
-    // Preset buttons
-    document.querySelectorAll(".preset-btn").forEach(btn => {
-      btn.addEventListener("click", () => {
-        sendCustomer(btn.getAttribute("data-msg"));
-      });
-    });
-
-    // Reset DB
-    document.getElementById("btn-reset-db").addEventListener("click", async () => {
-      if (confirm("¿Reiniciar la base de datos de pruebas a estado inicial?")) {
-        await fetch("/api/admin/reset", { method: "POST" });
-        clientRef = "test-client-" + Date.now();
-        customerChat.innerHTML = '<div class="wa-bubble in">Base de datos reiniciada. ¿Qué necesitas en Louisville?</div>';
-        providerChat.innerHTML = '<div class="wa-bubble in">[DML Alertas]: Esperando nuevas solicitudes...</div>';
-        hudStatus.textContent = "RESET";
-        hudStatus.className = "status-badge status-new";
+    // 4. Fetch Live Provider Profile on Load
+    async function loadProviderProfile() {
+      try {
+        const res = await fetch("/api/provider/profile/" + providerId);
+        const data = await res.json();
+        if (data.provider) {
+          renderProviderProfile(data.provider);
+        }
+      } catch (err) {
+        console.error("Load profile error:", err);
       }
-    });
+    }
 
-    // Live Server Sent Events (SSE)
+    // 5. Reset Memory from Scratch
+    async function resetMemoryFromZero() {
+      if (!confirm("¿Deseas vaciar la memoria de Miguel Sosa para entrenarlo completamente desde cero?")) return;
+      
+      try {
+        const res = await fetch("/api/admin/reset-provider-profile", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ providerId })
+        });
+        const data = await res.json();
+        if (data.provider) {
+          renderProviderProfile(data.provider);
+          provStream.innerHTML = `<div class="bubble in" style="background: #182230;">Memoria reiniciada a cero. Escribe cualquier cosa de tu negocio para que el modelo lo aprenda.<span class="bubble-time">${getTimeStr()}</span></div>`;
+          hudActionText.textContent = "Memoria del negocio reiniciada a estado virgen. Listo para entrenar desde cero.";
+          addLog("Memoria del negocio reiniciada a cero", true);
+        }
+      } catch (err) {
+        console.error("Reset memory error:", err);
+      }
+    }
+
+    // 6. Live Server-Sent Events (SSE) Stream
     const evtSource = new EventSource("/api/events");
+
     evtSource.addEventListener("customer_message", (e) => {
       const data = JSON.parse(e.data);
-      if (data.conversationRef === clientRef || data.requestId === activeRequestId) {
-        addCustomerBubble(data.text, "in");
+      if (data.conversationRef === clientRef || (currentRequestId && data.requestId === currentRequestId)) {
+        addBubble(custStream, data.text, "in");
       }
     });
 
     evtSource.addEventListener("provider_briefing", (e) => {
       const data = JSON.parse(e.data);
-      activeProviderId = data.providerId;
-      document.getElementById("prov-header-name").textContent = data.providerName;
-      document.getElementById("prov-avatar").textContent = data.providerName.slice(0, 2).toUpperCase();
-      hudProvider.textContent = data.providerName;
-      addProviderBubble(data.text, "in");
+      addBubble(provStream, data.text, "in");
+      addLog(`Briefing de orden #${data.requestId} entregado al negocio`, true);
     });
 
-    evtSource.addEventListener("request_status_update", (e) => {
+    evtSource.addEventListener("provider_direct_message", (e) => {
       const data = JSON.parse(e.data);
-      if (data.requestId === activeRequestId) {
-        hudStatus.textContent = data.status;
-        if (data.status === "CONNECTED") {
-          hudStatus.className = "status-badge status-connected";
-        }
+      addBubble(provStream, data.text, "in");
+    });
+
+    evtSource.addEventListener("ai_intelligence_update", (e) => {
+      const data = JSON.parse(e.data);
+      console.log("[SSE AI UPDATE]", data);
+
+      if (data.provider) {
+        renderProviderProfile(data.provider);
+      }
+
+      if (data.action) {
+        hudActionText.textContent = data.action;
+      }
+
+      if (data.understanding) {
+        hudIntent.textContent = data.understanding.intent || "Detected";
+        hudCategory.textContent = data.understanding.service_category || "N/A";
+        hudLocation.textContent = data.understanding.location_raw || "Louisville Metro";
+        hudUrgency.textContent = data.understanding.urgency || "MEDIUM";
       }
     });
 
-    function recordFeedback(isGood) {
-      const st = document.getElementById("eval-feedback-status");
-      st.textContent = isGood ? "✔ Calificación registrada: 'Bien entendido' 👏" : "✖ Calificación registrada: 'Mal entendido'. Lo analizaremos.";
-      st.style.color = isGood ? "#4ade80" : "#f87171";
-      setTimeout(() => { st.textContent = ""; }, 4000);
-    }
+    // Initialize
+    loadProviderProfile();
   </script>
 </body>
 </html>
