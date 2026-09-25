@@ -51,14 +51,13 @@ Dame la letra/
 ```bash
 npm run dev
 ```
-El servidor arrancará en: **`http://localhost:3000`**
+El servidor arrancará en: **`http://localhost:4500`**
 
 ### 2. Acceso a las Interfaces Web
-- 🏠 **Portal de Clientes**: [http://localhost:3000](http://localhost:3000)
-- 🎛️ **Centro de Despacho (Admin Concierge)**: [http://localhost:3000/admin.html](http://localhost:3000/admin.html)
-- 📲 **Simulador de Proveedor**: [http://localhost:3000/provider.html](http://localhost:3000/provider.html)
-
----
+- 📰 **Portada / Periódico Digital (Landing Page)**: [http://localhost:4500](http://localhost:4500)
+- 🎛️ **Centro de Despacho (Admin Concierge)**: [http://localhost:4500/admin.html](http://localhost:4500/admin.html)
+- 📲 **Simulador de Proveedor**: [http://localhost:4500/provider.html](http://localhost:4500/provider.html)
+- 🧪 **Simulador Integral de Pruebas**: [http://localhost:4500/simulator.html](http://localhost:4500/simulator.html)
 
 ## 🧪 Ejecutar Pruebas Automatizadas
 
