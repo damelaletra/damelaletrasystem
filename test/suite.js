@@ -121,7 +121,7 @@ async function runTests() {
   console.log("\n▶ TEST 5: Locksmith Quote Parsing & Accurate Provider Attribution");
   {
     const customerPhone = "+15024170732";
-    const providerSharedPhone = "+15026587853";
+    const providerSharedPhone = db.getProviderById("prov-10-locksmith").phone;
 
     // 1. Customer asks for car lockout
     const res = await stateMachine.processCustomerInput("Dejé la llave adentro del carro en St. Matthews", "SMS", customerPhone);
@@ -194,6 +194,28 @@ async function runTests() {
     const confRes2 = await stateMachine.processCustomerInput("Si confírmale", "SMS", customerPhone2);
     assert.strictEqual(confRes2.status, "CONNECTED", "'Si confírmale' must confirm the connection");
     console.log("  ✔ Customer 'Si confírmale' correctly established CONNECTED state (PASS)");
+  }
+
+  // TEST 8: Conversational Business Profile Onboarding (Miguel Sosa - Software & Design)
+  console.log("\n▶ TEST 8: Conversational Business Profile Onboarding (Miguel Sosa)");
+  {
+    const { providerOnboarding } = await import("../src/core/providerOnboarding.js");
+    const miguel = db.getProviderByPhone("+15026587853");
+    assert(miguel, "Miguel Sosa must exist in DB with phone +15026587853");
+    assert.strictEqual(miguel.category, "TECH_SOFTWARE");
+
+    const onbResult = await providerOnboarding.handleProviderDirectMessage(
+      miguel,
+      "Hola, soy Miguel. Hago páginas web modernas en Next.js y React, diseño UI/UX en Figma y desarrollo tiendas online. Cobro $75 la hora o por proyecto y mi portfolio es miguelsosa.dev"
+    );
+
+    assert.strictEqual(onbResult.success, true);
+    assert(onbResult.reply && onbResult.reply.length > 10, "Must generate conversational reply");
+    
+    const updatedMiguel = db.getProviderByPhone("+15026587853");
+    assert(updatedMiguel.services.length >= 3, "Services must be populated");
+    assert(updatedMiguel.bio && updatedMiguel.bio.length > 10, "Bio must be populated");
+    console.log(`  ✔ Conversational Onboarding passed: ${miguel.name} profile updated via natural chat (PASS)`);
   }
 
   console.log("\n=================================================");
