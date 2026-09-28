@@ -22,23 +22,40 @@ if (apiKey) {
  */
 const SYSTEM_PROMPT = `Eres el cerebro de Inteligencia Artificial de "Dame La Letra" (DML), un concierge conversacional hiper-eficiente para la comunidad hispanohablante de Louisville, Kentucky (+1 502-673-1333).
 
-Tu rol es entender con extrema precisión el lenguaje natural, modismos cubanos/latinos ("tupición", "se me ponchó la goma", "el aire no tira frío", "dejé la llave adentro del carro", "gotera en el techo", "trato hecho", "dale", "perfecto", "confírmale", "de una") y traducirlos a intenciones y datos estructurados en formato JSON.
+Tu rol es entender con extrema precisión el lenguaje natural, modismos cubanos/latinos ("tupición", "se me ponchó la goma", "el aire no tira frío", "dejé la llave adentro del carro", "gotera en el techo", "trato hecho", "dale", "perfecto", "confírmale", "de una", "necesito hacer los taxes", "llenar papeles de inmigración", "un logo y web") y traducirlos a intenciones y datos estructurados en formato JSON.
 
 Categorías soportadas en Louisville:
-- PLUMBING (Plomería, tupiciones, salideros, tuberías, calentadores)
-- HVAC (Aire acondicionado, refrigeración, calefacción)
-- AUTOMOTIVE (Mecánica móvil, cambio de gomas ponchadas, roadside, baterías)
-- LOCKSMITH (Cerrajería, llaves dentro del auto/casa, cambio de combinación)
-- ROOFING (Techos, goteras, shingles, canales)
-- ELECTRICAL (Electricidad, paneles, cortos, breakers)
-- HANDYMAN (Drywall, pintura, puertas, reparaciones generales)
-- APPLIANCE_REPAIR (Lavadoras, secadoras, refrigeradores, estufas)
-- CLEANING (Limpieza profunda, mudanzas, casas, oficinas)
-- TREE_SERVICE (Poda, tala, árboles caídos, patios)
+- PLUMBING (Plomería, tupiciones, salideros, tuberías, calentadores) [Modalidad: Emergencia / Visita técnica]
+- HVAC (Aire acondicionado, refrigeración comercial, calefacción) [Modalidad: Emergencia / Visita técnica]
+- AUTOMOTIVE (Mecánica móvil, cambio de gomas ponchadas, grúas/towing, baterías) [Modalidad: Despacho Inmediato]
+- LOCKSMITH (Cerrajería, llaves dentro del auto/casa, cambio de combinación) [Modalidad: Despacho Inmediato]
+- ROOFING (Techos, goteras, shingles, inspección, canales) [Modalidad: Inspección / Cita]
+- ELECTRICAL (Electricidad, paneles, cortos, breakers) [Modalidad: Visita técnica / Emergencia]
+- HANDYMAN (Drywall, pintura, puertas, pisos, reparaciones generales) [Modalidad: Cita / Estimado]
+- APPLIANCE_REPAIR (Lavadoras, secadoras, refrigeradores, estufas) [Modalidad: Cita técnica]
+- CLEANING (Limpieza profunda, mudanzas, casas, oficinas) [Modalidad: Cita programada]
+- TREE_SERVICE (Poda, tala, árboles caídos, patios, chapeo) [Modalidad: Estimado / Cita]
+- TECH_SOFTWARE (Software, páginas web, desarrollo de apps, diseño gráfico, logos, dibujitos, ilustraciones, flyers, branding, IA, plataformas) [Modalidad: Proyecto / Consultoría Remota]
+- CONSULTING_PROFESSIONAL (Preparación de taxes/impuestos, ITIN, formas de inmigración, notaría pública, traducciones certificadas, contabilidad, apertura de LLCs) [Modalidad: Cita / Consultoría]
+- LEGAL_SERVICES (Abogados, representación legal en corte, defensa penal, accidentes de auto/personal injury, inmigración jurídica, divorcio/familia, tickets de tráfico, litigios) [Modalidad: Cita / Consulta Legal]
+- EVENTS_CATERING (Catering criollo, puerco asado, fotografía, video, DJs, sonido para fiestas) [Modalidad: Evento / Cotización]
+- BEAUTY_BARBER (Barbería, cortes, peinados, uñas, maquillaje a domicilio o cita) [Modalidad: Cita programada]
 
-Reglas clave de Louisville:
-- Si mencionan vías locales (Dixie Hwy, Preston Hwy, Bardstown Rd, Hurstbourne, Shively, Okolona, St. Matthews, Valley Station), asigna la ubicación precisa.
-- Respuestas de cotizaciones de proveedores: Distingue rigurosamente entre tiempo/duración ("de 15 a 20 minutos", "en 1 hora", "mañana") y precios en dólares ("son 100", "$65", "200").`;
+Reglas clave:
+- REGLA UNIVERSAL DE DESAMBIGUACIÓN (PARA CADA CATEGORÍA):
+  * Si el cliente solicita un profesional o servicio de forma genérica ("un plomero", "un mecánico", "un electricista", "un cerrajero", "limpieza", "un contador", "un handyman", "un techero", "un abogado", "un diseñador", etc.) SIN detallar la falla o tarea concreta:
+  * NO asumas el sub-servicio ni la urgencia.
+  * Clasifica la categoría correspondiente y marca service_type: "UNKNOWN", needs_clarification: true.
+  * Formula un "clarification_prompt" cordial y conciso (ej. "¿Qué tipo de problema de plomería necesitas resolver?", "¿Qué falla presenta tu vehículo?", "¿Necesitas ayuda con taxes personales, de negocio o contabilidad?", "¿Qué tipo de asunto legal necesitas resolver?").
+  * AISLAMIENTO ESTRICTO DE CATEGORÍAS: NUNCA hagas matching con categorías no afines (ej. no emparejar contables con abogados, ni mecánicos con cerrajeros, ni diseño con HVAC).
+  * UNKNOWN ≠ INELIGIBLE: Si un proveedor no tiene registrado un subtipo específico, se marca UNKNOWN y se verifica, no se le descarta automáticamente.
+  * Solo asigna service_type específico cuando el cliente lo indique explícitamente ("se me ponchó la goma", "tubo botando agua", "abogado de inmigración", "hacer un logo").
+- Modalidad del Servicio: No todos los servicios son emergencias viales. Para servicios profesionales, legales, software, diseño, contabilidad, impuestos o trámites, la respuesta del proveedor es disponibilidad para cita/proyecto y tarifa por hora o proyecto (NO "en cuántos minutos llega a la carretera").
+- Si mencionan vías locales de Louisville (Dixie Hwy, Preston Hwy, Bardstown Rd, Hurstbourne, Shively, Okolona, St. Matthews, Valley Station), asigna la ubicación precisa.
+- Respuestas de cotizaciones de proveedores:
+  * Si el proveedor da un precio fijo ("$80", "$150"): extrae el número y formato "$80".
+  * Si el proveedor indica que el precio es personalizado, relativo, a convenir, según el caso o que se hace un estimado en consulta/oficina: "price": null, "price_display": "Estimado personalizado en consulta" (NUNCA inventar un precio numérico fijo arbitrario).
+  * Extrae con precisión fechas y horarios de citas ("el martes a las 2:00 PM", "mañana a las 10am", "en 20 minutos").`;
 
 export class GeminiConciergeService {
   constructor() {
@@ -68,8 +85,11 @@ Devuelve ÚNICAMENTE un JSON con:
   "is_affirmation": boolean (true si el cliente dice sí, dale, perfecto, confirma, conéctalo, etc.),
   "is_decline": boolean (true si dice no, cancela, no quiero, busca otro),
   "is_clarification_answer": boolean,
-  "service_category": "PLUMBING" | "HVAC" | "AUTOMOTIVE" | "LOCKSMITH" | "ROOFING" | "ELECTRICAL" | "HANDYMAN" | "APPLIANCE_REPAIR" | "CLEANING" | "TREE_SERVICE" | null,
+  "service_category": "PLUMBING" | "HVAC" | "AUTOMOTIVE" | "LOCKSMITH" | "ROOFING" | "ELECTRICAL" | "HANDYMAN" | "APPLIANCE_REPAIR" | "CLEANING" | "TREE_SERVICE" | "TECH_SOFTWARE" | "CONSULTING_PROFESSIONAL" | "LEGAL_SERVICES" | "EVENTS_CATERING" | "BEAUTY_BARBER" | null,
   "service_type": string | null,
+  "legal_specialty": "IMMIGRATION" | "PERSONAL_INJURY" | "CRIMINAL" | "FAMILY" | "TRAFFIC_TICKET" | "REAL_ESTATE_LEGAL" | "LABOR_EMPLOYMENT" | "BUSINESS_CORPORATE" | "UNKNOWN" | null,
+  "needs_clarification": boolean,
+  "clarification_prompt": string | null,
   "location_raw": string,
   "urgency": "LOW" | "MEDIUM" | "HIGH" | "EMERGENCY",
   "property_type": "RESIDENTIAL" | "COMMERCIAL" | "UNKNOWN",
@@ -108,13 +128,22 @@ Mensaje del proveedor: "${rawText}"
 Solicitud del cliente: ${JSON.stringify(requestDetails || {})}
 Proveedor: ${JSON.stringify(providerDetails ? { name: providerDetails.name, category: providerDetails.category } : {})}
 
+Instrucciones para precios y consultas:
+- Si el proveedor indica que el precio es personalizable, relativo, variable o propone una cita/estimado en oficina ("el precio es personalizable", "es relativo", "en una consulta en la oficina", "le hacemos un estimado aquí el martes a las dos"):
+  * "intent": "PROVIDER_GIVE_QUOTE"
+  * "price": null (NUNCA inventar un precio numérico si no lo dijeron)
+  * "price_display": "Estimado personalizado en la oficina" o "Estimado personalizado en consulta"
+  * "estimated_arrival": "el martes a las 2:00 PM" (o la fecha/hora propuesta, o "lo antes posible")
+- Si el proveedor hace una pregunta aclaratoria antes de cotizar: "intent": "PROVIDER_ASK_QUESTION", "question_to_customer": "texto de la pregunta"
+- Si da un precio fijo en dólares o un rango: "price": número o promedio, "price_display": "$XX" o "$XX - $YY"
+
 Devuelve ÚNICAMENTE un JSON con:
 {
   "intent": "PROVIDER_GIVE_QUOTE" | "PROVIDER_ASK_QUESTION" | "PROVIDER_DECLINED" | "PROVIDER_OFF_DUTY",
   "price": number | null,
-  "price_display": string | null (ej: "$100", "$150 - $200"),
-  "estimated_arrival": string (ej: "15 a 20 minutos", "mañana por la mañana", "1 hora"),
-  "question_to_customer": string | null (si el proveedor hace una pregunta),
+  "price_display": string | null (ej: "$100", "$150 - $200", "Estimado personalizado en la oficina", "Estimado personalizado en consulta"),
+  "estimated_arrival": string (ej: "el martes a las 2:00 PM", "mañana por la mañana", "15 a 20 minutos"),
+  "question_to_customer": string | null,
   "commercial_learned": 1 | 0 | null,
   "confidence": number
 }`;
@@ -147,7 +176,7 @@ Devuelve ÚNICAMENTE un JSON con:
 
     try {
       const prompt = `Eres el asistente de gestión de negocios y proveedores de "Dame La Letra".
-Un proveedor registrado está conversando contigo para actualizar los datos de su negocio o informarte sobre sus servicios.
+Un proveedor registrado está conversando contigo. Tu trabajo principal es determinar si el proveedor está buscando un servicio para sí mismo (como cliente, ej: "necesito un plomero", "busco alquilar un local", "me ponché") o si está intentando actualizar su propio perfil de negocio (ej: "ahora también hago diseño web", "mi nueva tarifa es $50", "estoy ocupado").
 
 Mensaje del proveedor: "${rawText}"
 Perfil actual del proveedor: ${JSON.stringify(currentProfile, null, 2)}
@@ -155,6 +184,7 @@ Perfil actual del proveedor: ${JSON.stringify(currentProfile, null, 2)}
 Extrae los datos actualizados y redacta una respuesta conversacional cálida, profesional y concisa en español (estilo WhatsApp).
 Devuelve ÚNICAMENTE un JSON con este formato:
 {
+  "is_customer_request": boolean (true si el proveedor está pidiendo un servicio para sí mismo como cliente, false si está actualizando su perfil o saludando),
   "updated_fields": {
     "bio": string | null (resumen/descripción profesional si la menciona),
     "services": array de strings | null (servicios nuevos o lista de habilidades como "SOFTWARE_DEVELOPMENT", "WEB_DESIGN", "REACT", "NEXTJS", "FIGMA", "SEO", "APP_DEVELOPMENT", etc.),
@@ -164,8 +194,8 @@ Devuelve ÚNICAMENTE un JSON con este formato:
     "base_location_name": string | null (cobertura geográfica o modalidad remoto/presencial),
     "preferred_channel": "WHATSAPP" | "SMS" | null
   },
-  "summary_changes": string (breve frase de qué cambió, ej: "Actualicé tus servicios a diseño web y tus tarifas por hora"),
-  "reply_message": string (mensaje natural y profesional para enviarle al proveedor por WhatsApp confirmando lo que se guardó y preguntándole si falta algo más)
+  "summary_changes": string | null (breve frase de qué cambió, ej: "Actualicé tus servicios a diseño web", o null si es customer request),
+  "reply_message": string | null (mensaje natural confirmando lo que se guardó, o null si es customer request)
 }`;
 
       const response = await this.client.models.generateContent({
@@ -187,6 +217,12 @@ Devuelve ÚNICAMENTE un JSON con este formato:
 
   heuristicProviderProfileExtraction(rawText, currentProfile = {}) {
     const textLower = rawText.toLowerCase();
+    
+    // Fallback detection for customer request intent
+    if (textLower.includes("necesito un") || textLower.includes("busco un") || textLower.includes("me ponché") || textLower.includes("se me rompió")) {
+      return { is_customer_request: true };
+    }
+
     const updates = {};
     const changes = [];
 

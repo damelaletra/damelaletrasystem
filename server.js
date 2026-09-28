@@ -81,8 +81,12 @@ app.post(["/api/webhooks/twilio", "/webhooks/twilio"], async (req, res) => {
       console.log(`[TWILIO WEBHOOK] Inbound identified as Provider Quote: ${resolvedProvider.name} (${cleanPhone}) for request: ${waitingReq.id}`);
       await cascadingEngine.handleProviderResponse(activeProviderId, bodyText, waitingReq.id);
     } else if (provider && !waitingReq) {
-      console.log(`[TWILIO WEBHOOK] Inbound identified as Provider Conversational Onboarding: ${provider.name} (${cleanPhone})`);
-      await providerOnboarding.handleProviderDirectMessage(provider, bodyText, channel);
+      console.log(`[TWILIO WEBHOOK] Inbound identified as Provider Direct Message: ${provider.name} (${cleanPhone})`);
+      const onboardingResult = await providerOnboarding.handleProviderDirectMessage(provider, bodyText, channel);
+      if (onboardingResult && onboardingResult.isCustomerRequest) {
+        console.log(`[TWILIO WEBHOOK] Rerouting provider direct message as a Customer request from ${cleanPhone}: "${bodyText}"`);
+        await stateMachine.processCustomerInput(bodyText, channel, cleanPhone);
+      }
     } else {
       console.log(`[TWILIO WEBHOOK] Processing as Customer request from ${cleanPhone}: "${bodyText}"`);
       await stateMachine.processCustomerInput(bodyText, channel, cleanPhone);
@@ -157,15 +161,25 @@ app.post(["/api/provider/chat", "/provider/chat"], async (req, res) => {
       return res.status(404).json({ error: "Provider not found" });
     }
 
-    // Check if there is an active waiting request for this provider
-    const waitingReq = db.getActiveWaitingRequestForPhone(provider.phone) ||
+    // Check if there is an active waiting request for this provider or any active waiting request in the system
+    let waitingReq = db.getActiveWaitingRequestForPhone(provider.phone) ||
       db.getRequests(r => (r.status === "WAITING_PROVIDER" || r.status === "WAITING_CUSTOMER_CLARIFICATION") && r.matched_provider_id === provider.id)[0];
 
+    // In simulation mode, if no request is matched strictly to this provider id, check if there's any active waiting request
+    if (!waitingReq) {
+      const anyWaiting = db.getRequests(r => r.status === "WAITING_PROVIDER" || r.status === "WAITING_CUSTOMER_CLARIFICATION");
+      if (anyWaiting.length > 0) {
+        waitingReq = anyWaiting[0];
+      }
+    }
+
     if (waitingReq) {
-      console.log(`[PROVIDER CHAT] Identified as Quote/Clarification response for Request ${waitingReq.id}`);
-      const result = await cascadingEngine.handleProviderResponse(provider.id, message, waitingReq.id);
+      const targetProviderId = waitingReq.matched_provider_id || provider.id;
+      const targetProvider = db.getProviderById(targetProviderId) || provider;
+      console.log(`[PROVIDER CHAT] Identified as Quote/Clarification response for Request ${waitingReq.id} by ${targetProvider.name}`);
+      const result = await cascadingEngine.handleProviderResponse(targetProviderId, message, waitingReq.id);
       const updatedReq = db.getRequestById(waitingReq.id);
-      const updatedProvider = db.getProviderById(provider.id);
+      const updatedProvider = db.getProviderById(targetProviderId);
 
       channels.broadcast("ai_intelligence_update", {
         actor: "PROVIDER",

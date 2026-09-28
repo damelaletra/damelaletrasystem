@@ -14,6 +14,11 @@ export class ProviderOnboardingEngine {
     // 1. Extract structured profile updates using Gemini AI
     const analysis = await geminiService.extractProviderProfileUpdates(rawMessage, provider);
 
+    if (analysis && analysis.is_customer_request) {
+      console.log(`[PROVIDER ONBOARDING] Detected customer request intent from provider ${provider.name}. Bailing out...`);
+      return { isCustomerRequest: true };
+    }
+
     const updates = {};
     if (analysis && analysis.updated_fields) {
       for (const [key, value] of Object.entries(analysis.updated_fields)) {
@@ -21,6 +26,10 @@ export class ProviderOnboardingEngine {
           updates[key] = value;
         }
       }
+    }
+
+    if (updates.services && Array.isArray(updates.services) && Array.isArray(provider.services)) {
+      updates.services = Array.from(new Set([...provider.services, ...updates.services]));
     }
 
     // 2. Persist profile changes to database
