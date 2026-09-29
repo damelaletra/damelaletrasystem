@@ -633,19 +633,26 @@
     </section>
 
 
-    <!-- 3. Right Column: Negocio Chat (Miguel Sosa / Proveedor) -->
+    <!-- 3. Right Column: Negocio Chat (Simulador Multi-Negocio) -->
     <section class="col-chat right">
-      <div class="chat-header" style="background: #182230;">
-        <div class="chat-avatar avatar-prov">MS</div>
-        <div class="chat-info">
-          <div class="chat-title">Negocio: Miguel Sosa</div>
-          <div class="chat-status" style="color: #60a5fa;">● Software & Design (+1 502-658-7853)</div>
+      <div class="chat-header" style="background: #182230; justify-content: space-between;">
+        <div style="display: flex; align-items: center; gap: 0.6rem; min-width: 0; flex: 1;">
+          <div class="chat-avatar avatar-prov" id="prov-header-avatar">MS</div>
+          <div class="chat-info" style="min-width: 0;">
+            <div class="chat-title" id="prov-header-title" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Negocio: Miguel Sosa</div>
+            <div class="chat-status" id="prov-header-sub" style="color: #60a5fa; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">● Software & Design (+1 502-658-7853)</div>
+          </div>
         </div>
-        <span class="chat-badge badge-prov">NEGOCIO</span>
+        <div style="display: flex; align-items: center; gap: 0.4rem;">
+          <select id="provider-selector" onchange="switchActiveProvider(this.value)" style="background: #0f172a; color: #93c5fd; border: 1px solid #334155; font-size: 0.72rem; padding: 0.25rem 0.4rem; border-radius: 6px; outline: none; cursor: pointer; max-width: 140px;">
+            <option value="prov-miguel-sosa">Miguel Sosa (Tech)</option>
+          </select>
+          <span class="chat-badge badge-prov">NEGOCIO</span>
+        </div>
       </div>
 
       <div class="chat-messages" id="chat-provider-stream">
-        <div class="bubble in" style="background: #182230;">
+        <div class="bubble in" id="prov-welcome-bubble" style="background: #182230;">
           ¡Hola Miguel! Escribe aquí para entrenar tu perfil desde cero (servicios, tarifas, portafolio, disponibilidad) o responder cotizaciones.
           <span class="bubble-time">DML</span>
         </div>
@@ -656,7 +663,7 @@
           type="text" 
           class="chat-input" 
           id="input-prov" 
-          placeholder="Escribe como negocio (ej. 'Hago tiendas Shopify y cobro $80/h')..." 
+          placeholder="Escribe como negocio (ej. 'Cotizo $80 y voy mañana')..." 
           autocomplete="off"
         >
         <button type="submit" class="chat-send-btn btn-send-prov">➤</button>
@@ -669,12 +676,18 @@
     let clientRef = "test-client-" + Date.now();
     let currentRequestId = null;
     let providerId = "prov-miguel-sosa";
+    let allProviders = [];
 
     // DOM Elements
     const custStream = document.getElementById("chat-customer-stream");
     const provStream = document.getElementById("chat-provider-stream");
     const inputCust = document.getElementById("input-cust");
     const inputProv = document.getElementById("input-prov");
+    const providerSelector = document.getElementById("provider-selector");
+    const provHeaderAvatar = document.getElementById("prov-header-avatar");
+    const provHeaderTitle = document.getElementById("prov-header-title");
+    const provHeaderSub = document.getElementById("prov-header-sub");
+    const provWelcomeBubble = document.getElementById("prov-welcome-bubble");
 
     // HUD Elements
     const hudLastActor = document.getElementById("hud-last-actor");
@@ -700,7 +713,7 @@
     function addBubble(container, text, type) {
       const b = document.createElement("div");
       b.className = "bubble " + type;
-      b.innerHTML = text.replace(/\\n/g, "<br>") + `<span class="bubble-time">${getTimeStr()}</span>`;
+      b.innerHTML = text.replace(/\n/g, "<br>") + `<span class="bubble-time">${getTimeStr()}</span>`;
       container.appendChild(b);
       container.scrollTop = container.scrollHeight;
     }
@@ -710,6 +723,48 @@
       item.className = "log-item" + (isProvider ? " provider" : "");
       item.innerHTML = `<span>${text}</span><span>${getTimeStr()}</span>`;
       hudTimeline.insertBefore(item, hudTimeline.firstChild);
+    }
+
+    // Switch Active Provider in Right Panel
+    async function switchActiveProvider(targetId) {
+      if (!targetId) return;
+      providerId = targetId;
+      if (providerSelector.value !== targetId) {
+        providerSelector.value = targetId;
+      }
+
+      try {
+        const res = await fetch("/api/provider/profile/" + targetId);
+        const data = await res.json();
+        if (data.provider) {
+          const p = data.provider;
+          const initials = p.name ? p.name.split(" ").map(w => w[0]).slice(0, 2).join("").toUpperCase() : "PROV";
+          provHeaderAvatar.textContent = initials;
+          provHeaderTitle.textContent = `Negocio: ${p.name}`;
+          provHeaderSub.textContent = `● ${p.category} (${p.phone})`;
+          provWelcomeBubble.innerHTML = `¡Hola ${p.name}! Escribe aquí para entrenar tu perfil (servicios, tarifas, disponibilidad) o responder cotizaciones.<span class="bubble-time">${getTimeStr()}</span>`;
+          renderProviderProfile(p);
+        }
+      } catch (err) {
+        console.error("Error switching provider:", err);
+      }
+    }
+
+    // Populate Provider Selector
+    async function loadAllProviders() {
+      try {
+        const res = await fetch("/api/providers");
+        const data = await res.json();
+        if (data.providers && data.providers.length > 0) {
+          allProviders = data.providers;
+          providerSelector.innerHTML = data.providers.map(p => 
+            `<option value="${p.id}">${p.name} (${p.category})</option>`
+          ).join("");
+          providerSelector.value = providerId;
+        }
+      } catch (err) {
+        console.error("Error loading providers:", err);
+      }
     }
 
     // 1. Send Customer Message (Left Chat)
@@ -750,6 +805,11 @@
           hudUrgency.textContent = req.urgency || "MEDIUM";
           hudStateBadge.textContent = req.status;
           hudJsonView.textContent = JSON.stringify(req, null, 2);
+
+          // Auto-switch right panel to contacted provider
+          if (req.matched_provider_id) {
+            switchActiveProvider(req.matched_provider_id);
+          }
 
           if (req.status === "WAITING_PROVIDER") {
             hudActionText.textContent = `Intención clasificada como [${req.service_category}]. Solicitud creada (#${req.id}) y alerta despachada al técnico asignado en Louisville.`;
@@ -797,7 +857,7 @@
             hudCategory.textContent = data.provider.category || "TECH_SOFTWARE";
             hudStateBadge.textContent = "PROFILE_LEARNED";
             hudJsonView.textContent = JSON.stringify(data.result, null, 2);
-            hudActionText.textContent = `Datos aprendidos e indexados en la memoria de Miguel Sosa en SQLite: ${JSON.stringify(data.result.updates || {})}`;
+            hudActionText.textContent = `Datos aprendidos e indexados en la memoria de ${data.provider.name} en SQLite: ${JSON.stringify(data.result.updates || {})}`;
             
             // Render confirmation bubble in provider chat
             if (data.result && data.result.reply) {
@@ -808,10 +868,10 @@
             addLog(`Perfil de negocio actualizado para ${data.provider.name}`, true);
           } else if (data.mode === "QUOTE_RESPONSE") {
             hudIntent.textContent = "COTIZACION_PROVEEDOR";
-            hudStateBadge.textContent = "QUOTE_RECEIVED";
+            hudStateBadge.textContent = data.request.status || "QUOTE_RECEIVED";
             hudJsonView.textContent = JSON.stringify(data.result, null, 2);
-            hudActionText.textContent = `Cotización del negocio recibida. Generando propuesta estructurada para el cliente.`;
-            addLog(`Cotización enviada al cliente para orden #${data.request.id}`, true);
+            hudActionText.textContent = `Respuesta del negocio procesada. Alerta y propuesta estructurada enviadas al cliente.`;
+            addLog(`Respuesta procesada para orden #${data.request.id}`, true);
           }
         }
       } catch (err) {
@@ -822,6 +882,7 @@
     // 3. Render Provider Profile Live in HUD
     function renderProviderProfile(p) {
       if (!p) return;
+      document.querySelector(".hud-card:nth-child(3) .card-header-row span:first-child").textContent = `📊 3. Memoria Activa del Negocio (${p.name})`;
       hudBusinessBio.textContent = p.bio || "Sin descripción aún. Escribe en el chat derecho para describirte.";
       hudBusinessRates.textContent = p.pricing_notes || "A convenir";
       hudBusinessWeb.textContent = p.website || "No especificado";
@@ -851,7 +912,7 @@
 
     // 5. Reset Memory from Scratch
     async function resetMemoryFromZero() {
-      if (!confirm("¿Deseas vaciar la memoria de Miguel Sosa para entrenarlo completamente desde cero?")) return;
+      if (!confirm(`¿Deseas vaciar la memoria del negocio activo (${providerId}) para entrenarlo completamente desde cero?`)) return;
       
       try {
         const res = await fetch("/api/admin/reset-provider-profile", {
@@ -862,9 +923,9 @@
         const data = await res.json();
         if (data.provider) {
           renderProviderProfile(data.provider);
-          provStream.innerHTML = `<div class="bubble in" style="background: #182230;">Memoria reiniciada a cero. Escribe cualquier cosa de tu negocio para que el modelo lo aprenda.<span class="bubble-time">${getTimeStr()}</span></div>`;
+          provStream.innerHTML = `<div class="bubble in" style="background: #182230;">Memoria de ${data.provider.name} reiniciada a cero. Escribe cualquier cosa de tu negocio para que el modelo lo aprenda.<span class="bubble-time">${getTimeStr()}</span></div>`;
           hudActionText.textContent = "Memoria del negocio reiniciada a estado virgen. Listo para entrenar desde cero.";
-          addLog("Memoria del negocio reiniciada a cero", true);
+          addLog(`Memoria de ${data.provider.name} reiniciada a cero`, true);
         }
       } catch (err) {
         console.error("Reset memory error:", err);
@@ -876,13 +937,16 @@
 
     evtSource.addEventListener("customer_message", (e) => {
       const data = JSON.parse(e.data);
-      if (data.conversationRef === clientRef || (currentRequestId && data.requestId === currentRequestId)) {
+      if (data.conversationRef === clientRef || (currentRequestId && data.requestId === currentRequestId) || true) {
         addBubble(custStream, data.text, "in");
       }
     });
 
     evtSource.addEventListener("provider_briefing", (e) => {
       const data = JSON.parse(e.data);
+      if (data.providerId && data.providerId !== providerId) {
+        switchActiveProvider(data.providerId);
+      }
       addBubble(provStream, data.text, "in");
       addLog(`Briefing de orden #${data.requestId} entregado al negocio`, true);
     });
@@ -913,6 +977,7 @@
     });
 
     // Initialize
+    loadAllProviders();
     loadProviderProfile();
   </script>
 </body>

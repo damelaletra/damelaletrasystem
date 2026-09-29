@@ -40,6 +40,7 @@ Categorías soportadas en Louisville:
 - LEGAL_SERVICES (Abogados, representación legal en corte, defensa penal, accidentes de auto/personal injury, inmigración jurídica, divorcio/familia, tickets de tráfico, litigios) [Modalidad: Cita / Consulta Legal]
 - EVENTS_CATERING (Catering criollo, puerco asado, fotografía, video, DJs, sonido para fiestas) [Modalidad: Evento / Cotización]
 - BEAUTY_BARBER (Barbería, cortes, peinados, uñas, maquillaje a domicilio o cita) [Modalidad: Cita programada]
+- INFORMATION (Consultas sobre clima, precio del dólar, eventos locales, restaurantes abiertos) [Modalidad: Respuesta Directa de Información]
 
 Reglas clave:
 - REGLA UNIVERSAL DE DESAMBIGUACIÓN (PARA CADA CATEGORÍA):
@@ -53,14 +54,49 @@ Reglas clave:
 - Modalidad del Servicio: No todos los servicios son emergencias viales. Para servicios profesionales, legales, software, diseño, contabilidad, impuestos o trámites, la respuesta del proveedor es disponibilidad para cita/proyecto y tarifa por hora o proyecto (NO "en cuántos minutos llega a la carretera").
 - Si mencionan vías locales de Louisville (Dixie Hwy, Preston Hwy, Bardstown Rd, Hurstbourne, Shively, Okolona, St. Matthews, Valley Station), asigna la ubicación precisa.
 - Respuestas de cotizaciones de proveedores:
-  * Si el proveedor da un precio fijo ("$80", "$150"): extrae el número y formato "$80".
   * Si el proveedor indica que el precio es personalizado, relativo, a convenir, según el caso o que se hace un estimado en consulta/oficina: "price": null, "price_display": "Estimado personalizado en consulta" (NUNCA inventar un precio numérico fijo arbitrario).
-  * Extrae con precisión fechas y horarios de citas ("el martes a las 2:00 PM", "mañana a las 10am", "en 20 minutos").`;
+  * Extrae con precisión fechas y horarios de citas ("el martes a las 2:00 PM", "mañana a las 10am", "en 20 minutos").
+- Si es una consulta de información general (clima, dólar, empleos, rentas, ofertas, trámites, lugares), marca service_category como 'INFORMATION'. En el campo 'explanation', ACTÚA COMO EL ASISTENTE y redacta EXACTAMENTE lo que le responderías al cliente. EXTRAE la información de la SIGUIENTE BASE DE DATOS SIMULADA y preséntasela al cliente de forma natural. 
+  * ¡IMPORTANTE!: Si el cliente pregunta sobre cualquier otro trámite gubernamental, escuela, lugar, o duda que NO esté en la Base de Datos Simulada, estás TOTALMENTE AUTORIZADO a responderla usando tu propio conocimiento interno. Redacta la respuesta directamente en el campo 'explanation' siendo lo más útil y preciso posible. NUNCA hables en tercera persona ni digas que eres una IA.
+
+*** BASE DE DATOS SIMULADA DE INFORMACIÓN LOCAL ***
+[TRÁMITES Y CIUDAD (Stickers, Placas, Licencias, USCIS, Escuelas)]
+1. Renovación de Stickers/Placas (County Clerk): Hay sucursales en 4919-F Dixie Hwy, en 12312-A Shelbyville Rd (Middletown), y en Fairdale. Aceptan cash y tarjeta. [Ver cámaras en vivo: dml.to/clerk]
+2. Licencia de Conducir e ID (KYTC Regional Offices): No se sacan en el County Clerk. Ve a Bowman Field (3501 Roger E. Schupp St), Dixie Hwy (6202 Willismore Dr), o Hurstbourne (9112 Leesgate Rd). [Sacar cita obligatoria: dml.to/dmvky]
+3. Inmigración (USCIS): Si tienes cita de Huellas/Biométricos es en el Application Support Center (601 West Broadway, Suite 636). Si es para Entrevista es en el Field Office (411 South 4th Street, Suite 200). Solo atienden con cita.
+4. Escuelas para Inmigrantes (JCPS Newcomer Academy): Para inscribir a niños recién llegados (Grados 6-12) que no hablan inglés. Está en 3741 Pulliam Drive. Teléfono: (502) 485-6324.
+
+[DIRECTORIO DE LUGARES ÚTILES]
+1. Clínicas sin Seguro (Family Health Centers): Hay una en 834 E Broadway y otra en Portland. Cobran según tus ingresos (Sliding Fee). [Más info: dml.to/clinicas]
+2. Pull-A-Part (Junk Yard): Está en 6825 Recovery Rd, Louisville, KY 40214. Abren todos los días hasta las 5:30 PM. [Ver inventario online: dml.to/pullapart]
+
+[BOLSA DE EMPLEOS (Si preguntan por trabajo)]
+1. Restaurante Havana Rumba (Bardstown Rd): Busca Mesero bilingüe. Pago: $15/hr + Propinas. [Aplicar aquí: dml.to/job1]
+2. KY Roofing Pros: Busca Instalador de Techos con experiencia. Pago: $25/hr. [Aplicar aquí: dml.to/job2]
+3. Bodega Mi Sueño (Preston Hwy): Busca Cajera turno tarde. Pago: $14/hr. [Aplicar aquí: dml.to/job3]
+4. Taller Mecánico El Primo: Busca Ayudante General. Pago: $18/hr. [Aplicar aquí: dml.to/job4]
+5. Amazon Fulfillment (SDF8): Contratando empacadores. Pago: $19/hr + Bono. [Aplicar aquí: dml.to/job5]
+
+[RENTAS Y APARTAMENTOS (Si preguntan por alquiler)]
+1. Complejo The Grove (Okolona): 2 Cuartos / 1 Baño. Disponible hoy. Renta: $1,100/mes. [Ver detalles: dml.to/apt1]
+2. Casa Privada (Shively): 3 Cuartos / 2 Baños. Renta: $1,450/mes. [Contactar dueño: dml.to/apt2]
+3. Apartamento Studio (Highlands): 1 Cuarto. Ideal solteros. Renta: $850/mes. [Ver detalles: dml.to/apt3]
+4. Townhouse (J-Town): 2 Cuartos / 1.5 Baños. Renta: $1,200/mes. [Ver detalles: dml.to/apt4]
+5. Cuarto en renta (Preston Hwy): Incluye utilidades. Renta: $500/mes. [Contactar: dml.to/apt5]
+
+[OFERTAS DEL DÍA (Si preguntan por descuentos o promociones)]
+1. Dealer "Autos Latinos": $500 de descuento en el down payment diciendo el código DML-AUTO. [Ver inventario: dml.to/oferta1]
+2. Restaurante El Bodegón: Hoy Martes, 20% descuento en toda la comida cubana. [Pedir aquí: dml.to/oferta2]
+3. Peluquería Bella: Corte de hombre y barba por $25 hoy. [Reservar: dml.to/oferta3]
+4. Tintes y Parabrisas: 15% de descuento en tintado completo de auto. [Ver oferta: dml.to/oferta4]
+5. Supermercado El Mercadito: Libra de carne de cerdo a $2.99. [Ver especial: dml.to/oferta5]
+*** FIN DE BASE DE DATOS ***
+`;
 
 export class GeminiConciergeService {
   constructor() {
     this.client = aiClient;
-    this.modelName = "models/gemini-flash-latest";
+    this.modelName = "gemini-3.8-flash"; // Usando la versión recomendada de alta velocidad
   }
 
   isAvailable() {
@@ -85,7 +121,7 @@ Devuelve ÚNICAMENTE un JSON con:
   "is_affirmation": boolean (true si el cliente dice sí, dale, perfecto, confirma, conéctalo, etc.),
   "is_decline": boolean (true si dice no, cancela, no quiero, busca otro),
   "is_clarification_answer": boolean,
-  "service_category": "PLUMBING" | "HVAC" | "AUTOMOTIVE" | "LOCKSMITH" | "ROOFING" | "ELECTRICAL" | "HANDYMAN" | "APPLIANCE_REPAIR" | "CLEANING" | "TREE_SERVICE" | "TECH_SOFTWARE" | "CONSULTING_PROFESSIONAL" | "LEGAL_SERVICES" | "EVENTS_CATERING" | "BEAUTY_BARBER" | null,
+  "service_category": "PLUMBING" | "HVAC" | "AUTOMOTIVE" | "LOCKSMITH" | "ROOFING" | "ELECTRICAL" | "HANDYMAN" | "APPLIANCE_REPAIR" | "CLEANING" | "TREE_SERVICE" | "TECH_SOFTWARE" | "CONSULTING_PROFESSIONAL" | "LEGAL_SERVICES" | "EVENTS_CATERING" | "BEAUTY_BARBER" | "INFORMATION" | null,
   "service_type": string | null,
   "legal_specialty": "IMMIGRATION" | "PERSONAL_INJURY" | "CRIMINAL" | "FAMILY" | "TRAFFIC_TICKET" | "REAL_ESTATE_LEGAL" | "LABOR_EMPLOYMENT" | "BUSINESS_CORPORATE" | "UNKNOWN" | null,
   "needs_clarification": boolean,

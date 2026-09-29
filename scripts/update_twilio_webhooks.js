@@ -21,10 +21,10 @@ async function updateTwilio() {
     console.log(`✔ Messaging Service Inbound URL set to: ${updatedService.inboundRequestUrl}`);
   }
 
-  // 2. Update Direct Phone Numbers (both +15026731333 and +15025187888)
+  // 2. Update Direct Phone Number (ONLY +15026731333 for Dame La Letra)
   const incoming = await client.incomingPhoneNumbers.list();
   for (const num of incoming) {
-    if (num.phoneNumber === "+15026731333" || num.phoneNumber === "+15025187888") {
+    if (num.phoneNumber === "+15026731333") {
       console.log(`Updating Phone Number ${num.phoneNumber} (${num.sid})...`);
       const updatedNum = await client.incomingPhoneNumbers(num.sid).update({
         smsUrl: RAILWAY_WEBHOOK_URL,

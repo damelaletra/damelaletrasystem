@@ -2,6 +2,7 @@ import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 import { initialBusinesses, initialProviders, externalPublicDirectory } from "./seedData.js";
+import { createClient } from "@supabase/supabase-js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -18,54 +19,53 @@ class Database {
       quotes: [],
       connections: [],
       external_discoveries: [],
-      event_logs: []
+      event_logs: [],
+      affiliates: []
     };
-    this.init();
+    
+    const supabaseUrl = process.env.SUPABASE_URL || "https://flzkesblrmtlqtdmnnpg.supabase.co";
+    const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZsemtlc2Jscm10bHF0ZG1ubnBnIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc5MDYxNDY5MywiZXhwIjoyMTA2MTkwNjkzfQ.aF8fp_7Juc98uzJNL2hRg3XKiyLkrojDTc3CjJbajd4";
+    this.supabase = createClient(supabaseUrl, supabaseKey);
   }
 
-  init() {
+  async initDb() {
+    console.log("[DB] Connecting to Supabase and pulling persistent state...");
     try {
-      if (fs.existsSync(DB_FILE)) {
-        const raw = fs.readFileSync(DB_FILE, "utf-8");
-        this.data = JSON.parse(raw);
+      const tables = ['providers', 'businesses', 'requests', 'quotes', 'connections', 'external_discoveries', 'event_logs', 'affiliates'];
+      for (const table of tables) {
+        const { data, error } = await this.supabase.from(table).select('*');
+        if (!error && data) {
+           this.data[table] = data.map(row => row.data);
+        }
+      }
+
+      if (this.data.providers.length === 0) {
+        console.log("[DB] Supabase is empty. Seeding founding providers...");
+        this.data.providers = JSON.parse(JSON.stringify(initialProviders));
+        this.data.businesses = JSON.parse(JSON.stringify(initialBusinesses));
+        for (const p of this.data.providers) await this.syncRecord('providers', p);
+        for (const b of this.data.businesses) await this.syncRecord('businesses', b);
       } else {
-        this.seed();
+        console.log(`[DB] Successfully loaded state from Supabase (${this.data.requests.length} requests, ${this.data.providers.length} providers).`);
       }
     } catch (err) {
-      console.error("[DB] Error loading database file, re-seeding:", err.message);
-      this.seed();
+      console.error("[DB] Supabase init error:", err.message);
     }
   }
 
-  seed() {
-    this.data = {
-      businesses: JSON.parse(JSON.stringify(initialBusinesses)),
-      providers: JSON.parse(JSON.stringify(initialProviders)),
-      requests: [],
-      quotes: [],
-      connections: [],
-      external_discoveries: [],
-      event_logs: []
-    };
-    this.save();
-    console.log("[DB] Seeded database with Louisville founding providers & businesses.");
+  async syncRecord(table, record) {
+    if (!record || !record.id) return;
+    this.supabase.from(table).upsert({ id: record.id, data: record }).then(({error}) => {
+       if (error) console.error(`[DB] Supabase sync error for ${table}:`, error.message);
+    });
   }
 
   save() {
     try {
       const dir = path.dirname(DB_FILE);
-      if (!fs.existsSync(dir)) {
-        fs.mkdirSync(dir, { recursive: true });
-      }
-      fs.writeFileSync(DB_FILE, JSON.stringify(this.data, null, 2), "utf-8");
-    } catch (err) {
-      try {
-        const tmpFile = path.join("/tmp", "dml_database.json");
-        fs.writeFileSync(tmpFile, JSON.stringify(this.data, null, 2), "utf-8");
-      } catch (tmpErr) {
-        console.error("[DB] Save error:", err.message);
-      }
-    }
+      if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+      fs.promises.writeFile(DB_FILE, JSON.stringify(this.data, null, 2), "utf-8").catch(()=>{});
+    } catch (err) {}
   }
 
   // Providers
@@ -92,6 +92,13 @@ class Database {
       const provider = this.getProviderById(r.matched_provider_id);
       return provider && provider.phone === phone;
     });
+  }
+
+  getRecentRequestsForPhone(phone, limit = 5) {
+    return this.data.requests
+      .filter(r => r.conversation_reference === phone)
+      .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
+      .slice(0, limit);
   }
 
   async recoverActiveRequestForProvider(provider) {
@@ -139,6 +146,7 @@ class Database {
         updated_at: new Date().toISOString()
       };
       this.save();
+      this.syncRecord('providers', this.data.providers[idx]);
       return this.data.providers[idx];
     }
     return null;
@@ -189,6 +197,7 @@ class Database {
     };
     this.data.requests.unshift(req);
     this.save();
+    this.syncRecord('requests', req);
     this.logEvent(req.id, "REQUEST_CREATED", "CUSTOMER", { raw_message: req.raw_message });
     return req;
   }
@@ -202,6 +211,7 @@ class Database {
         updated_at: new Date().toISOString()
       };
       this.save();
+      this.syncRecord('requests', this.data.requests[idx]);
       return this.data.requests[idx];
     }
     return null;
@@ -223,6 +233,7 @@ class Database {
     };
     this.data.quotes.push(quote);
     this.save();
+    this.syncRecord('quotes', quote);
     this.logEvent(quote.request_id, "QUOTE_RECEIVED", "PROVIDER", {
       provider_id: quote.provider_id,
       price: quote.quoted_price,
@@ -246,6 +257,7 @@ class Database {
     };
     this.data.connections.push(conn);
     this.save();
+    this.syncRecord('connections', conn);
     this.logEvent(conn.request_id, "CONNECTION_CREATED", "SYSTEM", {
       provider_id: conn.provider_id
     });
@@ -267,8 +279,29 @@ class Database {
     };
     this.data.external_discoveries.push(item);
     this.save();
+    this.syncRecord('external_discoveries', item);
     this.logEvent(item.request_id, "EXTERNAL_DISCOVERY_PRESENTED", "SYSTEM", item);
     return item;
+  }
+
+  // Affiliates
+  getAffiliateById(id) {
+    return this.data.affiliates.find(a => a.id === id);
+  }
+
+  createAffiliate(affiliateData) {
+    const affiliate = {
+      id: affiliateData.id, // e.g. 'KENTU24'
+      name: affiliateData.name,
+      contact: affiliateData.contact || null,
+      commission_type: affiliateData.commission_type || "RESIDUAL", // RESIDUAL or BOUNTY
+      commission_amount: affiliateData.commission_amount || 10,
+      created_at: new Date().toISOString()
+    };
+    this.data.affiliates.push(affiliate);
+    this.save();
+    this.syncRecord('affiliates', affiliate);
+    return affiliate;
   }
 
   // Event & Observability Logging
@@ -286,6 +319,7 @@ class Database {
       this.data.event_logs.pop(); // keep last 500
     }
     this.save();
+    this.syncRecord('event_logs', event);
     return event;
   }
 
@@ -299,7 +333,7 @@ class Database {
   // Louisville Public Directory Search
   searchPublicDirectory(queryCategory) {
     return externalPublicDirectory.filter(
-      item => item.category === queryCategory || item.services.includes(queryCategory)
+      item => item.category === queryCategory || (item.services && Array.isArray(item.services) && item.services.includes(queryCategory))
     );
   }
 }

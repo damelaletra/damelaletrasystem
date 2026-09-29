@@ -14,19 +14,21 @@ export async function handleExternalFallback(request) {
 
   if (publicResults.length > 0) {
     const discovery = publicResults[0];
+    const bizName = discovery.business_name || discovery.name || "Negocio Local";
+    const servicesStr = Array.isArray(discovery.services) ? discovery.services.join(", ") : (discovery.services || discovery.category || "Servicio especializado");
     const record = db.createExternalDiscovery({
       request_id: request.id,
-      business_name: discovery.name,
+      business_name: bizName,
       phone: discovery.phone,
       address: discovery.address,
-      service_indicated: discovery.services.join(", "),
+      service_indicated: servicesStr,
       source: "PUBLIC_DIRECTORY"
     });
 
     const fallbackMessage =
       `No tengo un proveedor confirmado dentro de nuestra red para esto en este momento, ` +
       `pero encontré este negocio local en Louisville que ofrece el servicio:\n\n` +
-      `*${discovery.name}*\n` +
+      `*${bizName}*\n` +
       `Tel: ${discovery.phone}\n` +
       `Dir: ${discovery.address}\n\n` +
       `Nota: Este negocio no forma parte de nuestra red directa y no podemos garantizar su precio ni disponibilidad inmediata.`;

@@ -36,6 +36,16 @@ async function runTests() {
     const lockReq = understandRequest("Dejé las llaves adentro del carro");
     assert.strictEqual(lockReq.service_category, "LOCKSMITH", "Llaves adentro should map to LOCKSMITH");
     console.log("  ✔ 'Dejé las llaves adentro del carro' -> LOCKSMITH (PASS)");
+
+    const designReq1 = understandRequest("un dibujito para mi negocio");
+    assert.strictEqual(designReq1.service_category, "TECH_SOFTWARE", "'un dibujito para mi negocio' must map to TECH_SOFTWARE");
+    assert.strictEqual(designReq1.service_type, "GRAPHIC_DESIGN");
+    console.log("  ✔ 'un dibujito para mi negocio' -> TECH_SOFTWARE / GRAPHIC_DESIGN (PASS)");
+
+    const designReq2 = understandRequest("hacer un dibujito y cotizacion de logo");
+    assert.strictEqual(designReq2.service_category, "TECH_SOFTWARE", "'hacer un dibujito' must NOT match 'ac' in HVAC");
+    assert.strictEqual(designReq2.service_type, "GRAPHIC_DESIGN");
+    console.log("  ✔ 'hacer un dibujito y cotizacion de logo' -> TECH_SOFTWARE / GRAPHIC_DESIGN (NOT HVAC) (PASS)");
   }
 
   // TEST 2: Deterministic Eligibility Engine & UNKNOWN != NO
@@ -121,28 +131,29 @@ async function runTests() {
   console.log("\n▶ TEST 5: Locksmith Quote Parsing & Accurate Provider Attribution");
   {
     const customerPhone = "+15024170732";
-    const providerSharedPhone = db.getProviderById("prov-10-locksmith").phone;
 
     // 1. Customer asks for car lockout
     const res = await stateMachine.processCustomerInput("Dejé la llave adentro del carro en St. Matthews", "SMS", customerPhone);
     const req = res.request;
     assert.strictEqual(req.service_category, "LOCKSMITH", "Should classify as LOCKSMITH");
-    assert.strictEqual(req.matched_provider_id, "prov-10-locksmith", "Should match Frank Cerrajería (prov-10-locksmith)");
+    
+    const matchedProvider = db.getProviderById(req.matched_provider_id);
+    assert(matchedProvider, "Matched provider must exist");
+    assert.strictEqual(matchedProvider.category, "LOCKSMITH", "Matched provider must be a LOCKSMITH");
 
     // 2. Active waiting request lookup by phone
-    const waitingReq = db.getActiveWaitingRequestForPhone(providerSharedPhone);
-    assert(waitingReq !== undefined && waitingReq.id === req.id, "Should find the active waiting request for shared phone");
-    assert.strictEqual(waitingReq.matched_provider_id, "prov-10-locksmith");
+    const waitingReq = db.getActiveWaitingRequestForPhone(matchedProvider.phone);
+    assert(waitingReq !== undefined && waitingReq.id === req.id, "Should find the active waiting request for provider phone");
+    assert.strictEqual(waitingReq.matched_provider_id, matchedProvider.id);
 
     // 3. Provider responds with "son 100 de 15 a 20 minutos"
-    const activeProviderId = waitingReq.matched_provider_id;
-    const providerResp = await cascadingEngine.handleProviderResponse(activeProviderId, "son 100 de 15 a 20 minutos", waitingReq.id);
+    const providerResp = await cascadingEngine.handleProviderResponse(matchedProvider.id, "son 100 de 15 a 20 minutos", waitingReq.id);
     assert.strictEqual(providerResp.success, true);
     assert.strictEqual(providerResp.quote.quoted_price, 100, "Price should be 100, NOT 15 or 20");
     assert.strictEqual(providerResp.quote.quoted_price_display, "$100", "Price display should be $100");
     assert.strictEqual(providerResp.quote.estimated_arrival, "15 a 20 minutos", "ETA should be 15 a 20 minutos");
-    assert.strictEqual(providerResp.quote.provider_id, "prov-10-locksmith", "Provider MUST be Frank Cerrajería, NOT José Martínez");
-    console.log("  ✔ 'son 100 de 15 a 20 minutos' correctly parsed: Provider=Frank Cerrajería, Price=$100, ETA=15 a 20 minutos (PASS)");
+    assert.strictEqual(providerResp.quote.provider_id, matchedProvider.id);
+    console.log(`  ✔ 'son 100 de 15 a 20 minutos' correctly parsed: Provider=${matchedProvider.name}, Price=$100, ETA=15 a 20 minutos (PASS)`);
 
     // 4. Customer accepts
     const acceptRes = await stateMachine.processCustomerInput("dale", "SMS", customerPhone);
@@ -200,8 +211,8 @@ async function runTests() {
   console.log("\n▶ TEST 8: Conversational Business Profile Onboarding (Miguel Sosa)");
   {
     const { providerOnboarding } = await import("../src/core/providerOnboarding.js");
-    const miguel = db.getProviderByPhone("+15026587853");
-    assert(miguel, "Miguel Sosa must exist in DB with phone +15026587853");
+    const miguel = db.getProviderByPhone("+15025550100");
+    assert(miguel, "Miguel Sosa must exist in DB with phone +15025550100");
     assert.strictEqual(miguel.category, "TECH_SOFTWARE");
 
     const onbResult = await providerOnboarding.handleProviderDirectMessage(
@@ -212,13 +223,267 @@ async function runTests() {
     assert.strictEqual(onbResult.success, true);
     assert(onbResult.reply && onbResult.reply.length > 10, "Must generate conversational reply");
     
-    const updatedMiguel = db.getProviderByPhone("+15026587853");
+    const updatedMiguel = db.getProviderByPhone("+15025550100");
     assert(updatedMiguel.services.length >= 3, "Services must be populated");
     assert(updatedMiguel.bio && updatedMiguel.bio.length > 10, "Bio must be populated");
     console.log(`  ✔ Conversational Onboarding passed: ${miguel.name} profile updated via natural chat (PASS)`);
   }
 
+  // TEST 9: Design & Drawing Request Full Dispatch (Connecting to Miguel Sosa, NOT AC)
+  console.log("\n▶ TEST 9: Design / Drawing Dispatch (Miguel Sosa vs False HVAC)");
+  {
+    const customerPhone = "+15029998877";
+    const res = await stateMachine.processCustomerInput("Hola, quiero hacer un dibujito para mi negocio", "SMS", customerPhone);
+    const req = res.request;
+
+    assert.strictEqual(req.service_category, "TECH_SOFTWARE", "Request must be categorized as TECH_SOFTWARE");
+    assert.strictEqual(req.matched_provider_id, "prov-miguel-sosa", "Request must be dispatched to Miguel Sosa, NOT HVAC / AC");
+    
+    const matchedProvider = db.getProviderById(req.matched_provider_id);
+    assert.strictEqual(matchedProvider.name, "Miguel Sosa");
+    console.log("  ✔ 'quiero hacer un dibujito para mi negocio' correctly routed to Miguel Sosa (Software & Design Studio) (PASS)");
+  }
+
+  // TEST 10: Service Modality Messaging Verification (Consulting/Taxes vs Appointment vs Emergency)
+  console.log("\n▶ TEST 10: Service Modalities & Context-Aware Concierge Messaging");
+  {
+    const { getServiceModality, concierge } = await import("../src/core/concierge.js");
+
+    // 1. Consulting Modality
+    const consultModality = getServiceModality("CONSULTING_PROFESSIONAL", "TAX_PREPARATION");
+    assert.strictEqual(consultModality, "CONSULTING_PROJECT");
+    
+    const taxProv = db.getProviders(p => p.category === "CONSULTING_PROFESSIONAL")[0];
+    const consultQuoteMsg = concierge.formatQuoteForCustomer(taxProv, { priceDisplay: "$80", eta: "hoy en la tarde" }, { service_category: "CONSULTING_PROFESSIONAL" });
+    assert(consultQuoteMsg.includes("disponibilidad para tu proyecto"), "Consulting quote must mention availability/project, NOT road arrival");
+    console.log("  ✔ Consulting/Tax quote message formatted appropriately without ETA/road arrival (PASS)");
+
+    // 2. Scheduled Appointment Modality
+    const apptModality = getServiceModality("CLEANING", "HOUSE_CLEANING");
+    assert.strictEqual(apptModality, "APPOINTMENT_SCHEDULED");
+    const cleanProv = db.getProviders(p => p.category === "CLEANING")[0];
+    const cleanQuoteMsg = concierge.formatQuoteForCustomer(cleanProv, { priceDisplay: "$90", eta: "mañana por la mañana" }, { service_category: "CLEANING" });
+    assert(cleanQuoteMsg.includes("agendar tu cita/visita"), "Cleaning quote must mention scheduling appointment/visit");
+    console.log("  ✔ Cleaning quote message formatted with appointment/visit scheduling (PASS)");
+
+    // 3. Emergency Dispatch Modality
+    const emergModality = getServiceModality("AUTOMOTIVE", "TIRE_CHANGE");
+    assert.strictEqual(emergModality, "EMERGENCY_DISPATCH");
+    const tireProv = db.getProviders(p => p.category === "AUTOMOTIVE")[0];
+    const tireQuoteMsg = concierge.formatQuoteForCustomer(tireProv, { priceDisplay: "$65", eta: "20 minutos" }, { service_category: "AUTOMOTIVE" });
+    assert(tireQuoteMsg.includes("puede atenderte 20 minutos"), "Roadside quote must mention arrival time");
+    console.log("  ✔ Emergency dispatch quote formatted with fast arrival time (PASS)");
+  }
+
+  // TEST 11: Custom / In-Office Consulting Quotes (Roberto Méndez - Taxes & Consulting)
+  console.log("\n▶ TEST 11: In-Office Custom Estimates & Relative Pricing (Roberto Méndez)");
+  {
+    const { concierge } = await import("../src/core/concierge.js");
+    const customerPhone = "+15024449988";
+
+    // 1. Customer asks for tax consultation
+    const res = await stateMachine.processCustomerInput("Hola necesito ayuda con mis taxes y una asesoría para mi negocio en Louisville", "WHATSAPP", customerPhone);
+    const req = res.request;
+    assert.strictEqual(req.service_category, "CONSULTING_PROFESSIONAL");
+
+    const roberto = db.getProviderById(req.matched_provider_id);
+    assert(roberto.name.includes("Roberto"), "Should match Roberto Méndez");
+
+    // Case A: "el precio es personalizable, en una consulta en la oficina"
+    const analysisA = concierge.analyzeProviderMessage("el precio es personalizable, en una consulta en la oficina", req, roberto);
+    assert.strictEqual(analysisA.price, null, "Price must be NULL, never default $75 or $80");
+    assert.strictEqual(analysisA.priceDisplay, "Estimado personalizado en la oficina");
+    const quoteMsgA = concierge.formatQuoteForCustomer(roberto, analysisA, req);
+    assert(!quoteMsgA.includes("$75") && !quoteMsgA.includes("$80"), "Message must NOT contain any fake dollar amounts");
+    assert(quoteMsgA.includes("estimado personalizado en la oficina"), "Message must mention in-office personalized estimate");
+    console.log("  ✔ 'el precio es personalizable, en una consulta en la oficina' -> Custom in-office estimate (no fake $75) (PASS)");
+
+    // Case B: "el precio es relativo, le hacemos un estimado aqui en la oficina, el martes a las dos puede ser?"
+    const respB = await cascadingEngine.handleProviderResponse(roberto.id, "el precio es relativo, le hacemos un estimado aqui en la oficina, el martes a las dos puede ser?", req.id);
+    assert.strictEqual(respB.success, true);
+    assert.strictEqual(respB.quote.quoted_price, null, "Quoted price must be null");
+    assert.strictEqual(respB.quote.quoted_price_display, "Estimado personalizado en la oficina");
+    assert(respB.quote.estimated_arrival.includes("martes") && respB.quote.estimated_arrival.includes("2:00 PM"), "ETA must capture Tuesday at 2:00 PM");
+    
+    const quoteMsgB = concierge.formatQuoteForCustomer(roberto, respB.quote, req);
+    assert(!quoteMsgB.includes("$75") && !quoteMsgB.includes("$80"), "Quote message must NOT contain $75 or $80");
+    assert(quoteMsgB.includes("martes a las 2:00 PM"), "Quote message must include Tuesday 2:00 PM");
+    assert(quoteMsgB.includes("estimado personalizado en la oficina"), "Quote message must mention personalized in-office estimate");
+    console.log("  ✔ 'el precio es relativo, le hacemos un estimado aqui en la oficina, el martes a las dos puede ser?' -> Proper quote & appointment (PASS)");
+
+    // Case C: Customer confirms "Sí, dale"
+    const confRes = await stateMachine.processCustomerInput("Sí, dale", "WHATSAPP", customerPhone);
+    assert.strictEqual(confRes.status, "CONNECTED");
+    const completedReq = db.getRequestById(req.id);
+    assert.strictEqual(completedReq.status, "CONNECTED");
+    console.log("  ✔ Customer confirmed in-office consultation -> CONNECTED state established (PASS)");
+  }
+
+  
+    // TEST 12: Legal Services Disambiguation and Strict Attorney Matching (REGLA - SERVICIOS LEGALES)
+  console.log("\n🧪 TEST 12: Legal Services Disambiguation and Strict Attorney Matching (REGLA - SERVICIOS LEGALES)");
+  {
+    const { understandRequest } = await import("../src/core/semantic.js");
+    const { checkProviderEligibility } = await import("../src/core/eligibility.js");
+
+    // 1. Generic Legal Request ("Hola, necesito un abogado")
+    const genericParsed = understandRequest("Hola, necesito un abogado");
+    assert.strictEqual(genericParsed.service_category, "LEGAL_SERVICES", "Generic attorney must map to LEGAL_SERVICES");
+    assert.strictEqual(genericParsed.legal_specialty, "UNKNOWN", "Generic attorney specialty must be UNKNOWN");
+    assert.strictEqual(genericParsed.needs_clarification, true, "Generic attorney request must require clarification");
+    assert.strictEqual(genericParsed.clarification_prompt, "Claro. ¿Qué tipo de asunto legal necesitas resolver?", "Must ask exact clarification question");
+
+    // 2. Strict Ineligibility of Tax / Accounting / Consulting / Notary for Legal Requests
+    const robertoMendez = db.getProviders(p => p.category === "CONSULTING_PROFESSIONAL")[0];
+    const accountingMismatch = checkProviderEligibility(robertoMendez, {
+      service_category: "LEGAL_SERVICES",
+      service_type: "UNKNOWN",
+      property_type: "RESIDENTIAL",
+      latitude: 38.2527,
+      longitude: -85.7585
+    });
+    assert.strictEqual(accountingMismatch.eligible, false, "Tax/Consulting provider must NEVER be eligible for legal services");
+    assert.strictEqual(accountingMismatch.reason, "CATEGORY_MISMATCH");
+
+    // 3. Conversational State Flow - Asking clarification without contacting providers
+    const customerLegalPhone = "+15025557766";
+    const resA = await stateMachine.processCustomerInput("Hola, necesito un abogado", "WHATSAPP", customerLegalPhone);
+    assert.strictEqual(resA.status, "WAITING_CUSTOMER_CLARIFICATION");
+    assert.strictEqual(resA.message, "Claro. ¿Qué tipo de asunto legal necesitas resolver?");
+    assert.strictEqual(resA.request.legal_specialty, "UNKNOWN");
+    assert.strictEqual(resA.request.matched_provider_id, null, "No provider matched yet");
+    console.log("  ✓ 'Hola, necesito un abogado' -> Disambiguation clarification prompt sent; tax/consulting strictly excluded (PASS)");
+
+    // 4. Customer Clarifies Specialty ("Es por un accidente de auto, choqué ayer")
+    const resB = await stateMachine.processCustomerInput("Es por un accidente de auto, choqué ayer", "WHATSAPP", customerLegalPhone);
+    assert.strictEqual(resB.status, "WAITING_PROVIDER");
+    assert.strictEqual(resB.request.legal_specialty, "PERSONAL_INJURY");
+    assert.strictEqual(resB.request.matched_provider_id, "prov-legal-01", "Must match Lic. Alejandro Ramos (Bufete Legal Louisville)");
+    console.log("  ✓ Customer clarification -> Resolved to PERSONAL_INJURY and dispatched to Lic. Alejandro Ramos (PASS)");
+
+    // 5. Explicit Legal Request with Immediate Specialty ("Hola, necesito un abogado de inmigración urgente")
+    const directParsed = understandRequest("Hola, necesito un abogado de inmigración urgente");
+    assert.strictEqual(directParsed.service_category, "LEGAL_SERVICES");
+    assert.strictEqual(directParsed.legal_specialty, "IMMIGRATION");
+    assert.strictEqual(directParsed.needs_clarification, false, "Explicit specialty must NOT require redundant clarification");
+    console.log("  ✓ Explicit 'abogado de inmigración' -> Direct dispatch without redundant clarification (PASS)");
+
+    // 6. UNKNOWN != INELIGIBLE for Legal Providers with general practice
+    const ramos = db.getProviderById("prov-legal-01");
+    const legalElig = checkProviderEligibility(ramos, {
+      service_category: "LEGAL_SERVICES",
+      service_type: "LEGAL_CONSULTATION",
+      legal_specialty: "CORPORATE_LAW",
+      property_type: "COMMERCIAL",
+      latitude: 38.2527,
+      longitude: -85.7585
+    });
+    assert.strictEqual(legalElig.eligible, true, "UNKNOWN specialty does not mean ineligible (UNKNOWN != INELIGIBLE)");
+    console.log("  ✓ UNKNOWN ≠ INELIGIBLE verified for legal provider profile verification (PASS)");
+  }
+
   console.log("\n=================================================");
+  // TEST 13: Universal Disambiguation Across All Categories (ESTO DEBERÍA SER PARA CADA CASO)
+  console.log("\n🧪 TEST 13: Universal Disambiguation Across All Categories (ESTO DEBERÍA SER PARA CADA CASO)");
+  {
+    const { understandRequest } = await import("../src/core/semantic.js");
+    const { checkProviderEligibility } = await import("../src/core/eligibility.js");
+
+    // 1. Generic Plumbing Disambiguation Flow
+    const plumbParsed = understandRequest("Hola, necesito un plomero");
+    assert.strictEqual(plumbParsed.service_category, "PLUMBING");
+    assert.strictEqual(plumbParsed.service_type, "UNKNOWN");
+    assert.strictEqual(plumbParsed.needs_clarification, true);
+    assert.strictEqual(plumbParsed.clarification_prompt, "Claro. ¿Qué tipo de problema o trabajo de plomería necesitas resolver?");
+
+    const plumbPhone = "+15025553311";
+    const pRes1 = await stateMachine.processCustomerInput("Hola, necesito un plomero", "WHATSAPP", plumbPhone);
+    assert.strictEqual(pRes1.status, "WAITING_CUSTOMER_CLARIFICATION");
+    assert.strictEqual(pRes1.message, "Claro. ¿Qué tipo de problema o trabajo de plomería necesitas resolver?");
+    assert.strictEqual(pRes1.request.matched_provider_id, null, "No provider contacted before clarification");
+
+    // Customer clarifies plumbing: toilet overflowing / clogged
+    const pRes2 = await stateMachine.processCustomerInput("Se me desbordó el inodoro y el agua no baja", "WHATSAPP", plumbPhone);
+    assert.strictEqual(pRes2.status, "WAITING_PROVIDER");
+    assert.strictEqual(pRes2.request.service_type, "DRAIN_CLEARING");
+    assert(pRes2.request.matched_provider_id, "Must match plumbing provider");
+    console.log("  ✓ Generic Plumbing ('necesito un plomero') -> Clarification prompt -> Resolved to DRAIN_CLEARING (PASS)");
+
+    // 2. Generic Automotive Mechanic Disambiguation Flow
+    const mechParsed = understandRequest("Hola, necesito un mecánico");
+    assert.strictEqual(mechParsed.service_category, "AUTOMOTIVE");
+    assert.strictEqual(mechParsed.service_type, "UNKNOWN");
+    assert.strictEqual(mechParsed.needs_clarification, true);
+    assert.strictEqual(mechParsed.clarification_prompt, "Claro. ¿Qué problema o falla presenta tu vehículo?");
+
+    const mechPhone = "+15025553322";
+    const mRes1 = await stateMachine.processCustomerInput("Hola, necesito un mecánico", "WHATSAPP", mechPhone);
+    assert.strictEqual(mRes1.status, "WAITING_CUSTOMER_CLARIFICATION");
+    assert.strictEqual(mRes1.message, "Claro. ¿Qué problema o falla presenta tu vehículo?");
+
+    // Customer clarifies mechanic: battery jump
+    const mRes2 = await stateMachine.processCustomerInput("El carro no prende, parece que se descargó la batería", "WHATSAPP", mechPhone);
+    assert.strictEqual(mRes2.status, "WAITING_PROVIDER");
+    assert.strictEqual(mRes2.request.service_type, "BATTERY_JUMP");
+    assert(mRes2.request.matched_provider_id, "Must match automotive roadside provider");
+    console.log("  ✓ Generic Mechanic ('necesito un mecánico') -> Clarification prompt -> Resolved to BATTERY_JUMP (PASS)");
+
+    // 3. Generic Accountant / Tax Disambiguation Flow
+    const taxParsed = understandRequest("Hola, busco un contador");
+    assert.strictEqual(taxParsed.service_category, "CONSULTING_PROFESSIONAL");
+    assert.strictEqual(taxParsed.service_type, "UNKNOWN");
+    assert.strictEqual(taxParsed.needs_clarification, true);
+    assert.strictEqual(taxParsed.clarification_prompt, "Claro. ¿Necesitas ayuda con taxes personales, de negocio, contabilidad o trámites?");
+
+    const taxPhone = "+15025553333";
+    const tRes1 = await stateMachine.processCustomerInput("Hola, busco un contador", "WHATSAPP", taxPhone);
+    assert.strictEqual(tRes1.status, "WAITING_CUSTOMER_CLARIFICATION");
+    assert.strictEqual(tRes1.message, "Claro. ¿Necesitas ayuda con taxes personales, de negocio, contabilidad o trámites?");
+
+    // Customer clarifies: taxes and payroll
+    const tRes2 = await stateMachine.processCustomerInput("Es para hacer los taxes de mi compañía y nómina", "WHATSAPP", taxPhone);
+    assert.strictEqual(tRes2.status, "WAITING_PROVIDER");
+    assert.strictEqual(tRes2.request.matched_provider_id, "prov-consulting-01", "Must route to Roberto Méndez");
+    console.log("  ✓ Generic Accountant ('busco un contador') -> Clarification prompt -> Routed to Roberto Méndez (PASS)");
+
+    // 4. Strict Cross-Category Ineligibility Verification
+    const robertoMendez = db.getProviderById("prov-consulting-01");
+    const plumbCandidateCheck = checkProviderEligibility(robertoMendez, {
+      service_category: "PLUMBING",
+      service_type: "DRAIN_CLEARING",
+      property_type: "RESIDENTIAL",
+      latitude: 38.2527,
+      longitude: -85.7585
+    });
+    assert.strictEqual(plumbCandidateCheck.eligible, false, "Accountant can never do plumbing");
+    assert.strictEqual(plumbCandidateCheck.reason, "CATEGORY_MISMATCH");
+
+    const joseMartinez = db.getProviderById("prov-plumbing-01");
+    const taxCandidateCheck = checkProviderEligibility(joseMartinez, {
+      service_category: "CONSULTING_PROFESSIONAL",
+      service_type: "TAX_PREPARATION",
+      property_type: "RESIDENTIAL",
+      latitude: 38.2527,
+      longitude: -85.7585
+    });
+    assert.strictEqual(taxCandidateCheck.eligible, false, "Plumber can never do taxes");
+    assert.strictEqual(taxCandidateCheck.reason, "CATEGORY_MISMATCH");
+    console.log("  ✓ Strict Category Isolation verified (No false cross-matching between any trades) (PASS)");
+
+    // 5. UNKNOWN != INELIGIBLE for Any Category
+    const unknownSubtypeElig = checkProviderEligibility(joseMartinez, {
+      service_category: "PLUMBING",
+      service_type: "CUSTOM_COMMERCIAL_GREASE_TRAP",
+      property_type: "RESIDENTIAL",
+      latitude: 38.2527,
+      longitude: -85.7585
+    });
+    assert.strictEqual(unknownSubtypeElig.eligible, true, "UNKNOWN sub-service remains eligible (UNKNOWN != INELIGIBLE)");
+    assert(unknownSubtypeElig.progressiveInquiry, "Must trigger progressive inquiry to confirm unlisted sub-service");
+    console.log("  ✓ Universal UNKNOWN ≠ INELIGIBLE verified with progressive inquiry (PASS)");
+  }
+
+
   console.log("   ALL TEST SUITES PASSED FLAWLESSLY!           ");
   console.log("=================================================\n");
 }

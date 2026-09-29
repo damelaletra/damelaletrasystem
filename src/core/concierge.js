@@ -77,6 +77,55 @@ export function normalizeSpanishNumberWords(str) {
   return s;
 }
 
+export function getServiceModality(category, serviceType) {
+  const cat = (category || "").toUpperCase();
+  const st = (serviceType || "").toUpperCase();
+
+  // 1. Digital, Creative, Software, Consulting, Remote & Professional Services
+  if (
+    cat === "TECH_SOFTWARE" ||
+    cat === "CONSULTING_PROFESSIONAL" ||
+    cat === "LEGAL_IMMIGRATION" ||
+    cat === "ACCOUNTING_TAXES" ||
+    cat === "MARKETING_DIGITAL" ||
+    cat === "TRANSLATION_SERVICES" ||
+    st.includes("DESIGN") ||
+    st.includes("SOFTWARE") ||
+    st.includes("DEVELOPMENT") ||
+    st.includes("CONSULTING") ||
+    st.includes("TAX") ||
+    st.includes("LOGO") ||
+    st.includes("BRANDING") ||
+    st.includes("WEB") ||
+    st.includes("APP") ||
+    st.includes("TRANSLATION")
+  ) {
+    return "CONSULTING_PROJECT";
+  }
+
+  // 2. Scheduled Appointments & Scheduled In-Person Visits (Estimates, Cleaning, Inspections, Events)
+  if (
+    cat === "CLEANING" ||
+    cat === "TREE_SERVICE" ||
+    cat === "ROOFING" ||
+    cat === "HANDYMAN" ||
+    cat === "EVENTS_CATERING" ||
+    cat === "BEAUTY_BARBER" ||
+    st.includes("CLEANING") ||
+    st.includes("MOWING") ||
+    st.includes("INSPECTION") ||
+    st.includes("PAINTING") ||
+    st.includes("PHOTOGRAPHY") ||
+    st.includes("CATERING") ||
+    st.includes("BARBER")
+  ) {
+    return "APPOINTMENT_SCHEDULED";
+  }
+
+  // 3. Urgent Field Dispatch (Tires, Towing, Locksmith auto lockout, Burst pipes, Urgent AC repair)
+  return "EMERGENCY_DISPATCH";
+}
+
 export class ConversationalConcierge {
   /**
    * Analyze message coming from a Customer
@@ -130,7 +179,7 @@ export class ConversationalConcierge {
     const lower = text.toLowerCase();
 
     // 1. Check availability updates
-    if (lower.includes("hoy no trabajo") || lower.includes("no trabajo hoy") || lower.includes("no estoy trabajando hoy")) {
+    if (lower.includes("hoy no trabajo") || lower.includes("no trabajo hoy") || lower.includes("no estoy trabajando hoy") || lower.includes("off duty") || lower.includes("fuera de servicio")) {
       return {
         intent: "PROVIDER_OFF_DUTY",
         confidence: 0.95,
@@ -166,9 +215,29 @@ export class ConversationalConcierge {
       /^(que|qué|cuanto|cuánto|cuantos|cuántos|donde|dónde|cual|cuál|es de|tiene|dime|pregúntale|preguntale|necesito saber|cuántas|cuantas|cuántos|cuantos)/i.test(lower) ||
       ((lower.includes("tamaño") || lower.includes("cuartos") || lower.includes("pisos") || lower.includes("foto") || lower.includes("marca") || lower.includes("modelo")) && !lower.includes("$") && !lower.includes("cobro") && !lower.includes("costo"));
 
-    const hasPriceKeyword = lower.includes("$") || lower.includes("cobro") || lower.includes("costo") || lower.includes("precio") || lower.includes("entre") || /\b\d{2,4}\b/.test(lower);
+    const isPriceOrAppointmentOffer =
+      lower.includes("personaliz") ||
+      lower.includes("relativ") ||
+      lower.includes("depende") ||
+      lower.includes("oficina") ||
+      lower.includes("estimado") ||
+      lower.includes("presupuesto") ||
+      lower.includes("martes") ||
+      lower.includes("lunes") ||
+      lower.includes("miercoles") ||
+      lower.includes("miércoles") ||
+      lower.includes("jueves") ||
+      lower.includes("viernes") ||
+      lower.includes("sabado") ||
+      lower.includes("sábado") ||
+      lower.includes("domingo") ||
+      lower.includes("mañana") ||
+      lower.includes("$") ||
+      lower.includes("cobro") ||
+      lower.includes("costo") ||
+      lower.includes("precio");
 
-    if (isQuestion && !hasPriceKeyword) {
+    if (isQuestion && !isPriceOrAppointmentOffer) {
       // Clean up provider prompt prefix if they say "Pregúntale que..." or "Dile que..."
       let cleanQuestion = text;
       cleanQuestion = cleanQuestion.replace(/^(?:pregúntale|preguntale|dile|pregunta)\s+(?:al cliente\s+)?(?:que|si)?\s*/i, "").trim();
@@ -188,44 +257,94 @@ export class ConversationalConcierge {
       };
     }
 
-    // 5. Check Quote Offer (Price, Price Range, Conditions, Arrival Time)
+    // 5. Check Quote Offer (Price, Price Range, Conditions, Arrival Time / Appointment)
     let eta = "lo antes posible";
     let textWithoutEta = normalizeSpanishNumberWords(lower);
 
-    // A) Time ranges (e.g. 'de 15 a 20 minutos', '15-20 mins', 'entre 1 y 2 horas')
+    // A) Day of week & appointment time matching (e.g. "el martes a las 2", "martes a las 2:00 pm", "este miércoles a las 3", "el viernes por la tarde")
+    const dayTimeMatch = textWithoutEta.match(/(?:el|este|próximo|proximo)?\s*(lunes|martes|miércoles|miercoles|jueves|viernes|sábado|sabado|domingo)\s*(?:a\s+las?|sobre\s+las?|en\s+la\s+tarde|en\s+la\s+mañana)?\s*(\d{1,2}(?::\d{2})?\s*(?:am|pm)?)/i);
+    const dayMatch = textWithoutEta.match(/(?:el|este|próximo|proximo)\s+(lunes|martes|miércoles|miercoles|jueves|viernes|sábado|sabado|domingo)/i);
+    const specificTimeMatch = textWithoutEta.match(/(?:hoy|mañana)\s+a\s+las?\s*(\d{1,2}(?::\d{2})?\s*(?:am|pm)?)/i);
+
+    // B) Time ranges (e.g. 'de 15 a 20 minutos', '15-20 mins', 'entre 1 y 2 horas')
     const timeRangeMatch = textWithoutEta.match(/(?:en|de|entre|a|como en|como a|unos?)\s+(\d{1,3})\s*(?:a|-|y)\s*(\d{1,3})\s*(minutos?|mins?|horas?|hrs?|días?|dias?)/i);
-    if (timeRangeMatch) {
+
+    // C) Single duration (e.g. 'en 20 minutos', 'estoy a diez minutos', '1 hora', 'media hora')
+    const singleTimeMatch = textWithoutEta.match(/(?:en|a|como en|como a|unos?|sobre|de|en unos)?\s*(\d{1,3})\s*(minutos?|mins?|horas?|hrs?)/i);
+
+    if (dayTimeMatch) {
+      const day = dayTimeMatch[1].charAt(0).toUpperCase() + dayTimeMatch[1].slice(1).toLowerCase();
+      let timeStr = dayTimeMatch[2].trim();
+      if (/^\d{1,2}$/.test(timeStr)) {
+        const hourNum = parseInt(timeStr, 10);
+        timeStr = hourNum < 8 ? `${hourNum}:00 PM` : `${hourNum}:00 AM`;
+      }
+      eta = `el ${day.toLowerCase()} a las ${timeStr}`;
+      textWithoutEta = textWithoutEta.replace(dayTimeMatch[0], " ");
+    } else if (dayMatch) {
+      eta = dayMatch[0];
+      textWithoutEta = textWithoutEta.replace(dayMatch[0], " ");
+    } else if (specificTimeMatch) {
+      let timeStr = specificTimeMatch[1].trim();
+      if (/^\d{1,2}$/.test(timeStr)) {
+        const hourNum = parseInt(timeStr, 10);
+        timeStr = hourNum < 8 ? `${hourNum}:00 PM` : `${hourNum}:00 AM`;
+      }
+      eta = `${specificTimeMatch[0].includes("mañana") ? "mañana" : "hoy"} a las ${timeStr}`;
+      textWithoutEta = textWithoutEta.replace(specificTimeMatch[0], " ");
+    } else if (timeRangeMatch) {
       eta = `${timeRangeMatch[1]} a ${timeRangeMatch[2]} ${timeRangeMatch[3]}`;
       textWithoutEta = textWithoutEta.replace(timeRangeMatch[0], " ");
-    } else {
-      // B) Single duration (e.g. 'en 20 minutos', 'estoy a diez minutos', '1 hora', 'media hora')
-      const singleTimeMatch = textWithoutEta.match(/(?:en|a|como en|como a|unos?|sobre|de|en unos)?\s*(\d{1,3})\s*(minutos?|mins?|horas?|hrs?)/i);
-      if (singleTimeMatch) {
-        eta = `${singleTimeMatch[1]} ${singleTimeMatch[2]}`;
-        textWithoutEta = textWithoutEta.replace(singleTimeMatch[0], " ");
-      } else if (lower.includes("media hora")) {
-        eta = "media hora";
-        textWithoutEta = textWithoutEta.replace(/media\s+hora/g, " ");
-      } else if (lower.includes("mañana por la mañana") || lower.includes("mañana en la mañana")) {
-        eta = "mañana por la mañana";
-        textWithoutEta = textWithoutEta.replace(/mañana\s+(?:por|en)\s+la\s+mañana/g, " ");
-      } else if (lower.includes("mañana por la tarde") || lower.includes("mañana en la tarde")) {
-        eta = "mañana por la tarde";
-        textWithoutEta = textWithoutEta.replace(/mañana\s+(?:por|en)\s+la\s+tarde/g, " ");
-      } else if (lower.includes("mañana")) {
-        eta = "mañana";
-        textWithoutEta = textWithoutEta.replace(/mañana/g, " ");
-      } else if (lower.includes("hoy en la tarde") || lower.includes("esta tarde")) {
-        eta = "esta tarde";
-        textWithoutEta = textWithoutEta.replace(/(?:hoy\s+en\s+la\s+tarde|esta\s+tarde)/g, " ");
-      } else if (lower.includes("hoy")) {
-        eta = "hoy";
-      } else if (lower.includes("ahora mismo") || lower.includes("voy saliendo") || lower.includes("ya mismo")) {
-        eta = "ahora mismo (en camino)";
-      } else if (provider?.conditional_rules?.standard_response_time_min) {
-        eta = `${provider.conditional_rules.standard_response_time_min} minutos`;
-      }
+    } else if (singleTimeMatch) {
+      eta = `${singleTimeMatch[1]} ${singleTimeMatch[2]}`;
+      textWithoutEta = textWithoutEta.replace(singleTimeMatch[0], " ");
+    } else if (lower.includes("media hora")) {
+      eta = "media hora";
+      textWithoutEta = textWithoutEta.replace(/media\s+hora/g, " ");
+    } else if (lower.includes("mañana por la mañana") || lower.includes("mañana en la mañana")) {
+      eta = "mañana por la mañana";
+      textWithoutEta = textWithoutEta.replace(/mañana\s+(?:por|en)\s+la\s+mañana/g, " ");
+    } else if (lower.includes("mañana por la tarde") || lower.includes("mañana en la tarde")) {
+      eta = "mañana por la tarde";
+      textWithoutEta = textWithoutEta.replace(/mañana\s+(?:por|en)\s+la\s+tarde/g, " ");
+    } else if (lower.includes("mañana")) {
+      eta = "mañana";
+      textWithoutEta = textWithoutEta.replace(/mañana/g, " ");
+    } else if (lower.includes("hoy en la tarde") || lower.includes("esta tarde")) {
+      eta = "esta tarde";
+      textWithoutEta = textWithoutEta.replace(/(?:hoy\s+en\s+la\s+tarde|esta\s+tarde)/g, " ");
+    } else if (lower.includes("hoy")) {
+      eta = "hoy";
+    } else if (lower.includes("ahora mismo") || lower.includes("voy saliendo") || lower.includes("ya mismo")) {
+      eta = "ahora mismo (en camino)";
+    } else if (provider?.conditional_rules?.standard_response_time_min) {
+      eta = `${provider.conditional_rules.standard_response_time_min} minutos`;
     }
+
+    // Check custom / in-office / consultation indicators
+    const isCustomEstimate =
+      lower.includes("personaliz") ||
+      lower.includes("relativ") ||
+      lower.includes("depende") ||
+      lower.includes("dependiendo") ||
+      lower.includes("según el caso") ||
+      lower.includes("segun el caso") ||
+      lower.includes("a convenir") ||
+      lower.includes("a evaluar") ||
+      lower.includes("en la oficina") ||
+      lower.includes("en mi oficina") ||
+      lower.includes("en consulta") ||
+      lower.includes("en una consulta") ||
+      lower.includes("cita en la oficina") ||
+      lower.includes("consulta en la oficina") ||
+      lower.includes("estimado en la oficina") ||
+      lower.includes("estimado en consulta") ||
+      lower.includes("hacemos un estimado") ||
+      lower.includes("le hacemos un estimado") ||
+      lower.includes("hacerle un estimado") ||
+      lower.includes("hacer un estimado") ||
+      lower.includes("hacerle un presupuesto") ||
+      lower.includes("darle un presupuesto");
 
     // Extract price and price range on textWithoutEta
     let priceDisplay = null;
@@ -252,7 +371,7 @@ export class ConversationalConcierge {
       } else if (verbMatch) {
         numericPrice = parseFloat(verbMatch[1]);
         priceDisplay = `$${verbMatch[1]}`;
-      } else {
+      } else if (!isCustomEstimate) {
         const allNums = [...textWithoutEta.matchAll(/\b(\d{2,4})\b/g)];
         for (const numMatch of allNums) {
           numericPrice = parseFloat(numMatch[1]);
@@ -262,9 +381,34 @@ export class ConversationalConcierge {
       }
     }
 
+    if (!priceDisplay && isCustomEstimate) {
+      numericPrice = null;
+      if (lower.includes("oficina")) {
+        priceDisplay = "Estimado personalizado en la oficina";
+      } else if (lower.includes("consulta")) {
+        priceDisplay = "Estimado personalizado en consulta";
+      } else {
+        priceDisplay = "Estimado según el caso";
+      }
+    }
+
     if (!priceDisplay) {
-      numericPrice = provider?.conditional_rules?.default_callout_fee || 80;
-      priceDisplay = `$${numericPrice}`;
+      const modality = getServiceModality(activeRequest?.service_category || provider?.category, activeRequest?.service_type || provider?.services?.[0]);
+      if (modality === "CONSULTING_PROJECT") {
+        numericPrice = null;
+        priceDisplay = "Estimado personalizado en consulta";
+      } else if (modality === "APPOINTMENT_SCHEDULED") {
+        numericPrice = null;
+        priceDisplay = "Estimado personalizado";
+      } else {
+        if (provider?.conditional_rules?.default_callout_fee) {
+          numericPrice = provider.conditional_rules.default_callout_fee;
+          priceDisplay = `$${numericPrice}`;
+        } else {
+          numericPrice = null;
+          priceDisplay = "Estimado en el sitio";
+        }
+      }
     }
 
     return {
@@ -294,16 +438,89 @@ export class ConversationalConcierge {
     return `El cliente te responde:\n\n"${answerText}"\n\n¿Puedes atenderlo? ¿Cuánto le cotizas y cuándo puedes ir?`;
   }
 
-  formatQuoteForCustomer(provider, quoteInfo) {
-    return `Listo. ${provider.display_name} puede atenderte ${quoteInfo.eta} y cobra ${quoteInfo.priceDisplay}. ¿Quieres que te lo conecte?`;
+  formatQuoteForCustomer(provider, quoteInfo, request = null) {
+    const category = request?.service_category || provider?.category;
+    const serviceType = request?.service_type || provider?.services?.[0];
+    const modality = getServiceModality(category, serviceType);
+
+    const etaText = quoteInfo.eta || quoteInfo.estimated_arrival || "lo antes posible";
+    const priceDisplay = quoteInfo.priceDisplay || quoteInfo.quoted_price_display || null;
+    const priceNum = (quoteInfo.price !== undefined) ? quoteInfo.price : quoteInfo.quoted_price;
+
+    const isCustomOrNull =
+      (priceNum === null && !/^\s*\$\d+/.test(priceDisplay || "")) ||
+      (!priceNum && !priceDisplay) ||
+      (priceDisplay && (
+        priceDisplay.toLowerCase().includes("estimado") ||
+        priceDisplay.toLowerCase().includes("personaliz") ||
+        priceDisplay.toLowerCase().includes("convenir") ||
+        priceDisplay.toLowerCase().includes("según") ||
+        priceDisplay.toLowerCase().includes("segun")
+      ));
+
+    if (modality === "CONSULTING_PROJECT") {
+      if (isCustomOrNull) {
+        const placeText = (priceDisplay && priceDisplay.toLowerCase().includes("oficina"))
+          ? "en la oficina"
+          : "en consulta";
+        return `Listo. ${provider.display_name} tiene disponibilidad para tu consulta (${etaText}) y darte un estimado personalizado ${placeText}. ¿Quieres que te lo conecte?`;
+      }
+      return `Listo. ${provider.display_name} tiene disponibilidad para tu proyecto (${etaText}) con una tarifa de ${priceDisplay || `$${priceNum}`}. ¿Quieres que te lo conecte?`;
+    }
+
+    if (modality === "APPOINTMENT_SCHEDULED") {
+      if (isCustomOrNull) {
+        return `Listo. ${provider.display_name} puede agendar tu cita/visita (${etaText}) para hacerte un estimado personalizado. ¿Quieres que te lo conecte?`;
+      }
+      return `Listo. ${provider.display_name} puede agendar tu cita/visita (${etaText}) y su estimado es ${priceDisplay || `$${priceNum}`}. ¿Quieres que te lo conecte?`;
+    }
+
+    // Default: EMERGENCY_DISPATCH
+    if (isCustomOrNull) {
+      return `Listo. ${provider.display_name} puede atenderte (${etaText}) y coordinará el estimado directamente contigo en el sitio. ¿Quieres que te lo conecte?`;
+    }
+    return `Listo. ${provider.display_name} puede atenderte ${etaText} y cobra ${priceDisplay || `$${priceNum}`}. ¿Quieres que te lo conecte?`;
   }
 
-  formatConnectionForCustomer(provider, arrivalTime) {
-    return `Perfecto. Te conecto con ${provider.name} ahora: Tel. ${provider.phone}.\nYa le pasé la información de tu solicitud y está en camino (${arrivalTime}).`;
+  formatConnectionForCustomer(provider, arrivalTime, request = null) {
+    const category = request?.service_category || provider?.category;
+    const serviceType = request?.service_type || provider?.services?.[0];
+    const modality = getServiceModality(category, serviceType);
+
+    if (modality === "CONSULTING_PROJECT") {
+      return `Perfecto. Te conecto con ${provider.name} ahora: Tel. ${provider.phone}.\nYa le pasé los detalles de tu solicitud para coordinar tu cita/consulta (${arrivalTime || 'fecha acordada'}).`;
+    }
+
+    if (modality === "APPOINTMENT_SCHEDULED") {
+      return `Perfecto. Te conecto con ${provider.name} ahora: Tel. ${provider.phone}.\nYa le pasé la información para coordinar y agendar tu cita/visita (${arrivalTime || 'fecha acordada'}).`;
+    }
+
+    return `Perfecto. Te conecto con ${provider.name} ahora: Tel. ${provider.phone}.\nYa le pasé la información de tu solicitud y está en camino (${arrivalTime || 'lo antes posible'}).`;
   }
 
-  formatConnectionForProvider(customerPhone, priceDisplay) {
-    return `¡Conexión Confirmada! El cliente aceptó tu cotización de ${priceDisplay}. Contacto directo del cliente: ${customerPhone}. ¡Gracias por atender a la comunidad!`;
+  formatConnectionForProvider(customerPhone, priceDisplay, request = null) {
+    const category = request?.service_category;
+    const serviceType = request?.service_type;
+    const modality = getServiceModality(category, serviceType);
+
+    const isCustom = !priceDisplay ||
+      priceDisplay.toLowerCase().includes("estimado") ||
+      priceDisplay.toLowerCase().includes("personaliz") ||
+      priceDisplay.toLowerCase().includes("consulta");
+
+    const priceLabel = isCustom
+      ? `(${priceDisplay || "Estimado personalizado"})`
+      : `por ${priceDisplay}`;
+
+    if (modality === "CONSULTING_PROJECT") {
+      return `¡Conexión Confirmada! El cliente aceptó tu propuesta ${priceLabel}. Contacto directo del cliente: ${customerPhone} para coordinar la cita y dar inicio a la consulta.`;
+    }
+
+    if (modality === "APPOINTMENT_SCHEDULED") {
+      return `¡Conexión Confirmada! El cliente aceptó tu propuesta ${priceLabel}. Contacto directo del cliente: ${customerPhone} para agendar la fecha y hora de la cita.`;
+    }
+
+    return `¡Conexión Confirmada! El cliente aceptó tu cotización de ${priceDisplay || "servicio"}. Contacto directo del cliente: ${customerPhone}. ¡Gracias por atender a la comunidad!`;
   }
 
   /**

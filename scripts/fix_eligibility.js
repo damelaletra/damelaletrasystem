@@ -1,4 +1,6 @@
-import { calculateDistanceMiles } from "./semantic.js";
+import fs from 'fs';
+
+const cleanEligibility = `import { calculateDistanceMiles } from "./semantic.js";
 
 /**
  * Deterministic Eligibility Engine
@@ -90,16 +92,14 @@ export function checkProviderEligibility(provider, request) {
       type: "CONFIRM_COMMERCIAL",
       question: "Hola " + provider.name + ", tenemos un trabajo en un local comercial/oficina. ¿Atiendes comercial?"
     };
-  } else if (request.service_type && request.service_type !== "UNKNOWN") {
-    // Universal Rule: UNKNOWN != INELIGIBLE for any category!
-    const hasExplicitService = provider.services && provider.services.includes(request.service_type);
-    const hasSpecialty = (request.service_category === "LEGAL_SERVICES" && request.legal_specialty && provider.legal_specialties) ?
-      (provider.legal_specialties.includes(request.legal_specialty) || provider.legal_specialties.includes("GENERAL_PRACTICE") || provider.legal_specialties.includes("ALL")) : false;
-
-    if (!hasExplicitService && !hasSpecialty) {
+  } else if (request.service_category === "LEGAL_SERVICES" && request.legal_specialty && request.legal_specialty !== "UNKNOWN") {
+    const hasExplicitSpecialty = provider.legal_specialties && provider.legal_specialties.includes(request.legal_specialty);
+    const hasGeneralPractice = provider.legal_specialties && (provider.legal_specialties.includes("GENERAL_PRACTICE") || provider.legal_specialties.includes("ALL"));
+    if (!hasExplicitSpecialty && !hasGeneralPractice) {
+      // UNKNOWN != INELIGIBLE. Verified via inquiry if needed
       progressiveInquiry = {
-        type: "CONFIRM_SERVICE_SUBTYPE",
-        question: "Hola " + provider.name + ", tenemos una solicitud de " + request.service_type + ". ¿Tomas este tipo de trabajo?"
+        type: "CONFIRM_LEGAL_SPECIALTY",
+        question: "Hola " + provider.name + ", tenemos una consulta legal sobre " + request.legal_specialty + ". ¿Tomas casos de esta especialidad?"
       };
     }
   }
@@ -135,3 +135,7 @@ export function filterEligibleProviders(allProviders, request) {
 
   return { eligible, disqualified };
 }
+`;
+
+fs.writeFileSync('src/core/eligibility.js', cleanEligibility, 'utf8');
+console.log('Fixed src/core/eligibility.js successfully');

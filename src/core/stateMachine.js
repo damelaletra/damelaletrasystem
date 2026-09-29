@@ -1,11 +1,12 @@
 import { db } from "./db.js";
-import { understandRequest } from "./semantic.js";
+import { understandRequest, detectLegalSpecialty, understandClarification, CATEGORY_CLARIFICATION_PROMPTS } from "./semantic.js";
 import { filterEligibleProviders } from "./eligibility.js";
 import { rankEligibleCandidates } from "./matching.js";
 import { cascadingEngine } from "./cascading.js";
 import { channels } from "./channels.js";
 import { handleExternalFallback } from "./fallback.js";
 import { isCustomerAcceptance, isCustomerDecline, concierge } from "./concierge.js";
+import { geminiService } from "./gemini.js";
 
 /**
  * Request State Machine & Master Orchestrator
@@ -23,9 +24,14 @@ export class RequestStateMachine {
       r => r.conversation_reference === conversationRef && (r.status === "WAITING_CUSTOMER" || r.status === "CUSTOMER_DECLINED")
     )[0];
 
-    // 1b. Check if customer is answering a provider's clarifying question
+    // 1b. Check if customer is answering a clarifying question (provider question or legal specialty disambiguation)
     const activeWaitingClarification = db.getRequests(
       r => r.conversation_reference === conversationRef && r.status === "WAITING_CUSTOMER_CLARIFICATION"
+    )[0];
+
+    // 1c. Check if customer is answering the soft double-opt-in confirmation
+    const activeWaitingDispatch = db.getRequests(
+      r => r.conversation_reference === conversationRef && r.status === "WAITING_DISPATCH_CONFIRMATION"
     )[0];
 
     const customerAnalysis = await concierge.analyzeCustomerMessageAsync(text, activeWaitingCustomer || activeWaitingClarification);
@@ -38,7 +44,103 @@ export class RequestStateMachine {
       return await this.handleCustomerConfirmation(activeWaitingCustomer, text, false);
     }
 
+    if (activeWaitingDispatch) {
+      // Any response is considered a green light, but we can check if it's explicitly negative
+      if (customerAnalysis.is_decline) {
+        db.updateRequest(activeWaitingDispatch.id, { status: "CANCELLED" });
+        await channels.sendCustomerMessage(activeWaitingDispatch, "Entendido, solicitud cancelada. ¡Avísame si necesitas algo más!");
+        return { request: db.getRequestById(activeWaitingDispatch.id), status: "CANCELLED" };
+      }
+
+      // Extraer zipcode/ubicación si el cliente la proporcionó en lugar de un simple "sí"
+      if (!customerAnalysis.is_affirmation && text.trim().length >= 3) {
+        db.updateRequest(activeWaitingDispatch.id, { location_raw: text.trim() });
+        activeWaitingDispatch.location_raw = text.trim();
+      }
+
+      // Proceed to dispatch
+      const ranked = activeWaitingDispatch.candidate_cache || [];
+      if (ranked.length > 0) {
+        db.updateRequest(activeWaitingDispatch.id, {
+          status: "CONTACTING_PROVIDER",
+          matched_provider_id: ranked[0].provider.id,
+          match_score: ranked[0].scores.final
+        });
+        await channels.sendCustomerMessage(activeWaitingDispatch, "¡Enviado! Te aviso tan pronto me contesten.");
+        await cascadingEngine.startCascade(db.getRequestById(activeWaitingDispatch.id), ranked);
+        return { request: db.getRequestById(activeWaitingDispatch.id), status: "WAITING_PROVIDER", matchedProvider: ranked[0].provider };
+      }
+    }
+
     if (activeWaitingClarification) {
+      // Case A: Customer is resolving a Service Disambiguation prompt for ANY category (ESTO DEBERÍA SER PARA CADA CASO)
+      if (
+        activeWaitingClarification.clarification_type === "SERVICE_DISAMBIGUATION" ||
+        activeWaitingClarification.clarification_type === "LEGAL_SPECIALTY" ||
+        activeWaitingClarification.service_type === "UNKNOWN"
+      ) {
+        const clarified = understandClarification(text, activeWaitingClarification.service_category);
+        const resolvedServiceType = clarified.service_type || "GENERAL_SERVICE";
+        const resolvedLegalSpecialty = activeWaitingClarification.service_category === "LEGAL_SERVICES" ?
+          (clarified.legal_specialty || resolvedServiceType) : null;
+
+        db.updateRequest(activeWaitingClarification.id, {
+          status: "SEARCHING",
+          service_category: activeWaitingClarification.service_category,
+          service_type: resolvedServiceType,
+          legal_specialty: resolvedLegalSpecialty,
+          clarification_type: null
+        });
+
+        db.logEvent(activeWaitingClarification.id, "SERVICE_DISAMBIGUATION_RESOLVED", "CUSTOMER", {
+          rawAnswer: text,
+          resolvedServiceType,
+          resolvedLegalSpecialty
+        });
+
+        await channels.sendCustomerMessage(activeWaitingClarification, concierge.formatCustomerFirstResponse());
+
+        const allProviders = db.getProviders();
+        const updatedReq = db.getRequestById(activeWaitingClarification.id);
+        const { eligible, disqualified } = filterEligibleProviders(allProviders, updatedReq);
+
+        db.logEvent(activeWaitingClarification.id, "ELIGIBILITY_CHECK_COMPLETED", "SYSTEM", {
+          eligibleCount: eligible.length,
+          disqualifiedCount: disqualified.length,
+          disqualified
+        });
+
+        if (eligible.length === 0) {
+          db.updateRequest(activeWaitingClarification.id, { status: "NO_PROVIDER" });
+          return await handleExternalFallback(db.getRequestById(activeWaitingClarification.id));
+        }
+
+        const ranked = rankEligibleCandidates(eligible, updatedReq);
+
+        // Instead of starting cascade, go to WAITING_DISPATCH_CONFIRMATION
+        db.updateRequest(activeWaitingClarification.id, {
+          status: "WAITING_DISPATCH_CONFIRMATION",
+          candidate_cache: ranked
+        });
+
+        const catText = activeWaitingClarification.service_category === "PLUMBING" ? "plomeros" : 
+                        activeWaitingClarification.service_category === "AUTOMOTIVE" ? "mecánicos/grúas" : 
+                        activeWaitingClarification.service_category === "HVAC" ? "técnicos de aire" : "especialistas";
+
+        const locRaw = activeWaitingClarification.location_raw;
+        let promptMsg = `Perfecto, ya tengo a los ${catText} disponibles en tu zona. ¿Me confirmas por favor para pasarles tu solicitud?`;
+        if (!locRaw || locRaw === "desconocido" || locRaw === "Louisville Metro") {
+          promptMsg = `Perfecto, tengo a los ${catText} disponibles. Para conectar con los más cercanos, ¿me dices tu código postal o zona por favor?`;
+        } else {
+          promptMsg = `Perfecto, ya tengo a los ${catText} disponibles cerca de ${locRaw}. ¿Me confirmas por favor para pasarles tu solicitud?`;
+        }
+
+        await channels.sendCustomerMessage(activeWaitingClarification, promptMsg, { requiresClarification: true });
+        
+        return { request: db.getRequestById(activeWaitingClarification.id), status: "WAITING_DISPATCH_CONFIRMATION" };
+      }
+
+      // Case B: Provider-initiated clarifying question
       const provider = db.getProviderById(activeWaitingClarification.matched_provider_id);
       db.updateRequest(activeWaitingClarification.id, {
         status: "WAITING_PROVIDER"
@@ -62,19 +164,97 @@ export class RequestStateMachine {
       status: "NEW"
     });
 
-    // Zero-friction First Customer Experience Response:
-    // "Dame un momento."
+    // 1. Initial heuristic analysis (local baseline)
+    let understanding = understandRequest(text);
+
+    // 2. Deep Natural Language Understanding via Gemini LLM
+    if (geminiService.isAvailable()) {
+      try {
+        const recentHistory = db.getRecentRequestsForPhone(conversationRef, 4);
+        const contextHistory = recentHistory.map(r => ({ mensaje_usuario: r.raw_message, respuesta_ia: r.ai_explanation || r.service_category })).reverse();
+        
+        const llmUnderstanding = await geminiService.understandCustomerMessage(text, contextHistory);
+        if (llmUnderstanding && llmUnderstanding.service_category && llmUnderstanding.confidence >= 0.65) {
+          understanding = {
+            ...understanding,
+            intent: llmUnderstanding.service_type || understanding.intent,
+            service_category: llmUnderstanding.service_category,
+            service_type: llmUnderstanding.service_type || understanding.service_type,
+            legal_specialty: llmUnderstanding.legal_specialty || understanding.legal_specialty,
+            needs_clarification: llmUnderstanding.needs_clarification !== undefined ? llmUnderstanding.needs_clarification : understanding.needs_clarification,
+            clarification_prompt: llmUnderstanding.clarification_prompt || understanding.clarification_prompt,
+            property_type: (llmUnderstanding.property_type && llmUnderstanding.property_type !== "UNKNOWN") ? llmUnderstanding.property_type : understanding.property_type,
+            urgency: llmUnderstanding.urgency || understanding.urgency,
+            confidence: Math.max(understanding.confidence, llmUnderstanding.confidence),
+            ai_analyzed: true,
+            ai_explanation: llmUnderstanding.explanation
+          };
+          if (llmUnderstanding.location_raw && (!understanding.location_detected || llmUnderstanding.location_raw !== "Louisville Metro")) {
+            understanding.location_raw = llmUnderstanding.location_raw;
+          }
+        }
+      } catch (geminiErr) {
+        console.warn("[STATE MACHINE] Gemini LLM fallback to deterministic engine:", geminiErr.message);
+      }
+    }
+
+    // 2.5 Information Query Short-Circuit
+    if (understanding.service_category === "INFORMATION") {
+      db.updateRequest(request.id, {
+        status: "RESOLVED",
+        service_category: "INFORMATION",
+        normalized_intent: "GENERAL_INFO"
+      });
+      db.logEvent(request.id, "INFORMATION_PROVIDED", "SYSTEM");
+      
+      const infoResponse = understanding.ai_explanation || "Aquí tienes la información solicitada. ¿En qué más puedo ayudarte?";
+      await channels.sendCustomerMessage(request, infoResponse);
+      
+      return { request: db.getRequestById(request.id), status: "RESOLVED", message: infoResponse };
+    }
+
+    // 3. Universal Rule: Disambiguate when service_type is UNKNOWN or needs_clarification (ESTO DEBERÍA SER PARA CADA CASO)
+    if (
+      understanding.service_category &&
+      (understanding.service_type === "UNKNOWN" || understanding.needs_clarification)
+    ) {
+      const prompt = CATEGORY_CLARIFICATION_PROMPTS[understanding.service_category] ||
+        understanding.clarification_prompt ||
+        "Claro. ¿Me podrías detallar un poco más qué tipo de trabajo o problema necesitas resolver?";
+
+      db.updateRequest(request.id, {
+        normalized_intent: `${understanding.service_category}_INQUIRY`,
+        service_category: understanding.service_category,
+        service_type: "UNKNOWN",
+        legal_specialty: understanding.service_category === "LEGAL_SERVICES" ? "UNKNOWN" : null,
+        status: "WAITING_CUSTOMER_CLARIFICATION",
+        clarification_type: "SERVICE_DISAMBIGUATION",
+        location_raw: understanding.location_raw,
+        latitude: understanding.latitude,
+        longitude: understanding.longitude,
+        property_type: understanding.property_type,
+        urgency: understanding.urgency
+      });
+
+      db.logEvent(request.id, "SERVICE_DISAMBIGUATION_REQUESTED", "SYSTEM", {
+        category: understanding.service_category,
+        rule: "UNIVERSAL_DISAMBIGUATION"
+      });
+
+      await channels.sendCustomerMessage(request, prompt, { requiresClarification: true, category: understanding.service_category });
+      return { request: db.getRequestById(request.id), status: "WAITING_CUSTOMER_CLARIFICATION", message: prompt };
+    }
+
+    // Standard Zero-friction First Customer Experience Response: "Dame un momento."
     await channels.sendCustomerMessage(request, concierge.formatCustomerFirstResponse());
 
     // Transition -> UNDERSTANDING
-    db.updateRequest(request.id, { status: "UNDERSTANDING" });
-
-    const understanding = understandRequest(text);
-
     db.updateRequest(request.id, {
+      status: "UNDERSTANDING",
       normalized_intent: understanding.intent,
       service_category: understanding.service_category,
       service_type: understanding.service_type,
+      legal_specialty: understanding.legal_specialty || null,
       location_raw: understanding.location_raw,
       latitude: understanding.latitude,
       longitude: understanding.longitude,
@@ -121,8 +301,36 @@ export class RequestStateMachine {
       }))
     });
 
-    // Start cascading dispatch (Contact Candidate #1)
-    await cascadingEngine.startCascade(db.getRequestById(request.id), rankedCandidates);
+    // Instead of starting cascade immediately, we ask for soft confirmation
+    db.updateRequest(request.id, {
+      status: "WAITING_DISPATCH_CONFIRMATION",
+      candidate_cache: rankedCandidates // we stash them in the db object
+    });
+
+    // Formatear mensaje sutil basado en la categoría
+    const categoriaTexto = {
+      "PLUMBING": "plomeros",
+      "HVAC": "técnicos de aire",
+      "AUTOMOTIVE": "mecánicos/grúas",
+      "LOCKSMITH": "cerrajeros",
+      "ROOFING": "techeros",
+      "ELECTRICAL": "electricistas",
+      "HANDYMAN": "handymans",
+      "APPLIANCE_REPAIR": "técnicos de electrodomésticos",
+      "CLEANING": "servicios de limpieza",
+      "TREE_SERVICE": "cortadores de árboles",
+      "LEGAL_SERVICES": "abogados",
+    }[understanding.service_category] || "especialistas";
+
+    const loc = understanding.location_raw;
+    let softPrompt = `Perfecto, ya tengo a los ${categoriaTexto} disponibles en tu zona. ¿Me confirmas por favor para pasarles tu solicitud?`;
+    if (!loc || loc === "desconocido" || loc === "Louisville Metro") {
+      softPrompt = `Perfecto, tengo a los ${categoriaTexto} disponibles. Para conectar con los más cercanos, ¿me dices tu código postal o zona por favor?`;
+    } else {
+      softPrompt = `Perfecto, ya tengo a los ${categoriaTexto} disponibles cerca de ${loc}. ¿Me confirmas por favor para pasarles tu solicitud?`;
+    }
+
+    await channels.sendCustomerMessage(request, softPrompt, { requiresClarification: true });
 
     const finalReq = db.getRequestById(request.id);
     channels.broadcast("ai_intelligence_update", {
@@ -132,16 +340,14 @@ export class RequestStateMachine {
       request: finalReq,
       understanding: understanding,
       eligibleCount: eligible.length,
-      contactedProvider: rankedCandidates.length > 0 ? rankedCandidates[0].provider.name : null,
-      action: rankedCandidates.length > 0
-        ? `Intención clasificada como ${understanding.service_category}. Despachando alerta a ${rankedCandidates[0].provider.name}.`
-        : "Sin técnicos directos. Activando fallback de directorio público de Louisville.",
+      contactedProvider: null,
+      action: `Intención clasificada como ${understanding.service_category}. Esperando confirmación final del cliente (Soft Double Opt-in).`,
       timestamp: new Date().toISOString()
     });
 
     return {
       request: finalReq,
-      rankedCandidates
+      status: "WAITING_DISPATCH_CONFIRMATION"
     };
   }
 
@@ -185,7 +391,7 @@ export class RequestStateMachine {
 
       // Final zero-friction Customer Closing
       const priceDisplay = request.quoted_price_display || `$${request.quoted_price}`;
-      const connectMessage = concierge.formatConnectionForCustomer(provider, request.estimated_arrival);
+      const connectMessage = concierge.formatConnectionForCustomer(provider, request.estimated_arrival, request);
 
       await channels.sendCustomerMessage(request, connectMessage, {
         connected: true,
@@ -194,7 +400,7 @@ export class RequestStateMachine {
       });
 
       // Notify provider of connection
-      const providerConfirmMsg = concierge.formatConnectionForProvider(request.conversation_reference, priceDisplay);
+      const providerConfirmMsg = concierge.formatConnectionForProvider(request.conversation_reference, priceDisplay, request);
       await channels.sendProviderBriefing(provider, request, providerConfirmMsg);
 
       return { status: "CONNECTED", connection };

@@ -5,10 +5,14 @@
  * Priority scores only reorder among candidates that already passed all deterministic gates.
  */
 export function rankEligibleCandidates(eligibleEntries, request) {
+  const isDigitalOrRemote = request.service_category === "TECH_SOFTWARE" || 
+                            request.service_category === "CONSULTING_PROFESSIONAL" ||
+                            request.service_category === "LEGAL_SERVICES";
+
   const scored = eligibleEntries.map(({ provider, distanceMiles, progressiveInquiry }) => {
     // 1. Proximity score (0.0 to 1.0)
     const maxRadius = provider.max_radius_miles || 25;
-    const proximityScore = Math.max(0, 1 - (distanceMiles / maxRadius));
+    const proximityScore = isDigitalOrRemote ? 1.0 : Math.max(0, 1 - (distanceMiles / maxRadius));
 
     // 2. Reliability score (0.0 to 1.0)
     const reliabilityScore = provider.reliability_score || 0.9;
@@ -22,6 +26,10 @@ export function rankEligibleCandidates(eligibleEntries, request) {
     let affinityScore = 0.8;
     if (provider.services && provider.services.includes(request.service_type)) {
       affinityScore = 1.0;
+    } else if (provider.legal_specialties && request.legal_specialty) {
+      if (provider.legal_specialties.includes(request.legal_specialty) || provider.legal_specialties.includes("GENERAL_PRACTICE")) {
+        affinityScore = 1.0;
+      }
     }
 
     // 5. Paid Priority score (influence only, capped at 1.0)

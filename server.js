@@ -48,7 +48,7 @@ app.get(["/api/health", "/health"], (req, res) => {
   });
 });
 
-// 1. Real-time Server-Sent Events (SSE)
+// Real-time Server-Sent Events (SSE)
 app.get(["/api/events", "/events"], (req, res) => {
   res.setHeader("Content-Type", "text/event-stream");
   res.setHeader("Cache-Control", "no-cache");
@@ -60,8 +60,36 @@ app.get(["/api/events", "/events"], (req, res) => {
   res.write(`event: connected\ndata: {"status":"ok","time":"${new Date().toISOString()}"}\n\n`);
 });
 
-// 2. Real Twilio Webhook (SMS & WhatsApp Gateway)
-app.post(["/api/webhooks/twilio", "/webhooks/twilio"], async (req, res) => {
+// --- Concurrency & Race Condition Lock (Hueco #5) ---
+const processingQueue = new Map();
+
+function enqueueMessageProcessing(phone, processingFunction) {
+  if (!processingQueue.has(phone)) {
+    processingQueue.set(phone, Promise.resolve());
+  }
+  const queue = processingQueue.get(phone);
+  
+  const updatedQueue = queue.then(() => {
+    return processingFunction().catch(err => console.error(`[QUEUE ERROR] for ${phone}:`, err));
+  });
+  
+  processingQueue.set(phone, updatedQueue);
+  
+  updatedQueue.then(() => {
+    if (processingQueue.get(phone) === updatedQueue) {
+      processingQueue.delete(phone);
+    }
+  });
+}
+// ---------------------------------------------------
+
+// --- RATE LIMITER (Anti-Spam Escudo 1) ---
+const rateLimitMap = new Map();
+const LIMIT_WINDOW_MS = 60000; // 1 minuto
+const MAX_MESSAGES_PER_WINDOW = 5;
+
+// 2. Real Twilio Webhook (SMS & WhatsApp Gateway) - Async Decoupled (Hueco #4)
+app.post(["/api/webhooks/twilio", "/webhooks/twilio"], (req, res) => {
   try {
     const rawFrom = req.body.From || "";
     const bodyText = (req.body.Body || "").trim();
@@ -69,36 +97,93 @@ app.post(["/api/webhooks/twilio", "/webhooks/twilio"], async (req, res) => {
     const cleanPhone = rawFrom.replace("whatsapp:", "").trim();
     const channel = isWhatsApp ? "WHATSAPP" : "SMS";
 
-    console.log(`[TWILIO WEBHOOK] Inbound ${channel} from ${cleanPhone}: "${bodyText}"`);
+    // --- ESCUDO RATE LIMITER ---
+    const now = Date.now();
+    if (!rateLimitMap.has(cleanPhone)) {
+      rateLimitMap.set(cleanPhone, []);
+    }
+    let timestamps = rateLimitMap.get(cleanPhone);
+    timestamps = timestamps.filter(t => now - t < LIMIT_WINDOW_MS);
+    timestamps.push(now);
+    rateLimitMap.set(cleanPhone, timestamps);
 
-    // 1. Check if sender is a registered provider
-    const provider = db.getProviderByPhone(cleanPhone);
-    const waitingReq = provider ? db.getActiveWaitingRequestForPhone(cleanPhone) : null;
+    if (timestamps.length > MAX_MESSAGES_PER_WINDOW) {
+      console.warn(`[RATE LIMITER] 🛑 Bloqueando a ${cleanPhone} por posible spam (${timestamps.length} msgs en 1 min)`);
+      // Ignorar silenciosamente a nivel de servidor HTTP (cero llamadas a IA, cero lecturas de DB)
+      return res.type("text/xml").send("<Response></Response>"); 
+    }
+    // ---------------------------
 
-    if (provider && waitingReq) {
-      const activeProviderId = waitingReq.matched_provider_id || provider.id;
-      const resolvedProvider = db.getProviderById(activeProviderId) || provider;
-      console.log(`[TWILIO WEBHOOK] Inbound identified as Provider Quote: ${resolvedProvider.name} (${cleanPhone}) for request: ${waitingReq.id}`);
-      await cascadingEngine.handleProviderResponse(activeProviderId, bodyText, waitingReq.id);
-    } else if (provider && !waitingReq) {
-      console.log(`[TWILIO WEBHOOK] Inbound identified as Provider Direct Message: ${provider.name} (${cleanPhone})`);
-      const onboardingResult = await providerOnboarding.handleProviderDirectMessage(provider, bodyText, channel);
-      if (onboardingResult && onboardingResult.isCustomerRequest) {
-        console.log(`[TWILIO WEBHOOK] Rerouting provider direct message as a Customer request from ${cleanPhone}: "${bodyText}"`);
+    // 1. Inmediatamente responder a Twilio (HTTP 200) para evitar Timeouts de 15s de Gemini
+    res.type("text/xml").send("<Response></Response>");
+
+    // 2. Encolar el procesamiento en background para evitar Race Conditions
+    enqueueMessageProcessing(cleanPhone, async () => {
+      console.log(`\n[TWILIO WEBHOOK] Empieza procesamiento de ${channel} desde ${cleanPhone}: "${bodyText}"`);
+
+      const provider = db.getProviderByPhone(cleanPhone);
+      const waitingReq = provider ? db.getActiveWaitingRequestForPhone(cleanPhone) : null;
+
+      if (provider && waitingReq) {
+        const activeProviderId = waitingReq.matched_provider_id || provider.id;
+        const resolvedProvider = db.getProviderById(activeProviderId) || provider;
+        console.log(`[TWILIO WEBHOOK] Inbound identified as Provider Quote: ${resolvedProvider.name} (${cleanPhone}) para request: ${waitingReq.id}`);
+        await cascadingEngine.handleProviderResponse(activeProviderId, bodyText, waitingReq.id);
+      } else if (provider && !waitingReq) {
+        console.log(`[TWILIO WEBHOOK] Inbound identified as Provider Direct Message: ${provider.name} (${cleanPhone})`);
+        const onboardingResult = await providerOnboarding.handleProviderDirectMessage(provider, bodyText, channel);
+        if (onboardingResult && onboardingResult.isCustomerRequest) {
+          console.log(`[TWILIO WEBHOOK] Rerouting provider direct message as a Customer request from ${cleanPhone}`);
+          await stateMachine.processCustomerInput(bodyText, channel, cleanPhone);
+        }
+      } else {
+        console.log(`[TWILIO WEBHOOK] Processing as Customer request from ${cleanPhone}`);
         await stateMachine.processCustomerInput(bodyText, channel, cleanPhone);
       }
-    } else {
-      console.log(`[TWILIO WEBHOOK] Processing as Customer request from ${cleanPhone}: "${bodyText}"`);
-      await stateMachine.processCustomerInput(bodyText, channel, cleanPhone);
-    }
+    });
 
-    // Return empty TwiML response
-    res.type("text/xml").send("<Response></Response>");
   } catch (err) {
     console.error("[TWILIO WEBHOOK ERROR]", err);
-    res.status(500).type("text/xml").send("<Response></Response>");
+    if (!res.headersSent) res.status(500).type("text/xml").send("<Response></Response>");
   }
 });
+
+// --- 2.5 TWILIO VOICE INTEGRATION (Llamadas IA - Demo Fase 2) ---
+app.post(["/api/webhooks/voice", "/webhooks/voice"], (req, res) => {
+  const twiml = `
+    <Response>
+      <Gather input="speech" action="/api/webhooks/voice/process" language="es-US" timeout="3" speechTimeout="auto">
+        <Say voice="alice" language="es-MX">Hola, estás llamando a Dame La Letra. Por favor, cuéntanos qué servicio necesitas después del tono.</Say>
+      </Gather>
+    </Response>
+  `;
+  res.type("text/xml").send(twiml);
+});
+
+app.post(["/api/webhooks/voice/process", "/webhooks/voice/process"], (req, res) => {
+  const speechText = req.body.SpeechResult || "";
+  const rawFrom = req.body.From || "";
+  const cleanPhone = rawFrom.replace("+", "").trim();
+
+  if (speechText) {
+    console.log(`\n[TWILIO VOICE] Cliente ${cleanPhone} habló por teléfono: "${speechText}"`);
+    
+    // Procesar usando exactamente el mismo cerebro de la plataforma (cascada)
+    enqueueMessageProcessing(cleanPhone, async () => {
+      // Pasamos "VOICE" como canal, pero internamente responderemos por SMS
+      await stateMachine.processCustomerInput(speechText, "SMS", cleanPhone); 
+    });
+  }
+
+  const twiml = `
+    <Response>
+      <Say voice="alice" language="es-MX">Entendido. Estoy buscando a los mejores proveedores en tu área. Por favor, revisa tu celular en unos segundos, te enviaré un mensaje de texto con las opciones. ¡Hasta pronto!</Say>
+      <Hangup/>
+    </Response>
+  `;
+  res.type("text/xml").send(twiml);
+});
+// ----------------------------------------------------------------
 
 // 3. Customer Message Ingestion (Web UI Gateway)
 app.post(["/api/customer/message", "/customer/message"], async (req, res) => {
@@ -380,15 +465,17 @@ app.post("/api/webhooks/stripe", async (req, res) => {
   }
 });
 
-app.listen(PORT, "0.0.0.0", () => {
-  console.log(`\n======================================================`);
-  console.log(`  DAME LA LETRA (DML) - Core Engine Running on Port ${PORT} (0.0.0.0)`);
-  console.log(`  Twilio Louisville Inbound Webhook: /api/webhooks/twilio`);
-  console.log(`  Louisville Network Operational (+1 502-673-1333)`);
-  console.log(`  - Customer Portal:     http://localhost:${PORT}/`);
-  console.log(`  - Concierge Admin:     http://localhost:${PORT}/admin.html`);
-  console.log(`  - Provider Simulator:  http://localhost:${PORT}/provider.html`);
-  console.log(`======================================================\n`);
+db.initDb().then(() => {
+  app.listen(PORT, "0.0.0.0", () => {
+    console.log(`\n======================================================`);
+    console.log(`  DAME LA LETRA (DML) - Core Engine Running on Port ${PORT} (0.0.0.0)`);
+    console.log(`  Twilio Louisville Inbound Webhook: /api/webhooks/twilio`);
+    console.log(`  Louisville Network Operational (+1 502-673-1333)`);
+    console.log(`  - Customer Portal:     http://localhost:${PORT}/`);
+    console.log(`  - Concierge Admin:     http://localhost:${PORT}/admin.html`);
+    console.log(`  - Provider Simulator:  http://localhost:${PORT}/provider.html`);
+    console.log(`======================================================\n`);
+  });
 });
 
 export default app;

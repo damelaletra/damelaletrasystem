@@ -1,7 +1,7 @@
 import { db } from "./db.js";
 import { channels } from "./channels.js";
 import { handleExternalFallback } from "./fallback.js";
-import { concierge } from "./concierge.js";
+import { concierge, getServiceModality } from "./concierge.js";
 
 // Active timers for cascading steps
 const activeTimeouts = new Map();
@@ -11,8 +11,42 @@ const activeTimeouts = new Map();
  * Contacts one eligible provider at a time, protecting provider relationships.
  */
 export class CascadingEngine {
-  constructor(timeoutMs = 60000) {
+  constructor(timeoutMs = 180000) { // 3 minutos por defecto
     this.defaultTimeoutMs = timeoutMs;
+    // Worker de fondo para rescatar timeouts si el servidor se reinició (Hueco #2)
+    setInterval(() => this.sweepExpiredRequests(), 15000);
+  }
+
+  async sweepExpiredRequests() {
+    const now = new Date().getTime();
+    const expiredRequests = db.getRequests(r => 
+      r.status === "WAITING_PROVIDER" && 
+      r.cascade_expires_at && 
+      new Date(r.cascade_expires_at).getTime() < now
+    );
+
+    for (const req of expiredRequests) {
+      if (activeTimeouts.has(req.id)) continue; // RAM timer will handle it
+      
+      console.log(`[CASCADE-SWEEPER] Rescatando request ${req.id} expirado (posible reinicio de servidor).`);
+      const step = req.cascade_step || 0;
+      const candidateIds = req.candidate_provider_ids || [];
+      const providerId = candidateIds[step];
+      
+      if (providerId) {
+        db.logEvent(req.id, "PROVIDER_TIMEOUT", "SYSTEM", {
+          provider_id: providerId,
+          step: step,
+          recovered_by_sweeper: true
+        });
+      }
+      
+      db.updateRequest(req.id, { 
+        cascade_step: step + 1,
+        cascade_expires_at: null 
+      });
+      await this.dispatchNextCandidate(req.id);
+    }
   }
 
   async startCascade(request, rankedCandidates) {
@@ -57,15 +91,21 @@ export class CascadingEngine {
       return await this.dispatchNextCandidate(requestId);
     }
 
+    const modality = getServiceModality(request.service_category, request.service_type);
+
     let briefing = `Hola ${provider.name}. `;
-    if (request.service_type === "TIRE_CHANGE") {
-      briefing += `Tenemos un cliente con una goma ponchada en ${request.location_raw}. `;
+    if (modality === "CONSULTING_PROJECT") {
+      briefing += `Tenemos un cliente con una solicitud de "${request.raw_message}" en Louisville. ¿Tienes disponibilidad para este proyecto/consulta? ¿Cuánto cobras y cuándo podrías coordinar?`;
+    } else if (modality === "APPOINTMENT_SCHEDULED") {
+      briefing += `Tenemos un cliente que necesita "${request.raw_message}" en ${request.location_raw}. ¿Tienes disponibilidad para este trabajo? ¿Cuánto estimas y para cuándo podrías agendar la visita?`;
+    } else if (request.service_type === "TIRE_CHANGE") {
+      briefing += `Tenemos un cliente con una goma ponchada en ${request.location_raw}. ¿Puedes atenderlo? ¿Cuánto cobras y en qué tiempo llegarías?`;
     } else if (request.service_category === "HVAC") {
-      briefing += `Tenemos un cliente con el aire sin enfriar en ${request.location_raw}. `;
+      briefing += `Tenemos un cliente con el aire sin enfriar en ${request.location_raw}. ¿Puedes atenderlo? ¿Cuánto cobras y en qué tiempo llegarías?`;
     } else if (request.service_category === "PLUMBING") {
-      briefing += `Tenemos un cliente con una fuga/problema de plomería en ${request.location_raw}. `;
+      briefing += `Tenemos un cliente con una fuga/problema de plomería en ${request.location_raw}. ¿Puedes atenderlo? ¿Cuánto cobras y en qué tiempo llegarías?`;
     } else {
-      briefing += `Tenemos un cliente que necesita ayuda con "${request.raw_message}" en ${request.location_raw}. `;
+      briefing += `Tenemos un cliente que necesita ayuda con "${request.raw_message}" en ${request.location_raw}. ¿Puedes atenderlo? ¿Cuánto cobras y en qué tiempo llegarías?`;
     }
 
     let progressiveInquiry = null;
@@ -74,12 +114,16 @@ export class CascadingEngine {
         field: "commercial_capable",
         question: "¿Trabajas comercial?"
       };
-      briefing += `(Es un local comercial/oficina, ¿haces comercial?) `;
+      briefing += ` (Es un local comercial/oficina, ¿haces comercial?)`;
     }
 
-    briefing += `¿Puedes atenderlo? ¿Cuánto cobras y en qué tiempo llegarías?`;
+    let currentTimeoutMs = this.defaultTimeoutMs;
+    // Si hay pocos candidatos (3 o menos) o es el último de la lista, "eliminamos" el timeout (le damos 3 horas).
+    if (candidateIds.length <= 3 || step === candidateIds.length - 1) {
+      currentTimeoutMs = 180 * 60 * 1000; // 3 horas
+    }
 
-    const expiresAt = new Date(Date.now() + this.defaultTimeoutMs).toISOString();
+    const expiresAt = new Date(Date.now() + currentTimeoutMs).toISOString();
 
     const contacted = request.contacted_provider_ids || [];
     if (!contacted.includes(provider.id)) {
@@ -103,7 +147,7 @@ export class CascadingEngine {
     await channels.sendProviderBriefing(provider, request, briefing, {
       cascadeStep: step,
       totalCandidates: candidateIds.length,
-      expiresInSec: Math.round(this.defaultTimeoutMs / 1000),
+      expiresInSec: Math.round(currentTimeoutMs / 1000),
       progressiveInquiry: progressiveInquiry
     });
 
@@ -113,15 +157,23 @@ export class CascadingEngine {
       total: candidateIds.length
     });
 
+    // Save expiration to persistent DB (Supabase) so sweeper can recover if RAM clears
+    db.updateRequest(requestId, {
+      cascade_expires_at: new Date(Date.now() + currentTimeoutMs).toISOString()
+    });
+
     const timer = setTimeout(async () => {
       console.log(`[CASCADE] Provider ${provider.name} timed out for request ${requestId}. Advancing.`);
       db.logEvent(requestId, "PROVIDER_TIMEOUT", "SYSTEM", {
         provider_id: provider.id,
         step: step
       });
-      db.updateRequest(requestId, { cascade_step: step + 1 });
+      db.updateRequest(requestId, { 
+        cascade_step: step + 1,
+        cascade_expires_at: null
+      });
       await this.dispatchNextCandidate(requestId);
-    }, this.defaultTimeoutMs);
+    }, currentTimeoutMs);
 
     activeTimeouts.set(requestId, timer);
     return { success: true, provider, step };
@@ -226,7 +278,7 @@ export class CascadingEngine {
       estimated_arrival: analysis.eta
     });
 
-    const customerResponse = concierge.formatQuoteForCustomer(provider, analysis);
+    const customerResponse = concierge.formatQuoteForCustomer(provider, analysis, request);
 
     await channels.sendCustomerMessage(request, customerResponse, {
       quoteId: quote.id,

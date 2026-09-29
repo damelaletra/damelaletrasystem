@@ -10,10 +10,16 @@ class ChannelHub extends EventEmitter {
     this.sseClients = new Set();
     this.twilioClient = null;
 
+    this.enableRealTwilio = process.env.ENABLE_REAL_TWILIO === "true";
+
     if (process.env.TWILIO_ACCOUNT_SID && process.env.TWILIO_AUTH_TOKEN) {
       try {
         this.twilioClient = twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
-        console.log("[TWILIO] Client initialized successfully for Louisville number:", process.env.TWILIO_PHONE_NUMBER);
+        if (this.enableRealTwilio) {
+          console.log("[TWILIO] Client initialized for LIVE external dispatch:", process.env.TWILIO_PHONE_NUMBER);
+        } else {
+          console.log("[TWILIO] Client initialized in SIMULATION/LOCAL mode (Real external SMS is MUTED). Set ENABLE_REAL_TWILIO=true to enable live SMS.");
+        }
       } catch (err) {
         console.warn("[TWILIO] Initialization warning:", err.message);
       }
@@ -54,9 +60,10 @@ class ChannelHub extends EventEmitter {
     this.broadcast("customer_message", messageObj);
     this.emit("customer_message", messageObj);
 
-    // Real Twilio Dispatch to Customer (Only for real external inbound channels SMS/WHATSAPP)
+    // Real Twilio Dispatch to Customer (Only when ENABLE_REAL_TWILIO=true)
     const isRealExternalCustomer = request.channel === "SMS" || request.channel === "WHATSAPP";
     if (
+      this.enableRealTwilio &&
       process.env.NODE_ENV !== "test" &&
       !this.disableTwilioForTesting &&
       this.twilioClient &&
@@ -70,7 +77,7 @@ class ChannelHub extends EventEmitter {
           ? `whatsapp:${request.conversation_reference}`
           : request.conversation_reference;
         const fromNumber = isWhatsApp
-          ? `whatsapp:${process.env.TWILIO_PHONE_NUMBER}`
+          ? (process.env.TWILIO_WHATSAPP_NUMBER || `whatsapp:${process.env.TWILIO_PHONE_NUMBER}`)
           : process.env.TWILIO_PHONE_NUMBER;
 
         const twilioMsg = await this.twilioClient.messages.create({
@@ -107,9 +114,10 @@ class ChannelHub extends EventEmitter {
     this.broadcast("provider_briefing", briefingObj);
     this.emit("provider_briefing", briefingObj);
 
-    // Real Twilio Dispatch to Provider (Only for real external customer requests, NEVER for WEB simulator testing)
+    // Real Twilio Dispatch to Provider (Only when ENABLE_REAL_TWILIO=true)
     const isRealExternalRequest = request && (request.channel === "SMS" || request.channel === "WHATSAPP");
     if (
+      this.enableRealTwilio &&
       process.env.NODE_ENV !== "test" &&
       !this.disableTwilioForTesting &&
       this.twilioClient &&
@@ -123,15 +131,30 @@ class ChannelHub extends EventEmitter {
           ? `whatsapp:${provider.phone}`
           : provider.phone;
         const fromNumber = isWhatsApp
-          ? `whatsapp:${process.env.TWILIO_PHONE_NUMBER}`
+          ? (process.env.TWILIO_WHATSAPP_NUMBER || `whatsapp:${process.env.TWILIO_PHONE_NUMBER}`)
           : process.env.TWILIO_PHONE_NUMBER;
 
-        const twilioMsg = await this.twilioClient.messages.create({
-          body: briefingText,
-          from: fromNumber,
-          to: toNumber
-        });
-        console.log(`[TWILIO -> PROVIDER SUCCESS] SID: ${twilioMsg.sid} to ${provider.name} (${toNumber})`);
+        let twilioMsg;
+        try {
+          twilioMsg = await this.twilioClient.messages.create({
+            body: briefingText,
+            from: fromNumber,
+            to: toNumber
+          });
+          console.log(`[TWILIO -> PROVIDER SUCCESS] SID: ${twilioMsg.sid} to ${provider.name} (${toNumber})`);
+        } catch (waErr) {
+          if (isWhatsApp) {
+            console.warn(`[TWILIO -> PROVIDER BRIEFING] WhatsApp sender failed, falling back to SMS:`, waErr.message);
+            twilioMsg = await this.twilioClient.messages.create({
+              body: briefingText,
+              from: process.env.TWILIO_PHONE_NUMBER,
+              to: provider.phone
+            });
+            console.log(`[TWILIO -> PROVIDER BRIEFING SMS FALLBACK SUCCESS] SID: ${twilioMsg.sid} to ${provider.name} (${provider.phone})`);
+          } else {
+            throw waErr;
+          }
+        }
       } catch (err) {
         console.error(`[TWILIO -> PROVIDER ERROR] Failed to send to ${provider.phone}:`, err.message);
       }
@@ -158,6 +181,7 @@ class ChannelHub extends EventEmitter {
     this.emit("provider_direct_message", msgObj);
 
     if (
+      this.enableRealTwilio &&
       process.env.NODE_ENV !== "test" &&
       !this.disableTwilioForTesting &&
       this.twilioClient &&
@@ -170,7 +194,7 @@ class ChannelHub extends EventEmitter {
           ? `whatsapp:${provider.phone}`
           : provider.phone;
         const fromNumber = isWhatsApp
-          ? `whatsapp:${process.env.TWILIO_PHONE_NUMBER}`
+          ? (process.env.TWILIO_WHATSAPP_NUMBER || `whatsapp:${process.env.TWILIO_PHONE_NUMBER}`)
           : process.env.TWILIO_PHONE_NUMBER;
 
         let twilioMsg;
