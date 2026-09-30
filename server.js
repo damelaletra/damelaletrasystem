@@ -11,6 +11,7 @@ import { getObservabilityMetrics } from "./src/core/observability.js";
 import { stripeService } from "./src/core/stripeService.js";
 
 import { providerOnboarding } from "./src/core/providerOnboarding.js";
+import twilio from "twilio";
 
 dotenv.config();
 
