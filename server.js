@@ -182,42 +182,7 @@ app.post(["/api/webhooks/twilio", "/webhooks/twilio"], (req, res) => {
   }
 });
 
-// --- 2.5 TWILIO VOICE INTEGRATION (Llamadas IA - Demo Fase 2) ---
-app.post(["/api/webhooks/voice", "/webhooks/voice"], (req, res) => {
-  const twiml = `
-    <Response>
-      <Gather input="speech" action="/api/webhooks/voice/process" language="es-US" timeout="3" speechTimeout="auto">
-        <Say voice="alice" language="es-MX">Hola, estás llamando a Dame La Letra. Por favor, cuéntanos qué servicio necesitas después del tono.</Say>
-      </Gather>
-    </Response>
-  `;
-  res.type("text/xml").send(twiml);
-});
-
-app.post(["/api/webhooks/voice/process", "/webhooks/voice/process"], (req, res) => {
-  const speechText = req.body.SpeechResult || "";
-  const rawFrom = req.body.From || "";
-  const cleanPhone = rawFrom.replace("+", "").trim();
-
-  if (speechText) {
-    console.log(`\n[TWILIO VOICE] Cliente ${cleanPhone} habló por teléfono: "${speechText}"`);
-    
-    // Procesar usando exactamente el mismo cerebro de la plataforma (cascada)
-    enqueueMessageProcessing(cleanPhone, async () => {
-      // Pasamos "VOICE" como canal, pero internamente responderemos por SMS
-      await stateMachine.processCustomerInput(speechText, "SMS", cleanPhone); 
-    });
-  }
-
-  const twiml = `
-    <Response>
-      <Say voice="alice" language="es-MX">Entendido. Estoy buscando a los mejores proveedores en tu área. Por favor, revisa tu celular en unos segundos, te enviaré un mensaje de texto con las opciones. ¡Hasta pronto!</Say>
-      <Hangup/>
-    </Response>
-  `;
-  res.type("text/xml").send(twiml);
-});
-// ----------------------------------------------------------------
+// --- TWILIO VOICE INTEGRATION MOVED TO BOTTOM ---
 
 // 3. Customer Message Ingestion (Web UI Gateway)
 app.post(["/api/customer/message", "/customer/message"], async (req, res) => {
