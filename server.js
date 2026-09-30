@@ -520,7 +520,7 @@ app.post("/api/webhooks/voice", (req, res) => {
   }
 });
 
-app.post("/api/webhooks/voice/process", (req, res) => {
+app.post("/api/webhooks/voice/process", async (req, res) => {
   try {
     const speechResult = req.body.SpeechResult || "";
     const rawFrom = req.body.From || "";
@@ -531,18 +531,21 @@ app.post("/api/webhooks/voice/process", (req, res) => {
     if (speechResult.trim().length > 0) {
       console.log(`[TWILIO VOICE] Llamada entrante de ${cleanPhone}. Transcripción: "${speechResult}"`);
       
-      // Encolar el procesamiento en background para no colgar la llamada HTTP
-      enqueueMessageProcessing(cleanPhone, async () => {
-        // Simulamos que entró como un mensaje de texto normal
-        await stateMachine.processCustomerInput(speechResult, "VOICE_CALL", cleanPhone);
-      });
+      // Esperar sincrónicamente a que Gemini extraiga la intención y el Matching Engine encuentre al mejor proveedor
+      const result = await stateMachine.processCustomerInput(speechResult, "VOICE_CALL", cleanPhone);
       
-      twiml.say({ language: 'es-US', voice: 'Polly.Lupe-Neural' }, "Entendido. Nuestra Inteligencia Artificial está procesando tu solicitud y te contactaremos de inmediato. Hasta luego.");
+      if (result && result.matchedProvider) {
+        twiml.say({ language: 'es-US', voice: 'Polly.Lupe-Neural' }, "Entendido. Transfiriendo tu llamada al especialista de inmediato.");
+        twiml.dial(result.matchedProvider.phone);
+      } else if (result && result.status === "WAITING_CUSTOMER_CLARIFICATION") {
+        twiml.say({ language: 'es-US', voice: 'Polly.Lupe-Neural' }, "Tengo una duda con tu solicitud. Te acabo de enviar un mensaje de texto, por favor responde por ahí.");
+      } else {
+        twiml.say({ language: 'es-US', voice: 'Polly.Lupe-Neural' }, "Entendido. Estamos buscando a un experto para ti. Te contactaremos por mensaje de texto. Hasta luego.");
+      }
     } else {
       twiml.say({ language: 'es-US', voice: 'Polly.Lupe-Neural' }, "No logré escucharte bien. Por favor envía un mensaje de texto con tu problema. Adiós.");
     }
     
-    twiml.hangup();
     res.type('text/xml');
     res.send(twiml.toString());
   } catch (err) {
