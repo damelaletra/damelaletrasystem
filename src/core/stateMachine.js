@@ -301,7 +301,22 @@ export class RequestStateMachine {
       }))
     });
 
-    // Instead of starting cascade immediately, we ask for soft confirmation
+    // If this is a live voice call, we bypass the confirmation and return the provider immediately for transfer.
+    if (channel === "VOICE_CALL") {
+      db.updateRequest(request.id, {
+        status: "CONTACTING_PROVIDER",
+        matched_provider_id: rankedCandidates[0].provider.id,
+        match_score: rankedCandidates[0].scores.final
+      });
+      await cascadingEngine.startCascade(db.getRequestById(request.id), rankedCandidates);
+      return {
+        request: db.getRequestById(request.id),
+        status: "WAITING_PROVIDER",
+        matchedProvider: rankedCandidates[0].provider
+      };
+    }
+
+    // Instead of starting cascade immediately for SMS, we ask for soft confirmation
     db.updateRequest(request.id, {
       status: "WAITING_DISPATCH_CONFIRMATION",
       candidate_cache: rankedCandidates // we stash them in the db object
