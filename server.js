@@ -102,6 +102,10 @@ app.post(["/api/webhooks/twilio", "/webhooks/twilio"], (req, res) => {
     const cleanPhone = rawFrom.replace("whatsapp:", "").trim();
     const channel = isWhatsApp ? "WHATSAPP" : "SMS";
 
+    const numMedia = parseInt(req.body.NumMedia || "0", 10);
+    const mediaUrl0 = req.body.MediaUrl0;
+    const mediaContentType0 = req.body.MediaContentType0;
+
     // --- ESCUDO RATE LIMITER ---
     const now = Date.now();
     if (!rateLimitMap.has(cleanPhone)) {
@@ -124,7 +128,32 @@ app.post(["/api/webhooks/twilio", "/webhooks/twilio"], (req, res) => {
 
     // 2. Encolar el procesamiento en background para evitar Race Conditions
     enqueueMessageProcessing(cleanPhone, async () => {
-      console.log(`\n[TWILIO WEBHOOK] Empieza procesamiento de ${channel} desde ${cleanPhone}: "${bodyText}"`);
+      let finalBodyText = bodyText;
+
+      // --- PROCESAMIENTO DE AUDIO NATIVO ---
+      if (numMedia > 0 && mediaContentType0 && mediaContentType0.startsWith("audio/")) {
+        console.log(`\n[TWILIO WEBHOOK] Audio detectado desde ${cleanPhone} de tipo ${mediaContentType0}`);
+        try {
+          const auth = Buffer.from(process.env.TWILIO_ACCOUNT_SID + ":" + process.env.TWILIO_AUTH_TOKEN).toString('base64');
+          const fetchResponse = await fetch(mediaUrl0, {
+            headers: { 'Authorization': `Basic ${auth}` }
+          });
+          if (fetchResponse.ok) {
+            const arrayBuffer = await fetchResponse.arrayBuffer();
+            const buffer = Buffer.from(arrayBuffer);
+            const { geminiService } = await import("./src/core/gemini.js");
+            const transcription = await geminiService.transcribeAudio(buffer, mediaContentType0);
+            finalBodyText = (finalBodyText + "\n[Nota de voz transcrita]: " + transcription).trim();
+          } else {
+            console.error("[TWILIO WEBHOOK] Failed to download audio from Twilio:", fetchResponse.statusText);
+          }
+        } catch (err) {
+          console.error("[TWILIO WEBHOOK] Error descargando/procesando audio:", err.message);
+        }
+      }
+      // -------------------------------------
+
+      console.log(`\n[TWILIO WEBHOOK] Empieza procesamiento de ${channel} desde ${cleanPhone}: "${finalBodyText}"`);
 
       const provider = db.getProviderByPhone(cleanPhone);
       const waitingReq = provider ? db.getActiveWaitingRequestForPhone(cleanPhone) : null;
@@ -133,17 +162,17 @@ app.post(["/api/webhooks/twilio", "/webhooks/twilio"], (req, res) => {
         const activeProviderId = waitingReq.matched_provider_id || provider.id;
         const resolvedProvider = db.getProviderById(activeProviderId) || provider;
         console.log(`[TWILIO WEBHOOK] Inbound identified as Provider Quote: ${resolvedProvider.name} (${cleanPhone}) para request: ${waitingReq.id}`);
-        await cascadingEngine.handleProviderResponse(activeProviderId, bodyText, waitingReq.id);
+        await cascadingEngine.handleProviderResponse(activeProviderId, finalBodyText, waitingReq.id);
       } else if (provider && !waitingReq) {
         console.log(`[TWILIO WEBHOOK] Inbound identified as Provider Direct Message: ${provider.name} (${cleanPhone})`);
-        const onboardingResult = await providerOnboarding.handleProviderDirectMessage(provider, bodyText, channel);
+        const onboardingResult = await providerOnboarding.handleProviderDirectMessage(provider, finalBodyText, channel);
         if (onboardingResult && onboardingResult.isCustomerRequest) {
           console.log(`[TWILIO WEBHOOK] Rerouting provider direct message as a Customer request from ${cleanPhone}`);
-          await stateMachine.processCustomerInput(bodyText, channel, cleanPhone);
+          await stateMachine.processCustomerInput(finalBodyText, channel, cleanPhone);
         }
       } else {
         console.log(`[TWILIO WEBHOOK] Processing as Customer request from ${cleanPhone}`);
-        await stateMachine.processCustomerInput(bodyText, channel, cleanPhone);
+        await stateMachine.processCustomerInput(finalBodyText, channel, cleanPhone);
       }
     });
 

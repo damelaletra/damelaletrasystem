@@ -301,6 +301,37 @@ Devuelve ÚNICAMENTE un JSON con este formato:
       reply_message: reply
     };
   }
+
+  async transcribeAudio(audioBuffer, mimeType) {
+    if (!this.client) {
+      console.warn("[GEMINI LLM] Audio processing requested but LLM is running in deterministic fallback mode.");
+      return "[Audio Transcription Not Available in Fallback Mode]";
+    }
+
+    try {
+      console.log(`[GEMINI LLM] Transcribing audio file of size ${audioBuffer.length} bytes (${mimeType})...`);
+      
+      const response = await this.client.models.generateContent({
+        model: this.modelName,
+        contents: [
+          "Por favor, escucha cuidadosamente este audio que es un mensaje de voz enviado por un cliente o proveedor en Louisville, Kentucky (posiblemente con acento cubano o latino). Transcribe palabra por palabra exactamente lo que dice. Solo responde con la transcripción, sin ningún otro comentario.",
+          {
+            inlineData: {
+              data: audioBuffer.toString("base64"),
+              mimeType: mimeType
+            }
+          }
+        ]
+      });
+
+      const transcription = response.text || "[Transcripción vacía]";
+      console.log(`[GEMINI LLM] Audio Transcription Result: "${transcription}"`);
+      return transcription;
+    } catch (error) {
+      console.error("[GEMINI LLM] Audio transcription failed:", error);
+      return "[Error al transcribir el audio: " + error.message + "]";
+    }
+  }
 }
 
 export const geminiService = new GeminiConciergeService();
