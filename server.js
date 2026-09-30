@@ -510,7 +510,7 @@ app.post("/api/webhooks/voice", (req, res) => {
       speechTimeout: 'auto',
       hints: 'plomería, plomero, aire acondicionado, mecánico, techo, abogado, taxes'
     });
-    gather.say({ language: 'es-US', voice: 'Polly.Lupe' }, "Hola, estás llamando a Dame La Letra. Cuéntame, ¿qué necesitas hoy?");
+    gather.say({ language: 'es-US', voice: 'Polly.Lupe-Neural' }, "Hola, estás llamando a Dame La Letra. Cuéntame, ¿qué necesitas hoy?");
     
     res.type('text/xml');
     res.send(twiml.toString());
@@ -537,9 +537,9 @@ app.post("/api/webhooks/voice/process", (req, res) => {
         await stateMachine.processCustomerInput(speechResult, "VOICE_CALL", cleanPhone);
       });
       
-      twiml.say({ language: 'es-US', voice: 'Polly.Lupe' }, "Entendido. Nuestra Inteligencia Artificial está procesando tu solicitud. Te enviaremos un mensaje de texto con los detalles. Hasta luego.");
+      twiml.say({ language: 'es-US', voice: 'Polly.Lupe-Neural' }, "Entendido. Nuestra Inteligencia Artificial está procesando tu solicitud y te contactaremos de inmediato. Hasta luego.");
     } else {
-      twiml.say({ language: 'es-US', voice: 'Polly.Lupe' }, "No logré escucharte bien. Por favor envía un mensaje de texto con tu problema. Adiós.");
+      twiml.say({ language: 'es-US', voice: 'Polly.Lupe-Neural' }, "No logré escucharte bien. Por favor envía un mensaje de texto con tu problema. Adiós.");
     }
     
     twiml.hangup();
