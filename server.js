@@ -25,6 +25,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false })); // Needed for Twilio Webhooks
 app.use(express.static(path.join(__dirname, "public")));
 
+// Explicit Health Check for Railway
+app.get(["/", "/health"], (req, res) => {
+  res.status(200).send("DML Engine Online");
+});
+
 // Direct Page Routes
 app.get(["/simulator", "/simulator.html"], (req, res) => {
   res.sendFile(path.join(__dirname, "public", "simulator.html"));
