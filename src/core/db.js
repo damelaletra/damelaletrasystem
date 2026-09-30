@@ -3,6 +3,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import { initialBusinesses, initialProviders, externalPublicDirectory } from "./seedData.js";
 import { createClient } from "@supabase/supabase-js";
+import WebSocket from "ws";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -25,7 +26,14 @@ class Database {
     
     const supabaseUrl = process.env.SUPABASE_URL || "https://flzkesblrmtlqtdmnnpg.supabase.co";
     const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZsemtlc2Jscm10bHF0ZG1ubnBnIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc5MDYxNDY5MywiZXhwIjoyMTA2MTkwNjkzfQ.aF8fp_7Juc98uzJNL2hRg3XKiyLkrojDTc3CjJbajd4";
-    this.supabase = createClient(supabaseUrl, supabaseKey);
+    this.supabase = createClient(supabaseUrl, supabaseKey, {
+      global: {
+        fetch: fetch
+      },
+      realtime: {
+        transport: WebSocket
+      }
+    });
   }
 
   async initDb() {
