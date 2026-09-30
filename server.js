@@ -499,6 +499,58 @@ app.post("/api/webhooks/stripe", async (req, res) => {
   }
 });
 
+// 10. Voice Central (Twilio Native STT & TTS)
+app.post("/api/webhooks/voice", (req, res) => {
+  try {
+    const twiml = new twilio.twiml.VoiceResponse();
+    const gather = twiml.gather({
+      input: 'speech',
+      action: '/api/webhooks/voice/process',
+      language: 'es-US', // Acento Latino
+      speechTimeout: 'auto',
+      hints: 'plomería, plomero, aire acondicionado, mecánico, techo, abogado, taxes'
+    });
+    gather.say({ language: 'es-US', voice: 'Polly.Lupe' }, "Hola, estás llamando a Dame La Letra. Cuéntame, ¿qué necesitas hoy?");
+    
+    res.type('text/xml');
+    res.send(twiml.toString());
+  } catch (err) {
+    console.error("[VOICE WEBHOOK ERROR]", err);
+    res.status(500).send("Error");
+  }
+});
+
+app.post("/api/webhooks/voice/process", (req, res) => {
+  try {
+    const speechResult = req.body.SpeechResult || "";
+    const rawFrom = req.body.From || "";
+    const cleanPhone = rawFrom.trim();
+    
+    const twiml = new twilio.twiml.VoiceResponse();
+    
+    if (speechResult.trim().length > 0) {
+      console.log(`[TWILIO VOICE] Llamada entrante de ${cleanPhone}. Transcripción: "${speechResult}"`);
+      
+      // Encolar el procesamiento en background para no colgar la llamada HTTP
+      enqueueMessageProcessing(cleanPhone, async () => {
+        // Simulamos que entró como un mensaje de texto normal
+        await stateMachine.processCustomerInput(speechResult, "VOICE_CALL", cleanPhone);
+      });
+      
+      twiml.say({ language: 'es-US', voice: 'Polly.Lupe' }, "Entendido. Nuestra Inteligencia Artificial está procesando tu solicitud. Te enviaremos un mensaje de texto con los detalles. Hasta luego.");
+    } else {
+      twiml.say({ language: 'es-US', voice: 'Polly.Lupe' }, "No logré escucharte bien. Por favor envía un mensaje de texto con tu problema. Adiós.");
+    }
+    
+    twiml.hangup();
+    res.type('text/xml');
+    res.send(twiml.toString());
+  } catch (err) {
+    console.error("[VOICE PROCESS ERROR]", err);
+    res.status(500).send("Error");
+  }
+});
+
 db.initDb().then(() => {
   app.listen(PORT, "0.0.0.0", () => {
     console.log(`\n======================================================`);
