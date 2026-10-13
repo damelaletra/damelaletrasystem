@@ -1,5 +1,5 @@
 import { db } from "./db.js";
-import { geminiService } from "./gemini.js";
+import { cognitiveEngine } from "./cognitiveEngine.js";
 import { channels } from "./channels.js";
 
 /**
@@ -11,8 +11,8 @@ export class ProviderOnboardingEngine {
   async handleProviderDirectMessage(provider, rawMessage, channel = "WHATSAPP") {
     console.log(`[PROVIDER ONBOARDING] Direct message from ${provider.name} (${provider.phone}): "${rawMessage}"`);
 
-    // 1. Extract structured profile updates using Gemini AI
-    const analysis = await geminiService.extractProviderProfileUpdates(rawMessage, provider);
+    // 1. Extract structured profile updates using Cognitive Engine
+    const analysis = await cognitiveEngine.extractProviderProfileUpdates(rawMessage, provider);
 
     if (analysis && analysis.is_customer_request) {
       console.log(`[PROVIDER ONBOARDING] Detected customer request intent from provider ${provider.name}. Bailing out...`);

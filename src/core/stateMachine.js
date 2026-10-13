@@ -6,7 +6,7 @@ import { cascadingEngine } from "./cascading.js";
 import { channels } from "./channels.js";
 import { handleExternalFallback } from "./fallback.js";
 import { isCustomerAcceptance, isCustomerDecline, concierge } from "./concierge.js";
-import { geminiService } from "./gemini.js";
+import { cognitiveEngine } from "./cognitiveEngine.js";
 
 /**
  * Request State Machine & Master Orchestrator
@@ -209,13 +209,13 @@ export class RequestStateMachine {
       }
     }
 
-    // 2. Deep Natural Language Understanding via Gemini LLM
-    if (geminiService.isAvailable()) {
+    // 2. Deep Natural Language Understanding via Cognitive Engine
+    if (cognitiveEngine.isAvailable()) {
       try {
         const recentHistory = db.getRecentRequestsForPhone(conversationRef, 4);
         const contextHistory = recentHistory.map(r => ({ mensaje_usuario: r.raw_message, respuesta_ia: r.ai_explanation || r.service_category })).reverse();
         
-        const llmUnderstanding = await geminiService.understandCustomerMessage(text, contextHistory);
+        const llmUnderstanding = await cognitiveEngine.understandCustomerMessage(text, contextHistory);
         if (llmUnderstanding && llmUnderstanding.service_category && llmUnderstanding.confidence >= 0.65) {
           understanding = {
             ...understanding,

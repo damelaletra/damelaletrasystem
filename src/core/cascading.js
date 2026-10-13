@@ -35,6 +35,7 @@ export class CascadingEngine {
       const providerId = candidateIds[step];
       
       if (providerId) {
+        db.updateProvider(providerId, { capacity_lease: null });
         db.logEvent(req.id, "PROVIDER_TIMEOUT", "SYSTEM", {
           provider_id: providerId,
           step: step,
@@ -152,6 +153,14 @@ export class CascadingEngine {
       cascade_expires_at: expiresAt
     });
 
+    // Atomic Capacity Hold / Lease: Reserva temporal de capacidad del técnico durante la ventana de cascada
+    db.updateProvider(provider.id, {
+      capacity_lease: {
+        request_id: requestId,
+        expires_at: expiresAt
+      }
+    });
+
     db.logEvent(requestId, "PROVIDER_CONTACTED", "SYSTEM", {
       provider_id: provider.id,
       provider_name: provider.name,
@@ -179,6 +188,8 @@ export class CascadingEngine {
 
     const timer = setTimeout(async () => {
       console.log(`[CASCADE] Provider ${provider.name} timed out for request ${requestId}. Advancing.`);
+      // Liberar reserva de capacidad del proveedor por timeout
+      db.updateProvider(provider.id, { capacity_lease: null });
       db.logEvent(requestId, "PROVIDER_TIMEOUT", "SYSTEM", {
         provider_id: provider.id,
         step: step
@@ -214,6 +225,9 @@ export class CascadingEngine {
 
     if (!provider) return { error: "Provider not found" };
 
+    // Siempre liberar la reserva de capacidad atómica al recibir respuesta del proveedor
+    db.updateProvider(provider.id, { capacity_lease: null });
+
     const analysis = await concierge.analyzeProviderMessageAsync(rawResponse, request, provider);
 
     // 1. Check progressive profile updates (UNKNOWN != NO)
@@ -242,10 +256,11 @@ export class CascadingEngine {
       activeTimeouts.delete(request.id);
     }
 
-    // 3. Check if declined
-    if (analysis.intent === "PROVIDER_DECLINED") {
+    // 3. Check if declined or off duty
+    if (analysis.intent === "PROVIDER_DECLINED" || analysis.intent === "PROVIDER_OFF_DUTY") {
       db.logEvent(request.id, "PROVIDER_DECLINED", "PROVIDER", {
         provider_id: provider.id,
+        reason: analysis.intent,
         response: rawResponse
       });
 

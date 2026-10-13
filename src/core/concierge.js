@@ -3,7 +3,7 @@
 // warm Cuban/Latino concierge persona, and multi-turn dialogue state management.
 
 import { understandRequest } from "./semantic.js";
-import { geminiService } from "./gemini.js";
+import { cognitiveEngine } from "./cognitiveEngine.js";
 
 export const CUSTOMER_YES_WORDS = [
   "sí", "si", "dale", "dale luz verde", "conéctalo", "conéctame", "conecta",
@@ -527,8 +527,8 @@ export class ConversationalConcierge {
    * Async analysis leveraging Gemini LLM with instant local fallback
    */
   async analyzeCustomerMessageAsync(rawText, activeRequest = null) {
-    if (geminiService.isAvailable()) {
-      const llmResult = await geminiService.understandCustomerMessage(rawText, activeRequest);
+    if (cognitiveEngine.isAvailable()) {
+      const llmResult = await cognitiveEngine.understandCustomerMessage(rawText, activeRequest);
       if (llmResult && llmResult.confidence >= 0.70) {
         if (llmResult.is_affirmation && activeRequest && (activeRequest.status === "WAITING_CUSTOMER" || activeRequest.status === "CUSTOMER_DECLINED")) {
           return { intent: "CUSTOMER_ACCEPT_QUOTE", confidence: llmResult.confidence, text: rawText };
@@ -542,8 +542,8 @@ export class ConversationalConcierge {
   }
 
   async analyzeProviderMessageAsync(rawText, activeRequest = null, provider = null) {
-    if (geminiService.isAvailable()) {
-      const llmResult = await geminiService.analyzeProviderMessage(rawText, activeRequest, provider);
+    if (cognitiveEngine.isAvailable()) {
+      const llmResult = await cognitiveEngine.analyzeProviderResponse(rawText, activeRequest, provider);
       if (llmResult && llmResult.confidence >= 0.75) {
         return {
           intent: llmResult.intent,

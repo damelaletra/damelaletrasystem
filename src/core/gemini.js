@@ -385,4 +385,11 @@ Devuelve ÚNICAMENTE un objeto JSON válido con este formato:
   }
 }
 
-export const geminiService = new GeminiConciergeService();
+import { cognitiveEngine, GeminiCognitiveAdapter } from "./cognitiveEngine.js";
+
+/**
+ * Backward compatibility alias:
+ * geminiService now delegates directly to the unified CognitiveEngine interface.
+ */
+export const geminiService = cognitiveEngine;
+export { cognitiveEngine, GeminiCognitiveAdapter };

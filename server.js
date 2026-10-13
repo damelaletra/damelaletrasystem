@@ -11,6 +11,7 @@ import { getObservabilityMetrics } from "./src/core/observability.js";
 import { stripeService } from "./src/core/stripeService.js";
 
 import { providerOnboarding } from "./src/core/providerOnboarding.js";
+import { cognitiveEngine } from "./src/core/cognitiveEngine.js";
 import twilio from "twilio";
 
 dotenv.config();
@@ -46,10 +47,16 @@ app.get(["/provider", "/provider.html"], (req, res) => {
 app.get(["/api/health", "/health"], (req, res) => {
   res.json({
     status: "ok",
+    cognitiveEngine: cognitiveEngine.adapter.constructor.name,
     twilioReady: !!channels.twilioClient,
     twilioPhone: process.env.TWILIO_PHONE_NUMBER || null,
     accountSidSet: !!process.env.TWILIO_ACCOUNT_SID,
     authTokenSet: !!process.env.TWILIO_AUTH_TOKEN,
+    channels: {
+      whatsapp: "live",
+      sms: "live",
+      voice: "aspirational"
+    },
     nodeEnv: process.env.NODE_ENV || "development"
   });
 });
@@ -110,11 +117,26 @@ app.get("/api/media/:mediaId", (req, res) => {
   if (!media) {
     return res.status(404).send("Media no encontrada o expirada");
   }
+  // PII & Privacy Guard: Never allow search engines or scrapers to index customer damage photos
+  res.setHeader("X-Robots-Tag", "noindex, nofollow, noarchive");
   res.setHeader("Content-Type", media.contentType);
-  res.setHeader("Cache-Control", "public, max-age=86400");
+  res.setHeader("Cache-Control", "private, no-cache, no-store, must-revalidate");
   res.send(media.buffer);
 });
 // ----------------------------------------------
+
+// --- WEBHOOK IDEMPOTENCY / DEDUP ESCUDO (Previene reintentos duplicados de Twilio) ---
+const processedMessageSids = new Map();
+const SID_EXPIRATION_MS = 15 * 60 * 1000; // 15 minutos
+
+setInterval(() => {
+  const now = Date.now();
+  for (const [sid, timestamp] of processedMessageSids.entries()) {
+    if (now - timestamp > SID_EXPIRATION_MS) {
+      processedMessageSids.delete(sid);
+    }
+  }
+}, 60 * 1000);
 
 // 2. Real Twilio Webhook (SMS & WhatsApp Gateway) - Async Decoupled (Hueco #4)
 app.post(["/api/webhooks/twilio", "/webhooks/twilio"], (req, res) => {
@@ -124,6 +146,15 @@ app.post(["/api/webhooks/twilio", "/webhooks/twilio"], (req, res) => {
     const isWhatsApp = rawFrom.startsWith("whatsapp:");
     const cleanPhone = rawFrom.replace("whatsapp:", "").trim();
     const channel = isWhatsApp ? "WHATSAPP" : "SMS";
+
+    const messageSid = req.body.MessageSid || req.body.SmsMessageSid || req.body.SmsSid;
+    if (messageSid) {
+      if (processedMessageSids.has(messageSid)) {
+        console.warn(`[TWILIO WEBHOOK DEDUP] 🛑 Mensaje duplicado ignorado (MessageSid: ${messageSid})`);
+        return res.type("text/xml").send("<Response></Response>");
+      }
+      processedMessageSids.set(messageSid, Date.now());
+    }
 
     const numMedia = parseInt(req.body.NumMedia || "0", 10);
     const mediaUrl0 = req.body.MediaUrl0;
@@ -146,7 +177,7 @@ app.post(["/api/webhooks/twilio", "/webhooks/twilio"], (req, res) => {
     }
     // ---------------------------
 
-    // 1. Inmediatamente responder a Twilio (HTTP 200) para evitar Timeouts de 15s de Gemini
+    // 1. Inmediatamente responder a Twilio (HTTP 200) para evitar Timeouts de 15s
     res.type("text/xml").send("<Response></Response>");
 
     // 2. Encolar el procesamiento en background para evitar Race Conditions
@@ -167,8 +198,8 @@ app.post(["/api/webhooks/twilio", "/webhooks/twilio"], (req, res) => {
           if (fetchResponse.ok) {
             const arrayBuffer = await fetchResponse.arrayBuffer();
             const buffer = Buffer.from(arrayBuffer);
-            const { geminiService } = await import("./src/core/gemini.js");
-            const transcription = await geminiService.transcribeAudio(buffer, mediaContentType0);
+            const { cognitiveEngine } = await import("./src/core/cognitiveEngine.js");
+            const transcription = await cognitiveEngine.transcribeAudio(buffer, mediaContentType0);
             finalBodyText = (finalBodyText + "\n[Nota de voz transcrita]: " + transcription).trim();
           } else {
             console.error("[TWILIO WEBHOOK] Failed to download audio from Twilio:", fetchResponse.statusText);
@@ -178,7 +209,7 @@ app.post(["/api/webhooks/twilio", "/webhooks/twilio"], (req, res) => {
         }
       }
 
-      // --- 2. PROCESAMIENTO VISUAL DE FOTOS DE AVERÍAS (GEMINI MULTIMODAL VISION) ---
+      // --- 2. PROCESAMIENTO VISUAL DE FOTOS DE AVERÍAS (MULTIMODAL VISION) ---
       if (numMedia > 0 && mediaContentType0 && mediaContentType0.startsWith("image/")) {
         console.log(`\n[TWILIO WEBHOOK] Foto de avería detectada desde ${cleanPhone} de tipo ${mediaContentType0}`);
         try {
@@ -196,8 +227,8 @@ app.post(["/api/webhooks/twilio", "/webhooks/twilio"], (req, res) => {
             const serverBaseUrl = process.env.PUBLIC_APP_URL || "https://damelaletrasystem-production.up.railway.app";
             publicMediaUrl = `${serverBaseUrl}/api/media/${mediaId}`;
 
-            const { geminiService } = await import("./src/core/gemini.js");
-            visualAnalysis = await geminiService.analyzeDamagePhoto(buffer, mediaContentType0);
+            const { cognitiveEngine } = await import("./src/core/cognitiveEngine.js");
+            visualAnalysis = await cognitiveEngine.analyzeDamagePhoto(buffer, mediaContentType0);
             if (visualAnalysis && visualAnalysis.detected_problem) {
               const photoNote = `[Foto analizada por IA]: ${visualAnalysis.detected_problem}`;
               finalBodyText = finalBodyText ? `${finalBodyText}\n${photoNote}` : photoNote;

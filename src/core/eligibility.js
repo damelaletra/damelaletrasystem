@@ -65,6 +65,18 @@ export function checkProviderEligibility(provider, request) {
     };
   }
 
+  // Atomic Capacity Hold / Lease Check (evita doble despacho concurrente al mismo técnico)
+  if (request.id && provider.capacity_lease && provider.capacity_lease.request_id !== request.id) {
+    const leaseExpires = new Date(provider.capacity_lease.expires_at).getTime();
+    if (leaseExpires > Date.now()) {
+      return {
+        eligible: false,
+        reason: "CAPACITY_LEASED",
+        details: `Capacidad temporalmente reservada por la solicitud ${provider.capacity_lease.request_id} hasta ${provider.capacity_lease.expires_at}`
+      };
+    }
+  }
+
   if (provider.capacity_used_today >= provider.capacity_today) {
     return {
       eligible: false,
