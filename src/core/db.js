@@ -24,6 +24,8 @@ class Database {
       affiliates: []
     };
     
+    this.webhookDedupCache = new Map();
+
     const supabaseUrl = process.env.SUPABASE_URL || "https://flzkesblrmtlqtdmnnpg.supabase.co";
     const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZsemtlc2Jscm10bHF0ZG1ubnBnIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc5MDYxNDY5MywiZXhwIjoyMTA2MTkwNjkzfQ.aF8fp_7Juc98uzJNL2hRg3XKiyLkrojDTc3CjJbajd4";
     this.supabase = createClient(supabaseUrl, supabaseKey, {
@@ -56,8 +58,156 @@ class Database {
       } else {
         console.log(`[DB] Successfully loaded state from Supabase (${this.data.requests.length} requests, ${this.data.providers.length} providers).`);
       }
+
+      // Load active capacity leases from Supabase into memory
+      await this.loadActiveLeasesFromSupabase();
     } catch (err) {
       console.error("[DB] Supabase init error:", err.message);
+    }
+  }
+
+  /**
+   * Check and record a webhook MessageSid in Supabase with in-memory fast caching.
+   * Returns true if message is already processed / duplicate.
+   * Returns false if message is new and successfully recorded.
+   */
+  async isDuplicateWebhook(messageSid, source = "twilio", payload = {}) {
+    if (!messageSid) return false;
+
+    const now = Date.now();
+    // Fast RAM cache check
+    const inMem = this.webhookDedupCache.get(messageSid);
+    if (inMem && inMem > now) {
+      return true;
+    }
+
+    try {
+      // Query Supabase webhook_dedup
+      const { data, error } = await this.supabase
+        .from('webhook_dedup')
+        .select('id, expires_at')
+        .eq('id', messageSid)
+        .maybeSingle();
+
+      if (!error && data) {
+        const exp = data.expires_at ? new Date(data.expires_at).getTime() : now + 15 * 60 * 1000;
+        this.webhookDedupCache.set(messageSid, exp);
+        return true;
+      }
+
+      // Persist in Supabase with 15-minute TTL
+      const expiresAt = new Date(now + 15 * 60 * 1000).toISOString();
+      await this.supabase.from('webhook_dedup').upsert({
+        id: messageSid,
+        source,
+        payload,
+        expires_at: expiresAt,
+        created_at: new Date().toISOString()
+      });
+
+      this.webhookDedupCache.set(messageSid, now + 15 * 60 * 1000);
+      return false;
+    } catch (err) {
+      console.warn('[DB] Supabase webhook dedup fallback to RAM:', err.message);
+      if (this.webhookDedupCache.has(messageSid)) return true;
+      this.webhookDedupCache.set(messageSid, now + 15 * 60 * 1000);
+      return false;
+    }
+  }
+
+  /**
+   * Acquire capacity lease on a provider for a specific request in Supabase.
+   * Returns { success: boolean, lease: object, reason?: string }
+   */
+  async acquireCapacityLease(providerId, requestId, durationMs = 5 * 60 * 1000) {
+    if (!providerId || !requestId) return { success: false, error: "Missing providerId or requestId" };
+    const now = Date.now();
+    const expiresAt = new Date(now + durationMs).toISOString();
+
+    const provider = this.getProviderById(providerId);
+    if (provider && provider.capacity_lease && provider.capacity_lease.request_id !== requestId) {
+      const exp = new Date(provider.capacity_lease.expires_at).getTime();
+      if (exp > now) {
+        return { success: false, reason: "CAPACITY_LEASED", lease: provider.capacity_lease };
+      }
+    }
+
+    const lease = { request_id: requestId, expires_at: expiresAt };
+    if (provider) {
+      provider.capacity_lease = lease;
+      this.save();
+    }
+
+    try {
+      await this.supabase.from('capacity_leases').upsert({
+        provider_id: providerId,
+        request_id: requestId,
+        expires_at: expiresAt,
+        created_at: new Date().toISOString()
+      });
+      console.log(`[CAPACITY LEASE] Acquired lease for ${providerId} (req: ${requestId}) until ${expiresAt} (Supabase persisted)`);
+    } catch (err) {
+      console.warn(`[CAPACITY LEASE] Supabase upsert error:`, err.message);
+    }
+
+    return { success: true, lease };
+  }
+
+  /**
+   * Release capacity lease on a provider in Supabase and RAM.
+   */
+  async releaseCapacityLease(providerId) {
+    if (!providerId) return;
+    const provider = this.getProviderById(providerId);
+    if (provider) {
+      provider.capacity_lease = null;
+      this.save();
+    }
+
+    try {
+      await this.supabase.from('capacity_leases').delete().eq('provider_id', providerId);
+      console.log(`[CAPACITY LEASE] Released lease for provider ${providerId} (Supabase persisted)`);
+    } catch (err) {
+      console.warn(`[CAPACITY LEASE] Supabase delete error:`, err.message);
+    }
+  }
+
+  /**
+   * Check if a provider's capacity is leased to a different active request.
+   */
+  isProviderLeased(providerId, requestId) {
+    const provider = this.getProviderById(providerId);
+    if (!provider || !provider.capacity_lease) return false;
+    if (requestId && provider.capacity_lease.request_id === requestId) return false;
+    const exp = new Date(provider.capacity_lease.expires_at).getTime();
+    return exp > Date.now();
+  }
+
+  /**
+   * Sync active capacity leases from Supabase on init or recovery.
+   */
+  async loadActiveLeasesFromSupabase() {
+    try {
+      const nowIso = new Date().toISOString();
+      const { data, error } = await this.supabase
+        .from('capacity_leases')
+        .select('*')
+        .gt('expires_at', nowIso);
+
+      if (!error && data) {
+        for (const row of data) {
+          const provider = this.getProviderById(row.provider_id);
+          if (provider) {
+            provider.capacity_lease = {
+              request_id: row.request_id,
+              expires_at: row.expires_at
+            };
+          }
+        }
+        console.log(`[CAPACITY LEASE] Loaded ${data.length} active leases from Supabase into memory.`);
+      }
+    } catch (err) {
+      console.warn(`[CAPACITY LEASE] Error loading active leases:`, err.message);
     }
   }
 
@@ -204,11 +354,12 @@ class Database {
       preferred_time: requestData.preferred_time || null,
       customer_constraints: requestData.customer_constraints || {},
       status: requestData.status || "NEW",
-      matched_provider_id: null,
-      candidate_provider_ids: [],
-      contacted_provider_ids: [],
-      cascade_step: 0,
-      cascade_expires_at: null,
+      matched_provider_id: requestData.matched_provider_id || null,
+      candidate_provider_ids: requestData.candidate_provider_ids || [],
+      contacted_provider_ids: requestData.contacted_provider_ids || [],
+      cascade_step: requestData.cascade_step || 0,
+      cascade_expires_at: requestData.cascade_expires_at || null,
+      customer_expires_at: requestData.customer_expires_at || null,
       quoted_price: null,
       estimated_arrival: null,
       customer_confirmation: 0,
@@ -262,6 +413,26 @@ class Database {
       eta: quote.estimated_arrival
     });
     return quote;
+  }
+
+  getQuotes(filterFn = null) {
+    if (filterFn) return this.data.quotes.filter(filterFn);
+    return this.data.quotes;
+  }
+
+  updateQuote(id, updates) {
+    const idx = this.data.quotes.findIndex(q => q.id === id);
+    if (idx !== -1) {
+      this.data.quotes[idx] = {
+        ...this.data.quotes[idx],
+        ...updates,
+        updated_at: new Date().toISOString()
+      };
+      this.save();
+      this.syncRecord('quotes', this.data.quotes[idx]);
+      return this.data.quotes[idx];
+    }
+    return null;
   }
 
   // Connections

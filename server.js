@@ -125,21 +125,11 @@ app.get("/api/media/:mediaId", (req, res) => {
 });
 // ----------------------------------------------
 
-// --- WEBHOOK IDEMPOTENCY / DEDUP ESCUDO (Previene reintentos duplicados de Twilio) ---
-const processedMessageSids = new Map();
-const SID_EXPIRATION_MS = 15 * 60 * 1000; // 15 minutos
-
-setInterval(() => {
-  const now = Date.now();
-  for (const [sid, timestamp] of processedMessageSids.entries()) {
-    if (now - timestamp > SID_EXPIRATION_MS) {
-      processedMessageSids.delete(sid);
-    }
-  }
-}, 60 * 1000);
+// --- WEBHOOK IDEMPOTENCY / DEDUP ESCUDO (Persistido en Supabase + Caché RAM) ---
+// Previene reintentos duplicados de Twilio ante latencias de red o reinicios de dynos
 
 // 2. Real Twilio Webhook (SMS & WhatsApp Gateway) - Async Decoupled (Hueco #4)
-app.post(["/api/webhooks/twilio", "/webhooks/twilio"], (req, res) => {
+app.post(["/api/webhooks/twilio", "/webhooks/twilio"], async (req, res) => {
   try {
     const rawFrom = req.body.From || "";
     const bodyText = (req.body.Body || "").trim();
@@ -149,11 +139,11 @@ app.post(["/api/webhooks/twilio", "/webhooks/twilio"], (req, res) => {
 
     const messageSid = req.body.MessageSid || req.body.SmsMessageSid || req.body.SmsSid;
     if (messageSid) {
-      if (processedMessageSids.has(messageSid)) {
-        console.warn(`[TWILIO WEBHOOK DEDUP] 🛑 Mensaje duplicado ignorado (MessageSid: ${messageSid})`);
+      const isDuplicate = await db.isDuplicateWebhook(messageSid, "twilio", { From: cleanPhone, Body: bodyText.slice(0, 100) });
+      if (isDuplicate) {
+        console.warn(`[TWILIO WEBHOOK DEDUP] 🛑 Mensaje duplicado ignorado (MessageSid: ${messageSid}, persistido en Supabase)`);
         return res.type("text/xml").send("<Response></Response>");
       }
-      processedMessageSids.set(messageSid, Date.now());
     }
 
     const numMedia = parseInt(req.body.NumMedia || "0", 10);

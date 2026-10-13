@@ -20,6 +20,8 @@ export class CascadingEngine {
 
   async sweepExpiredRequests() {
     const now = new Date().getTime();
+    
+    // 1. Rescatar solicitudes WAITING_PROVIDER expiradas (timeout de técnico sin respuesta)
     const expiredRequests = db.getRequests(r => 
       r.status === "WAITING_PROVIDER" && 
       r.cascade_expires_at && 
@@ -27,7 +29,10 @@ export class CascadingEngine {
     );
 
     for (const req of expiredRequests) {
-      if (activeTimeouts.has(req.id)) continue; // RAM timer will handle it
+      if (activeTimeouts.has(req.id)) {
+        clearTimeout(activeTimeouts.get(req.id));
+        activeTimeouts.delete(req.id);
+      }
       
       console.log(`[CASCADE-SWEEPER] Rescatando request ${req.id} expirado (posible reinicio de servidor).`);
       const step = req.cascade_step || 0;
@@ -35,7 +40,7 @@ export class CascadingEngine {
       const providerId = candidateIds[step];
       
       if (providerId) {
-        db.updateProvider(providerId, { capacity_lease: null });
+        await db.releaseCapacityLease(providerId);
         db.logEvent(req.id, "PROVIDER_TIMEOUT", "SYSTEM", {
           provider_id: providerId,
           step: step,
@@ -48,6 +53,36 @@ export class CascadingEngine {
         cascade_expires_at: null 
       });
       await this.dispatchNextCandidate(req.id);
+    }
+
+    // 2. Rescatar solicitudes WAITING_CUSTOMER expiradas (cliente nunca confirmó la cotización)
+    const expiredCustomerRequests = db.getRequests(r =>
+      r.status === "WAITING_CUSTOMER" &&
+      r.customer_expires_at &&
+      new Date(r.customer_expires_at).getTime() < now
+    );
+
+    for (const req of expiredCustomerRequests) {
+      console.log(`[CUSTOMER-TIMEOUT-SWEEPER] Cotización expirada por inactividad del cliente en request ${req.id}.`);
+      
+      db.updateRequest(req.id, {
+        status: "EXPIRED",
+        completed_at: new Date().toISOString()
+      });
+
+      const quotes = db.getQuotes ? db.getQuotes(q => q.request_id === req.id && q.status === "PENDING") : [];
+      for (const q of quotes) {
+        if (db.updateQuote) db.updateQuote(q.id, { status: "EXPIRED" });
+      }
+
+      if (req.matched_provider_id) {
+        await db.releaseCapacityLease(req.matched_provider_id);
+      }
+
+      db.logEvent(req.id, "CUSTOMER_TIMEOUT", "SYSTEM", {
+        reason: "NO_CUSTOMER_CONFIRMATION",
+        expired_at: new Date().toISOString()
+      });
     }
   }
 
@@ -133,10 +168,27 @@ export class CascadingEngine {
       briefing += `\n📍 Ubicación GPS (${dist} mi de tu base): https://maps.google.com/?q=${request.latitude},${request.longitude}`;
     }
 
+    // Cálculo de timeout adaptativo según urgencia y etapa de la cascada
     let currentTimeoutMs = this.defaultTimeoutMs;
-    // Si hay pocos candidatos (3 o menos) o es el último de la lista, "eliminamos" el timeout (le damos 3 horas).
-    if (candidateIds.length <= 3 || step === candidateIds.length - 1) {
-      currentTimeoutMs = 180 * 60 * 1000; // 3 horas
+    const urgency = request.urgency || "MEDIUM";
+    const isFinalCandidate = (step === candidateIds.length - 1);
+
+    if (isFinalCandidate) {
+      if (urgency === "EMERGENCY") {
+        currentTimeoutMs = 5 * 60 * 1000; // 5 minutos de gracia antes de fallback externo
+      } else if (urgency === "HIGH") {
+        currentTimeoutMs = 15 * 60 * 1000; // 15 minutos
+      } else {
+        currentTimeoutMs = 60 * 60 * 1000; // 1 hora para servicios estándar o consultas
+      }
+    } else {
+      if (urgency === "EMERGENCY") {
+        currentTimeoutMs = 90 * 1000; // 90 segundos para emergencias
+      } else if (urgency === "HIGH") {
+        currentTimeoutMs = 180 * 1000; // 3 minutos
+      } else {
+        currentTimeoutMs = this.defaultTimeoutMs || 240 * 1000; // 4 minutos estándar
+      }
     }
 
     const expiresAt = new Date(Date.now() + currentTimeoutMs).toISOString();
@@ -153,13 +205,8 @@ export class CascadingEngine {
       cascade_expires_at: expiresAt
     });
 
-    // Atomic Capacity Hold / Lease: Reserva temporal de capacidad del técnico durante la ventana de cascada
-    db.updateProvider(provider.id, {
-      capacity_lease: {
-        request_id: requestId,
-        expires_at: expiresAt
-      }
-    });
+    // Atomic Capacity Hold / Lease persistido en Supabase
+    await db.acquireCapacityLease(provider.id, requestId, currentTimeoutMs);
 
     db.logEvent(requestId, "PROVIDER_CONTACTED", "SYSTEM", {
       provider_id: provider.id,
@@ -189,7 +236,7 @@ export class CascadingEngine {
     const timer = setTimeout(async () => {
       console.log(`[CASCADE] Provider ${provider.name} timed out for request ${requestId}. Advancing.`);
       // Liberar reserva de capacidad del proveedor por timeout
-      db.updateProvider(provider.id, { capacity_lease: null });
+      await db.releaseCapacityLease(provider.id);
       db.logEvent(requestId, "PROVIDER_TIMEOUT", "SYSTEM", {
         provider_id: provider.id,
         step: step
@@ -226,7 +273,7 @@ export class CascadingEngine {
     if (!provider) return { error: "Provider not found" };
 
     // Siempre liberar la reserva de capacidad atómica al recibir respuesta del proveedor
-    db.updateProvider(provider.id, { capacity_lease: null });
+    await db.releaseCapacityLease(provider.id);
 
     const analysis = await concierge.analyzeProviderMessageAsync(rawResponse, request, provider);
 
@@ -292,12 +339,22 @@ export class CascadingEngine {
     }
 
     // 5. Provider Gave Quote
+    let customerValidityMs = 30 * 60 * 1000; // 30 min por defecto
+    const reqUrgency = request.urgency || "MEDIUM";
+    if (reqUrgency === "EMERGENCY") {
+      customerValidityMs = 15 * 60 * 1000; // 15 min en emergencia
+    } else if (request.service_category === "CONSULTING_PROFESSIONAL" || request.service_category === "LEGAL_SERVICES") {
+      customerValidityMs = 4 * 60 * 60 * 1000; // 4 horas para citas / consultas
+    }
+    const customerExpiresAt = new Date(Date.now() + customerValidityMs).toISOString();
+
     const quote = db.createQuote({
       request_id: request.id,
       provider_id: provider.id,
       quoted_price: analysis.price,
       quoted_price_display: analysis.priceDisplay,
       estimated_arrival: analysis.eta,
+      expires_at: customerExpiresAt,
       notes: rawResponse
     });
 
@@ -305,7 +362,8 @@ export class CascadingEngine {
       status: "QUOTE_RECEIVED",
       quoted_price: analysis.price,
       quoted_price_display: analysis.priceDisplay,
-      estimated_arrival: analysis.eta
+      estimated_arrival: analysis.eta,
+      customer_expires_at: customerExpiresAt
     });
 
     const customerResponse = concierge.formatQuoteForCustomer(provider, analysis, request);
@@ -318,7 +376,10 @@ export class CascadingEngine {
       promptConfirmation: true
     });
 
-    db.updateRequest(request.id, { status: "WAITING_CUSTOMER" });
+    db.updateRequest(request.id, { 
+      status: "WAITING_CUSTOMER",
+      customer_expires_at: customerExpiresAt
+    });
 
     return { success: true, quote, request };
   }

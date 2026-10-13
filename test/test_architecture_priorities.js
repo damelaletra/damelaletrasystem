@@ -174,6 +174,176 @@ async function runTests() {
     console.log("  ✔ Capacity lease released upon provider response (PASS)");
   }
 
+  // --------------------------------------------------------------------------
+  // TEST 5: Persistent Webhook Dedup in Supabase
+  // --------------------------------------------------------------------------
+  console.log("\n▶ TEST 5: Persistent Webhook Dedup in Supabase");
+  {
+    const testSid = `SM_test_dedup_${Date.now()}`;
+    
+    // First message with this SID: should NOT be duplicate
+    const isDup1 = await db.isDuplicateWebhook(testSid, "twilio", { test: true });
+    assert.strictEqual(isDup1, false, "Initial webhook message must not be flagged as duplicate");
+    console.log("  ✔ First webhook message received and recorded (PASS)");
+
+    // Second message with same SID (network retransmission / retry): MUST be duplicate
+    const isDup2 = await db.isDuplicateWebhook(testSid, "twilio", { test: true });
+    assert.strictEqual(isDup2, true, "Retransmitted webhook message must be rejected as duplicate");
+    console.log("  ✔ Retransmitted webhook message rejected by dedup shield (PASS)");
+
+    // Verify persistence in Supabase table
+    const { data: supaRow, error } = await db.supabase
+      .from("webhook_dedup")
+      .select("*")
+      .eq("id", testSid)
+      .maybeSingle();
+
+    assert(!error, `Supabase query should not error: ${error?.message}`);
+    assert(supaRow, "Record must exist in Supabase webhook_dedup table");
+    assert.strictEqual(supaRow.id, testSid);
+    console.log("  ✔ Webhook Dedup verified persistent in Supabase table (PASS)");
+
+    // Clean up test row
+    await db.supabase.from("webhook_dedup").delete().eq("id", testSid);
+  }
+
+  // --------------------------------------------------------------------------
+  // TEST 6: Persistent Capacity Lease in Supabase & Crash Recovery
+  // --------------------------------------------------------------------------
+  console.log("\n▶ TEST 6: Persistent Capacity Lease in Supabase & Crash Recovery");
+  {
+    const testProvId = "prov-plumbing-01";
+    const testReqId = `req-lease-test-${Date.now()}`;
+
+    // 1. Acquire capacity lease
+    const acquireRes = await db.acquireCapacityLease(testProvId, testReqId, 60000);
+    assert.strictEqual(acquireRes.success, true);
+    assert(acquireRes.lease);
+
+    // 2. Verify in Supabase table
+    const { data: leaseRow, error: lErr } = await db.supabase
+      .from("capacity_leases")
+      .select("*")
+      .eq("provider_id", testProvId)
+      .maybeSingle();
+
+    assert(!lErr, `Supabase query error: ${lErr?.message}`);
+    assert(leaseRow, "Lease must exist in Supabase capacity_leases table");
+    assert.strictEqual(leaseRow.request_id, testReqId);
+    console.log("  ✔ Capacity lease successfully persisted to Supabase (PASS)");
+
+    // 3. Simulate Server Crash / RAM wipe and verify recovery from Supabase
+    const providerInRam = db.getProviderById(testProvId);
+    providerInRam.capacity_lease = null; // wipe RAM
+    assert.strictEqual(providerInRam.capacity_lease, null, "Simulated RAM wipe");
+
+    await db.loadActiveLeasesFromSupabase();
+    assert(providerInRam.capacity_lease, "Lease must be recovered from Supabase into RAM");
+    assert.strictEqual(providerInRam.capacity_lease.request_id, testReqId);
+    console.log("  ✔ Server crash recovery: lease restored from Supabase into RAM (PASS)");
+
+    // 4. Release lease and verify deletion from Supabase
+    await db.releaseCapacityLease(testProvId);
+    assert.strictEqual(providerInRam.capacity_lease, null);
+
+    const { data: deletedRow } = await db.supabase
+      .from("capacity_leases")
+      .select("*")
+      .eq("provider_id", testProvId)
+      .maybeSingle();
+
+    assert.strictEqual(deletedRow, null, "Lease must be removed from Supabase table");
+    console.log("  ✔ Capacity lease released and removed from Supabase (PASS)");
+  }
+
+  // --------------------------------------------------------------------------
+  // TEST 7: Timeouts: Cascade Sweeper & Customer Quote Expiration
+  // --------------------------------------------------------------------------
+  console.log("\n▶ TEST 7: Timeouts: Cascade Sweeper & Customer Quote Expiration");
+  {
+    // A) WAITING_PROVIDER timeout recovery
+    const candidateA = db.getProviderById("prov-hvac-01"); // Carlos Ruiz
+    candidateA.availability_status = "AVAILABLE";
+
+    const candidateB = {
+      id: "prov-hvac-miguel",
+      name: "Miguel Fernández",
+      display_name: "Miguel Fernández (Fernández HVAC)",
+      phone: "+15025550998",
+      category: "HVAC",
+      services: ["AC_REPAIR", "HEATING_REPAIR"],
+      base_latitude: 38.1510,
+      base_longitude: -85.7001,
+      max_radius_miles: 45,
+      availability_status: "AVAILABLE",
+      capacity_today: 10,
+      capacity_used_today: 0,
+      reliability_score: 0.95
+    };
+    db.data.providers.push(candidateB);
+
+    const timeoutReq = db.createRequest({
+      raw_message: "Se rompió el aire central",
+      service_category: "HVAC",
+      service_type: "AC_REPAIR",
+      urgency: "HIGH",
+      latitude: 38.1510,
+      longitude: -85.7001
+    });
+
+    await cascadingEngine.startCascade(timeoutReq, [
+      { provider: candidateA, scores: { final: 95 } },
+      { provider: candidateB, scores: { final: 85 } }
+    ]);
+
+    const activeReq = db.getRequestById(timeoutReq.id);
+    assert.strictEqual(activeReq.status, "WAITING_PROVIDER");
+    assert.strictEqual(activeReq.matched_provider_id, candidateA.id);
+
+    // Simulate timeout expiration in the past
+    timeoutReq.cascade_expires_at = new Date(Date.now() - 5000).toISOString();
+    db.updateRequest(timeoutReq.id, { cascade_expires_at: timeoutReq.cascade_expires_at });
+
+    // Run sweeper
+    await cascadingEngine.sweepExpiredRequests();
+
+    const sweptReq = db.getRequestById(timeoutReq.id);
+    assert.strictEqual(sweptReq.cascade_step, 1, "Cascade step must advance past timed-out candidate");
+    assert.strictEqual(sweptReq.matched_provider_id, candidateB.id, "Candidate B must now be contacted");
+    console.log("  ✔ WAITING_PROVIDER timeout recovered by sweeper and advanced to next candidate (PASS)");
+
+    // Clean up timer
+    await cascadingEngine.handleProviderResponse(candidateB.id, "no puedo", timeoutReq.id);
+
+    // B) WAITING_CUSTOMER quote expiration
+    const custTimeoutReq = db.createRequest({
+      raw_message: "Necesito cerrajero",
+      service_category: "LOCKSMITH",
+      service_type: "LOCKOUT",
+      status: "WAITING_CUSTOMER",
+      matched_provider_id: "prov-locksmith-01",
+      customer_expires_at: new Date(Date.now() - 5000).toISOString()
+    });
+
+    const pendingQuote = db.createQuote({
+      request_id: custTimeoutReq.id,
+      provider_id: "prov-locksmith-01",
+      quoted_price: 90,
+      estimated_arrival: "20 min",
+      status: "PENDING"
+    });
+
+    // Run sweeper
+    await cascadingEngine.sweepExpiredRequests();
+
+    const sweptCustReq = db.getRequestById(custTimeoutReq.id);
+    assert.strictEqual(sweptCustReq.status, "EXPIRED", "Request must transition to EXPIRED on customer timeout");
+    
+    const expiredQuote = db.getQuotes(q => q.id === pendingQuote.id)[0];
+    assert.strictEqual(expiredQuote.status, "EXPIRED", "Quote must be marked EXPIRED");
+    console.log("  ✔ WAITING_CUSTOMER quote expiration cleanly swept and transitioned to EXPIRED (PASS)");
+  }
+
   console.log("\n=================================================");
   console.log("  ALL ARCHITECTURAL PRIORITIES PASSING 100%!     ");
   console.log("=================================================\n");
