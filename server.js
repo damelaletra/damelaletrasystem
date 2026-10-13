@@ -233,6 +233,23 @@ app.post(["/api/provider/message", "/provider/message"], async (req, res) => {
   }
 });
 
+// 4.2 Admin Reset / Wipe Queue
+app.post(["/api/admin/wipe", "/admin/wipe"], async (req, res) => {
+  try {
+    db.data.requests = [];
+    db.data.quotes = [];
+    db.data.connections = [];
+    db.save();
+    await db.supabase.from("requests").delete().neq("id", "dummy");
+    await db.supabase.from("quotes").delete().neq("id", "dummy");
+    await db.supabase.from("connections").delete().neq("id", "dummy");
+    console.log("[ADMIN] Colas y solicitudes borradas completamente.");
+    return res.json({ success: true, message: "Todas las colas y solicitudes fueron borradas." });
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+});
+
 // 4.2 Unified Provider Chat (Automated Context Detection: Lead Quote vs Profile Training)
 app.post(["/api/provider/chat", "/provider/chat"], async (req, res) => {
   try {
