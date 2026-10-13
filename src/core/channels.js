@@ -80,12 +80,40 @@ class ChannelHub extends EventEmitter {
           ? (process.env.TWILIO_WHATSAPP_NUMBER || `whatsapp:${process.env.TWILIO_PHONE_NUMBER}`)
           : process.env.TWILIO_PHONE_NUMBER;
 
-        const twilioMsg = await this.twilioClient.messages.create({
-          body: text,
-          from: fromNumber,
-          to: toNumber
-        });
-        console.log(`[TWILIO -> CUSTOMER SUCCESS] SID: ${twilioMsg.sid} from ${fromNumber} to ${toNumber}`);
+        let twilioMsg;
+        if (isWhatsApp && meta.promptConfirmation) {
+          const providerName = meta.providerName || "un profesional verificado";
+          const eta = meta.eta || "lo antes posible";
+          const price = meta.price || "estimado personalizado";
+          try {
+            twilioMsg = await this.twilioClient.messages.create({
+              from: fromNumber,
+              to: toNumber,
+              contentSid: process.env.TWILIO_CONTENT_CONFIRM_SID || "HX687eda3abb375ebc420d32e5792d287d",
+              contentVariables: JSON.stringify({
+                "1": providerName,
+                "2": eta,
+                "3": price
+              })
+            });
+            console.log(`[TWILIO -> CUSTOMER WHATSAPP BUTTONS SUCCESS] SID: ${twilioMsg.sid} to ${toNumber}`);
+          } catch (tplErr) {
+            console.warn(`[TWILIO -> WHATSAPP BUTTONS FALLBACK] ${tplErr.message}`);
+            twilioMsg = await this.twilioClient.messages.create({
+              body: text,
+              from: fromNumber,
+              to: toNumber
+            });
+            console.log(`[TWILIO -> CUSTOMER SUCCESS] SID: ${twilioMsg.sid} from ${fromNumber} to ${toNumber}`);
+          }
+        } else {
+          twilioMsg = await this.twilioClient.messages.create({
+            body: text,
+            from: fromNumber,
+            to: toNumber
+          });
+          console.log(`[TWILIO -> CUSTOMER SUCCESS] SID: ${twilioMsg.sid} from ${fromNumber} to ${toNumber}`);
+        }
       } catch (err) {
         console.error(`[TWILIO -> CUSTOMER ERROR] Failed to send to ${request.conversation_reference}:`, err.message);
       }
