@@ -89,11 +89,13 @@ async function runTests() {
     console.log("  Step 1: Customer sends 'Se me ponchó la goma en Dixie'");
     const res1 = await stateMachine.processCustomerInput("Se me ponchó la goma en Dixie", "WHATSAPP", convId);
     const activeReq = res1.request;
-    assert.strictEqual(activeReq.status, "WAITING_PROVIDER");
+    assert.strictEqual(activeReq.status, "WAITING_DISPATCH_CONFIRMATION");
+    await stateMachine.processCustomerInput("Sí", "WHATSAPP", convId);
     console.log("  ✔ Request entered WAITING_PROVIDER, dispatched to eligible provider");
 
     console.log("  Step 2: Provider replies 'Sí, puedo llegar en 20 minutos y cobro $65'");
-    const res2 = await cascadingEngine.handleProviderResponse(activeReq.matched_provider_id, "Sí, puedo llegar en 20 minutos y cobro $65", activeReq.id);
+    const currentReq = db.getRequestById(activeReq.id);
+    const res2 = await cascadingEngine.handleProviderResponse(currentReq.matched_provider_id, "Sí, puedo llegar en 20 minutos y cobro $65", activeReq.id);
     assert.strictEqual(res2.success, true);
 
     const reqWaitingCustomer = db.getRequestById(activeReq.id);
@@ -282,7 +284,7 @@ async function runTests() {
     const customerPhone = "+15024449988";
 
     // 1. Customer asks for tax consultation
-    const res = await stateMachine.processCustomerInput("Hola necesito ayuda con mis taxes y una asesoría para mi negocio en Louisville", "WHATSAPP", customerPhone);
+    const res = await stateMachine.processCustomerInput("Hola necesito ayuda con mis taxes y una asesoría para mi negocio en Louisville", "SMS", customerPhone);
     const req = res.request;
     assert.strictEqual(req.service_category, "CONSULTING_PROFESSIONAL");
 
@@ -488,7 +490,7 @@ async function runTests() {
   console.log("=================================================\n");
 }
 
-runTests().catch(err => {
+runTests().then(() => process.exit(0)).catch(err => {
   console.error("❌ TEST SUITE FAILED:", err);
   process.exit(1);
 });

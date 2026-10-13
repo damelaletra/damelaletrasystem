@@ -76,6 +76,18 @@ class Database {
     } catch (err) {}
   }
 
+  seed() {
+    this.data.providers = JSON.parse(JSON.stringify(initialProviders));
+    this.data.businesses = JSON.parse(JSON.stringify(initialBusinesses));
+    this.data.requests = [];
+    this.data.quotes = [];
+    this.data.connections = [];
+    this.data.event_logs = [];
+    this.data.external_discoveries = [];
+    this.data.affiliates = [];
+    return this;
+  }
+
   // Providers
   getProviders(filterFn = null) {
     if (filterFn) return this.data.providers.filter(filterFn);
@@ -187,6 +199,8 @@ class Database {
       longitude: requestData.longitude || null,
       property_type: requestData.property_type || "UNKNOWN", // UNKNOWN, RESIDENTIAL, COMMERCIAL
       urgency: requestData.urgency || "MEDIUM",
+      media_url: requestData.media_url || null,
+      visual_analysis: requestData.visual_analysis || null,
       preferred_time: requestData.preferred_time || null,
       customer_constraints: requestData.customer_constraints || {},
       status: requestData.status || "NEW",

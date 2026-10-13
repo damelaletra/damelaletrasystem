@@ -163,12 +163,17 @@ class ChannelHub extends EventEmitter {
           : process.env.TWILIO_PHONE_NUMBER;
 
         let twilioMsg;
+        const msgPayload = {
+          body: briefingText,
+          from: fromNumber,
+          to: toNumber
+        };
+        if (request && request.media_url && isWhatsApp) {
+          msgPayload.mediaUrl = [request.media_url];
+        }
+
         try {
-          twilioMsg = await this.twilioClient.messages.create({
-            body: briefingText,
-            from: fromNumber,
-            to: toNumber
-          });
+          twilioMsg = await this.twilioClient.messages.create(msgPayload);
           console.log(`[TWILIO -> PROVIDER SUCCESS] SID: ${twilioMsg.sid} to ${provider.name} (${toNumber})`);
         } catch (waErr) {
           if (isWhatsApp) {

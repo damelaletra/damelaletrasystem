@@ -94,6 +94,28 @@ const rateLimitMap = new Map();
 const LIMIT_WINDOW_MS = 60000; // 1 minuto
 const MAX_MESSAGES_PER_WINDOW = 5;
 
+// --- MEDIA CACHE FOR MMS & WHATSAPP IMAGES ---
+const mediaCache = new Map();
+setInterval(() => {
+  const now = Date.now();
+  for (const [id, item] of mediaCache.entries()) {
+    if (now - item.created > 24 * 60 * 60 * 1000) {
+      mediaCache.delete(id);
+    }
+  }
+}, 60 * 60 * 1000);
+
+app.get("/api/media/:mediaId", (req, res) => {
+  const media = mediaCache.get(req.params.mediaId);
+  if (!media) {
+    return res.status(404).send("Media no encontrada o expirada");
+  }
+  res.setHeader("Content-Type", media.contentType);
+  res.setHeader("Cache-Control", "public, max-age=86400");
+  res.send(media.buffer);
+});
+// ----------------------------------------------
+
 // 2. Real Twilio Webhook (SMS & WhatsApp Gateway) - Async Decoupled (Hueco #4)
 app.post(["/api/webhooks/twilio", "/webhooks/twilio"], (req, res) => {
   try {
@@ -130,8 +152,11 @@ app.post(["/api/webhooks/twilio", "/webhooks/twilio"], (req, res) => {
     // 2. Encolar el procesamiento en background para evitar Race Conditions
     enqueueMessageProcessing(cleanPhone, async () => {
       let finalBodyText = bodyText;
+      let visualAnalysis = null;
+      let publicMediaUrl = null;
+      let gpsData = null;
 
-      // --- PROCESAMIENTO DE AUDIO NATIVO ---
+      // --- 1. PROCESAMIENTO DE AUDIO NATIVO (GEMINI AUDIO-TO-TEXT) ---
       if (numMedia > 0 && mediaContentType0 && mediaContentType0.startsWith("audio/")) {
         console.log(`\n[TWILIO WEBHOOK] Audio detectado desde ${cleanPhone} de tipo ${mediaContentType0}`);
         try {
@@ -152,7 +177,59 @@ app.post(["/api/webhooks/twilio", "/webhooks/twilio"], (req, res) => {
           console.error("[TWILIO WEBHOOK] Error descargando/procesando audio:", err.message);
         }
       }
-      // -------------------------------------
+
+      // --- 2. PROCESAMIENTO VISUAL DE FOTOS DE AVERÍAS (GEMINI MULTIMODAL VISION) ---
+      if (numMedia > 0 && mediaContentType0 && mediaContentType0.startsWith("image/")) {
+        console.log(`\n[TWILIO WEBHOOK] Foto de avería detectada desde ${cleanPhone} de tipo ${mediaContentType0}`);
+        try {
+          const auth = Buffer.from(process.env.TWILIO_ACCOUNT_SID + ":" + process.env.TWILIO_AUTH_TOKEN).toString('base64');
+          const fetchResponse = await fetch(mediaUrl0, {
+            headers: { 'Authorization': `Basic ${auth}` }
+          });
+          if (fetchResponse.ok) {
+            const arrayBuffer = await fetchResponse.arrayBuffer();
+            const buffer = Buffer.from(arrayBuffer);
+            
+            const mediaId = "img-" + Date.now() + "-" + Math.random().toString(36).substring(2, 7);
+            mediaCache.set(mediaId, { buffer, contentType: mediaContentType0, created: Date.now() });
+
+            const serverBaseUrl = process.env.PUBLIC_APP_URL || "https://damelaletrasystem-production.up.railway.app";
+            publicMediaUrl = `${serverBaseUrl}/api/media/${mediaId}`;
+
+            const { geminiService } = await import("./src/core/gemini.js");
+            visualAnalysis = await geminiService.analyzeDamagePhoto(buffer, mediaContentType0);
+            if (visualAnalysis && visualAnalysis.detected_problem) {
+              const photoNote = `[Foto analizada por IA]: ${visualAnalysis.detected_problem}`;
+              finalBodyText = finalBodyText ? `${finalBodyText}\n${photoNote}` : photoNote;
+            }
+          } else {
+            console.error("[TWILIO WEBHOOK] Failed to download image from Twilio:", fetchResponse.statusText);
+          }
+        } catch (err) {
+          console.error("[TWILIO WEBHOOK] Error descargando/analizando foto:", err.message);
+        }
+      }
+
+      // --- 3. PROCESAMIENTO DE UBICACIÓN GPS NATIVA DE WHATSAPP ---
+      if (req.body.Latitude && req.body.Longitude) {
+        const lat = parseFloat(req.body.Latitude);
+        const lng = parseFloat(req.body.Longitude);
+        const address = req.body.Address || req.body.Label || `GPS (${lat.toFixed(4)}, ${lng.toFixed(4)})`;
+        gpsData = {
+          latitude: lat,
+          longitude: lng,
+          location_raw: address
+        };
+        console.log(`[TWILIO WEBHOOK] Ubicación GPS nativa recibida de ${cleanPhone}:`, gpsData);
+        const gpsNote = `[Ubicación GPS: ${address}]`;
+        finalBodyText = finalBodyText ? `${finalBodyText}\n${gpsNote}` : gpsNote;
+      }
+
+      const extraMetadata = {
+        mediaUrl: publicMediaUrl,
+        visualAnalysis: visualAnalysis,
+        gpsData: gpsData
+      };
 
       console.log(`\n[TWILIO WEBHOOK] Empieza procesamiento de ${channel} desde ${cleanPhone}: "${finalBodyText}"`);
 
@@ -169,11 +246,11 @@ app.post(["/api/webhooks/twilio", "/webhooks/twilio"], (req, res) => {
         const onboardingResult = await providerOnboarding.handleProviderDirectMessage(provider, finalBodyText, channel);
         if (onboardingResult && onboardingResult.isCustomerRequest) {
           console.log(`[TWILIO WEBHOOK] Rerouting provider direct message as a Customer request from ${cleanPhone}`);
-          await stateMachine.processCustomerInput(finalBodyText, channel, cleanPhone);
+          await stateMachine.processCustomerInput(finalBodyText, channel, cleanPhone, extraMetadata);
         }
       } else {
         console.log(`[TWILIO WEBHOOK] Processing as Customer request from ${cleanPhone}`);
-        await stateMachine.processCustomerInput(finalBodyText, channel, cleanPhone);
+        await stateMachine.processCustomerInput(finalBodyText, channel, cleanPhone, extraMetadata);
       }
     });
 

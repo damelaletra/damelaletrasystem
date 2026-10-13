@@ -302,34 +302,85 @@ Devuelve ÚNICAMENTE un JSON con este formato:
     };
   }
 
-  async transcribeAudio(audioBuffer, mimeType) {
+  async transcribeAudio(audioBuffer, mimeType = "audio/ogg") {
     if (!this.client) {
       console.warn("[GEMINI LLM] Audio processing requested but LLM is running in deterministic fallback mode.");
       return "[Audio Transcription Not Available in Fallback Mode]";
     }
 
     try {
-      console.log(`[GEMINI LLM] Transcribing audio file of size ${audioBuffer.length} bytes (${mimeType})...`);
+      const cleanMime = (mimeType || "audio/ogg").split(";")[0].trim();
+      console.log(`[GEMINI LLM] Transcribing audio file of size ${audioBuffer.length} bytes (${cleanMime})...`);
       
       const response = await this.client.models.generateContent({
         model: this.modelName,
         contents: [
-          "Por favor, escucha cuidadosamente este audio que es un mensaje de voz enviado por un cliente o proveedor en Louisville, Kentucky (posiblemente con acento cubano o latino). Transcribe palabra por palabra exactamente lo que dice. Solo responde con la transcripción, sin ningún otro comentario.",
+          "Por favor, escucha cuidadosamente este audio que es un mensaje de voz enviado por un cliente o proveedor en Louisville, Kentucky (posiblemente con acento cubano o latino). Transcribe palabra por palabra exactamente lo que dice manteniendo los modismos locales. Solo responde con la transcripción, sin ningún otro comentario.",
           {
             inlineData: {
               data: audioBuffer.toString("base64"),
-              mimeType: mimeType
+              mimeType: cleanMime
             }
           }
         ]
       });
 
-      const transcription = response.text || "[Transcripción vacía]";
+      const transcription = response.text ? response.text.trim() : "[Transcripción vacía]";
       console.log(`[GEMINI LLM] Audio Transcription Result: "${transcription}"`);
       return transcription;
     } catch (error) {
       console.error("[GEMINI LLM] Audio transcription failed:", error);
       return "[Error al transcribir el audio: " + error.message + "]";
+    }
+  }
+
+  /**
+   * Multimodal Visual Inspection for Damage Photos sent via WhatsApp
+   */
+  async analyzeDamagePhoto(imageBuffer, mimeType = "image/jpeg") {
+    if (!this.client) {
+      console.warn("[GEMINI LLM] Image analysis requested but LLM is in fallback mode.");
+      return null;
+    }
+
+    try {
+      const cleanMime = (mimeType || "image/jpeg").split(";")[0].trim();
+      console.log(`[GEMINI LLM] Analyzing damage image (${cleanMime}, ${imageBuffer.length} bytes)...`);
+
+      const promptText = `Analiza detalladamente esta fotografía enviada por un cliente a la plataforma "Dame La Letra" en Louisville, Kentucky.
+Tu misión es identificar la avería o trabajo necesario para los técnicos locales (plomeros, electricistas, mecánicos, techeros, etc.).
+
+Devuelve ÚNICAMENTE un objeto JSON válido con este formato:
+{
+  "detected_problem": "descripción técnica y concisa de la avería o trabajo que se observa",
+  "suggested_category": "PLUMBING" | "HVAC" | "AUTOMOTIVE" | "LOCKSMITH" | "ROOFING" | "ELECTRICAL" | "HANDYMAN" | "APPLIANCE_REPAIR" | "CLEANING" | "TREE_SERVICE" | "TECH_SOFTWARE",
+  "suggested_service_type": "string específico (ej. WATER_LEAK, FLAT_TIRE, AC_COIL, WATER_HEATER, BREAKER_PANEL, ROOF_LEAK, APPLIANCE_ISSUE)",
+  "urgency": "LOW" | "MEDIUM" | "HIGH" | "EMERGENCY",
+  "summary_for_technician": "resumen técnico de 1 o 2 oraciones sobre qué herramientas, materiales o repuestos se observan necesarios"
+}`;
+
+      const response = await this.client.models.generateContent({
+        model: this.modelName,
+        contents: [
+          promptText,
+          {
+            inlineData: {
+              data: imageBuffer.toString("base64"),
+              mimeType: cleanMime
+            }
+          }
+        ],
+        config: {
+          responseMimeType: "application/json"
+        }
+      });
+
+      const parsed = JSON.parse(response.text.trim());
+      console.log(`[GEMINI LLM] Damage Photo Analysis Result:`, parsed);
+      return parsed;
+    } catch (error) {
+      console.error("[GEMINI LLM] Damage photo analysis failed:", error.message);
+      return null;
     }
   }
 }

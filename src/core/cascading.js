@@ -2,6 +2,7 @@ import { db } from "./db.js";
 import { channels } from "./channels.js";
 import { handleExternalFallback } from "./fallback.js";
 import { concierge, getServiceModality } from "./concierge.js";
+import { calculateDistanceMiles } from "./semantic.js";
 
 // Active timers for cascading steps
 const activeTimeouts = new Map();
@@ -115,6 +116,20 @@ export class CascadingEngine {
         question: "¿Trabajas comercial?"
       };
       briefing += ` (Es un local comercial/oficina, ¿haces comercial?)`;
+    }
+
+    if (request.visual_analysis && request.visual_analysis.detected_problem) {
+      briefing += `\n🔍 Diagnóstico visual: ${request.visual_analysis.detected_problem}`;
+    }
+    if (request.visual_analysis && request.visual_analysis.summary_for_technician) {
+      briefing += `\n🛠️ Sugerencia técnica: ${request.visual_analysis.summary_for_technician}`;
+    }
+    if (request.media_url) {
+      briefing += `\n📷 Foto de la avería: ${request.media_url}`;
+    }
+    if (request.latitude && request.longitude && provider.base_latitude && provider.base_longitude) {
+      const dist = calculateDistanceMiles(request.latitude, request.longitude, provider.base_latitude, provider.base_longitude);
+      briefing += `\n📍 Ubicación GPS (${dist} mi de tu base): https://maps.google.com/?q=${request.latitude},${request.longitude}`;
     }
 
     let currentTimeoutMs = this.defaultTimeoutMs;

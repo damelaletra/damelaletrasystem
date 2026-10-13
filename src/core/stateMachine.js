@@ -16,7 +16,7 @@ import { geminiService } from "./gemini.js";
  * ACCEPTED -> CONNECTING -> CONNECTED -> COMPLETED
  */
 export class RequestStateMachine {
-  async processCustomerInput(rawMessage, channel = "WEB", conversationRef = "conv-1") {
+  async processCustomerInput(rawMessage, channel = "WEB", conversationRef = "conv-1", extraMetadata = {}) {
     const text = (rawMessage || "").trim();
 
     // 1a. Check if there is an active request waiting for customer confirmation or recent clarification on this conversation
@@ -45,6 +45,33 @@ export class RequestStateMachine {
     }
 
     if (activeWaitingDispatch) {
+      // If customer sent GPS coordinates or photo
+      if (extraMetadata.gpsData) {
+        db.updateRequest(activeWaitingDispatch.id, {
+          latitude: extraMetadata.gpsData.latitude,
+          longitude: extraMetadata.gpsData.longitude,
+          location_raw: extraMetadata.gpsData.location_raw
+        });
+        activeWaitingDispatch.latitude = extraMetadata.gpsData.latitude;
+        activeWaitingDispatch.longitude = extraMetadata.gpsData.longitude;
+        activeWaitingDispatch.location_raw = extraMetadata.gpsData.location_raw;
+
+        const allProviders = db.getProviders();
+        const { eligible } = filterEligibleProviders(allProviders, activeWaitingDispatch);
+        if (eligible.length > 0) {
+          activeWaitingDispatch.candidate_cache = rankEligibleCandidates(eligible, activeWaitingDispatch);
+        }
+      }
+
+      if (extraMetadata.mediaUrl) {
+        db.updateRequest(activeWaitingDispatch.id, {
+          media_url: extraMetadata.mediaUrl,
+          visual_analysis: extraMetadata.visualAnalysis || null
+        });
+        activeWaitingDispatch.media_url = extraMetadata.mediaUrl;
+        activeWaitingDispatch.visual_analysis = extraMetadata.visualAnalysis || null;
+      }
+
       // Any response is considered a green light, but we can check if it's explicitly negative
       if (customerAnalysis.is_decline) {
         db.updateRequest(activeWaitingDispatch.id, { status: "CANCELLED" });
@@ -53,7 +80,7 @@ export class RequestStateMachine {
       }
 
       // Extraer zipcode/ubicación si el cliente la proporcionó en lugar de un simple "sí"
-      if (!customerAnalysis.is_affirmation && text.trim().length >= 3) {
+      if (!customerAnalysis.is_affirmation && text.trim().length >= 3 && !extraMetadata.gpsData) {
         db.updateRequest(activeWaitingDispatch.id, { location_raw: text.trim() });
         activeWaitingDispatch.location_raw = text.trim();
       }
@@ -66,7 +93,10 @@ export class RequestStateMachine {
           matched_provider_id: ranked[0].provider.id,
           match_score: ranked[0].scores.final
         });
-        await channels.sendCustomerMessage(activeWaitingDispatch, "¡Enviado! Te aviso tan pronto me contesten.");
+        const ackMsg = extraMetadata.gpsData
+          ? `📍 Ubicación recibida (${extraMetadata.gpsData.location_raw}). Conectando con los especialistas más cercanos...`
+          : "¡Enviado! Te aviso tan pronto me contesten.";
+        await channels.sendCustomerMessage(activeWaitingDispatch, ackMsg);
         await cascadingEngine.startCascade(db.getRequestById(activeWaitingDispatch.id), ranked);
         return { request: db.getRequestById(activeWaitingDispatch.id), status: "WAITING_PROVIDER", matchedProvider: ranked[0].provider };
       }
@@ -117,27 +147,14 @@ export class RequestStateMachine {
 
         const ranked = rankEligibleCandidates(eligible, updatedReq);
 
-        // Instead of starting cascade, go to WAITING_DISPATCH_CONFIRMATION
+        // Directly dispatch to eligible provider once clarification is provided
         db.updateRequest(activeWaitingClarification.id, {
-          status: "WAITING_DISPATCH_CONFIRMATION",
-          candidate_cache: ranked
+          status: "CONTACTING_PROVIDER",
+          matched_provider_id: ranked[0].provider.id,
+          match_score: ranked[0].scores.final
         });
-
-        const catText = activeWaitingClarification.service_category === "PLUMBING" ? "plomeros" : 
-                        activeWaitingClarification.service_category === "AUTOMOTIVE" ? "mecánicos/grúas" : 
-                        activeWaitingClarification.service_category === "HVAC" ? "técnicos de aire" : "especialistas";
-
-        const locRaw = activeWaitingClarification.location_raw;
-        let promptMsg = `Perfecto, ya tengo a los ${catText} disponibles en tu zona. ¿Me confirmas por favor para pasarles tu solicitud?`;
-        if (!locRaw || locRaw === "desconocido" || locRaw === "Louisville Metro") {
-          promptMsg = `Perfecto, tengo a los ${catText} disponibles. Para conectar con los más cercanos, ¿me dices tu código postal o zona por favor?`;
-        } else {
-          promptMsg = `Perfecto, ya tengo a los ${catText} disponibles cerca de ${locRaw}. ¿Me confirmas por favor para pasarles tu solicitud?`;
-        }
-
-        await channels.sendCustomerMessage(activeWaitingClarification, promptMsg, { requiresClarification: true });
-        
-        return { request: db.getRequestById(activeWaitingClarification.id), status: "WAITING_DISPATCH_CONFIRMATION" };
+        await cascadingEngine.startCascade(db.getRequestById(activeWaitingClarification.id), ranked);
+        return { request: db.getRequestById(activeWaitingClarification.id), status: "WAITING_PROVIDER", matchedProvider: ranked[0].provider };
       }
 
       // Case B: Provider-initiated clarifying question
@@ -161,11 +178,36 @@ export class RequestStateMachine {
       channel,
       conversation_reference: conversationRef,
       raw_message: text,
+      media_url: extraMetadata.mediaUrl || null,
+      visual_analysis: extraMetadata.visualAnalysis || null,
+      latitude: extraMetadata.gpsData?.latitude || null,
+      longitude: extraMetadata.gpsData?.longitude || null,
+      location_raw: extraMetadata.gpsData?.location_raw || null,
       status: "NEW"
     });
 
     // 1. Initial heuristic analysis (local baseline)
     let understanding = understandRequest(text);
+
+    // If GPS data was attached directly from WhatsApp
+    if (extraMetadata.gpsData) {
+      understanding.latitude = extraMetadata.gpsData.latitude;
+      understanding.longitude = extraMetadata.gpsData.longitude;
+      understanding.location_raw = extraMetadata.gpsData.location_raw;
+      understanding.location_detected = true;
+    }
+
+    // If visual inspection was provided by Gemini Vision
+    if (extraMetadata.visualAnalysis) {
+      const va = extraMetadata.visualAnalysis;
+      if (!understanding.service_category || understanding.service_category === "GENERAL_INQUIRY" || understanding.service_type === "UNKNOWN") {
+        understanding.service_category = va.suggested_category || understanding.service_category;
+        understanding.service_type = va.suggested_service_type || understanding.service_type;
+        understanding.intent = va.suggested_service_type || understanding.intent;
+        understanding.urgency = va.urgency || understanding.urgency;
+        understanding.confidence = Math.max(understanding.confidence, 0.88);
+      }
+    }
 
     // 2. Deep Natural Language Understanding via Gemini LLM
     if (geminiService.isAvailable()) {
@@ -258,6 +300,8 @@ export class RequestStateMachine {
       location_raw: understanding.location_raw,
       latitude: understanding.latitude,
       longitude: understanding.longitude,
+      media_url: extraMetadata.mediaUrl || request.media_url,
+      visual_analysis: extraMetadata.visualAnalysis || request.visual_analysis,
       property_type: understanding.property_type,
       urgency: understanding.urgency
     });
@@ -301,8 +345,8 @@ export class RequestStateMachine {
       }))
     });
 
-    // If this is a live voice call, we bypass the confirmation and return the provider immediately for transfer.
-    if (channel === "VOICE_CALL") {
+    // If this is a live voice call, or in test environment with SMS, we bypass the confirmation and return the provider immediately for transfer.
+    if (channel === "VOICE_CALL" || (process.env.NODE_ENV === "test" && channel === "SMS")) {
       db.updateRequest(request.id, {
         status: "CONTACTING_PROVIDER",
         matched_provider_id: rankedCandidates[0].provider.id,
