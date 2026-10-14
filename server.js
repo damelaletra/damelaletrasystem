@@ -265,9 +265,15 @@ app.post(["/api/webhooks/twilio", "/webhooks/twilio"], async (req, res) => {
         finalBodyText.includes("No, gracias") ||
         /^(sí|si|no|dale|conéctalo|conectalo|confirmo|cancela|cancelar)$/i.test(finalBodyText.trim());
 
+      const isExplicitProfileUpdate =
+        /(actualiza|actualizar|agrégame|agregame|agregar|añade|anade|ponme disponible|mi horario|mis servicios|mi perfil|mi tarifa|quítame|quitame)/i.test(finalBodyText);
+
       if (activeCustomerWaitingReq && isCustomerConfirmationReply && !waitingReq) {
         console.log(`[TWILIO WEBHOOK] Inbound identified as Customer Confirmation from ${cleanPhone} for request ${activeCustomerWaitingReq.id}`);
         await stateMachine.processCustomerInput(finalBodyText, channel, cleanPhone, extraMetadata);
+      } else if (provider && isExplicitProfileUpdate) {
+        console.log(`[TWILIO WEBHOOK] Inbound identified as Explicit Provider Profile Update: ${provider.name} (${cleanPhone})`);
+        await providerOnboarding.handleProviderDirectMessage(provider, finalBodyText, channel);
       } else if (provider && waitingReq) {
         const activeProviderId = waitingReq.matched_provider_id || provider.id;
         const resolvedProvider = db.getProviderById(activeProviderId) || provider;
