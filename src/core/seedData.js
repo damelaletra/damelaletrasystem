@@ -163,6 +163,10 @@ export const initialProviders = [
       "AI_INTEGRATIONS",
       "FULL_STACK",
       "ECOMMERCE",
+      "SHOPIFY",
+      "DIGITAL_MARKETING",
+      "SOCIAL_MEDIA_MANAGEMENT",
+      "VIDEO_ADS",
       "REACT",
       "NEXTJS",
       "FIGMA"

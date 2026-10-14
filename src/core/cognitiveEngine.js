@@ -29,7 +29,7 @@ Categorías soportadas en Louisville:
 - APPLIANCE_REPAIR (Lavadoras, secadoras, refrigeradores, estufas) [Modalidad: Cita técnica]
 - CLEANING (Limpieza profunda, mudanzas, casas, oficinas) [Modalidad: Cita programada]
 - TREE_SERVICE (Poda, tala, árboles caídos, patios, chapeo) [Modalidad: Estimado / Cita]
-- TECH_SOFTWARE (Software, páginas web, desarrollo de apps, diseño gráfico, logos, dibujitos, ilustraciones, flyers, branding, IA, plataformas) [Modalidad: Proyecto / Consultoría Remota]
+- TECH_SOFTWARE (Software, páginas web, tiendas en Shopify, e-commerce, desarrollo de apps, diseño gráfico, logos, dibujitos, ilustraciones, flyers, branding, creación de marca, marketing digital, gestión de redes sociales, videos publicitarios, posts publicitarios, IA, plataformas) [Modalidad: Proyecto / Consultoría Remota]
 - CONSULTING_PROFESSIONAL (Preparación de taxes/impuestos, ITIN, formas de inmigración, notaría pública, traducciones certificadas, contabilidad, apertura de LLCs) [Modalidad: Cita / Consultoría]
 - LEGAL_SERVICES (Abogados, representación legal en corte, defensa penal, accidentes de auto/personal injury, inmigración jurídica, divorcio/familia, tickets de tráfico, litigios) [Modalidad: Cita / Consulta Legal]
 - EVENTS_CATERING (Catering criollo, puerco asado, fotografía, video, DJs, sonido para fiestas) [Modalidad: Evento / Cotización]
