@@ -213,8 +213,8 @@ async function runTests() {
   console.log("\n▶ TEST 8: Conversational Business Profile Onboarding (Miguel Sosa)");
   {
     const { providerOnboarding } = await import("../src/core/providerOnboarding.js");
-    const miguel = db.getProviderByPhone("+15025550100");
-    assert(miguel, "Miguel Sosa must exist in DB with phone +15025550100");
+    const miguel = db.getProviderByPhone("+15026587853");
+    assert(miguel, "Miguel Sosa must exist in DB with phone +15026587853");
     assert.strictEqual(miguel.category, "TECH_SOFTWARE");
 
     const onbResult = await providerOnboarding.handleProviderDirectMessage(
@@ -225,7 +225,7 @@ async function runTests() {
     assert.strictEqual(onbResult.success, true);
     assert(onbResult.reply && onbResult.reply.length > 10, "Must generate conversational reply");
     
-    const updatedMiguel = db.getProviderByPhone("+15025550100");
+    const updatedMiguel = db.getProviderByPhone("+15026587853");
     assert(updatedMiguel.services.length >= 3, "Services must be populated");
     assert(updatedMiguel.bio && updatedMiguel.bio.length > 10, "Bio must be populated");
     console.log(`  ✔ Conversational Onboarding passed: ${miguel.name} profile updated via natural chat (PASS)`);
