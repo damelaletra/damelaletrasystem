@@ -216,7 +216,11 @@ export class DeterministicFallbackCognitiveAdapter extends BaseCognitiveEngine {
 
   async extractProviderProfileUpdates(rawText, currentProfile = {}) {
     const textLower = (rawText || "").toLowerCase();
-    if (textLower.includes("necesito un") || textLower.includes("busco un") || textLower.includes("me ponché")) {
+    const isCustomerNeed =
+      /(necesito|busco|quiero contratar|me urge|se me rompió|se me rompio|se me ponchó|se me poncho|tengo una fuga|tengo una gotera|dejé la llave|deje la llave|no enciende|no enfría|no enfria|quién hace|quien hace|tienes algún|tienes algun|algún plomero|algun plomero|algún mecánico|algun mecanico|algún abogado|algun abogado|algún contador|algun contador|una consulta|hacer mis taxes|precio del dólar|precio del dolar|cómo está el clima|como esta el clima)/i.test(textLower) &&
+      !/(agrégame|agregame|añádeme|anademe|mi perfil|mis servicios|mi horario|yo hago|yo cobro|ponme disponible)/i.test(textLower);
+
+    if (isCustomerNeed) {
       return { is_customer_request: true };
     }
 
@@ -235,9 +239,12 @@ export class DeterministicFallbackCognitiveAdapter extends BaseCognitiveEngine {
     }
 
     return {
+      is_customer_request: false,
       updated_fields: updates,
       summary_changes: changes.join(", ") || "Perfil revisado",
-      reply_message: `¡Hola ${currentProfile.name || "Colega"}! Información recibida.`
+      reply_message: Object.keys(updates).length > 0
+        ? `¡Listo, ${currentProfile.name || "Colega"}! Ya actualicé tu perfil (${changes.join(", ")}).`
+        : `¡Hola ${currentProfile.name || "Colega"}! Qué gusto saludarte. ¿Necesitas solicitar algún servicio o consulta hoy, o deseas actualizar algún dato de tu negocio?`
     };
   }
 }
@@ -456,9 +463,18 @@ Devuelve ÚNICAMENTE un JSON con:
 
     try {
       const prompt = `Eres el asistente de gestión de negocios y proveedores de "Dame La Letra".
-Un proveedor registrado está conversando contigo. Determina si busca un servicio como cliente o si actualiza su perfil de negocio.
-Mensaje del proveedor: "${rawText}"
-Perfil actual: ${JSON.stringify(currentProfile, null, 2)}
+Un negocio/proveedor registrado está conversando contigo, pero RECUERDA: un negocio o proveedor también es persona/empresa en Louisville y en cualquier momento puede necesitar solicitar un servicio, reparación, trámite o consulta COMO CLIENTE.
+
+Mensaje recibido: "${rawText}"
+Perfil actual del negocio: ${JSON.stringify(currentProfile, null, 2)}
+
+REGLAS CRÍTICAS DE CLASIFICACIÓN:
+1. Si la persona está pidiendo un servicio, ayuda con una avería, un profesional (plomero, mecánico, electricista, aire, abogado, contador/taxes, limpieza, grúa, cerrajero, diseño, marketing, etc.), una consulta para él o su negocio, o haciendo una pregunta de información general (clima, precio del dólar, etc.):
+   -> DEBES marcar "is_customer_request": true.
+2. Si la persona está actualizando datos de SU propio negocio (agregar/quitar servicios que él ofrece, cambiar su horario/disponibilidad, cambiar sus tarifas, bio o sitio web):
+   -> Marca "is_customer_request": false y extrae los cambios en "updated_fields".
+3. Si la persona SOLO saluda ("Hola", "Buenas", "Qué tal") sin especificar aún:
+   -> Marca "is_customer_request": false, deja "updated_fields" en null, y en "reply_message" respóndele cordialmente ofreciéndole AMBAS opciones: "¡Hola ${currentProfile.name || ""}! Qué gusto saludarte. ¿Necesitas solicitar algún servicio o consulta hoy, o deseas actualizar algún dato de tu perfil de negocio?"
 
 Devuelve ÚNICAMENTE un JSON con este formato:
 {

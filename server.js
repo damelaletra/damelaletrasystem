@@ -256,24 +256,35 @@ app.post(["/api/webhooks/twilio", "/webhooks/twilio"], async (req, res) => {
 
       const provider = db.getProviderByPhone(cleanPhone);
       const waitingReq = provider ? db.getActiveWaitingRequestForPhone(cleanPhone) : null;
-      const activeCustomerWaitingReq = db.getRequests(r =>
+      const activeCustomerFlowReq = db.getRequests(r =>
         r.conversation_reference === cleanPhone &&
-        (r.status === "WAITING_CUSTOMER" || r.status === "WAITING_DISPATCH_CONFIRMATION")
+        (
+          r.status === "WAITING_CUSTOMER" ||
+          r.status === "WAITING_DISPATCH_CONFIRMATION" ||
+          r.status === "WAITING_CUSTOMER_CLARIFICATION"
+        )
       )[0];
-      const isCustomerConfirmationReply =
-        finalBodyText.includes("Sí, conectar") ||
-        finalBodyText.includes("No, gracias") ||
-        /^(sí|si|no|dale|conéctalo|conectalo|confirmo|cancela|cancelar)$/i.test(finalBodyText.trim());
 
       const isExplicitProfileUpdate =
         /(actualiza|actualizar|agrégame|agregame|agregar|añade|anade|ponme disponible|mi horario|mis servicios|mi perfil|mi tarifa|quítame|quitame)/i.test(finalBodyText);
 
-      if (activeCustomerWaitingReq && isCustomerConfirmationReply && !waitingReq) {
-        console.log(`[TWILIO WEBHOOK] Inbound identified as Customer Confirmation from ${cleanPhone} for request ${activeCustomerWaitingReq.id}`);
-        await stateMachine.processCustomerInput(finalBodyText, channel, cleanPhone, extraMetadata);
-      } else if (provider && isExplicitProfileUpdate) {
+      const isExplicitCustomerNeed =
+        !isExplicitProfileUpdate &&
+        (
+          Boolean(extraMetadata.mediaUrl) ||
+          Boolean(extraMetadata.gpsData) ||
+          /(necesito|busco|quiero contratar|me urge|se me rompió|se me rompio|se me ponchó|se me poncho|tengo una fuga|tengo una gotera|dejé la llave|deje la llave|no enciende|no enfría|no enfria|quién hace|quien hace|tienes algún|tienes algun|algún plomero|algun plomero|algún mecánico|algun mecanico|algún abogado|algun abogado|algún contador|algun contador|una consulta|hacer mis taxes|precio del dólar|precio del dolar)/i.test(finalBodyText)
+        );
+
+      if (provider && isExplicitProfileUpdate) {
         console.log(`[TWILIO WEBHOOK] Inbound identified as Explicit Provider Profile Update: ${provider.name} (${cleanPhone})`);
         await providerOnboarding.handleProviderDirectMessage(provider, finalBodyText, channel);
+      } else if (activeCustomerFlowReq && !waitingReq) {
+        console.log(`[TWILIO WEBHOOK] Inbound identified as active Customer conversation (${activeCustomerFlowReq.status}) from ${cleanPhone} for request ${activeCustomerFlowReq.id}`);
+        await stateMachine.processCustomerInput(finalBodyText, channel, cleanPhone, extraMetadata);
+      } else if (provider && isExplicitCustomerNeed) {
+        console.log(`[TWILIO WEBHOOK] Inbound identified as Business requesting a service as Customer: ${provider.name} (${cleanPhone})`);
+        await stateMachine.processCustomerInput(finalBodyText, channel, cleanPhone, extraMetadata);
       } else if (provider && waitingReq) {
         const activeProviderId = waitingReq.matched_provider_id || provider.id;
         const resolvedProvider = db.getProviderById(activeProviderId) || provider;

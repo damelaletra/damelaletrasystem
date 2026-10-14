@@ -5,6 +5,19 @@ import { calculateDistanceMiles } from "./semantic.js";
  * Hard gates that disqualify incompatible candidates before matching or contacting.
  */
 export function checkProviderEligibility(provider, request) {
+  // Gate 0: Never dispatch a request back to the same phone number that is requesting the service as a customer
+  if (
+    provider.phone &&
+    request.conversation_reference &&
+    provider.phone === request.conversation_reference
+  ) {
+    return {
+      eligible: false,
+      reason: "SELF_REQUEST_CONFLICT",
+      details: "Provider phone matches the requesting customer phone (" + provider.phone + ")"
+    };
+  }
+
   // Gate 1: Category / Service affinity
   const categoryMatches = provider.category === request.service_category;
   const serviceMatches = provider.services && provider.services.includes(request.service_type);

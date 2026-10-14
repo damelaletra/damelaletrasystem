@@ -259,7 +259,8 @@ class Database {
 
   getActiveWaitingRequestForPhone(phone) {
     return this.data.requests.find(r => {
-      if (r.status !== "WAITING_PROVIDER" && r.status !== "WAITING_CUSTOMER_CLARIFICATION") return false;
+      if (r.status !== "WAITING_PROVIDER") return false;
+      if (r.conversation_reference === phone) return false;
       const provider = this.getProviderById(r.matched_provider_id);
       return provider && provider.phone === phone;
     });
