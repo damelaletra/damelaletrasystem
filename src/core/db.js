@@ -213,6 +213,7 @@ class Database {
 
   async syncRecord(table, record) {
     if (!record || !record.id) return;
+    if (process.env.NODE_ENV === "test") return;
     this.supabase.from(table).upsert({ id: record.id, data: record }).then(({error}) => {
        if (error) console.error(`[DB] Supabase sync error for ${table}:`, error.message);
     });

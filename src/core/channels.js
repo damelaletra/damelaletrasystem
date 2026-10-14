@@ -44,6 +44,19 @@ class ChannelHub extends EventEmitter {
     }
   }
 
+  isRealDeliverablePhone(phone) {
+    if (!phone || typeof phone !== "string" || !phone.startsWith("+1")) return false;
+    if (
+      phone.startsWith("+1502555") ||
+      phone.startsWith("+1502999") ||
+      phone.startsWith("+1502444") ||
+      phone.startsWith("+1502888")
+    ) {
+      return false;
+    }
+    return true;
+  }
+
   async sendCustomerMessage(request, text, meta = {}) {
     const messageObj = {
       id: "msg-" + Date.now(),
@@ -68,8 +81,7 @@ class ChannelHub extends EventEmitter {
       !this.disableTwilioForTesting &&
       this.twilioClient &&
       isRealExternalCustomer &&
-      request.conversation_reference &&
-      request.conversation_reference.startsWith("+1")
+      this.isRealDeliverablePhone(request.conversation_reference)
     ) {
       try {
         const isWhatsApp = request.channel === "WHATSAPP";
@@ -150,8 +162,7 @@ class ChannelHub extends EventEmitter {
       !this.disableTwilioForTesting &&
       this.twilioClient &&
       isRealExternalRequest &&
-      provider.phone &&
-      provider.phone.startsWith("+1")
+      this.isRealDeliverablePhone(provider.phone)
     ) {
       try {
         const isWhatsApp = provider.preferred_channel === "WHATSAPP";
@@ -218,8 +229,7 @@ class ChannelHub extends EventEmitter {
       process.env.NODE_ENV !== "test" &&
       !this.disableTwilioForTesting &&
       this.twilioClient &&
-      provider.phone &&
-      provider.phone.startsWith("+1")
+      this.isRealDeliverablePhone(provider.phone)
     ) {
       try {
         const isWhatsApp = provider.preferred_channel === "WHATSAPP";

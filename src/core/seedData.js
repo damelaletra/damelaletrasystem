@@ -4,7 +4,7 @@ export const initialBusinesses = [
   {
     "id": "biz-miguel-sosa",
     "name": "Miguel Sosa — Software & Design Studio",
-    "contact_phone": "+15025550100",
+    "contact_phone": "+15026587853",
     "contact_email": "contacto@miguelsosa.dev",
     "verified_status": "VERIFIED",
     "city": "Louisville",
@@ -143,9 +143,9 @@ export const initialProviders = [
     "id": "prov-miguel-sosa",
     "business_id": "biz-miguel-sosa",
     "name": "Miguel Sosa",
-    "display_name": "Miguel Sosa (Miguel Sosa — Software & Design Studio)",
-    "phone": "+15025550100",
-    "preferred_channel": "SMS",
+    "display_name": "Miguel Sosa — Software & Design Studio",
+    "phone": "+15026587853",
+    "preferred_channel": "WHATSAPP",
     "languages": [
       "es",
       "en"

@@ -256,8 +256,19 @@ app.post(["/api/webhooks/twilio", "/webhooks/twilio"], async (req, res) => {
 
       const provider = db.getProviderByPhone(cleanPhone);
       const waitingReq = provider ? db.getActiveWaitingRequestForPhone(cleanPhone) : null;
+      const activeCustomerWaitingReq = db.getRequests(r =>
+        r.conversation_reference === cleanPhone &&
+        (r.status === "WAITING_CUSTOMER" || r.status === "WAITING_DISPATCH_CONFIRMATION")
+      )[0];
+      const isCustomerConfirmationReply =
+        finalBodyText.includes("Sí, conectar") ||
+        finalBodyText.includes("No, gracias") ||
+        /^(sí|si|no|dale|conéctalo|conectalo|confirmo|cancela|cancelar)$/i.test(finalBodyText.trim());
 
-      if (provider && waitingReq) {
+      if (activeCustomerWaitingReq && isCustomerConfirmationReply && !waitingReq) {
+        console.log(`[TWILIO WEBHOOK] Inbound identified as Customer Confirmation from ${cleanPhone} for request ${activeCustomerWaitingReq.id}`);
+        await stateMachine.processCustomerInput(finalBodyText, channel, cleanPhone, extraMetadata);
+      } else if (provider && waitingReq) {
         const activeProviderId = waitingReq.matched_provider_id || provider.id;
         const resolvedProvider = db.getProviderById(activeProviderId) || provider;
         console.log(`[TWILIO WEBHOOK] Inbound identified as Provider Quote: ${resolvedProvider.name} (${cleanPhone}) para request: ${waitingReq.id}`);
