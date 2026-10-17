@@ -121,6 +121,32 @@ class ChannelHub extends EventEmitter {
             });
             console.log(`[TWILIO -> CUSTOMER SUCCESS] SID: ${twilioMsg.sid} from ${fromNumber} to ${toNumber}`);
           }
+        } else if (isWhatsApp && meta.appointmentReminder) {
+          const providerName = meta.providerName || "tu especialista";
+          const serviceLabel = meta.serviceLabel || "tu consulta";
+          const appointmentTime = meta.appointmentTime || "próximamente";
+          try {
+            twilioMsg = await this.twilioClient.messages.create({
+              from: fromNumber,
+              to: toNumber,
+              contentSid: process.env.TWILIO_CONTENT_REMINDER_CUST_SID || "HXf88ae296c6e1c6702fae16fa31200dbf",
+              contentVariables: JSON.stringify({
+                "1": String(providerName),
+                "2": String(serviceLabel),
+                "3": String(appointmentTime)
+              })
+            });
+            console.log(`[TWILIO -> CUSTOMER APPOINTMENT REMINDER TEMPLATE SUCCESS] SID: ${twilioMsg.sid} to ${toNumber}`);
+            if (twilioMsg && twilioMsg.sid) {
+              this.verifyCustomerTemplateOrFallbackToText(twilioMsg.sid, fromNumber, toNumber, text, request.conversation_reference);
+            }
+          } catch (tplErr) {
+            twilioMsg = await this.twilioClient.messages.create({
+              body: text,
+              from: fromNumber,
+              to: toNumber
+            });
+          }
         } else {
           twilioMsg = await this.twilioClient.messages.create({
             body: text,
@@ -137,18 +163,32 @@ class ChannelHub extends EventEmitter {
     return messageObj;
   }
 
-  verifyCustomerTemplateOrFallbackToText(messageSid, fromNumber, toNumber, text) {
+  verifyCustomerTemplateOrFallbackToText(messageSid, fromNumber, toNumber, text, customerPhone = null) {
     if (!this.twilioClient || !messageSid) return;
     setTimeout(async () => {
       try {
         const msg = await this.twilioClient.messages(messageSid).fetch();
         if (msg.status === "undelivered" || msg.status === "failed" || msg.errorCode) {
           console.warn(`[TWILIO CUSTOMER TEMPLATE FALLBACK] Template ${messageSid} failed (${msg.status}/${msg.errorCode}). Sending plain WhatsApp text...`);
-          await this.twilioClient.messages.create({
+          const fallbackWa = await this.twilioClient.messages.create({
             body: text,
             from: fromNumber,
             to: toNumber
           });
+          if (customerPhone && fallbackWa && fallbackWa.sid) {
+            setTimeout(async () => {
+              try {
+                const checkWa = await this.twilioClient.messages(fallbackWa.sid).fetch();
+                if (checkWa.status === "undelivered" || checkWa.status === "failed" || checkWa.errorCode) {
+                  await this.twilioClient.messages.create({
+                    body: text,
+                    from: process.env.TWILIO_PHONE_NUMBER,
+                    to: customerPhone
+                  });
+                }
+              } catch (e) {}
+            }, 2500);
+          }
         }
       } catch (err) {
         console.warn(`[TWILIO CUSTOMER TEMPLATE CHECK WARNING] ${err.message}`);
@@ -258,11 +298,22 @@ class ChannelHub extends EventEmitter {
           // Choose the right official WhatsApp template based on message context
           const isConnectionConfirmation = meta.connectionConfirmed || (text && text.includes("Conexión Confirmada"));
           const isWelcomeMessage = meta.welcomeProvider || (text && text.includes("bienvenido a la red"));
+          const isAppointmentReminder = meta.appointmentReminder || (text && text.toLowerCase().includes("recordatorio de tu cita"));
 
           let templateSid = process.env.TWILIO_CONTENT_PROVIDER_SID || "HX9d7dc23006b7016855694efa0c4f6ab7"; // dame_la_letra_nuevo_trabajo
           let templateVars = {};
 
-          if (isConnectionConfirmation) {
+          if (isAppointmentReminder) {
+            templateSid = process.env.TWILIO_CONTENT_REMINDER_PROV_SID || "HXa07080e026c6d1b9189e2f43ffce313a"; // dame_la_letra_recordatorio_cita_negocio
+            const phoneMatch = text && text.match(/\+1\d{10}/);
+            const customerPhone = meta.customerPhone || (phoneMatch ? phoneMatch[0] : "tu cliente");
+            templateVars = {
+              "1": provider.name || "Socio",
+              "2": String(meta.serviceLabel || (request && request.raw_message) || "consulta programada"),
+              "3": String(meta.appointmentTime || "hoy"),
+              "4": String(customerPhone)
+            };
+          } else if (isConnectionConfirmation) {
             templateSid = process.env.TWILIO_CONTENT_CONNECTED_SID || "HX78ff5d4f4fd9d640d0e174c9f44508ac"; // dame_la_letra_conexion_confirmada
             const phoneMatch = text && text.match(/\+1\d{10}/);
             const customerPhone = meta.customerPhone || (phoneMatch ? phoneMatch[0] : "en tu panel");
