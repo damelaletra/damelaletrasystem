@@ -101,7 +101,7 @@ class ChannelHub extends EventEmitter {
             twilioMsg = await this.twilioClient.messages.create({
               from: fromNumber,
               to: toNumber,
-              contentSid: process.env.TWILIO_CONTENT_CONFIRM_SID || "HX687eda3abb375ebc420d32e5792d287d",
+              contentSid: process.env.TWILIO_CONTENT_CONFIRM_SID || "HXd7168eb00c510a0ffb3b97f7b7ae73de",
               contentVariables: JSON.stringify({
                 "1": providerName,
                 "2": eta,
