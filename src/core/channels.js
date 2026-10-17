@@ -232,7 +232,7 @@ class ChannelHub extends EventEmitter {
     return briefingObj;
   }
 
-  verifyWhatsAppDeliveryOrFallbackToSms(messageSid, provider, text, request = null) {
+  verifyWhatsAppDeliveryOrFallbackToSms(messageSid, provider, text, request = null, meta = {}) {
     if (!this.twilioClient || !messageSid || !provider || !provider.phone) return;
 
     const sendSmsFallback = async () => {
@@ -252,23 +252,50 @@ class ChannelHub extends EventEmitter {
       try {
         const msg = await this.twilioClient.messages(messageSid).fetch();
         if (msg.status === "undelivered" || msg.status === "failed" || msg.errorCode) {
-          console.warn(`[TWILIO WHATSAPP 24H WINDOW] Freeform WhatsApp ${messageSid} to ${provider.name} (${provider.phone}) rejected (${msg.status}/${msg.errorCode}). Attempting official WhatsApp Template HX9d7dc23006b7016855694efa0c4f6ab7...`);
           const fromWhatsApp = process.env.TWILIO_WHATSAPP_NUMBER || `whatsapp:${process.env.TWILIO_PHONE_NUMBER}`;
           const toWhatsApp = `whatsapp:${provider.phone}`;
-          const providerTemplateSid = process.env.TWILIO_CONTENT_PROVIDER_SID || "HX9d7dc23006b7016855694efa0c4f6ab7";
-          const locationLabel = (request && request.location_zone) || "Louisville, KY";
-          const serviceSummary = (request && (request.raw_message || request.subcategory)) || text.slice(0, 140);
+
+          // Choose the right official WhatsApp template based on message context
+          const isConnectionConfirmation = meta.connectionConfirmed || (text && text.includes("Conexión Confirmada"));
+          const isWelcomeMessage = meta.welcomeProvider || (text && text.includes("bienvenido a la red"));
+
+          let templateSid = process.env.TWILIO_CONTENT_PROVIDER_SID || "HX9d7dc23006b7016855694efa0c4f6ab7"; // dame_la_letra_nuevo_trabajo
+          let templateVars = {};
+
+          if (isConnectionConfirmation) {
+            templateSid = process.env.TWILIO_CONTENT_CONNECTED_SID || "HX78ff5d4f4fd9d640d0e174c9f44508ac"; // dame_la_letra_conexion_confirmada
+            const phoneMatch = text && text.match(/\+1\d{10}/);
+            const customerPhone = meta.customerPhone || (phoneMatch ? phoneMatch[0] : "en tu panel");
+            const quoteSummary = meta.quoteSummary || "tu propuesta";
+            templateVars = {
+              "1": provider.name || "Socio",
+              "2": String(quoteSummary),
+              "3": String(customerPhone)
+            };
+          } else if (isWelcomeMessage) {
+            templateSid = process.env.TWILIO_CONTENT_WELCOME_SID || "HX85596a48daf08c58d49969cb0a0f9c0a"; // dame_la_letra_bienvenida_negocio
+            templateVars = {
+              "1": provider.name || "Socio",
+              "2": String(meta.categoryLabel || provider.category || "Servicios Profesionales")
+            };
+          } else {
+            const locationLabel = (request && request.location_zone) || "Louisville, KY";
+            const serviceSummary = (request && (request.raw_message || request.subcategory)) || text.slice(0, 140);
+            templateVars = {
+              "1": provider.name || "Socio",
+              "2": String(locationLabel),
+              "3": String(serviceSummary)
+            };
+          }
+
+          console.warn(`[TWILIO WHATSAPP 24H WINDOW] Freeform WhatsApp ${messageSid} to ${provider.name} (${provider.phone}) rejected (${msg.status}/${msg.errorCode}). Attempting official WhatsApp Template ${templateSid}...`);
 
           try {
             const tplMsg = await this.twilioClient.messages.create({
               from: fromWhatsApp,
               to: toWhatsApp,
-              contentSid: providerTemplateSid,
-              contentVariables: JSON.stringify({
-                "1": provider.name || "Socio",
-                "2": String(locationLabel),
-                "3": String(serviceSummary)
-              })
+              contentSid: templateSid,
+              contentVariables: JSON.stringify(templateVars)
             });
             console.log(`[TWILIO WHATSAPP TEMPLATE SENT] SID: ${tplMsg.sid} to ${toWhatsApp}`);
             // Verify template delivery after 2.5s (in case template is still pending Meta approval)
@@ -342,7 +369,7 @@ class ChannelHub extends EventEmitter {
           });
           console.log(`[TWILIO -> PROVIDER DIRECT SUCCESS] SID: ${twilioMsg.sid} to ${provider.name} (${toNumber})`);
           if (isWhatsApp && twilioMsg && twilioMsg.sid) {
-            this.verifyWhatsAppDeliveryOrFallbackToSms(twilioMsg.sid, provider, text);
+            this.verifyWhatsAppDeliveryOrFallbackToSms(twilioMsg.sid, provider, text, null, meta);
           }
         } catch (waErr) {
           if (isWhatsApp) {
