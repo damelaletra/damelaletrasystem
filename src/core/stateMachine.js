@@ -86,7 +86,14 @@ export class RequestStateMachine {
       }
 
       // Proceed to dispatch
-      const ranked = activeWaitingDispatch.candidate_cache || [];
+      let ranked = activeWaitingDispatch.candidate_cache || [];
+      if (ranked.length === 0) {
+        const allProviders = db.getProviders();
+        const { eligible } = filterEligibleProviders(allProviders, activeWaitingDispatch);
+        if (eligible.length > 0) {
+          ranked = rankEligibleCandidates(eligible, activeWaitingDispatch);
+        }
+      }
       if (ranked.length > 0) {
         db.updateRequest(activeWaitingDispatch.id, {
           status: "CONTACTING_PROVIDER",
@@ -345,8 +352,17 @@ export class RequestStateMachine {
       }))
     });
 
-    // If this is a live voice call, or in test environment with SMS, we bypass the confirmation and return the provider immediately for transfer.
-    if (channel === "VOICE_CALL" || (process.env.NODE_ENV === "test" && channel === "SMS")) {
+    // If this is a live voice call, a remote/project/consulting service (where zip code is unnecessary), or in test environment with SMS, dispatch immediately.
+    const isRemoteOrOfficeCategory =
+      understanding.service_category === "TECH_SOFTWARE" ||
+      understanding.service_category === "CONSULTING_PROFESSIONAL" ||
+      understanding.service_category === "LEGAL_SERVICES";
+
+    if (
+      channel === "VOICE_CALL" ||
+      isRemoteOrOfficeCategory ||
+      (process.env.NODE_ENV === "test" && channel === "SMS")
+    ) {
       db.updateRequest(request.id, {
         status: "CONTACTING_PROVIDER",
         matched_provider_id: rankedCandidates[0].provider.id,

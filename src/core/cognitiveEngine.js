@@ -51,6 +51,23 @@ Reglas clave:
   * Si el proveedor indica que el precio es personalizado, relativo, a convenir, según el caso o que se hace un estimado en consulta/oficina: "price": null, "price_display": "Estimado personalizado en la oficina" o "Estimado personalizado en consulta" (NUNCA inventar un precio numérico fijo arbitrario).
   * Extrae con precisión fechas y horarios de citas ("el martes a las 2:00 PM", "mañana a las 10am", "en 20 minutos").
   * Si el proveedor declina explícitamente ("no puedo", "no tengo tiempo", "hoy no trabajo", "estoy ocupado"): "intent": "PROVIDER_DECLINED" o "PROVIDER_OFF_DUTY".
+- REGLA CRÍTICA PARA CONSULTAS DE INFORMACIÓN ('INFORMATION'):
+  * Si el cliente pregunta sobre restaurantes (ej. restaurantes latinos, Pasta Garage en NuLu, horarios, direcciones, recomendaciones), clima, precio del dólar, empleos, rentas, ofertas, trámites (DMV, placas, USCIS, escuelas) o cualquier duda general sobre Louisville:
+  * Marca "service_category": "INFORMATION".
+  * En el campo "explanation", ACTÚA DIRECTAMENTE COMO EL CONCIERGE DE DAME LA LETRA HABLANDO EN PRIMERA PERSONA CON EL CLIENTE ("¡Claro! Pasta Garage Italian Cafe en NuLu (806 E Market St) abre...", "¡Con gusto! Algunos de los mejores restaurantes latinos en Louisville son...").
+  * PROHIBIDO TERMINANTEMENTE hablar en tercera persona en "explanation" (JAMÁS escribas "El usuario solicita...", "El cliente pregunta...", "El usuario reitera..."). El texto de "explanation" se le envía literalmente al WhatsApp del cliente.
+  * Si hay historial previo en "Estado previo de la conversación" y el cliente envía un mensaje corto de seguimiento (ej. "Pasta garage", "¿y qué horario tienen?"), mantén el contexto y respóndele directamente su duda sobre ese lugar con datos reales de Louisville.
+
+*** BASE DE DATOS LOCAL DE LOUISVILLE (PARA CONSULTAS 'INFORMATION') ***
+[TRÁMITES Y CIUDAD (Stickers, Placas, Licencias, USCIS, Escuelas)]
+1. Renovación de Stickers/Placas (County Clerk): Sucursales en 4919-F Dixie Hwy, 12312-A Shelbyville Rd (Middletown) y Fairdale.
+2. Licencia de Conducir e ID (KYTC Regional Offices): Bowman Field (3501 Roger E. Schupp St), Dixie Hwy (6202 Willismore Dr) o Hurstbourne (9112 Leesgate Rd).
+3. Inmigración (USCIS): Huellas/Biométricos en Application Support Center (601 West Broadway, Suite 636). Entrevistas en Field Office (411 South 4th Street, Suite 200).
+4. Escuelas para Inmigrantes (JCPS Newcomer Academy): 3741 Pulliam Drive, Tel: (502) 485-6324.
+5. Clínicas sin Seguro (Family Health Centers): 834 E Broadway y Portland (cobran según ingresos / Sliding Fee).
+6. Pull-A-Part (Junk Yard): 6825 Recovery Rd, Louisville, KY 40214 (abierto todos los días hasta las 5:30 PM).
+7. Para restaurantes de Louisville (como Pasta Garage en 806 E Market St en NuLu, Havana Rumba, Mojito Tapas, Guacamole, El Mundo, Bodeguita de Mima, La Bodega, etc.), usa todo tu conocimiento real de Louisville (direcciones, barrios, especialidades y horarios habituales) para darle una respuesta completa, cálida y útil al instante.
+*** FIN DE BASE DE DATOS ***
 `;
 
 /**
@@ -377,7 +394,7 @@ Devuelve ÚNICAMENTE un JSON con:
   "urgency": "LOW" | "MEDIUM" | "HIGH" | "EMERGENCY",
   "property_type": "RESIDENTIAL" | "COMMERCIAL" | "UNKNOWN",
   "confidence": number (0.0 a 1.0),
-  "explanation": string
+  "explanation": string (¡MUY IMPORTANTE! Si service_category es "INFORMATION", escribe aquí LA RESPUESTA DIRECTA QUE RECIBIRÁ EL CLIENTE EN WHATSAPP hablándole de tú en primera persona con datos reales de Louisville: horarios, direcciones, recomendaciones. JAMÁS escribas en tercera persona como "El usuario solicita..." ni "El usuario reitera...")
 }`;
 
       const response = await this.client.models.generateContent({
@@ -390,6 +407,20 @@ Devuelve ÚNICAMENTE un JSON con:
       });
 
       const parsed = JSON.parse(response.text.trim());
+      if (
+        parsed &&
+        parsed.service_category === "INFORMATION" &&
+        parsed.explanation &&
+        /^(el usuario|el cliente|la persona)\s+/i.test(parsed.explanation.trim())
+      ) {
+        const directRes = await this.client.models.generateContent({
+          model: this.modelName,
+          contents: `Eres el concierge local de Dame La Letra en Louisville, KY. Responde directamente al cliente (hablándole de tú, en tono cálido, útil y conciso para WhatsApp, dando horarios, direcciones o recomendaciones reales de Louisville) su consulta: "${rawText}". Contexto previo: ${JSON.stringify(conversationState || {})}`
+        });
+        if (directRes && directRes.text) {
+          parsed.explanation = directRes.text.trim();
+        }
+      }
       return parsed;
     } catch (err) {
       console.warn("[COGNITIVE ENGINE -> GEMINI] Customer understanding fallback:", err.message);

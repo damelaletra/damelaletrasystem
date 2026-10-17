@@ -186,6 +186,9 @@ class ChannelHub extends EventEmitter {
         try {
           twilioMsg = await this.twilioClient.messages.create(msgPayload);
           console.log(`[TWILIO -> PROVIDER SUCCESS] SID: ${twilioMsg.sid} to ${provider.name} (${toNumber})`);
+          if (isWhatsApp && twilioMsg && twilioMsg.sid) {
+            this.verifyWhatsAppDeliveryOrFallbackToSms(twilioMsg.sid, provider, briefingText);
+          }
         } catch (waErr) {
           if (isWhatsApp) {
             console.warn(`[TWILIO -> PROVIDER BRIEFING] WhatsApp sender failed, falling back to SMS:`, waErr.message);
@@ -205,6 +208,33 @@ class ChannelHub extends EventEmitter {
     }
 
     return briefingObj;
+  }
+
+  verifyWhatsAppDeliveryOrFallbackToSms(messageSid, provider, text) {
+    if (!this.twilioClient || !messageSid || !provider || !provider.phone) return;
+
+    const checkDelivery = async (attempt = 1) => {
+      try {
+        const msg = await this.twilioClient.messages(messageSid).fetch();
+        if (msg.status === "undelivered" || msg.status === "failed" || msg.errorCode) {
+          console.warn(`[TWILIO WHATSAPP -> SMS AUTO-FALLBACK] WhatsApp message ${messageSid} to ${provider.name} (${provider.phone}) failed with status=${msg.status} errorCode=${msg.errorCode} (e.g. 24h window closed). Sending via SMS...`);
+          const smsFallback = await this.twilioClient.messages.create({
+            body: `${text}\n\n💬 (Nota: Tu ventana de 24h de WhatsApp estaba cerrada; puedes responder por aquí en SMS o por WhatsApp al +1 502-673-1333)`,
+            from: process.env.TWILIO_PHONE_NUMBER,
+            to: provider.phone
+          });
+          console.log(`[TWILIO WHATSAPP -> SMS AUTO-FALLBACK SUCCESS] SID: ${smsFallback.sid} to ${provider.phone}`);
+          return;
+        }
+        if ((msg.status === "queued" || msg.status === "sending" || msg.status === "accepted") && attempt < 2) {
+          setTimeout(() => checkDelivery(attempt + 1), 3000);
+        }
+      } catch (err) {
+        console.warn(`[TWILIO DELIVERY CHECK WARNING] Could not verify ${messageSid}:`, err.message);
+      }
+    };
+
+    setTimeout(() => checkDelivery(1), 2500);
   }
 
   async sendProviderDirectMessage(provider, text, meta = {}) {
@@ -248,6 +278,9 @@ class ChannelHub extends EventEmitter {
             to: toNumber
           });
           console.log(`[TWILIO -> PROVIDER DIRECT SUCCESS] SID: ${twilioMsg.sid} to ${provider.name} (${toNumber})`);
+          if (isWhatsApp && twilioMsg && twilioMsg.sid) {
+            this.verifyWhatsAppDeliveryOrFallbackToSms(twilioMsg.sid, provider, text);
+          }
         } catch (waErr) {
           if (isWhatsApp) {
             console.warn(`[TWILIO -> PROVIDER DIRECT] WhatsApp sender not active yet, falling back to SMS:`, waErr.message);
