@@ -109,6 +109,9 @@ class ChannelHub extends EventEmitter {
               })
             });
             console.log(`[TWILIO -> CUSTOMER WHATSAPP BUTTONS SUCCESS] SID: ${twilioMsg.sid} to ${toNumber}`);
+            if (twilioMsg && twilioMsg.sid) {
+              this.verifyCustomerTemplateOrFallbackToText(twilioMsg.sid, fromNumber, toNumber, text);
+            }
           } catch (tplErr) {
             console.warn(`[TWILIO -> WHATSAPP BUTTONS FALLBACK] ${tplErr.message}`);
             twilioMsg = await this.twilioClient.messages.create({
@@ -132,6 +135,25 @@ class ChannelHub extends EventEmitter {
     }
 
     return messageObj;
+  }
+
+  verifyCustomerTemplateOrFallbackToText(messageSid, fromNumber, toNumber, text) {
+    if (!this.twilioClient || !messageSid) return;
+    setTimeout(async () => {
+      try {
+        const msg = await this.twilioClient.messages(messageSid).fetch();
+        if (msg.status === "undelivered" || msg.status === "failed" || msg.errorCode) {
+          console.warn(`[TWILIO CUSTOMER TEMPLATE FALLBACK] Template ${messageSid} failed (${msg.status}/${msg.errorCode}). Sending plain WhatsApp text...`);
+          await this.twilioClient.messages.create({
+            body: text,
+            from: fromNumber,
+            to: toNumber
+          });
+        }
+      } catch (err) {
+        console.warn(`[TWILIO CUSTOMER TEMPLATE CHECK WARNING] ${err.message}`);
+      }
+    }, 2500);
   }
 
   async sendProviderBriefing(provider, request, briefingText, meta = {}) {
@@ -187,7 +209,7 @@ class ChannelHub extends EventEmitter {
           twilioMsg = await this.twilioClient.messages.create(msgPayload);
           console.log(`[TWILIO -> PROVIDER SUCCESS] SID: ${twilioMsg.sid} to ${provider.name} (${toNumber})`);
           if (isWhatsApp && twilioMsg && twilioMsg.sid) {
-            this.verifyWhatsAppDeliveryOrFallbackToSms(twilioMsg.sid, provider, briefingText);
+            this.verifyWhatsAppDeliveryOrFallbackToSms(twilioMsg.sid, provider, briefingText, request);
           }
         } catch (waErr) {
           if (isWhatsApp) {
@@ -210,20 +232,61 @@ class ChannelHub extends EventEmitter {
     return briefingObj;
   }
 
-  verifyWhatsAppDeliveryOrFallbackToSms(messageSid, provider, text) {
+  verifyWhatsAppDeliveryOrFallbackToSms(messageSid, provider, text, request = null) {
     if (!this.twilioClient || !messageSid || !provider || !provider.phone) return;
+
+    const sendSmsFallback = async () => {
+      try {
+        const smsFallback = await this.twilioClient.messages.create({
+          body: `${text}\n\n💬 (Nota: Tu ventana de 24h de WhatsApp estaba cerrada; puedes responder por aquí en SMS o por WhatsApp al +1 502-673-1333)`,
+          from: process.env.TWILIO_PHONE_NUMBER,
+          to: provider.phone
+        });
+        console.log(`[TWILIO WHATSAPP -> SMS AUTO-FALLBACK SUCCESS] SID: ${smsFallback.sid} to ${provider.phone}`);
+      } catch (smsErr) {
+        console.error(`[TWILIO SMS FALLBACK ERROR] Could not send SMS fallback to ${provider.phone}:`, smsErr.message);
+      }
+    };
 
     const checkDelivery = async (attempt = 1) => {
       try {
         const msg = await this.twilioClient.messages(messageSid).fetch();
         if (msg.status === "undelivered" || msg.status === "failed" || msg.errorCode) {
-          console.warn(`[TWILIO WHATSAPP -> SMS AUTO-FALLBACK] WhatsApp message ${messageSid} to ${provider.name} (${provider.phone}) failed with status=${msg.status} errorCode=${msg.errorCode} (e.g. 24h window closed). Sending via SMS...`);
-          const smsFallback = await this.twilioClient.messages.create({
-            body: `${text}\n\n💬 (Nota: Tu ventana de 24h de WhatsApp estaba cerrada; puedes responder por aquí en SMS o por WhatsApp al +1 502-673-1333)`,
-            from: process.env.TWILIO_PHONE_NUMBER,
-            to: provider.phone
-          });
-          console.log(`[TWILIO WHATSAPP -> SMS AUTO-FALLBACK SUCCESS] SID: ${smsFallback.sid} to ${provider.phone}`);
+          console.warn(`[TWILIO WHATSAPP 24H WINDOW] Freeform WhatsApp ${messageSid} to ${provider.name} (${provider.phone}) rejected (${msg.status}/${msg.errorCode}). Attempting official WhatsApp Template HX9d7dc23006b7016855694efa0c4f6ab7...`);
+          const fromWhatsApp = process.env.TWILIO_WHATSAPP_NUMBER || `whatsapp:${process.env.TWILIO_PHONE_NUMBER}`;
+          const toWhatsApp = `whatsapp:${provider.phone}`;
+          const providerTemplateSid = process.env.TWILIO_CONTENT_PROVIDER_SID || "HX9d7dc23006b7016855694efa0c4f6ab7";
+          const locationLabel = (request && request.location_zone) || "Louisville, KY";
+          const serviceSummary = (request && (request.raw_message || request.subcategory)) || text.slice(0, 140);
+
+          try {
+            const tplMsg = await this.twilioClient.messages.create({
+              from: fromWhatsApp,
+              to: toWhatsApp,
+              contentSid: providerTemplateSid,
+              contentVariables: JSON.stringify({
+                "1": provider.name || "Socio",
+                "2": String(locationLabel),
+                "3": String(serviceSummary)
+              })
+            });
+            console.log(`[TWILIO WHATSAPP TEMPLATE SENT] SID: ${tplMsg.sid} to ${toWhatsApp}`);
+            // Verify template delivery after 2.5s (in case template is still pending Meta approval)
+            setTimeout(async () => {
+              try {
+                const checkTpl = await this.twilioClient.messages(tplMsg.sid).fetch();
+                if (checkTpl.status === "undelivered" || checkTpl.status === "failed" || checkTpl.errorCode) {
+                  console.warn(`[TWILIO WHATSAPP TEMPLATE NOT READY] (${checkTpl.status}/${checkTpl.errorCode}) -> Falling back to SMS`);
+                  await sendSmsFallback();
+                }
+              } catch (e) {
+                await sendSmsFallback();
+              }
+            }, 2500);
+          } catch (tplErr) {
+            console.warn(`[TWILIO WHATSAPP TEMPLATE ERROR] ${tplErr.message} -> Falling back to SMS`);
+            await sendSmsFallback();
+          }
           return;
         }
         if ((msg.status === "queued" || msg.status === "sending" || msg.status === "accepted") && attempt < 2) {
