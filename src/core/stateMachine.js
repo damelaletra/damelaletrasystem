@@ -467,7 +467,7 @@ export class RequestStateMachine {
       });
 
       // Final zero-friction Customer Closing
-      const priceDisplay = request.quoted_price_display || `$${request.quoted_price}`;
+      const priceDisplay = request.quoted_price_display || (request.quoted_price ? `$${request.quoted_price}` : "Estimado personalizado en consulta");
       const connectMessage = concierge.formatConnectionForCustomer(provider, request.estimated_arrival, request);
 
       await channels.sendCustomerMessage(request, connectMessage, {

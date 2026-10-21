@@ -504,13 +504,19 @@ export class ConversationalConcierge {
     const modality = getServiceModality(category, serviceType);
 
     const isCustom = !priceDisplay ||
+      priceDisplay === "$null" ||
+      priceDisplay === "$undefined" ||
       priceDisplay.toLowerCase().includes("estimado") ||
       priceDisplay.toLowerCase().includes("personaliz") ||
       priceDisplay.toLowerCase().includes("consulta");
 
+    const cleanPriceDisplay = (!priceDisplay || priceDisplay === "$null" || priceDisplay === "$undefined")
+      ? "Estimado personalizado"
+      : priceDisplay;
+
     const priceLabel = isCustom
-      ? `(${priceDisplay || "Estimado personalizado"})`
-      : `por ${priceDisplay}`;
+      ? `(${cleanPriceDisplay})`
+      : `por ${cleanPriceDisplay}`;
 
     if (modality === "CONSULTING_PROJECT") {
       return `¡Conexión Confirmada! El cliente aceptó tu propuesta ${priceLabel}. Contacto directo del cliente: ${customerPhone} para coordinar la cita y dar inicio a la consulta.`;
