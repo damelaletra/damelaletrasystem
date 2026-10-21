@@ -1,620 +1,482 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DAME LA LETRA | Los Clasificados Rediseñados para Hoy</title>
-  <meta name="description" content="¿No sabes quién lo hace? Dame la Letra. Los clasificados modernos de Louisville, KY. Tú dime qué necesitas, nosotros buscamos quién puede ayudarte.">
-  <link rel="canonical" href="https://www.damelaletra.com">
-  <link rel="icon" type="image/png" href="/assets/favicon.png">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>404 — Dame La Letra | Estamos en desarrollo</title>
+  <meta name="description" content="Estamos en desarrollo de esta web (en casa de herrero, cuchillo de palo). Mientras tanto, escríbenos directo por WhatsApp o SMS al +1 (502) 673-1333." />
+  <link rel="icon" type="image/png" href="/assets/favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
 
-  <!-- Open Graph -->
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://www.damelaletra.com">
-  <meta property="og:title" content="DAME LA LETRA | Los Clasificados Rediseñados para Hoy">
-  <meta property="og:description" content="Tú dime qué necesitas. Nosotros buscamos quién puede ayudarte en Louisville, KY.">
-  <meta property="og:image" content="/assets/banner head.jpg">
-
-  <!-- Typography & Styles -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="/css/style.css">
-
-  <!-- Structured Data JSON-LD -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "NewsMediaOrganization",
-    "name": "Dame la Letra",
-    "url": "https://www.damelaletra.com",
-    "logo": "https://www.damelaletra.com/assets/logo 2.1.png",
-    "description": "Periódico y red de clasificados modernos de conexión local en Louisville, Kentucky.",
-    "telephone": "+15026731333",
-    "address": {
-      "@type": "PostalAddress",
-      "addressLocality": "Louisville",
-      "addressRegion": "KY",
-      "addressCountry": "US"
+  <style>
+    * {
+      border: 0;
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
-  }
-  </script>
+
+    :root {
+      --hue: 220;
+      --bg: #0c0c0d;
+      --fg: #336ad9;
+      --fg-light: hsl(var(--hue), 20%, 92%);
+      --primary: #336ad9;
+      --primary-hover: #5b8def;
+      --trans-dur: 0.3s;
+      font-size: calc(16px + (20 - 16) * (100vw - 320px) / (1280 - 320));
+    }
+
+    html, body {
+      background-color: var(--bg);
+      color: var(--fg);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      min-height: 100vh;
+      width: 100%;
+      overflow-x: hidden;
+      display: grid;
+      place-items: center;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      transition:
+        background-color var(--trans-dur),
+        color var(--trans-dur);
+    }
+
+    /* Subtle top bar */
+    .top-bar {
+      position: fixed;
+      top: 24px;
+      left: 32px;
+      right: 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(51, 106, 217, 0.55);
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    .stage {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 4rem 1.5rem 2.5rem;
+      width: 100%;
+      max-width: 1280px;
+      gap: 1.25rem;
+    }
+
+    /* Showrunners 404 Scribble */
+    .scribble-wrapper {
+      width: min(860px, 88vw);
+      margin-bottom: -1.2em;
+      pointer-events: none;
+    }
+
+    .scribble-img {
+      width: 100%;
+      height: auto;
+      display: block;
+      object-fit: contain;
+    }
+
+    /* Sliding Coffee Cup Animation */
+    .coffee {
+      font-size: 0.55em;
+      position: relative;
+      width: 21.5em;
+      height: 9em;
+      margin: 0.5rem auto 0.75rem;
+    }
+    .coffee:before {
+      border-bottom: 0.25em dashed var(--fg);
+      content: "";
+      display: block;
+      position: absolute;
+      top: 7.5em;
+      width: 100%;
+      opacity: 0.65;
+    }
+    .coffee__cup,
+    .coffee__cup-part,
+    .coffee__cup-handle,
+    .coffee__steam-part {
+      animation-duration: 8s;
+      animation-iteration-count: infinite;
+    }
+    .coffee__cup,
+    .coffee__cup-part,
+    .coffee__cup-handle {
+      animation-timing-function: cubic-bezier(0.9, 0, 0.1, 1);
+    }
+    .coffee__cup {
+      animation-name: cup;
+      position: relative;
+      width: 11.25em;
+      height: 9em;
+    }
+    .coffee__cup-part {
+      background-color: var(--bg);
+      position: absolute;
+      transition:
+        background-color var(--trans-dur),
+        box-shadow var(--trans-dur);
+    }
+    .coffee__cup-part--a {
+      animation-name: cup-part-a;
+      border-radius: 5.625em 5.625em 5.625em 5.625em / 2em 2em 2.7em 2.7em;
+      box-shadow: 0 0 0 0.3em var(--fg) inset;
+      top: 4.3em;
+      width: 11.25em;
+      height: 4.7em;
+    }
+    .coffee__cup-part--b {
+      animation-name: cup-part-b;
+      background-color: transparent;
+      border-radius: 5.625em / 2em;
+      box-shadow: 0 0 0 0.2em var(--fg) inset;
+      top: 4.3em;
+      width: 11.25em;
+      height: 4em;
+    }
+    .coffee__cup-part--c {
+      animation-name: cup-part-c;
+      border-radius: 1.7em / 0.45em;
+      box-shadow: 0 0 0 0.2em var(--fg) inset;
+      top: 7.1em;
+      left: 3.925em;
+      width: 3.4em;
+      height: 0.9em;
+    }
+    .coffee__cup-part--d,
+    .coffee__cup-part--e,
+    .coffee__cup-part--f {
+      z-index: 1;
+    }
+    .coffee__cup-part--d {
+      animation-name: cup-part-d;
+      border-radius: 3.6em 3.6em 3.3em 3.3em / 1em 1em 3.5em 3.5em;
+      box-shadow: 0 0 0 0.2em var(--fg) inset;
+      top: 2.55em;
+      left: 2.025em;
+      width: 7.2em;
+      height: 5.15em;
+    }
+    .coffee__cup-part--e {
+      animation-name: cup-part-e;
+      background-color: var(--fg);
+      box-shadow:
+        0 0 0 0.2em var(--fg) inset,
+        0 1em 0 var(--bg) inset;
+      border-radius: 3.5em / 1em;
+      top: 2.65em;
+      left: 2.125em;
+      width: 7em;
+      height: 2em;
+    }
+    .coffee__cup-part--f {
+      animation-name: cup-part-f;
+      background-color: transparent;
+      top: 4.1em;
+      left: 5.925em;
+      width: 4.8em;
+      height: 3em;
+    }
+    .coffee__cup-part--f svg {
+      display: block;
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+    }
+    .coffee__cup-handle {
+      animation-name: cup-handle;
+    }
+    .coffee__cup,
+    .coffee__steam {
+      transform: translateX(-50%);
+    }
+    .coffee__steam {
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 3.5em;
+      height: 3.5em;
+      overflow: visible;
+    }
+    .coffee__steam--right {
+      right: 0;
+      left: auto;
+      transform: translateX(50%);
+    }
+    .coffee__steam-part {
+      animation-name: steam-left;
+      animation-timing-function: linear;
+      stroke-dashoffset: 48;
+    }
+    .coffee__steam--right .coffee__steam-part {
+      animation-name: steam-right;
+      stroke-dashoffset: 35;
+    }
+    .coffee__steam-part--a {
+      stroke-dasharray: 24 142;
+    }
+    .coffee__steam-part--b {
+      stroke-dasharray: 30 8 10 130;
+    }
+    .coffee__steam-part--c {
+      stroke-dasharray: 15 6 1 134;
+    }
+    .coffee__steam-part--d {
+      stroke-dasharray: 18 6 1 90;
+    }
+    .coffee__steam-part--e {
+      stroke-dasharray: 25 6 4 76;
+    }
+
+    /* Copy & Showrunners Bracket CTA */
+    .copy-stack {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.45rem;
+      z-index: 5;
+    }
+
+    .headline {
+      color: var(--fg);
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 1.25;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .subheadline {
+      color: var(--fg-light);
+      opacity: 0.78;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      font-weight: 400;
+      line-height: 1.4;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 0.5rem;
+    }
+
+    .bracket-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      color: var(--fg);
+      font-size: 15px;
+      font-weight: 700;
+      line-height: 1;
+      text-transform: uppercase;
+      text-decoration: none;
+      letter-spacing: 0.05em;
+      padding: 10px 14px;
+      transition: color 0.2s ease;
+      cursor: pointer;
+    }
+
+    .bracket-link .bracket {
+      display: inline-block;
+      font-weight: 400;
+      transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .bracket-link:hover {
+      color: var(--primary-hover);
+    }
+
+    .bracket-link:hover .bracket-left {
+      transform: translateX(-6px);
+    }
+
+    .bracket-link:hover .bracket-right {
+      transform: translateX(6px);
+    }
+
+    /* Keyframes from Coffee Loader */
+    @keyframes cup {
+      from, 25%, 75%, to { left: 0; }
+      50% { left: 21.5em; }
+    }
+    @keyframes cup-part-a {
+      from, 50%, to { width: 11.25em; }
+      25%, 75% { width: calc(11.25em + 21.5em); }
+    }
+    @keyframes cup-part-b {
+      from, 50%, to { width: 11.25em; }
+      25%, 75% { width: calc(11.25em + 21.5em); }
+    }
+    @keyframes cup-part-c {
+      from, 50%, to { width: 3.4em; }
+      25%, 75% { width: calc(3.4em + 21.5em); }
+    }
+    @keyframes cup-part-d {
+      from, 50%, to { width: 7.2em; }
+      25%, 75% { width: calc(7.2em + 21.5em); }
+    }
+    @keyframes cup-part-e {
+      from, 50%, to {
+        box-shadow:
+          0 0 0 0.2em var(--fg) inset,
+          0 1em 0 var(--bg) inset;
+        width: 7em;
+      }
+      25%, 75% {
+        box-shadow:
+          0 0 0 0.2em var(--fg) inset,
+          0 1.5em 0 var(--bg) inset;
+        width: calc(7em + 21.5em);
+      }
+    }
+    @keyframes cup-part-f {
+      from {
+        left: 5.925em;
+        z-index: 0;
+      }
+      25% {
+        left: calc(5.925em + 8.35em);
+        z-index: 0;
+      }
+      50% {
+        left: 0.525em;
+        z-index: 0;
+      }
+      50.01% {
+        left: 0.525em;
+        z-index: 1;
+      }
+      75% {
+        left: calc(5.925em + 8.35em);
+        z-index: 1;
+      }
+      to {
+        left: 5.925em;
+        z-index: 1;
+      }
+    }
+    @keyframes cup-handle {
+      from, to {
+        animation-timing-function: ease-in;
+        d: path("M64,4.413s6.64-2.913,11-2.913c11.739,0,19.5,10.759,19.5,22.497,0,23.475-45,22.497-45,22.497");
+        transform: translate(0, 0);
+      }
+      10%, 40%, 60%, 90% {
+        animation-timing-function: ease-out;
+        d: path("M48.036,4.415s-.03-2.913-.049-2.913c-.052,0-.087,10.759-.087,22.497,0,23.475,.2,22.497,.2,22.497");
+        transform: translate(0, 15px);
+      }
+      50% {
+        animation-timing-function: ease-in;
+        d: path("M32,4.413s-6.64-2.913-11-2.913C9.261,1.5,1.5,12.259,1.5,23.997c0,23.475,45,22.497,45,22.497");
+        transform: translate(0, 0);
+      }
+    }
+    @keyframes steam-left {
+      from { stroke-dashoffset: 48; }
+      25%, to { stroke-dashoffset: -66; }
+    }
+    @keyframes steam-right {
+      from, 50% { stroke-dashoffset: 35; }
+      75%, to { stroke-dashoffset: -76; }
+    }
+
+    @media screen and (max-width: 479px) {
+      .top-bar {
+        top: 16px;
+        left: 18px;
+        right: 18px;
+        font-size: 10px;
+      }
+      .scribble-wrapper {
+        width: 95vw;
+        margin-bottom: -0.4em;
+      }
+      .headline {
+        font-size: 14px;
+      }
+      .subheadline {
+        font-size: 11.5px;
+      }
+      .bracket-link {
+        font-size: 12.5px;
+      }
+    }
+  </style>
 </head>
 <body>
-
-  <!-- =========================================================================
-       MODERN DIGITAL NEWSPAPER BROADSHEET PAGE
-       ========================================================================= -->
-  <div class="broadsheet-page">
-
-    <!-- 1. Dateline Index Bar (Section 3) -->
-    <div class="newspaper-dateline-bar">
-      <div class="dateline-city">LOUISVILLE, KENTUCKY</div>
-      <div>EDICIÓN DIGITAL COMUNITARIA · 2026</div>
-      <div>WHATSAPP / SMS: +1 (502) 673-1333</div>
-    </div>
-
-    <!-- 2. The Masthead (Section 4) -->
-    <header class="newspaper-masthead-hero">
-      <div class="masthead-ear-panel left">
-        <strong>LOS CLASIFICADOS MODERNOS</strong>
-        <span>En vez de leer 400 anuncios, solo dinos qué necesitas.</span>
-      </div>
-
-      <div class="masthead-center-block">
-        <a href="/" aria-label="Dame la Letra - Portada">
-          <h1 class="masthead-main-wordmark">DAME LA LETRA</h1>
-        </a>
-        <div class="masthead-tagline">"¿No sabes quién lo hace? Dame la Letra."</div>
-      </div>
-
-      <div class="masthead-ear-panel right">
-        <strong>DESPACHO LOCAL DIRECTO</strong>
-        <span>Servicios · Oficios · Talleres · Comunidad</span>
-      </div>
-    </header>
-
-    <!-- 3. Editorial Index Navigation (Section 30) -->
-    <nav class="newspaper-index-ribbon" aria-label="Índice del periódico">
-      <ul class="index-nav-list">
-        <li><a href="#portada">Portada</a></li>
-        <li><a href="#clasificados">Los Clasificados</a></li>
-        <li><a href="#evolucion">La Evolución</a></li>
-        <li><a href="#como-funciona">Cómo Funciona</a></li>
-        <li><a href="#negocios">Para Negocios</a></li>
-        <li><a href="#reportajes">Oficios Reales</a></li>
-        <li><a href="#fe-de-erratas">Honestidad</a></li>
-      </ul>
-
-      <div class="index-header-cta-group">
-        <button class="btn-ink-solid btn-ink-small btn-open-concierge">DAME LA LETRA</button>
-        <button class="btn-ink-outline btn-ink-small btn-open-pro">SOY NEGOCIO</button>
-      </div>
-    </nav>
-
-    <!-- =========================================================================
-         4. HERO AS FRONT PAGE (PORTADA DE EDICIÓN — Section 5 & 6)
-         ========================================================================= -->
-    <main>
-      <section class="frontpage-layout" id="portada">
-        
-        <!-- Left: Front Page Lead Article -->
-        <article class="frontpage-lead-article">
-          <div class="lead-kicker">PRIMERA PLANA · EL NUEVO FORMATO DE CONEXIÓN</div>
-
-          <h2 class="lead-broadsheet-title">
-            ¿NO SABES<br>
-            QUIÉN LO HACE?
-          </h2>
-
-          <div class="lead-editorial-subtitle">
-            Dime qué necesitas. Nosotros buscamos quién puede ayudarte.
-          </div>
-
-          <div class="lead-two-columns-text">
-            <p class="lead-drop-cap">
-              Históricamente, los periódicos resolvieron las necesidades de una ciudad a través de los clasificados: páginas llenas de pequeños avisos donde alguien buscaba un plomero, un mecánico, un carpintero o un electricista. El problema siempre fue el mismo: había que leer cientos de líneas, llamar a diez números y esperar a ver quién contestaba.
-            </p>
-            <p>
-              <strong>DAME LA LETRA</strong> reinventa esa institución comunitaria para hoy. En lugar de obligarte a buscar en un mar de anuncios, tú simplemente preguntas en lenguaje natural. Nosotros recorremos nuestra red local y te decimos quién puede resolverlo en Louisville.
-            </p>
-          </div>
-
-          <div class="frontpage-ctas-row">
-            <button class="btn-ink-solid btn-open-concierge">
-              DAME LA LETRA (PREGUNTAR AHORA)
-            </button>
-            <button class="btn-ink-outline btn-open-pro">
-              PUBLICAR MI OFICIO / NEGOCIO
-            </button>
-          </div>
-        </article>
-
-        <!-- Right: Modern Classified Insertion Box (Section 6 & 21) -->
-        <aside class="classified-insertion-box" aria-label="Consola de Despacho de Clasificados">
-          <div>
-            <div class="insertion-box-header">
-              <span class="insertion-tag">MÓDULO DE DESPACHO DML</span>
-              <span class="insertion-status">LOUISVILLE · EN VIVO</span>
-            </div>
-
-            <div class="insertion-dialogue-flow">
-              <div class="insertion-quote-block">
-                <span class="insertion-speaker-label">TÚ PREGUNTAS:</span>
-                <div class="insertion-speaker-text" id="demo-user-speech">"Se me ponchó la goma en Dixie Hwy."</div>
-              </div>
-
-              <div class="insertion-quote-block" style="border-top: 1px solid var(--rule-solid); padding-top: 0.75rem;">
-                <span class="insertion-speaker-label" style="color: var(--accent-ink);">DAME LA LETRA:</span>
-                <div class="insertion-speaker-text" id="demo-dml-speech" style="color: var(--accent-ink);">"Listo. Roberto (Gomas & Grúa 502) está a unos 15 minutos en Shively."</div>
-              </div>
-
-              <div class="insertion-match-result" id="demo-match-box">
-                <div class="insertion-match-title" id="demo-pro-name">Roberto González — Asistencia Vial & Gomas</div>
-                <div class="insertion-match-meta" id="demo-pro-meta">📍 Shively / Dixie Hwy · ⏱️ Llegada en ~15-20 min · 💵 $65 - $80</div>
-                <a href="https://wa.me/15026731333?text=Hola%20Dame%20La%20Letra,%20necesito%20conectar%20con%20Roberto%20para%20asistencia%20en%20Dixie." target="_blank" rel="noopener" class="btn-ink-solid btn-ink-small" style="width: 100%; text-align: center;">
-                  💬 Conectar por WhatsApp (+1 502-673-1333)
-                </a>
-              </div>
-            </div>
-
-            <!-- Preset Classified Scenarios (Section 8) -->
-            <div class="insertion-presets-list">
-              <button class="insertion-preset-chip demo-pill-btn" data-text="Se me ponchó la goma en Dixie Hwy">
-                [SE BUSCA] "Se me ponchó la goma en Dixie"
-              </button>
-              <button class="insertion-preset-chip demo-pill-btn" data-text="El aire está prendido pero no enfría">
-                [SE BUSCA] "El aire está prendido pero no enfría"
-              </button>
-              <button class="insertion-preset-chip demo-pill-btn" data-text="Necesito alguien que corte un árbol en el patio">
-                [SE BUSCA] "Necesito cortar un árbol en el patio"
-              </button>
-              <button class="insertion-preset-chip demo-pill-btn" data-text="¿Quién hace comida criolla para 50 personas el sábado?">
-                [SE BUSCA] "Comida criolla para 50 personas"
-              </button>
-            </div>
-          </div>
-
-          <!-- Custom User Insertion Bar -->
-          <div class="insertion-input-bar">
-            <input type="text" id="demo-custom-input" class="insertion-input-field" placeholder="¿Qué necesitas resolver hoy?">
-            <button id="demo-custom-btn" class="btn-ink-solid btn-ink-small">Preguntar</button>
-          </div>
-        </aside>
-
-      </section>
-
-      <!-- =========================================================================
-           5. EL CLASIFICADO DE LA VIDA REAL (Section 8, 10, 17, 18)
-           ========================================================================= -->
-      <section class="newspaper-section-block" id="clasificados">
-        <div class="newspaper-section-head">
-          <h2 class="section-head-title">El Clasificado de la Vida Real</h2>
-          <span class="section-head-label">FLUJO DE SOLICITUDES EN LOUISVILLE</span>
-        </div>
-
-        <div class="classifieds-stream-grid">
-          <!-- Item 1 -->
-          <div class="classified-stream-card">
-            <span class="classified-stream-tag">SE BUSCA · CLIMATIZACIÓN</span>
-            <div class="classified-stream-quote">"Alguien que pueda reparar el aire de mi oficina en Preston Hwy."</div>
-            <div class="classified-stream-resolution">➔ DML: Técnico comercial certificado disponible hoy.</div>
-          </div>
-
-          <!-- Item 2 -->
-          <div class="classified-stream-card">
-            <span class="classified-stream-tag">SE BUSCA · EVENTOS</span>
-            <div class="classified-stream-quote">"Fotógrafo profesional para evento familiar este sábado."</div>
-            <div class="classified-stream-resolution">➔ DML: Fecha libre y portafolio local verificado.</div>
-          </div>
-
-          <!-- Item 3 -->
-          <div class="classified-stream-card">
-            <span class="classified-stream-tag">SE OFRECE · GASTRONOMÍA</span>
-            <div class="classified-stream-quote">"Catering criollo y asados para grupos de 30 a 100 personas."</div>
-            <div class="classified-stream-resolution">➔ DML: Conectado con clientes que buscan comida local.</div>
-          </div>
-
-          <!-- Item 4 -->
-          <div class="classified-stream-card">
-            <span class="classified-stream-tag">DISPONIBLE HOY · RESCATE</span>
-            <div class="classified-stream-quote">"Roadside assistance, cambio de gomas y grúa en Dixie."</div>
-            <div class="classified-stream-resolution">➔ DML: Tiempo de respuesta promedio: 18 minutos.</div>
-          </div>
-
-          <!-- Item 5 -->
-          <div class="classified-stream-card">
-            <span class="classified-stream-tag">SE BUSCA · CONSTRUCCIÓN</span>
-            <div class="classified-stream-quote">"¿Quién hace divisiones de drywall y pintura comercial?"</div>
-            <div class="classified-stream-resolution">➔ DML: Contratistas elegibles con experiencia.</div>
-          </div>
-
-          <!-- Item 6 -->
-          <div class="classified-stream-card">
-            <span class="classified-stream-tag">SE BUSCA · JARDINERÍA</span>
-            <div class="classified-stream-quote">"Poda especializada de árbol con ramas sobre tendido."</div>
-            <div class="classified-stream-resolution">➔ DML: Cuadrilla con grúa y motosierras en la zona.</div>
-          </div>
-        </div>
-
-        <div class="classifieds-philosophy-banner">
-          <div class="philosophy-banner-title">
-            "El problema no siempre es encontrar el servicio. A veces es saber quién lo hace."
-          </div>
-          <div class="philosophy-banner-sub">
-            Todos los días alguien necesita algo en Louisville. La gente que sabe hacerlo ya existe; <strong>DAME LA LETRA</strong> cierra la distancia entre ambos.
-          </div>
-        </div>
-      </section>
-
-      <!-- =========================================================================
-           6. LA EVOLUCIÓN: "ANTES HABÍA QUE BUSCAR. AHORA PUEDES PREGUNTAR." (Section 9 & 24)
-           ========================================================================= -->
-      <section class="newspaper-section-block" id="evolucion">
-        <div class="newspaper-section-head">
-          <h2 class="section-head-title">La Evolución del Anuncio Clasificado</h2>
-          <span class="section-head-label">DE LA BÚSQUEDA A LA RESPUESTA</span>
-        </div>
-
-        <div class="evolution-comparison-grid">
-          <!-- Traditional Classifieds -->
-          <div class="evolution-box traditional">
-            <span class="evolution-box-tag">LOS CLASIFICADOS DE ANTES</span>
-            <h3 class="evolution-box-title">El laberinto de buscar por tu cuenta</h3>
-            <ul class="evolution-steps-list">
-              <li class="evolution-step-item">1. BUSCAR ENTRE 400 ANUNCIOS</li>
-              <li class="evolution-step-item">2. LEER DESCRIPCIONES CONFUSAS</li>
-              <li class="evolution-step-item">3. LLAMAR A 10 NÚMEROS DISTINTOS</li>
-              <li class="evolution-step-item">4. PREGUNTAR DISPONIBILIDAD</li>
-              <li class="evolution-step-item">5. ESPERAR A VER QUIÉN RESPONDE</li>
-            </ul>
-          </div>
-
-          <!-- DAME LA LETRA -->
-          <div class="evolution-box modern-dml">
-            <span class="evolution-box-tag">DAME LA LETRA HOY</span>
-            <h3 class="evolution-box-title">La certeza de preguntar y recibir respuesta</h3>
-            <ul class="evolution-steps-list">
-              <li class="evolution-step-item"><span class="arrow-sym">➔</span> TÚ: "Necesito un plomero."</li>
-              <li class="evolution-step-item"><span class="arrow-sym">➔</span> DML: "Dame un momento."</li>
-              <li class="evolution-step-item" style="color: #72e0b5;"><span class="arrow-sym">➔</span> DML: "Listo. José puede ayudarte hoy."</li>
-            </ul>
-          </div>
-        </div>
-      </section>
-
-      <!-- =========================================================================
-           7. CÓMO FUNCIONA (EDICIÓN EN TRES PASOS — Section 15)
-           ========================================================================= -->
-      <section class="newspaper-section-block" id="como-funciona">
-        <div class="newspaper-section-head">
-          <h2 class="section-head-title">Cómo Funciona · Tres Pasos</h2>
-          <span class="section-head-label">EL MÉTODO DML</span>
-        </div>
-
-        <div class="steps-broadsheet-grid">
-          <div class="step-broadsheet-item">
-            <div class="step-big-num">01</div>
-            <h3 class="step-broadsheet-title">Dime qué necesitas</h3>
-            <p class="step-broadsheet-copy">
-              Escríbelo exactamente como hablas con un amigo o vecino. No necesitas conocer el término técnico del equipo ni el código del oficio.
-            </p>
-          </div>
-
-          <div class="step-broadsheet-item">
-            <div class="step-big-num">02</div>
-            <h3 class="step-broadsheet-title">Dame un momento</h3>
-            <p class="step-broadsheet-copy">
-              Revisamos en nuestra red verificada quién tiene la habilidad, cercanía geográfica y disponibilidad real para resolver en Louisville hoy.
-            </p>
-          </div>
-
-          <div class="step-broadsheet-item">
-            <div class="step-big-num">03</div>
-            <h3 class="step-broadsheet-title">Listo</h3>
-            <p class="step-broadsheet-copy">
-              Te informamos quién puede hacerlo, tiempo estimado de llegada y precio directo. Si estás conforme, te conectamos al instante.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <!-- =========================================================================
-           8. TRADUCCIÓN HUMANA (Section 16)
-           ========================================================================= -->
-      <section class="newspaper-section-block">
-        <div class="newspaper-section-head">
-          <h2 class="section-head-title">Tú hablas como una persona · Dame la Letra entiende</h2>
-          <span class="section-head-label">SIN TECNICISMOS</span>
-        </div>
-
-        <div class="translations-broadsheet-grid">
-          <div class="translation-broadsheet-card">
-            <span class="trans-lead-label">TÚ DICES:</span>
-            <div class="trans-dialogue-quote">"El aire está prendido pero no enfría la casa."</div>
-            <div class="trans-footer-divider">
-              <span class="trans-understood-pill">ENTENDIDO</span>
-              <span class="trans-tech-label">AC / HVAC / DIAGNÓSTICO</span>
-            </div>
-          </div>
-
-          <div class="translation-broadsheet-card">
-            <span class="trans-lead-label">TÚ DICES:</span>
-            <div class="trans-dialogue-quote">"Se me ponchó la goma en la autopista."</div>
-            <div class="trans-footer-divider">
-              <span class="trans-understood-pill">ENTENDIDO</span>
-              <span class="trans-tech-label">ASISTENCIA VIAL / ROADSIDE</span>
-            </div>
-          </div>
-
-          <div class="translation-broadsheet-card">
-            <span class="trans-lead-label">TÚ DICES:</span>
-            <div class="trans-dialogue-quote">"Necesito unas divisiones para la oficina."</div>
-            <div class="trans-footer-divider">
-              <span class="trans-understood-pill">ENTENDIDO</span>
-              <span class="trans-tech-label">CONSTRUCCIÓN / DRYWALL</span>
-            </div>
-          </div>
-
-          <div class="translation-broadsheet-card">
-            <span class="trans-lead-label">TÚ DICES:</span>
-            <div class="trans-dialogue-quote">"Necesito alguien que me corte un árbol grande."</div>
-            <div class="trans-footer-divider">
-              <span class="trans-understood-pill">ENTENDIDO</span>
-              <span class="trans-tech-label">TREE SERVICE / PODA</span>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- =========================================================================
-           9. MANIFIESTO CIUDADANO (Section 19 & 27)
-           ========================================================================= -->
-      <section class="citizen-manifesto-block">
-        <div class="citizen-manifesto-kicker">MANIFIESTO DE LA COMUNIDAD LOCAL</div>
-        <div class="citizen-manifesto-headline">
-          UNA CIUDAD ESTÁ LLENA DE GENTE QUE SABE HACER COSAS.<br>
-          <em>EL PROBLEMA ES SABER QUIÉN.</em>
-        </div>
-        <div class="citizen-manifesto-brand-stamp">
-          DAME LA LETRA.
-        </div>
-      </section>
-
-      <!-- =========================================================================
-           10. PÁGINA DE NEGOCIOS & OFICIOS (Section 18 & 26)
-           ========================================================================= -->
-      <section class="newspaper-section-block" id="negocios">
-        <div class="newspaper-section-head">
-          <h2 class="section-head-title">Para Negocios · "Si sabes hacerlo, queremos saber de ti"</h2>
-          <span class="section-head-label">RED DE PROFESIONALES LOCALES</span>
-        </div>
-
-        <div class="business-edition-grid">
-          <article class="business-edition-article">
-            <h3 class="business-edition-title">
-              Conectamos personas que necesitan algo con quienes pueden resolverlo.
-            </h3>
-            
-            <p class="business-edition-lead">
-              DAME LA LETRA abre espacio para contratistas, mecánicos, podadores, cerrajeros, plomeros y negocios independientes de Louisville.
-            </p>
-
-            <ul class="business-edition-bullets">
-              <li>Tu disponibilidad real</li>
-              <li>Tu zona de cobertura en Louisville</li>
-              <li>Los oficios y trabajos que realizas</li>
-              <li>Las solicitudes que deseas recibir</li>
-              <li>Cuándo decides no recibir más por el día</li>
-            </ul>
-
-            <div>
-              <button class="btn-ink-solid btn-open-pro">
-                QUIERO SER PARTE DE LA RED
-              </button>
-            </div>
-          </article>
-
-          <aside class="business-sidebar-quote-panel">
-            <div>
-              <div class="sidebar-big-quote">
-                "Primero resolvemos. Después construimos relaciones."
-              </div>
-              <p class="sidebar-sub-text">
-                Un negocio no necesariamente tiene que pagar para existir en el universo de DML. Si un cliente en Louisville necesita una solución honesta y tú eres la persona adecuada, te contactaremos para resolver la necesidad del cliente primero.
-              </p>
-            </div>
-
-            <div style="border-top: 1px solid var(--rule-hairline); padding-top: 1rem; font-family: var(--font-grotesk); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-muted);">
-              📍 Activo en Shively, Preston Hwy, Dixie Hwy y Jefferson County.
-            </div>
-          </aside>
-        </div>
-      </section>
-
-      <!-- =========================================================================
-           11. DETRÁS DE CADA ANUNCIO HAY UNA PERSONA (Section 19, 20)
-           ========================================================================= -->
-      <section class="newspaper-section-block" id="reportajes">
-        <div class="newspaper-section-head">
-          <h2 class="section-head-title">Detrás de Cada Anuncio Hay una Persona</h2>
-          <span class="section-head-label">FOTOPERIODISMO LOCAL</span>
-        </div>
-
-        <div class="photojournalism-broadsheet-grid">
-          <div class="photojournalism-card">
-            <div class="photojournalism-img-frame">
-              <img src="/assets/car-dealer-2138927_1280.jpg" alt="Mecánica y asistencia vial" class="photojournalism-img">
-            </div>
-            <div class="photojournalism-caption">
-              <strong>AUTOMOTRIZ & GRÚAS:</strong> Asistencia vial inmediata, rescate de llantas y mecánica móvil en Louisville.
-            </div>
-          </div>
-
-          <div class="photojournalism-card">
-            <div class="photojournalism-img-frame">
-              <img src="/assets/pexels-cottonbro-studio-3993466.jpg" alt="Estilismo y cuidado personal" class="photojournalism-img">
-            </div>
-            <div class="photojournalism-caption">
-              <strong>BELLEZA & OFICIOS:</strong> Barberías, colocación de keratina y servicios estéticos que atienden a la comunidad.
-            </div>
-          </div>
-
-          <div class="photojournalism-card">
-            <div class="photojournalism-img-frame">
-              <img src="/assets/pexels-cottonbro-studio-4622206.jpg" alt="Taller y construcción" class="photojournalism-img">
-            </div>
-            <div class="photojournalism-caption">
-              <strong>HOGAR & CLIMATIZACIÓN:</strong> Maestros en refrigeración, plomería y electricidad manteniendo activos los hogares.
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- =========================================================================
-           12. FE DE ERRATAS / HONESTIDAD RADICAL (Section 25)
-           ========================================================================= -->
-      <section class="newspaper-section-block" id="fe-de-erratas">
-        <div class="newspaper-section-head">
-          <h2 class="section-head-title">No lo sabemos todo. Pero sabemos a quién preguntar.</h2>
-          <span class="section-head-label">CÓDIGO DE TRANSPARENCIA</span>
-        </div>
-
-        <div class="honesty-broadsheet-columns">
-          <div class="honesty-broadsheet-item">
-            <div class="honesty-status-headline">1. CONFIRMADO</div>
-            <p class="honesty-status-desc">
-              Si tenemos a un profesional verificado en nuestra red activa con disponibilidad confirmada, te conectamos directamente al instante.
-            </p>
-          </div>
-
-          <div class="honesty-broadsheet-item">
-            <div class="honesty-status-headline">2. ENCONTRADO</div>
-            <p class="honesty-status-desc">
-              Si no contamos con alguien directo en la red, investigamos y localizamos una opción externa capaz para ayudarte a resolver.
-            </p>
-          </div>
-
-          <div class="honesty-broadsheet-item">
-            <div class="honesty-status-headline">3. NO ENCONTRADO</div>
-            <p class="honesty-status-desc">
-              Y si no encontramos una opción confiable y segura, te lo decimos con franqueza. Sin inventar datos ni hacerte perder tiempo.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <!-- =========================================================================
-           13. GRAN DECLARACIÓN DE MARCA & CTA FINAL (Section 38 & 39)
-           ========================================================================= -->
-      <section class="final-broadsheet-editorial">
-        <div class="final-broadsheet-kicker">EL NUEVO ESTÁNDAR DE CONEXIÓN</div>
-
-        <h2 class="final-broadsheet-huge-title">LOS CLASIFICADOS CAMBIARON.</h2>
-        <div class="final-broadsheet-italic-brand">Ahora puedes preguntar.</div>
-
-        <p class="final-broadsheet-supporting">
-          Tú dime qué necesitas. Nosotros buscamos quién puede ayudarte en Louisville, KY.
-        </p>
-
-        <div class="final-broadsheet-cta-group">
-          <button class="btn-ink-solid btn-open-concierge">
-            DAME LA LETRA (CONSULTAR)
-          </button>
-          <button class="btn-ink-outline btn-open-pro">
-            SOY NEGOCIO O PROVEEDOR
-          </button>
-        </div>
-      </section>
-
-    </main>
-
-    <!-- =========================================================================
-         14. COLOFÓN / PIE DE IMPRENTA (FOOTER — Section 29)
-         ========================================================================= -->
-    <footer class="broadsheet-colophon-footer">
-      <div>
-        <strong>DAME LA LETRA</strong> · EL DIARIO DE LA CONEXIÓN LOCAL · LOUISVILLE, KY.
-      </div>
-
-      <div class="colophon-nav-links">
-        <a href="https://wa.me/15026731333" target="_blank" rel="noopener">WHATSAPP: +1 (502) 673-1333</a>
-        <a href="/provider.html">SIMULADOR</a>
-        <a href="/admin.html">DESPACHO</a>
-      </div>
-
-      <div>
-        © 2026 DAME LA LETRA. TODOS LOS DERECHOS RESERVADOS.
-      </div>
-    </footer>
-
-  </div> <!-- End .broadsheet-page -->
-
-  <!-- =========================================================================
-       MODAL 1: CONCIERGE ("DAME LA LETRA")
-       ========================================================================= -->
-  <div class="modal-backdrop" id="modal-concierge" role="dialog" aria-modal="true" aria-labelledby="modal-concierge-title">
-    <div class="modal-dialog">
-      <button class="modal-close-btn" aria-label="Cerrar">&times;</button>
-      <div class="modal-title" id="modal-concierge-title">Telegrama de Solicitud</div>
-      <div class="modal-subtitle">
-        Dinos qué necesitas resolver en Louisville. Te conectamos por WhatsApp o SMS.
-      </div>
-
-      <form class="modal-form" id="form-concierge">
-        <div class="form-group">
-          <label for="concierge-need-input" class="form-label">¿Qué necesitas?</label>
-          <textarea id="concierge-need-input" class="form-textarea" rows="3" placeholder="Ej: Se me ponchó la goma en Dixie Hwy / El aire no enfría..." required autofocus></textarea>
-        </div>
-
-        <button type="submit" class="btn-ink-solid" style="width: 100%;">
-          💬 Enviar a Dame La Letra (WhatsApp)
-        </button>
-
-        <div style="font-size: 0.75rem; color: var(--ink-muted); text-align: center;">
-          O escribe directamente por SMS al <strong>+1 (502) 673-1333</strong>
-        </div>
-      </form>
-    </div>
+  <div class="top-bar">
+    <span>DAME LA LETRA</span>
+    <span>LOUISVILLE, KY</span>
   </div>
 
-  <!-- =========================================================================
-       MODAL 2: PRO ONBOARDING ("PARA NEGOCIOS")
-       ========================================================================= -->
-  <div class="modal-backdrop" id="modal-pro" role="dialog" aria-modal="true" aria-labelledby="modal-pro-title">
-    <div class="modal-dialog">
-      <button class="modal-close-btn" aria-label="Cerrar">&times;</button>
-      <div class="modal-title" id="modal-pro-title">Registro de Oficio</div>
-      <div class="modal-subtitle">
-        Únete a la red de proveedores locales en Louisville sin perseguir clientes.
-      </div>
-
-      <form class="modal-form" id="form-pro">
-        <div class="form-group">
-          <label for="pro-name-input" class="form-label">Nombre del Negocio o Titular</label>
-          <input type="text" id="pro-name-input" class="form-input" placeholder="Ej: Roberto González (Gomas & Grúa 502)" required>
-        </div>
-
-        <div class="form-group">
-          <label for="pro-trade-input" class="form-label">Oficio o Especialidad Principal</label>
-          <input type="text" id="pro-trade-input" class="form-input" placeholder="Ej: Asistencia Vial / Plomería / HVAC..." required>
-        </div>
-
-        <div class="form-group">
-          <label for="pro-phone-input" class="form-label">Teléfono (WhatsApp / Louisville)</label>
-          <input type="tel" id="pro-phone-input" class="form-input" placeholder="+1 (502) ..." required>
-        </div>
-
-        <button type="submit" class="btn-ink-solid" style="width: 100%;">
-          🤝 Unir mi Negocio a la Red
-        </button>
-
-        <div style="font-size: 0.75rem; color: var(--ink-muted); text-align: center;">
-          Primero resolvemos. Después construimos relaciones.
-        </div>
-      </form>
+  <main class="stage">
+    <!-- Showrunners 404 Animated Hand-Drawn Graphic -->
+    <div class="scribble-wrapper">
+      <img
+        class="scribble-img"
+        src="/assets/404-frame.gif"
+        alt="404"
+        width="1280"
+        height="720"
+      />
     </div>
-  </div>
 
-  <script src="/js/landing.js"></script>
+    <!-- Sliding Coffee Cup Animation -->
+    <div class="coffee" role="img" aria-label="Taza de café animada en construcción">
+      <div class="coffee__cup">
+        <div class="coffee__cup-part coffee__cup-part--a"></div>
+        <div class="coffee__cup-part coffee__cup-part--b"></div>
+        <div class="coffee__cup-part coffee__cup-part--c"></div>
+        <div class="coffee__cup-part coffee__cup-part--d"></div>
+        <div class="coffee__cup-part coffee__cup-part--e"></div>
+        <div class="coffee__cup-part coffee__cup-part--f">
+          <svg viewBox="0 0 96 60" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round">
+            <path class="coffee__cup-handle" d="M64,4.413s6.64-2.913,11-2.913c11.739,0,19.5,10.759,19.5,22.497,0,23.475-45,22.497-45,22.497"></path>
+          </svg>
+        </div>
+      </div>
+      <svg class="coffee__steam" viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round">
+        <path class="coffee__steam-part coffee__steam-part--a" d="M18,48 C10,36 26,24 18,8"></path>
+        <path class="coffee__steam-part coffee__steam-part--b" d="M28,50 C20,34 36,22 28,6"></path>
+        <path class="coffee__steam-part coffee__steam-part--c" d="M38,48 C30,36 46,24 38,10"></path>
+      </svg>
+      <svg class="coffee__steam coffee__steam--right" viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round">
+        <path class="coffee__steam-part coffee__steam-part--d" d="M22,48 C14,34 30,22 22,8"></path>
+        <path class="coffee__steam-part coffee__steam-part--e" d="M34,50 C26,34 42,22 34,6"></path>
+      </svg>
+    </div>
+
+    <!-- Copy & CTA -->
+    <div class="copy-stack">
+      <h1 class="headline">Estamos en desarrollo de esta web</h1>
+      <p class="subheadline">(en casa de herrero, cuchillo de palo)</p>
+
+      <a
+        class="bracket-link"
+        href="https://wa.me/15026731333?text=Hola%2C%20necesito%20Dame%20La%20Letra"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <span class="bracket bracket-left">[</span>
+        <span>ESCRÍBENOS POR WHATSAPP · (502) 673-1333</span>
+        <span class="bracket bracket-right">]</span>
+      </a>
+    </div>
+  </main>
 </body>
 </html>

@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>404 — Dame La Letra | Estamos en desarrollo</title>
+  <meta name="description" content="Estamos en desarrollo de esta web (en casa de herrero, cuchillo de palo). Mientras tanto, escríbenos directo por WhatsApp o SMS al +1 (502) 673-1333." />
+  <link rel="icon" type="image/png" href="/assets/favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    * {
+      border: 0;
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --hue: 220;
+      --bg: #0c0c0d;
+      --fg: #336ad9;
+      --fg-light: hsl(var(--hue), 20%, 92%);
+      --primary: #336ad9;
+      --primary-hover: #5b8def;
+      --trans-dur: 0.3s;
+      font-size: calc(16px + (20 - 16) * (100vw - 320px) / (1280 - 320));
+    }
+
+    html, body {
+      background-color: var(--bg);
+      color: var(--fg);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      min-height: 100vh;
+      width: 100%;
+      overflow-x: hidden;
+      display: grid;
+      place-items: center;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      transition:
+        background-color var(--trans-dur),
+        color var(--trans-dur);
+    }
+
+    /* Subtle top bar */
+    .top-bar {
+      position: fixed;
+      top: 24px;
+      left: 32px;
+      right: 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(51, 106, 217, 0.55);
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    .stage {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 4rem 1.5rem 2.5rem;
+      width: 100%;
+      max-width: 1280px;
+      gap: 1.25rem;
+    }
+
+    /* Showrunners 404 Scribble */
+    .scribble-wrapper {
+      width: min(860px, 88vw);
+      margin-bottom: -1.2em;
+      pointer-events: none;
+    }
+
+    .scribble-img {
+      width: 100%;
+      height: auto;
+      display: block;
+      object-fit: contain;
+    }
+
+    /* Sliding Coffee Cup Animation */
+    .coffee {
+      font-size: 0.55em;
+      position: relative;
+      width: 21.5em;
+      height: 9em;
+      margin: 0.5rem auto 0.75rem;
+    }
+    .coffee:before {
+      border-bottom: 0.25em dashed var(--fg);
+      content: "";
+      display: block;
+      position: absolute;
+      top: 7.5em;
+      width: 100%;
+      opacity: 0.65;
+    }
+    .coffee__cup,
+    .coffee__cup-part,
+    .coffee__cup-handle,
+    .coffee__steam-part {
+      animation-duration: 8s;
+      animation-iteration-count: infinite;
+    }
+    .coffee__cup,
+    .coffee__cup-part,
+    .coffee__cup-handle {
+      animation-timing-function: cubic-bezier(0.9, 0, 0.1, 1);
+    }
+    .coffee__cup {
+      animation-name: cup;
+      position: relative;
+      width: 11.25em;
+      height: 9em;
+    }
+    .coffee__cup-part {
+      background-color: var(--bg);
+      position: absolute;
+      transition:
+        background-color var(--trans-dur),
+        box-shadow var(--trans-dur);
+    }
+    .coffee__cup-part--a {
+      animation-name: cup-part-a;
+      border-radius: 5.625em 5.625em 5.625em 5.625em / 2em 2em 2.7em 2.7em;
+      box-shadow: 0 0 0 0.3em var(--fg) inset;
+      top: 4.3em;
+      width: 11.25em;
+      height: 4.7em;
+    }
+    .coffee__cup-part--b {
+      animation-name: cup-part-b;
+      background-color: transparent;
+      border-radius: 5.625em / 2em;
+      box-shadow: 0 0 0 0.2em var(--fg) inset;
+      top: 4.3em;
+      width: 11.25em;
+      height: 4em;
+    }
+    .coffee__cup-part--c {
+      animation-name: cup-part-c;
+      border-radius: 1.7em / 0.45em;
+      box-shadow: 0 0 0 0.2em var(--fg) inset;
+      top: 7.1em;
+      left: 3.925em;
+      width: 3.4em;
+      height: 0.9em;
+    }
+    .coffee__cup-part--d,
+    .coffee__cup-part--e,
+    .coffee__cup-part--f {
+      z-index: 1;
+    }
+    .coffee__cup-part--d {
+      animation-name: cup-part-d;
+      border-radius: 3.6em 3.6em 3.3em 3.3em / 1em 1em 3.5em 3.5em;
+      box-shadow: 0 0 0 0.2em var(--fg) inset;
+      top: 2.55em;
+      left: 2.025em;
+      width: 7.2em;
+      height: 5.15em;
+    }
+    .coffee__cup-part--e {
+      animation-name: cup-part-e;
+      background-color: var(--fg);
+      box-shadow:
+        0 0 0 0.2em var(--fg) inset,
+        0 1em 0 var(--bg) inset;
+      border-radius: 3.5em / 1em;
+      top: 2.65em;
+      left: 2.125em;
+      width: 7em;
+      height: 2em;
+    }
+    .coffee__cup-part--f {
+      animation-name: cup-part-f;
+      background-color: transparent;
+      top: 4.1em;
+      left: 5.925em;
+      width: 4.8em;
+      height: 3em;
+    }
+    .coffee__cup-part--f svg {
+      display: block;
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+    }
+    .coffee__cup-handle {
+      animation-name: cup-handle;
+    }
+    .coffee__cup,
+    .coffee__steam {
+      transform: translateX(-50%);
+    }
+    .coffee__steam {
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 3.5em;
+      height: 3.5em;
+      overflow: visible;
+    }
+    .coffee__steam--right {
+      right: 0;
+      left: auto;
+      transform: translateX(50%);
+    }
+    .coffee__steam-part {
+      animation-name: steam-left;
+      animation-timing-function: linear;
+      stroke-dashoffset: 48;
+    }
+    .coffee__steam--right .coffee__steam-part {
+      animation-name: steam-right;
+      stroke-dashoffset: 35;
+    }
+    .coffee__steam-part--a {
+      stroke-dasharray: 24 142;
+    }
+    .coffee__steam-part--b {
+      stroke-dasharray: 30 8 10 130;
+    }
+    .coffee__steam-part--c {
+      stroke-dasharray: 15 6 1 134;
+    }
+    .coffee__steam-part--d {
+      stroke-dasharray: 18 6 1 90;
+    }
+    .coffee__steam-part--e {
+      stroke-dasharray: 25 6 4 76;
+    }
+
+    /* Copy & Showrunners Bracket CTA */
+    .copy-stack {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.45rem;
+      z-index: 5;
+    }
+
+    .headline {
+      color: var(--fg);
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 1.25;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .subheadline {
+      color: var(--fg-light);
+      opacity: 0.78;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      font-weight: 400;
+      line-height: 1.4;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 0.5rem;
+    }
+
+    .bracket-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      color: var(--fg);
+      font-size: 15px;
+      font-weight: 700;
+      line-height: 1;
+      text-transform: uppercase;
+      text-decoration: none;
+      letter-spacing: 0.05em;
+      padding: 10px 14px;
+      transition: color 0.2s ease;
+      cursor: pointer;
+    }
+
+    .bracket-link .bracket {
+      display: inline-block;
+      font-weight: 400;
+      transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .bracket-link:hover {
+      color: var(--primary-hover);
+    }
+
+    .bracket-link:hover .bracket-left {
+      transform: translateX(-6px);
+    }
+
+    .bracket-link:hover .bracket-right {
+      transform: translateX(6px);
+    }
+
+    /* Keyframes from Coffee Loader */
+    @keyframes cup {
+      from, 25%, 75%, to { left: 0; }
+      50% { left: 21.5em; }
+    }
+    @keyframes cup-part-a {
+      from, 50%, to { width: 11.25em; }
+      25%, 75% { width: calc(11.25em + 21.5em); }
+    }
+    @keyframes cup-part-b {
+      from, 50%, to { width: 11.25em; }
+      25%, 75% { width: calc(11.25em + 21.5em); }
+    }
+    @keyframes cup-part-c {
+      from, 50%, to { width: 3.4em; }
+      25%, 75% { width: calc(3.4em + 21.5em); }
+    }
+    @keyframes cup-part-d {
+      from, 50%, to { width: 7.2em; }
+      25%, 75% { width: calc(7.2em + 21.5em); }
+    }
+    @keyframes cup-part-e {
+      from, 50%, to {
+        box-shadow:
+          0 0 0 0.2em var(--fg) inset,
+          0 1em 0 var(--bg) inset;
+        width: 7em;
+      }
+      25%, 75% {
+        box-shadow:
+          0 0 0 0.2em var(--fg) inset,
+          0 1.5em 0 var(--bg) inset;
+        width: calc(7em + 21.5em);
+      }
+    }
+    @keyframes cup-part-f {
+      from {
+        left: 5.925em;
+        z-index: 0;
+      }
+      25% {
+        left: calc(5.925em + 8.35em);
+        z-index: 0;
+      }
+      50% {
+        left: 0.525em;
+        z-index: 0;
+      }
+      50.01% {
+        left: 0.525em;
+        z-index: 1;
+      }
+      75% {
+        left: calc(5.925em + 8.35em);
+        z-index: 1;
+      }
+      to {
+        left: 5.925em;
+        z-index: 1;
+      }
+    }
+    @keyframes cup-handle {
+      from, to {
+        animation-timing-function: ease-in;
+        d: path("M64,4.413s6.64-2.913,11-2.913c11.739,0,19.5,10.759,19.5,22.497,0,23.475-45,22.497-45,22.497");
+        transform: translate(0, 0);
+      }
+      10%, 40%, 60%, 90% {
+        animation-timing-function: ease-out;
+        d: path("M48.036,4.415s-.03-2.913-.049-2.913c-.052,0-.087,10.759-.087,22.497,0,23.475,.2,22.497,.2,22.497");
+        transform: translate(0, 15px);
+      }
+      50% {
+        animation-timing-function: ease-in;
+        d: path("M32,4.413s-6.64-2.913-11-2.913C9.261,1.5,1.5,12.259,1.5,23.997c0,23.475,45,22.497,45,22.497");
+        transform: translate(0, 0);
+      }
+    }
+    @keyframes steam-left {
+      from { stroke-dashoffset: 48; }
+      25%, to { stroke-dashoffset: -66; }
+    }
+    @keyframes steam-right {
+      from, 50% { stroke-dashoffset: 35; }
+      75%, to { stroke-dashoffset: -76; }
+    }
+
+    @media screen and (max-width: 479px) {
+      .top-bar {
+        top: 16px;
+        left: 18px;
+        right: 18px;
+        font-size: 10px;
+      }
+      .scribble-wrapper {
+        width: 95vw;
+        margin-bottom: -0.4em;
+      }
+      .headline {
+        font-size: 14px;
+      }
+      .subheadline {
+        font-size: 11.5px;
+      }
+      .bracket-link {
+        font-size: 12.5px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="top-bar">
+    <span>DAME LA LETRA</span>
+    <span>LOUISVILLE, KY</span>
+  </div>
+
+  <main class="stage">
+    <!-- Showrunners 404 Animated Hand-Drawn Graphic -->
+    <div class="scribble-wrapper">
+      <img
+        class="scribble-img"
+        src="/assets/404-frame.gif"
+        alt="404"
+        width="1280"
+        height="720"
+      />
+    </div>
+
+    <!-- Sliding Coffee Cup Animation -->
+    <div class="coffee" role="img" aria-label="Taza de café animada en construcción">
+      <div class="coffee__cup">
+        <div class="coffee__cup-part coffee__cup-part--a"></div>
+        <div class="coffee__cup-part coffee__cup-part--b"></div>
+        <div class="coffee__cup-part coffee__cup-part--c"></div>
+        <div class="coffee__cup-part coffee__cup-part--d"></div>
+        <div class="coffee__cup-part coffee__cup-part--e"></div>
+        <div class="coffee__cup-part coffee__cup-part--f">
+          <svg viewBox="0 0 96 60" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round">
+            <path class="coffee__cup-handle" d="M64,4.413s6.64-2.913,11-2.913c11.739,0,19.5,10.759,19.5,22.497,0,23.475-45,22.497-45,22.497"></path>
+          </svg>
+        </div>
+      </div>
+      <svg class="coffee__steam" viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round">
+        <path class="coffee__steam-part coffee__steam-part--a" d="M18,48 C10,36 26,24 18,8"></path>
+        <path class="coffee__steam-part coffee__steam-part--b" d="M28,50 C20,34 36,22 28,6"></path>
+        <path class="coffee__steam-part coffee__steam-part--c" d="M38,48 C30,36 46,24 38,10"></path>
+      </svg>
+      <svg class="coffee__steam coffee__steam--right" viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round">
+        <path class="coffee__steam-part coffee__steam-part--d" d="M22,48 C14,34 30,22 22,8"></path>
+        <path class="coffee__steam-part coffee__steam-part--e" d="M34,50 C26,34 42,22 34,6"></path>
+      </svg>
+    </div>
+
+    <!-- Copy & CTA -->
+    <div class="copy-stack">
+      <h1 class="headline">Estamos en desarrollo de esta web</h1>
+      <p class="subheadline">(en casa de herrero, cuchillo de palo)</p>
+
+      <a
+        class="bracket-link"
+        href="https://wa.me/15026731333?text=Hola%2C%20necesito%20Dame%20La%20Letra"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <span class="bracket bracket-left">[</span>
+        <span>ESCRÍBENOS POR WHATSAPP · (502) 673-1333</span>
+        <span class="bracket bracket-right">]</span>
+      </a>
+    </div>
+  </main>
+</body>
+</html>
