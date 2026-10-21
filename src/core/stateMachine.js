@@ -173,7 +173,9 @@ export class RequestStateMachine {
 
       if (provider) {
         const forwardToProvider = concierge.formatCustomerAnswerRelay(provider, text);
-        await channels.sendProviderBriefing(provider, activeWaitingClarification, forwardToProvider);
+        await channels.sendProviderBriefing(provider, activeWaitingClarification, forwardToProvider, {
+          isClarificationRelay: true
+        });
       }
 
       await channels.sendCustomerMessage(activeWaitingClarification, "Gracias. Ya le pasé los detalles a la especialista para que te dé el precio.");
@@ -476,7 +478,11 @@ export class RequestStateMachine {
 
       // Notify provider of connection
       const providerConfirmMsg = concierge.formatConnectionForProvider(request.conversation_reference, priceDisplay, request);
-      await channels.sendProviderBriefing(provider, request, providerConfirmMsg);
+      await channels.sendProviderBriefing(provider, request, providerConfirmMsg, {
+        connectionConfirmed: true,
+        customerPhone: request.conversation_reference,
+        quoteSummary: `${priceDisplay}${request.estimated_arrival ? " - " + request.estimated_arrival : ""}`
+      });
 
       return { status: "CONNECTED", connection };
     } else {
