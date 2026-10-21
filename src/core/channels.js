@@ -165,9 +165,10 @@ class ChannelHub extends EventEmitter {
 
   verifyCustomerTemplateOrFallbackToText(messageSid, fromNumber, toNumber, text, customerPhone = null) {
     if (!this.twilioClient || !messageSid) return;
-    setTimeout(async () => {
+    const checkCustomerTpl = async (attempt = 1) => {
       try {
         const msg = await this.twilioClient.messages(messageSid).fetch();
+        if (msg.status === "delivered" || msg.status === "read") return;
         if (msg.status === "undelivered" || msg.status === "failed" || msg.errorCode) {
           console.warn(`[TWILIO CUSTOMER TEMPLATE FALLBACK] Template ${messageSid} failed (${msg.status}/${msg.errorCode}). Sending plain WhatsApp text...`);
           const fallbackWa = await this.twilioClient.messages.create({
@@ -187,13 +188,18 @@ class ChannelHub extends EventEmitter {
                   });
                 }
               } catch (e) {}
-            }, 2500);
+            }, 5500);
           }
+          return;
+        }
+        if ((msg.status === "queued" || msg.status === "sending" || msg.status === "accepted" || msg.status === "sent") && attempt < 4) {
+          setTimeout(() => checkCustomerTpl(attempt + 1), 2500);
         }
       } catch (err) {
         console.warn(`[TWILIO CUSTOMER TEMPLATE CHECK WARNING] ${err.message}`);
       }
-    }, 2500);
+    };
+    setTimeout(() => checkCustomerTpl(1), 2500);
   }
 
   async sendProviderBriefing(provider, request, briefingText, meta = {}) {
@@ -291,6 +297,9 @@ class ChannelHub extends EventEmitter {
     const checkDelivery = async (attempt = 1) => {
       try {
         const msg = await this.twilioClient.messages(messageSid).fetch();
+        if (msg.status === "delivered" || msg.status === "read") {
+          return;
+        }
         if (msg.status === "undelivered" || msg.status === "failed" || msg.errorCode) {
           const fromWhatsApp = process.env.TWILIO_WHATSAPP_NUMBER || `whatsapp:${process.env.TWILIO_PHONE_NUMBER}`;
           const toWhatsApp = `whatsapp:${provider.phone}`;
@@ -349,26 +358,34 @@ class ChannelHub extends EventEmitter {
               contentVariables: JSON.stringify(templateVars)
             });
             console.log(`[TWILIO WHATSAPP TEMPLATE SENT] SID: ${tplMsg.sid} to ${toWhatsApp}`);
-            // Verify template delivery after 2.5s (in case template is still pending Meta approval)
-            setTimeout(async () => {
+            // Verify template delivery across up to 3 checks (in case Meta rejects or delays)
+            const verifyTpl = async (tplAttempt = 1) => {
               try {
                 const checkTpl = await this.twilioClient.messages(tplMsg.sid).fetch();
+                if (checkTpl.status === "delivered" || checkTpl.status === "read") return;
                 if (checkTpl.status === "undelivered" || checkTpl.status === "failed" || checkTpl.errorCode) {
                   console.warn(`[TWILIO WHATSAPP TEMPLATE NOT READY] (${checkTpl.status}/${checkTpl.errorCode}) -> Falling back to SMS`);
                   await sendSmsFallback();
+                  return;
+                }
+                if ((checkTpl.status === "queued" || checkTpl.status === "sending" || checkTpl.status === "accepted" || checkTpl.status === "sent") && tplAttempt < 3) {
+                  setTimeout(() => verifyTpl(tplAttempt + 1), 2500);
                 }
               } catch (e) {
                 await sendSmsFallback();
               }
-            }, 2500);
+            };
+            setTimeout(() => verifyTpl(1), 2500);
           } catch (tplErr) {
             console.warn(`[TWILIO WHATSAPP TEMPLATE ERROR] ${tplErr.message} -> Falling back to SMS`);
             await sendSmsFallback();
           }
           return;
         }
-        if ((msg.status === "queued" || msg.status === "sending" || msg.status === "accepted") && attempt < 2) {
-          setTimeout(() => checkDelivery(attempt + 1), 3000);
+        // Note: WhatsApp messages transition to "sent" when Twilio hands off to Meta (~1-2s),
+        // and Meta asynchronously returns "undelivered" (63016) at ~5-7s if the 24h window is closed.
+        if ((msg.status === "queued" || msg.status === "sending" || msg.status === "accepted" || msg.status === "sent") && attempt < 4) {
+          setTimeout(() => checkDelivery(attempt + 1), 2500);
         }
       } catch (err) {
         console.warn(`[TWILIO DELIVERY CHECK WARNING] Could not verify ${messageSid}:`, err.message);
