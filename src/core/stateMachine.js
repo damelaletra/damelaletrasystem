@@ -486,9 +486,11 @@ export class RequestStateMachine {
       });
 
       // Update provider capacity, monthly consultations used (10/month limit), and completed stats
+      const newMonthlyUsed = (provider.monthly_consultations_used || 0) + 1;
+      const monthlyLimit = provider.monthly_consultation_limit ?? 10;
       db.updateProvider(provider.id, {
         capacity_used_today: (provider.capacity_used_today || 0) + 1,
-        monthly_consultations_used: (provider.monthly_consultations_used || 0) + 1,
+        monthly_consultations_used: newMonthlyUsed,
         completed_connections: (provider.completed_connections || 0) + 1
       });
 
@@ -503,7 +505,10 @@ export class RequestStateMachine {
       });
 
       // Notify provider of connection
-      const providerConfirmMsg = concierge.formatConnectionForProvider(request.conversation_reference, priceDisplay, request);
+      let providerConfirmMsg = concierge.formatConnectionForProvider(request.conversation_reference, priceDisplay, request);
+      if (newMonthlyUsed >= monthlyLimit && provider.subscription_tier !== "TITULAR") {
+        providerConfirmMsg += `\n\n📌 *Aviso de tu cuenta:* Con este cliente completaste tus *${monthlyLimit} consultas disponibles*. Para seguir recibiendo clientes sin interrupción, solo escríbeme por aquí: *"Recárgame mi cuenta con diez más"* o *"Quiero el plan mensual"*.`;
+      }
       await channels.sendProviderBriefing(provider, request, providerConfirmMsg, {
         connectionConfirmed: true,
         customerPhone: request.conversation_reference,

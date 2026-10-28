@@ -2,6 +2,33 @@ import { db } from "./db.js";
 import { cognitiveEngine } from "./cognitiveEngine.js";
 import { channels } from "./channels.js";
 
+export const CATEGORY_PRICING_TIERS = {
+  // Escalón 1: Ticket Diario / Frecuencia
+  BEAUTY_BARBER: { tier: 1, label: "Ticket Diario", topup10Price: 45, monthlyTitularPrice: 29 },
+  CLEANING: { tier: 1, label: "Ticket Diario", topup10Price: 45, monthlyTitularPrice: 29 },
+  HANDYMAN: { tier: 1, label: "Ticket Diario", topup10Price: 45, monthlyTitularPrice: 29 },
+
+  // Escalón 2: Oficios Técnicos y Consultoría
+  PLUMBING: { tier: 2, label: "Oficios y Consultoría", topup10Price: 99, monthlyTitularPrice: 59 },
+  ELECTRICAL: { tier: 2, label: "Oficios y Consultoría", topup10Price: 99, monthlyTitularPrice: 59 },
+  AUTOMOTIVE: { tier: 2, label: "Oficios y Consultoría", topup10Price: 99, monthlyTitularPrice: 59 },
+  LOCKSMITH: { tier: 2, label: "Oficios y Consultoría", topup10Price: 99, monthlyTitularPrice: 59 },
+  APPLIANCE_REPAIR: { tier: 2, label: "Oficios y Consultoría", topup10Price: 99, monthlyTitularPrice: 59 },
+  TREE_SERVICE: { tier: 2, label: "Oficios y Consultoría", topup10Price: 99, monthlyTitularPrice: 59 },
+  CONSULTING_PROFESSIONAL: { tier: 2, label: "Oficios y Consultoría", topup10Price: 99, monthlyTitularPrice: 59 },
+  EVENTS_CATERING: { tier: 2, label: "Oficios y Consultoría", topup10Price: 99, monthlyTitularPrice: 59 },
+
+  // Escalón 3: Alto Ticket
+  LEGAL_SERVICES: { tier: 3, label: "Alto Ticket", topup10Price: 220, monthlyTitularPrice: 149 },
+  ROOFING: { tier: 3, label: "Alto Ticket", topup10Price: 220, monthlyTitularPrice: 149 },
+  HVAC: { tier: 3, label: "Alto Ticket", topup10Price: 220, monthlyTitularPrice: 149 },
+  TECH_SOFTWARE: { tier: 3, label: "Alto Ticket", topup10Price: 220, monthlyTitularPrice: 149 }
+};
+
+export function getCategoryPricing(category) {
+  return CATEGORY_PRICING_TIERS[category] || { tier: 2, label: "Oficios y Consultoría", topup10Price: 99, monthlyTitularPrice: 59 };
+}
+
 /**
  * Conversational Provider Onboarding & Profile Management Engine
  * Enables providers (like Miguel Sosa) to update their business profile, skills, rates,
@@ -10,6 +37,113 @@ import { channels } from "./channels.js";
 export class ProviderOnboardingEngine {
   async handleProviderDirectMessage(provider, rawMessage, channel = "WHATSAPP") {
     console.log(`[PROVIDER ONBOARDING] Direct message from ${provider.name} (${provider.phone}): "${rawMessage}"`);
+    const text = (rawMessage || "").trim();
+
+    // 0A. Direct WhatsApp Command: Recharge +10 Consultations ("recárgame mi cuenta con diez más", "recárgame 10 más", etc.)
+    const isRechargeCommand =
+      /(?:rec[aá]rgame|recargar|recarga|s[uú]mame|agr[eé]game|ponme|dame)\s+(?:mi\s+cuenta\s+con\s+)?(?:10|diez)\s*(?:consultas?\s*)?(?:m[aá]s)?|(?:rec[aá]rgame|recargar)\s+(?:mi\s+cuenta|mis?\s+consultas?)|(?:10|diez)\s+consultas?\s+m[aá]s/i.test(text);
+
+    if (isRechargeCommand) {
+      const currentLimit = provider.monthly_consultation_limit ?? 10;
+      const used = provider.monthly_consultations_used ?? 0;
+      const newLimit = currentLimit + 10;
+      const newRemaining = Math.max(0, newLimit - used);
+      const pricing = getCategoryPricing(provider.category);
+
+      const updatedProvider = db.updateProvider(provider.id, {
+        monthly_consultation_limit: newLimit,
+        availability_status: "AVAILABLE"
+      }) || provider;
+
+      db.logEvent(null, "PROVIDER_CONSULTATIONS_RECHARGED", "PROVIDER", {
+        provider_id: provider.id,
+        provider_name: provider.name,
+        category: provider.category,
+        added_consultations: 10,
+        new_limit: newLimit,
+        used: used,
+        remaining: newRemaining,
+        tier_price_ref: pricing.topup10Price
+      });
+
+      const rechargeReply =
+        `✅ ¡Listo, ${provider.name}! Ya recargué *+10 consultas* a tu cuenta de *${provider.display_name}*.\n\n` +
+        `📊 *Tu saldo actualizado:*\n` +
+        `• Consultas disponibles: *${newRemaining}*\n` +
+        `• Total acumuladas: *${used} usadas de ${newLimit}*\n\n` +
+        `¡Seguimos activos conectándote clientes en Louisville!`;
+
+      await channels.sendProviderDirectMessage(updatedProvider, rechargeReply, {
+        recharged: true,
+        addedConsultations: 10,
+        newLimit
+      });
+
+      return {
+        success: true,
+        provider: updatedProvider,
+        recharged: true,
+        reply: rechargeReply
+      };
+    }
+
+    // 0B. Direct WhatsApp Command: Check Consultation Balance ("cuántas consultas me quedan", "mi saldo", "mis consultas")
+    const isBalanceQuery =
+      /(?:cu[aá]ntas\s+consultas\s+me\s+quedan|saldo\s+de\s+consultas|estado\s+de\s+mi\s+cuenta|mis\s+consultas\s+disponibles)/i.test(text);
+
+    if (isBalanceQuery) {
+      const limit = provider.monthly_consultation_limit ?? 10;
+      const used = provider.monthly_consultations_used ?? 0;
+      const remaining = Math.max(0, limit - used);
+      const pricing = getCategoryPricing(provider.category);
+
+      const balanceReply =
+        `📊 *Estado de tu cuenta (${provider.display_name}):*\n` +
+        `• Consultas disponibles: *${remaining}* (has usado ${used} de ${limit})\n` +
+        `• Nivel actual: *${provider.subscription_tier === "TITULAR" ? "Miembro Titular (Primera Fila)" : "Por Paquete de Consultas"}*\n\n` +
+        `💡 Cuando quieras sumar más, solo escríbeme aquí: *"Recárgame mi cuenta con diez más"* ($${pricing.topup10Price}) o *"Quiero el plan mensual Titular"* ($${pricing.monthlyTitularPrice}/mes).`;
+
+      await channels.sendProviderDirectMessage(provider, balanceReply);
+      return {
+        success: true,
+        provider,
+        reply: balanceReply
+      };
+    }
+
+    // 0C. Direct WhatsApp Command: Upgrade to Monthly Titular Plan ("quiero el plan mensual", "plan titular")
+    const isMonthlyPlanCommand =
+      /(?:quiero|activar|act[ií]vame|ponme)\s+(?:el\s+)?(?:plan\s+mensual|plan\s+titular|membres[ií]a\s+mensual|membres[ií]a\s+titular)/i.test(text);
+
+    if (isMonthlyPlanCommand) {
+      const pricing = getCategoryPricing(provider.category);
+      const updatedProvider = db.updateProvider(provider.id, {
+        subscription_tier: "TITULAR",
+        monthly_consultation_limit: 9999,
+        availability_status: "AVAILABLE"
+      }) || provider;
+
+      db.logEvent(null, "PROVIDER_UPGRADED_TITULAR", "PROVIDER", {
+        provider_id: provider.id,
+        provider_name: provider.name,
+        category: provider.category,
+        monthly_price_ref: pricing.monthlyTitularPrice
+      });
+
+      const monthlyReply =
+        `🏆 ¡Excelente, ${provider.name}! Tu cuenta de *${provider.display_name}* quedó activada en el *Plan Mensual Titular* ($${pricing.monthlyTitularPrice}/mes).\n\n` +
+        `✨ *Beneficios activos:*\n` +
+        `• *Primera Fila (Prioridad Titular):* Recibes primero las solicitudes de tu categoría en Louisville.\n` +
+        `• *Consultas ilimitadas* en el mes.`;
+
+      await channels.sendProviderDirectMessage(updatedProvider, monthlyReply);
+      return {
+        success: true,
+        provider: updatedProvider,
+        upgraded: true,
+        reply: monthlyReply
+      };
+    }
 
     // 1. Extract structured profile updates using Cognitive Engine
     const analysis = await cognitiveEngine.extractProviderProfileUpdates(rawMessage, provider);

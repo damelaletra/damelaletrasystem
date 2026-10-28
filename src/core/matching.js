@@ -32,39 +32,45 @@ export function rankEligibleCandidates(eligibleEntries, request) {
       }
     }
 
-    // 5. Paid Priority score (influence only, capped at 1.0)
-    const paidPriorityScore = provider.priority_score || 0.0;
+    // 5. Commercial Queue Tier (Fila 1: Titulares/Pro vs Fila 2: Free Launch / Top-up)
+    // Quality/SLA gates already passed in eligibility.js.
+    // Within each queue tier, ranking is 100% by merit (Proximity 40%, Reliability 30%, Speed 20%, Affinity 10%).
+    const isTitularTier =
+      provider.subscription_tier === "TITULAR" ||
+      provider.subscription_tier === "PRO" ||
+      provider.subscription_tier === "FOUNDING" ||
+      provider.subscription_tier === "UNLIMITED";
+    const queueTier = isTitularTier ? 1 : 2;
 
-    // Weighted composite score:
-    // Proximity: 35%
-    // Reliability: 25%
-    // Response Speed: 20%
-    // Affinity: 10%
-    // Paid Priority: 10%
     const finalScore =
-      (0.35 * proximityScore) +
-      (0.25 * reliabilityScore) +
+      (0.40 * proximityScore) +
+      (0.30 * reliabilityScore) +
       (0.20 * responseSpeedScore) +
-      (0.10 * affinityScore) +
-      (0.10 * paidPriorityScore);
+      (0.10 * affinityScore);
 
     return {
       provider,
       distanceMiles,
       progressiveInquiry,
+      queueTier,
       scores: {
         proximity: parseFloat(proximityScore.toFixed(3)),
         reliability: parseFloat(reliabilityScore.toFixed(3)),
         responseSpeed: parseFloat(responseSpeedScore.toFixed(3)),
         affinity: parseFloat(affinityScore.toFixed(3)),
-        paidPriority: parseFloat(paidPriorityScore.toFixed(3)),
+        queueTier,
         final: parseFloat(finalScore.toFixed(3))
       }
     };
   });
 
-  // Sort descending by final score
-  scored.sort((a, b) => b.scores.final - a.scores.final);
+  // Sort by Queue Tier first (Fila 1 Titulares -> Fila 2 Free/Desborde), then descending by pure merit score
+  scored.sort((a, b) => {
+    if (a.queueTier !== b.queueTier) {
+      return a.queueTier - b.queueTier;
+    }
+    return b.scores.final - a.scores.final;
+  });
 
   return scored;
 }

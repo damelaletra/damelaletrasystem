@@ -293,7 +293,7 @@ app.post(["/api/webhooks/twilio", "/webhooks/twilio"], async (req, res) => {
 
       const isExplicitProfileUpdate =
         !isBusinessRegistrationFlow &&
-        /(actualiza|actualizar|agrégame|agregame|agregar|añade|anade|ponme disponible|mi horario|mis servicios|mi perfil|mi tarifa|quítame|quitame)/i.test(finalBodyText);
+        /(actualiza|actualizar|agrégame|agregame|agregar|añade|anade|ponme disponible|mi horario|mis servicios|mi perfil|mi tarifa|quítame|quitame|rec[aá]rgame|recargar|10\s+consultas?\s+m[aá]s|diez\s+m[aá]s|cu[aá]ntas\s+consultas\s+me\s+quedan|plan\s+mensual|plan\s+titular)/i.test(finalBodyText);
 
       const isExplicitCustomerNeed =
         !isBusinessRegistrationFlow &&
