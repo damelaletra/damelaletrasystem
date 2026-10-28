@@ -35,8 +35,17 @@ Categorías soportadas en Louisville:
 - EVENTS_CATERING (Catering criollo, puerco asado, fotografía, video, DJs, sonido para fiestas) [Modalidad: Evento / Cotización]
 - BEAUTY_BARBER (Barbería, cortes, peinados, uñas, maquillaje a domicilio o cita) [Modalidad: Cita programada]
 - INFORMATION (Consultas sobre clima, precio del dólar, eventos locales, restaurantes abiertos) [Modalidad: Respuesta Directa de Información]
+- BUSINESS_REGISTRATION (Inscripción o registro de un negocio/profesional para ofrecer sus servicios en Dame La Letra) [Modalidad: Inscripción Gratuita de Negocio]
 
 Reglas clave:
+- REGLA CRÍTICA DE INSCRIPCIÓN GRATUITA DE NEGOCIOS ('BUSINESS_REGISTRATION'):
+  * Si una persona solicita inscribir, registrar, anunciar o dar de alta su negocio o sus servicios profesionales en Dame La Letra (ej. "Quiero registrar mi negocio en Dame la letra", "Cómo me inscribo", "Quiero ofrecer mis servicios", "Cuánto cuesta inscribirse"), o envía los datos/flyer de su negocio después de pedir inscribirse:
+  * Marca "service_category": "BUSINESS_REGISTRATION".
+  * CONDICIONES OFICIALES DE LANZAMIENTO (ESPECIFICAR SIEMPRE SIN EXCEPCIÓN):
+    1. La inscripción es 100% GRATUITA (no cobrar absolutamente nada por inscribirse).
+    2. Por ahora, se les otorga un total de DIEZ (10) CONSULTAS AL MES sin costo.
+    3. Especificar claramente que NO está disponible la opción de recordatorios ni agendamientos de citas; el sistema brinda SOLAMENTE EL CONTACTO directo con el cliente.
+  * Si la persona dijo que quería inscribir su negocio y envía una foto (flyer, tarjeta, poster), NUNCA la trates como una avería ni como un cliente buscando contratar a otro profesional; úsala únicamente para extraer los datos e inscribir su negocio.
 - REGLA UNIVERSAL DE DESAMBIGUACIÓN (PARA CADA CATEGORÍA):
   * Si el cliente solicita un profesional o servicio de forma genérica ("un plomero", "un mecánico", "un electricista", "un cerrajero", "limpieza", "un contador", "un handyman", "un techero", "un abogado", "un diseñador", etc.) SIN detallar la falla o tarea concreta:
   * NO asumas el sub-servicio ni la urgencia.
@@ -80,7 +89,7 @@ export class BaseCognitiveEngine {
   async transcribeAudio(audioBuffer, mimeType) {
     throw new Error("transcribeAudio must be implemented");
   }
-  async analyzeDamagePhoto(imageBuffer, mimeType) {
+  async analyzeDamagePhoto(imageBuffer, mimeType, contextOptions = {}) {
     throw new Error("analyzeDamagePhoto must be implemented");
   }
   async understandCustomerMessage(rawText, conversationState) {
@@ -91,6 +100,9 @@ export class BaseCognitiveEngine {
   }
   async extractProviderProfileUpdates(rawText, currentProfile) {
     throw new Error("extractProviderProfileUpdates must be implemented");
+  }
+  async extractBusinessRegistrationInfo(rawText, visualAnalysis = null) {
+    throw new Error("extractBusinessRegistrationInfo must be implemented");
   }
 }
 
@@ -264,6 +276,101 @@ export class DeterministicFallbackCognitiveAdapter extends BaseCognitiveEngine {
         : `¡Hola ${currentProfile.name || "Colega"}! Qué gusto saludarte. ¿Necesitas solicitar algún servicio o consulta hoy, o deseas actualizar algún dato de tu negocio?`
     };
   }
+
+  async extractBusinessRegistrationInfo(rawText, visualAnalysis = null) {
+    if (visualAnalysis && visualAnalysis.business_registration_data && visualAnalysis.business_registration_data.name) {
+      return {
+        has_enough_info: true,
+        business_data: visualAnalysis.business_registration_data
+      };
+    }
+
+    const text = (rawText || "").trim();
+    const lower = text.toLowerCase();
+
+    // Detect if the message only asks to register without specifying the business details yet
+    const strippedInquiry = lower
+      .replace(/\[[^\]]*\]/g, "")
+      .replace(/(hola|buenos d[ií]as|buenas tardes|buenas noches|por favor|gracias|dame la letra|en dame la letra)/gi, "")
+      .replace(/(quiero|quisi[eé]ra|me gustar[ií]a|puedo|c[oó]mo|para|deseo|necesito)\s+(registrar|inscribir|anunciar|meter|agregar|subir|poner)\s+(mi\s+)?(negocio|empresa|servicios?|trabajo|perfil)/gi, "")
+      .replace(/(quiero\s+)?(inscribirme|registrarme|anunciarme)/gi, "")
+      .replace(/cu[aá]nto\s+cuesta\s+(la\s+)?(inscripci[oó]n|inscribirse|registrarse|anunciarse)/gi, "")
+      .replace(/[.,!?¿¡\s]+/g, " ")
+      .trim();
+
+    if (strippedInquiry.length < 6 && !visualAnalysis) {
+      return {
+        has_enough_info: false,
+        business_data: null
+      };
+    }
+
+    let category = visualAnalysis?.suggested_category || "CONSULTING_PROFESSIONAL";
+    const services = [];
+    let legalSpecialties = null;
+
+    if (/(abogad|inmigraci[oó]n\s+jur[ií]dica|defensa|corte|accidente|divorcio|leyes|bufete|legal)/i.test(text)) {
+      category = "LEGAL_SERVICES";
+      services.push("IMMIGRATION", "LEGAL_GENERAL");
+      legalSpecialties = ["IMMIGRATION", "GENERAL_PRACTICE"];
+    } else if (/(plomer|tuber[ií]a|fuga|destup)/i.test(text)) {
+      category = "PLUMBING";
+      services.push("PIPE_LEAK", "DRAIN_CLEARING", "EMERGENCY_PLUMBING");
+    } else if (/(aire|hvac|calefacci[oó]n|refrigeraci[oó]n)/i.test(text)) {
+      category = "HVAC";
+      services.push("AC_REPAIR", "HEATING_REPAIR");
+    } else if (/(mec[aá]nic|goma|gr[uú]a|carro|auto|bater[ií]a)/i.test(text)) {
+      category = "AUTOMOTIVE";
+      services.push("MOBILE_MECHANIC", "TIRE_CHANGE", "TOWING");
+    } else if (/(electricista|el[eé]ctric|breaker|panel)/i.test(text)) {
+      category = "ELECTRICAL";
+      services.push("PANEL_REPAIR", "WIRING");
+    } else if (/(techo|roofing|gotera|shingle)/i.test(text)) {
+      category = "ROOFING";
+      services.push("ROOF_REPAIR", "ROOF_INSPECTION");
+    } else if (/(handyman|drywall|pintura|reparaci[oó]n|carpinter)/i.test(text)) {
+      category = "HANDYMAN";
+      services.push("DRYWALL_REPAIR", "PAINTING", "GENERAL_REPAIR");
+    } else if (/(limpieza|cleaning)/i.test(text)) {
+      category = "CLEANING";
+      services.push("DEEP_CLEANING", "RESIDENTIAL_CLEANING");
+    } else if (/(cerrajer|locksmith|llave)/i.test(text)) {
+      category = "LOCKSMITH";
+      services.push("CAR_LOCKOUT", "HOME_LOCKOUT");
+    } else if (/(barber|peluquer|u[ñn]as|belleza|maquillaje|salon|sal[oó]n)/i.test(text)) {
+      category = "BEAUTY_BARBER";
+      services.push("HAIRCUT", "BARBER_SERVICE");
+    } else if (/(web|software|dise[ñn]o|logo|marketing|redes|app)/i.test(text)) {
+      category = "TECH_SOFTWARE";
+      services.push("WEB_DEVELOPMENT", "GRAPHIC_DESIGN", "DIGITAL_MARKETING");
+    } else if (/(tax|impuesto|contab|notar[ií]a|itin|tr[aá]mite)/i.test(text)) {
+      category = "CONSULTING_PROFESSIONAL";
+      services.push("TAX_PREPARATION", "NOTARY_PUBLIC", "BUSINESS_CONSULTING");
+    } else if (/(catering|comida|evento|fiesta|dj|fotograf)/i.test(text)) {
+      category = "EVENTS_CATERING";
+      services.push("CATERING", "EVENT_SERVICES");
+    }
+
+    if (visualAnalysis?.suggested_service_type && !services.includes(visualAnalysis.suggested_service_type)) {
+      services.push(visualAnalysis.suggested_service_type);
+    }
+
+    const nameMatch = text.match(/(?:me llamo|soy|mi nombre es|negocio(?:\s+se\s+llama)?|empresa(?:\s+se\s+llama)?)\s*:?\s*([A-ZÁÉÍÓÚÑa-záéíóúñ0-9\s&.,-]{3,50})/i);
+    const extractedName = nameMatch ? nameMatch[1].trim() : (strippedInquiry.length >= 3 ? strippedInquiry.slice(0, 60) : "Negocio Local");
+
+    return {
+      has_enough_info: strippedInquiry.length >= 6 || Boolean(visualAnalysis),
+      business_data: {
+        name: extractedName,
+        display_name: extractedName,
+        category,
+        services: services.length > 0 ? services : ["GENERAL_SERVICE"],
+        legal_specialties: legalSpecialties,
+        location_raw: "Louisville, KY",
+        bio: visualAnalysis?.detected_problem || text
+      }
+    };
+  }
 }
 
 /**
@@ -324,25 +431,42 @@ export class GeminiCognitiveAdapter extends BaseCognitiveEngine {
     }
   }
 
-  async analyzeDamagePhoto(imageBuffer, mimeType = "image/jpeg") {
+  async analyzeDamagePhoto(imageBuffer, mimeType = "image/jpeg", contextOptions = {}) {
     if (!this.isAvailable()) {
-      return this.fallbackAdapter.analyzeDamagePhoto(imageBuffer, mimeType);
+      return this.fallbackAdapter.analyzeDamagePhoto(imageBuffer, mimeType, contextOptions);
     }
 
     try {
       const cleanMime = (mimeType || "image/jpeg").split(";")[0].trim();
-      console.log(`[COGNITIVE ENGINE -> GEMINI] Analyzing damage image (${cleanMime}, ${imageBuffer.length} bytes)...`);
+      const isRegistrationContext = Boolean(contextOptions?.isRegistrationContext);
+      console.log(`[COGNITIVE ENGINE -> GEMINI] Analyzing image (${cleanMime}, ${imageBuffer.length} bytes, registrationContext=${isRegistrationContext})...`);
 
-      const promptText = `Analiza detalladamente esta fotografía enviada por un cliente a la plataforma "Dame La Letra" en Louisville, Kentucky.
-Tu misión es identificar la avería o trabajo necesario para los técnicos locales (plomeros, electricistas, mecánicos, techeros, etc.).
+      const contextNotice = isRegistrationContext
+        ? `CONTEXTO CRÍTICO OBLIGATORIO: La persona que envió esta foto acaba de decir que QUIERE INSCRIBIR/REGISTRAR SU NEGOCIO en Dame La Letra. Por lo tanto, esta foto NO es una avería ni busca contratar un servicio como cliente; es el flyer, tarjeta o imagen de presentación de SU PROPIO NEGOCIO para inscribirlo. DEBES marcar "is_business_flyer": true y extraer todos los datos del negocio en "business_registration_data".`
+        : `IMPORTANTE: Primero determina si la imagen es un FLYER PUBLICITARIO / TARJETA DE PRESENTACIÓN / PÓSTER PROMOCIONAL de un negocio o profesional ("is_business_flyer": true), o si es una fotografía de una avería, daño físico o problema que un cliente necesita resolver ("is_business_flyer": false).`;
+
+      const promptText = `Analiza detalladamente esta fotografía enviada a la plataforma "Dame La Letra" en Louisville, Kentucky.
+${contextNotice}
+${contextOptions?.captionText ? `Texto adjunto del usuario: "${contextOptions.captionText}"` : ""}
 
 Devuelve ÚNICAMENTE un objeto JSON válido con este formato:
 {
-  "detected_problem": "descripción técnica y concisa de la avería o trabajo que se observa",
-  "suggested_category": "PLUMBING" | "HVAC" | "AUTOMOTIVE" | "LOCKSMITH" | "ROOFING" | "ELECTRICAL" | "HANDYMAN" | "APPLIANCE_REPAIR" | "CLEANING" | "TREE_SERVICE" | "TECH_SOFTWARE",
-  "suggested_service_type": "string específico (ej. WATER_LEAK, FLAT_TIRE, AC_COIL, WATER_HEATER, BREAKER_PANEL, ROOF_LEAK, APPLIANCE_ISSUE)",
+  "is_business_flyer": boolean (true si es un flyer, tarjeta de presentación, anuncio de servicios o si está en contexto de inscripción de negocio; false si es una foto de una avería/problema de un cliente),
+  "business_registration_data": {
+    "name": "Nombre del profesional o negocio (ej. Joanna Soler Betancourt)",
+    "display_name": "Nombre comercial completo con especialidad (ej. Joanna Soler Betancourt — Abogada de Inmigración)",
+    "category": "PLUMBING" | "HVAC" | "AUTOMOTIVE" | "LOCKSMITH" | "ROOFING" | "ELECTRICAL" | "HANDYMAN" | "APPLIANCE_REPAIR" | "CLEANING" | "TREE_SERVICE" | "TECH_SOFTWARE" | "CONSULTING_PROFESSIONAL" | "LEGAL_SERVICES" | "EVENTS_CATERING" | "BEAUTY_BARBER",
+    "services": ["lista de servicios en mayúsculas, ej. IMMIGRATION, PERSONAL_INJURY, PIPE_LEAK, WEB_DEVELOPMENT"],
+    "legal_specialties": ["IMMIGRATION", "PERSONAL_INJURY", "CRIMINAL", "FAMILY", "TRAFFIC_TICKET"] | null,
+    "contact_phone_in_image": "teléfono que aparece impreso en la imagen o null",
+    "location_raw": "ciudad o dirección si aparece, o Louisville, KY",
+    "bio": "Resumen claro en primera o tercera persona de todos los servicios que ofrece el negocio según el flyer/imagen"
+  } | null,
+  "detected_problem": "Si is_business_flyer es true, escribe: 'Inscripción de negocio por flyer/imagen: [Nombre y servicios que ofrece]'. Si is_business_flyer es false, descripción técnica y concisa de la avería o trabajo que se observa",
+  "suggested_category": "PLUMBING" | "HVAC" | "AUTOMOTIVE" | "LOCKSMITH" | "ROOFING" | "ELECTRICAL" | "HANDYMAN" | "APPLIANCE_REPAIR" | "CLEANING" | "TREE_SERVICE" | "TECH_SOFTWARE" | "CONSULTING_PROFESSIONAL" | "LEGAL_SERVICES" | "EVENTS_CATERING" | "BEAUTY_BARBER",
+  "suggested_service_type": "string específico (ej. IMMIGRATION, WATER_LEAK, FLAT_TIRE, AC_COIL, WATER_HEATER, BREAKER_PANEL, ROOF_LEAK, APPLIANCE_ISSUE)",
   "urgency": "LOW" | "MEDIUM" | "HIGH" | "EMERGENCY",
-  "summary_for_technician": "resumen técnico de 1 o 2 oraciones sobre qué herramientas, materiales o repuestos se observan necesarios"
+  "summary_for_technician": "resumen de 1 o 2 oraciones"
 }`;
 
       const response = await this.client.models.generateContent({
@@ -362,10 +486,13 @@ Devuelve ÚNICAMENTE un objeto JSON válido con este formato:
       });
 
       const parsed = JSON.parse(response.text.trim());
-      console.log(`[COGNITIVE ENGINE -> GEMINI] Damage photo analysis:`, parsed);
+      if (isRegistrationContext && parsed) {
+        parsed.is_business_flyer = true;
+      }
+      console.log(`[COGNITIVE ENGINE -> GEMINI] Image analysis:`, parsed);
       return parsed;
     } catch (err) {
-      console.error("[COGNITIVE ENGINE -> GEMINI] Damage photo analysis failed:", err.message);
+      console.error("[COGNITIVE ENGINE -> GEMINI] Image analysis failed:", err.message);
       return null;
     }
   }
@@ -376,7 +503,7 @@ Devuelve ÚNICAMENTE un objeto JSON válido con este formato:
     }
 
     try {
-      const prompt = `Analiza el siguiente mensaje de un cliente en Louisville, KY:
+      const prompt = `Analiza el siguiente mensaje de un usuario en Louisville, KY:
 Mensaje: "${rawText}"
 Estado previo de la conversación: ${JSON.stringify(conversationState || {})}
 
@@ -385,7 +512,7 @@ Devuelve ÚNICAMENTE un JSON con:
   "is_affirmation": boolean (true si el cliente dice sí, dale, perfecto, confirma, conéctalo, etc.),
   "is_decline": boolean (true si dice no, cancela, no quiero, busca otro),
   "is_clarification_answer": boolean,
-  "service_category": "PLUMBING" | "HVAC" | "AUTOMOTIVE" | "LOCKSMITH" | "ROOFING" | "ELECTRICAL" | "HANDYMAN" | "APPLIANCE_REPAIR" | "CLEANING" | "TREE_SERVICE" | "TECH_SOFTWARE" | "CONSULTING_PROFESSIONAL" | "LEGAL_SERVICES" | "EVENTS_CATERING" | "BEAUTY_BARBER" | "INFORMATION" | null,
+  "service_category": "PLUMBING" | "HVAC" | "AUTOMOTIVE" | "LOCKSMITH" | "ROOFING" | "ELECTRICAL" | "HANDYMAN" | "APPLIANCE_REPAIR" | "CLEANING" | "TREE_SERVICE" | "TECH_SOFTWARE" | "CONSULTING_PROFESSIONAL" | "LEGAL_SERVICES" | "EVENTS_CATERING" | "BEAUTY_BARBER" | "INFORMATION" | "BUSINESS_REGISTRATION" | null,
   "service_type": string | null,
   "legal_specialty": "IMMIGRATION" | "PERSONAL_INJURY" | "CRIMINAL" | "FAMILY" | "TRAFFIC_TICKET" | "REAL_ESTATE_LEGAL" | "LABOR_EMPLOYMENT" | "BUSINESS_CORPORATE" | "UNKNOWN" | null,
   "needs_clarification": boolean,
@@ -394,7 +521,7 @@ Devuelve ÚNICAMENTE un JSON con:
   "urgency": "LOW" | "MEDIUM" | "HIGH" | "EMERGENCY",
   "property_type": "RESIDENTIAL" | "COMMERCIAL" | "UNKNOWN",
   "confidence": number (0.0 a 1.0),
-  "explanation": string (¡MUY IMPORTANTE! Si service_category es "INFORMATION", escribe aquí LA RESPUESTA DIRECTA QUE RECIBIRÁ EL CLIENTE EN WHATSAPP hablándole de tú en primera persona con datos reales de Louisville: horarios, direcciones, recomendaciones. JAMÁS escribas en tercera persona como "El usuario solicita..." ni "El usuario reitera...")
+  "explanation": string (¡MUY IMPORTANTE! Si service_category es "INFORMATION" o "BUSINESS_REGISTRATION", escribe aquí LA RESPUESTA DIRECTA QUE RECIBIRÁ EL USUARIO EN WHATSAPP hablándole de tú en primera persona. Si pide inscribir su negocio, especifica que la inscripción es GRATUITA, incluye 10 consultas al mes, y NO incluye recordatorios ni agendamiento de citas, solamente el contacto directo.)
 }`;
 
       const response = await this.client.models.generateContent({
@@ -539,6 +666,56 @@ Devuelve ÚNICAMENTE un JSON con este formato:
       return this.fallbackAdapter.extractProviderProfileUpdates(rawText, currentProfile);
     }
   }
+
+  async extractBusinessRegistrationInfo(rawText, visualAnalysis = null) {
+    if (visualAnalysis && visualAnalysis.business_registration_data && visualAnalysis.business_registration_data.name) {
+      return {
+        has_enough_info: true,
+        business_data: visualAnalysis.business_registration_data
+      };
+    }
+
+    if (!this.isAvailable()) {
+      return this.fallbackAdapter.extractBusinessRegistrationInfo(rawText, visualAnalysis);
+    }
+
+    try {
+      const prompt = `Un usuario en Louisville, KY quiere inscribir su negocio o servicios profesionales en "Dame La Letra".
+Mensaje recibido: "${rawText}"
+Análisis visual de imagen adjunta (si envió flyer/foto): ${JSON.stringify(visualAnalysis || null)}
+
+Determina si el usuario YA proporcionó los datos de su negocio (nombre del negocio/profesional y qué servicio o profesión ofrece, ya sea en el texto o en la foto/flyer), o si SOLAMENTE está preguntando cómo inscribirse / diciendo "Quiero registrar mi negocio" sin haber dado los datos todavía.
+
+Devuelve ÚNICAMENTE un JSON válido con este formato:
+{
+  "has_enough_info": boolean (true si ya sabemos qué negocio/profesión es o envió su flyer/foto; false si solo dijo "Quiero registrar mi negocio" sin dar nombre ni giro),
+  "business_data": {
+    "name": "Nombre del profesional o negocio",
+    "display_name": "Nombre comercial completo (ej. Joanna Soler Betancourt — Abogada de Inmigración)",
+    "category": "PLUMBING" | "HVAC" | "AUTOMOTIVE" | "LOCKSMITH" | "ROOFING" | "ELECTRICAL" | "HANDYMAN" | "APPLIANCE_REPAIR" | "CLEANING" | "TREE_SERVICE" | "TECH_SOFTWARE" | "CONSULTING_PROFESSIONAL" | "LEGAL_SERVICES" | "EVENTS_CATERING" | "BEAUTY_BARBER",
+    "services": ["lista de servicios en mayúsculas, ej. IMMIGRATION, PIPE_LEAK, WEB_DEVELOPMENT"],
+    "legal_specialties": ["IMMIGRATION", "PERSONAL_INJURY", "CRIMINAL", "FAMILY", "TRAFFIC_TICKET"] | null,
+    "location_raw": "Louisville, KY",
+    "bio": "Resumen profesional de los servicios que ofrece"
+  } | null
+}`;
+
+      const response = await this.client.models.generateContent({
+        model: this.modelName,
+        contents: prompt,
+        config: {
+          systemInstruction: SYSTEM_PROMPT,
+          responseMimeType: "application/json"
+        }
+      });
+
+      const parsed = JSON.parse(response.text.trim());
+      return parsed;
+    } catch (err) {
+      console.warn("[COGNITIVE ENGINE -> GEMINI] Business registration extraction fallback:", err.message);
+      return this.fallbackAdapter.extractBusinessRegistrationInfo(rawText, visualAnalysis);
+    }
+  }
 }
 
 /**
@@ -567,8 +744,8 @@ export class CognitiveEngineManager extends BaseCognitiveEngine {
     return this.adapter.transcribeAudio(audioBuffer, mimeType);
   }
 
-  async analyzeDamagePhoto(imageBuffer, mimeType) {
-    return this.adapter.analyzeDamagePhoto(imageBuffer, mimeType);
+  async analyzeDamagePhoto(imageBuffer, mimeType, contextOptions = {}) {
+    return this.adapter.analyzeDamagePhoto(imageBuffer, mimeType, contextOptions);
   }
 
   async understandCustomerMessage(rawText, conversationState) {
@@ -581,6 +758,10 @@ export class CognitiveEngineManager extends BaseCognitiveEngine {
 
   async extractProviderProfileUpdates(rawText, currentProfile) {
     return this.adapter.extractProviderProfileUpdates(rawText, currentProfile);
+  }
+
+  async extractBusinessRegistrationInfo(rawText, visualAnalysis = null) {
+    return this.adapter.extractBusinessRegistrationInfo(rawText, visualAnalysis);
   }
 }
 

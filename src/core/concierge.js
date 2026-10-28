@@ -470,9 +470,9 @@ export class ConversationalConcierge {
 
     if (modality === "APPOINTMENT_SCHEDULED") {
       if (isCustomOrNull) {
-        return `Listo. ${provider.display_name} puede agendar tu cita/visita (${etaText}) para hacerte un estimado personalizado. ¿Quieres que te lo conecte?`;
+        return `Listo. ${provider.display_name} tiene disponibilidad (${etaText}) para darte un estimado personalizado. ¿Quieres que te pase su contacto directo?`;
       }
-      return `Listo. ${provider.display_name} puede agendar tu cita/visita (${etaText}) y su estimado es ${priceDisplay || `$${priceNum}`}. ¿Quieres que te lo conecte?`;
+      return `Listo. ${provider.display_name} tiene disponibilidad (${etaText}) y su estimado es ${priceDisplay || `$${priceNum}`}. ¿Quieres que te pase su contacto directo?`;
     }
 
     // Default: EMERGENCY_DISPATCH
@@ -488,11 +488,11 @@ export class ConversationalConcierge {
     const modality = getServiceModality(category, serviceType);
 
     if (modality === "CONSULTING_PROJECT") {
-      return `Perfecto. Te conecto con ${provider.name} ahora: Tel. ${provider.phone}.\nYa le pasé los detalles de tu solicitud para coordinar tu cita/consulta (${arrivalTime || 'fecha acordada'}).`;
+      return `Perfecto. Aquí tienes el contacto directo de ${provider.name}: Tel. ${provider.phone}.\nYa le pasé tu número y los detalles de tu solicitud para que se comuniquen directamente (${arrivalTime || 'disponibilidad indicada'}).`;
     }
 
     if (modality === "APPOINTMENT_SCHEDULED") {
-      return `Perfecto. Te conecto con ${provider.name} ahora: Tel. ${provider.phone}.\nYa le pasé la información para coordinar y agendar tu cita/visita (${arrivalTime || 'fecha acordada'}).`;
+      return `Perfecto. Aquí tienes el contacto directo de ${provider.name}: Tel. ${provider.phone}.\nYa le pasé tu número y la información para que se pongan en contacto directamente (${arrivalTime || 'disponibilidad indicada'}).`;
     }
 
     return `Perfecto. Te conecto con ${provider.name} ahora: Tel. ${provider.phone}.\nYa le pasé la información de tu solicitud y está en camino (${arrivalTime || 'lo antes posible'}).`;
@@ -519,11 +519,11 @@ export class ConversationalConcierge {
       : `por ${cleanPriceDisplay}`;
 
     if (modality === "CONSULTING_PROJECT") {
-      return `¡Conexión Confirmada! El cliente aceptó tu propuesta ${priceLabel}. Contacto directo del cliente: ${customerPhone} para coordinar la cita y dar inicio a la consulta.`;
+      return `¡Conexión Confirmada! El cliente aceptó tu propuesta ${priceLabel}. Contacto directo del cliente: ${customerPhone} para que te comuniques directamente.`;
     }
 
     if (modality === "APPOINTMENT_SCHEDULED") {
-      return `¡Conexión Confirmada! El cliente aceptó tu propuesta ${priceLabel}. Contacto directo del cliente: ${customerPhone} para agendar la fecha y hora de la cita.`;
+      return `¡Conexión Confirmada! El cliente aceptó tu propuesta ${priceLabel}. Contacto directo del cliente: ${customerPhone} para que se pongan en contacto directamente.`;
     }
 
     return `¡Conexión Confirmada! El cliente aceptó tu cotización de ${priceDisplay || "servicio"}. Contacto directo del cliente: ${customerPhone}. ¡Gracias por atender a la comunidad!`;

@@ -309,6 +309,91 @@ class Database {
     return null;
   }
 
+  createProvider(providerData) {
+    const now = new Date().toISOString();
+    const existing = this.data.providers.find(
+      p => p.phone === providerData.phone && (!providerData.category || p.category === providerData.category)
+    );
+    if (existing) {
+      return this.updateProvider(existing.id, {
+        ...providerData,
+        subscription_tier: providerData.subscription_tier || existing.subscription_tier || "FREE_LAUNCH",
+        monthly_consultation_limit: providerData.monthly_consultation_limit ?? existing.monthly_consultation_limit ?? 10,
+        monthly_consultations_used: providerData.monthly_consultations_used ?? existing.monthly_consultations_used ?? 0,
+        scheduling_reminders_enabled: false,
+        connection_mode: "CONTACT_ONLY",
+        availability_status: "AVAILABLE"
+      });
+    }
+
+    const suffix = Date.now() + "-" + Math.floor(Math.random() * 1000);
+    const bizId = providerData.business_id || `biz-${suffix}`;
+    const provId = providerData.id || `prov-${suffix}`;
+
+    const newBusiness = {
+      id: bizId,
+      name: providerData.display_name || providerData.name || "Negocio Local Louisville",
+      contact_phone: providerData.phone,
+      contact_email: providerData.contact_email || null,
+      verified_status: "VERIFIED",
+      city: "Louisville",
+      state: "KY",
+      created_at: now
+    };
+
+    const newProvider = {
+      id: provId,
+      business_id: bizId,
+      name: providerData.name || "Profesional Local",
+      display_name: providerData.display_name || providerData.name || "Profesional Local",
+      phone: providerData.phone,
+      preferred_channel: providerData.preferred_channel || "WHATSAPP",
+      languages: providerData.languages || ["es", "en"],
+      category: providerData.category || "CONSULTING_PROFESSIONAL",
+      services: Array.isArray(providerData.services) && providerData.services.length > 0
+        ? providerData.services
+        : ["GENERAL_SERVICE"],
+      legal_specialties: providerData.legal_specialties || null,
+      residential_capable: providerData.residential_capable ?? 1,
+      commercial_capable: providerData.commercial_capable ?? 1,
+      license_status: "VERIFIED",
+      license_details: providerData.license_details || "Inscripción Gratuita de Lanzamiento (10 consultas/mes)",
+      base_location_name: providerData.base_location_name || "Louisville Metro",
+      base_latitude: providerData.base_latitude || 38.2527,
+      base_longitude: providerData.base_longitude || -85.7585,
+      max_radius_miles: providerData.max_radius_miles || 45,
+      availability_status: "AVAILABLE",
+      capacity_today: providerData.capacity_today || 10,
+      capacity_used_today: 0,
+      monthly_consultation_limit: providerData.monthly_consultation_limit ?? 10,
+      monthly_consultations_used: providerData.monthly_consultations_used ?? 0,
+      scheduling_reminders_enabled: false,
+      connection_mode: "CONTACT_ONLY",
+      conditional_rules: providerData.conditional_rules || {
+        default_callout_fee: null,
+        standard_response_time_min: 20
+      },
+      reliability_score: 0.95,
+      avg_response_time_sec: 30,
+      completed_connections: 0,
+      cancelled_connections: 0,
+      subscription_tier: providerData.subscription_tier || "FREE_LAUNCH",
+      priority_score: 0.90,
+      pricing_notes: providerData.pricing_notes || "Estimado personalizado en consulta",
+      bio: providerData.bio || "",
+      flyer_media_url: providerData.flyer_media_url || null,
+      created_at: now,
+      updated_at: now
+    };
+
+    this.data.businesses.push(newBusiness);
+    this.data.providers.push(newProvider);
+    this.save();
+    this.syncRecord('businesses', newBusiness);
+    this.syncRecord('providers', newProvider);
+    return newProvider;
+  }
+
   updateProvider(id, updates) {
     const idx = this.data.providers.findIndex(p => p.id === id);
     if (idx !== -1) {

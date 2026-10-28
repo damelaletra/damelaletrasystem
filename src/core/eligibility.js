@@ -98,6 +98,17 @@ export function checkProviderEligibility(provider, request) {
     };
   }
 
+  // Gate 4.5: Monthly consultation limit (10 consultations/month by default for free launch)
+  const monthlyLimit = provider.monthly_consultation_limit ?? 10;
+  const monthlyUsed = provider.monthly_consultations_used ?? 0;
+  if (monthlyUsed >= monthlyLimit) {
+    return {
+      eligible: false,
+      reason: "MONTHLY_CONSULTATION_LIMIT_REACHED",
+      details: "Monthly consultation limit reached (" + monthlyUsed + "/" + monthlyLimit + ")"
+    };
+  }
+
   // Gate 5: Licensing validation
   if (provider.license_status === "EXPIRED") {
     return {

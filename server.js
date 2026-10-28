@@ -199,9 +199,21 @@ app.post(["/api/webhooks/twilio", "/webhooks/twilio"], async (req, res) => {
         }
       }
 
-      // --- 2. PROCESAMIENTO VISUAL DE FOTOS DE AVERÍAS (MULTIMODAL VISION) ---
+      const BUSINESS_REG_REGEX = /(?:quiero|quisi[eé]ra|me\s+gustar[ií]a|puedo|c[oó]mo|como|para|deseo|necesito)\s+(?:registrar|inscribir|anunciar|meter|agregar|subir|poner|dar\s+de\s+alta)\s+(?:mi\s+)?(?:negocio|empresa|servicios?|trabajo|perfil|oficina|bufete|taller|barber[ií]a)|(?:registrar|inscribir|anunciar)\s+(?:mi\s+)?(?:negocio|empresa|servicios?)|(?:quiero\s+)?(?:inscribirme|registrarme|anunciarme)|cu[aá]nto\s+cuesta\s+(?:la\s+)?(?:inscripci[oó]n|inscribirse|registrarse|anunciarse)/i;
+      const recentPhoneReqs = db.getRecentRequestsForPhone(cleanPhone, 3);
+      const latestPhoneReq = recentPhoneReqs[0] || null;
+      const latestReqAgeMs = latestPhoneReq ? (Date.now() - new Date(latestPhoneReq.created_at || 0).getTime()) : Infinity;
+      const hasActiveBusinessRegistrationContext =
+        db.getRequests(r => r.conversation_reference === cleanPhone && r.status === "WAITING_BUSINESS_REGISTRATION").length > 0 ||
+        (latestPhoneReq && latestReqAgeMs <= 60 * 60 * 1000 && (
+          latestPhoneReq.service_category === "BUSINESS_REGISTRATION" ||
+          BUSINESS_REG_REGEX.test(latestPhoneReq.raw_message || "")
+        )) ||
+        BUSINESS_REG_REGEX.test(finalBodyText);
+
+      // --- 2. PROCESAMIENTO VISUAL DE FOTOS (AVERÍAS O FLYERS DE INSCRIPCIÓN DE NEGOCIO) ---
       if (numMedia > 0 && mediaContentType0 && mediaContentType0.startsWith("image/")) {
-        console.log(`\n[TWILIO WEBHOOK] Foto de avería detectada desde ${cleanPhone} de tipo ${mediaContentType0}`);
+        console.log(`\n[TWILIO WEBHOOK] Imagen detectada desde ${cleanPhone} de tipo ${mediaContentType0} (registrationContext=${hasActiveBusinessRegistrationContext})`);
         try {
           const auth = Buffer.from(process.env.TWILIO_ACCOUNT_SID + ":" + process.env.TWILIO_AUTH_TOKEN).toString('base64');
           const fetchResponse = await fetch(mediaUrl0, {
@@ -218,8 +230,17 @@ app.post(["/api/webhooks/twilio", "/webhooks/twilio"], async (req, res) => {
             publicMediaUrl = `${serverBaseUrl}/api/media/${mediaId}`;
 
             const { cognitiveEngine } = await import("./src/core/cognitiveEngine.js");
-            visualAnalysis = await cognitiveEngine.analyzeDamagePhoto(buffer, mediaContentType0);
-            if (visualAnalysis && visualAnalysis.detected_problem) {
+            visualAnalysis = await cognitiveEngine.analyzeDamagePhoto(buffer, mediaContentType0, {
+              isRegistrationContext: hasActiveBusinessRegistrationContext,
+              captionText: finalBodyText
+            });
+            if (hasActiveBusinessRegistrationContext || visualAnalysis?.is_business_flyer) {
+              const bizDesc = visualAnalysis?.business_registration_data?.display_name
+                ? `${visualAnalysis.business_registration_data.display_name} — ${visualAnalysis.business_registration_data.bio || visualAnalysis.detected_problem || ""}`
+                : (visualAnalysis?.detected_problem || "Flyer/tarjeta de negocio");
+              const flyerNote = `[Flyer/Imagen de negocio para inscripción]: ${bizDesc}`;
+              finalBodyText = finalBodyText ? `${finalBodyText}\n${flyerNote}` : flyerNote;
+            } else if (visualAnalysis && visualAnalysis.detected_problem) {
               const photoNote = `[Foto analizada por IA]: ${visualAnalysis.detected_problem}`;
               finalBodyText = finalBodyText ? `${finalBodyText}\n${photoNote}` : photoNote;
             }
@@ -265,10 +286,17 @@ app.post(["/api/webhooks/twilio", "/webhooks/twilio"], async (req, res) => {
         )
       )[0];
 
+      const isBusinessRegistrationFlow =
+        hasActiveBusinessRegistrationContext ||
+        Boolean(visualAnalysis?.is_business_flyer) ||
+        BUSINESS_REG_REGEX.test(finalBodyText);
+
       const isExplicitProfileUpdate =
+        !isBusinessRegistrationFlow &&
         /(actualiza|actualizar|agrégame|agregame|agregar|añade|anade|ponme disponible|mi horario|mis servicios|mi perfil|mi tarifa|quítame|quitame)/i.test(finalBodyText);
 
       const isExplicitCustomerNeed =
+        !isBusinessRegistrationFlow &&
         !isExplicitProfileUpdate &&
         (
           Boolean(extraMetadata.mediaUrl) ||
@@ -276,7 +304,10 @@ app.post(["/api/webhooks/twilio", "/webhooks/twilio"], async (req, res) => {
           /(necesito|busco|quiero contratar|me urge|se me rompió|se me rompio|se me ponchó|se me poncho|tengo una fuga|tengo una gotera|dejé la llave|deje la llave|no enciende|no enfría|no enfria|quién hace|quien hace|tienes algún|tienes algun|algún plomero|algun plomero|algún mecánico|algun mecanico|algún abogado|algun abogado|algún contador|algun contador|una consulta|hacer mis taxes|precio del dólar|precio del dolar)/i.test(finalBodyText)
         );
 
-      if (provider && isExplicitProfileUpdate) {
+      if (isBusinessRegistrationFlow && !waitingReq) {
+        console.log(`[TWILIO WEBHOOK] Inbound identified as Business Registration Flow from ${cleanPhone}`);
+        await providerOnboarding.handleNewBusinessRegistration(cleanPhone, finalBodyText, channel, extraMetadata);
+      } else if (provider && isExplicitProfileUpdate) {
         console.log(`[TWILIO WEBHOOK] Inbound identified as Explicit Provider Profile Update: ${provider.name} (${cleanPhone})`);
         await providerOnboarding.handleProviderDirectMessage(provider, finalBodyText, channel);
       } else if (activeCustomerFlowReq && !waitingReq) {

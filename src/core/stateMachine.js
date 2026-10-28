@@ -7,6 +7,9 @@ import { channels } from "./channels.js";
 import { handleExternalFallback } from "./fallback.js";
 import { isCustomerAcceptance, isCustomerDecline, concierge } from "./concierge.js";
 import { cognitiveEngine } from "./cognitiveEngine.js";
+import { providerOnboarding } from "./providerOnboarding.js";
+
+const BUSINESS_REG_REGEX = /(?:quiero|quisi[eé]ra|me\s+gustar[ií]a|puedo|c[oó]mo|como|para|deseo|necesito)\s+(?:registrar|inscribir|anunciar|meter|agregar|subir|poner|dar\s+de\s+alta)\s+(?:mi\s+)?(?:negocio|empresa|servicios?|trabajo|perfil|oficina|bufete|taller|barber[ií]a)|(?:registrar|inscribir|anunciar)\s+(?:mi\s+)?(?:negocio|empresa|servicios?)|(?:quiero\s+)?(?:inscribirme|registrarme|anunciarme)|cu[aá]nto\s+cuesta\s+(?:la\s+)?(?:inscripci[oó]n|inscribirse|registrarse|anunciarse)/i;
 
 /**
  * Request State Machine & Master Orchestrator
@@ -18,6 +21,18 @@ import { cognitiveEngine } from "./cognitiveEngine.js";
 export class RequestStateMachine {
   async processCustomerInput(rawMessage, channel = "WEB", conversationRef = "conv-1", extraMetadata = {}) {
     const text = (rawMessage || "").trim();
+
+    // 0. Check if user is in Business Registration flow or requesting to register their business
+    const activeWaitingReg = db.getRequests(
+      r => r.conversation_reference === conversationRef && r.status === "WAITING_BUSINESS_REGISTRATION"
+    )[0];
+    if (
+      activeWaitingReg ||
+      Boolean(extraMetadata.visualAnalysis?.is_business_flyer) ||
+      BUSINESS_REG_REGEX.test(text)
+    ) {
+      return await providerOnboarding.handleNewBusinessRegistration(conversationRef, text, channel, extraMetadata);
+    }
 
     // 1a. Check if there is an active request waiting for customer confirmation or recent clarification on this conversation
     const activeWaitingCustomer = db.getRequests(
@@ -249,6 +264,16 @@ export class RequestStateMachine {
       }
     }
 
+    // 2.4 Business Registration Short-Circuit (if classified by AI)
+    if (understanding.service_category === "BUSINESS_REGISTRATION") {
+      db.updateRequest(request.id, {
+        status: "WAITING_BUSINESS_REGISTRATION",
+        service_category: "BUSINESS_REGISTRATION",
+        normalized_intent: "BUSINESS_REGISTRATION_INQUIRY"
+      });
+      return await providerOnboarding.handleNewBusinessRegistration(conversationRef, text, channel, extraMetadata);
+    }
+
     // 2.5 Information Query Short-Circuit
     if (understanding.service_category === "INFORMATION") {
       db.updateRequest(request.id, {
@@ -460,9 +485,10 @@ export class RequestStateMachine {
         completed_at: new Date().toISOString()
       });
 
-      // Update provider capacity and completed stats
+      // Update provider capacity, monthly consultations used (10/month limit), and completed stats
       db.updateProvider(provider.id, {
         capacity_used_today: (provider.capacity_used_today || 0) + 1,
+        monthly_consultations_used: (provider.monthly_consultations_used || 0) + 1,
         completed_connections: (provider.completed_connections || 0) + 1
       });
 

@@ -65,6 +65,133 @@ export class ProviderOnboardingEngine {
       reply: replyText
     };
   }
+
+  /**
+   * Handles new business registration requests (text inquiry or flyer/card photo).
+   * Enforces Free Launch Registration, 10 consultations/month limit, and Contact-Only scope (no scheduling/reminders).
+   */
+  async handleNewBusinessRegistration(phone, rawMessage, channel = "WHATSAPP", extraMetadata = {}) {
+    console.log(`[PROVIDER ONBOARDING] Business registration flow for ${phone}: "${rawMessage}"`);
+
+    const activeRegReq = db.getRequests(
+      r => r.conversation_reference === phone && r.status === "WAITING_BUSINESS_REGISTRATION"
+    )[0];
+
+    const regAnalysis = await cognitiveEngine.extractBusinessRegistrationInfo(
+      rawMessage,
+      extraMetadata.visualAnalysis || null
+    );
+
+    if (regAnalysis && regAnalysis.has_enough_info && regAnalysis.business_data) {
+      const bizData = regAnalysis.business_data;
+      const newProvider = db.createProvider({
+        name: bizData.name || "Profesional Local",
+        display_name: bizData.display_name || bizData.name || "Profesional Local",
+        phone: phone,
+        preferred_channel: channel === "SMS" ? "SMS" : "WHATSAPP",
+        category: bizData.category || "CONSULTING_PROFESSIONAL",
+        services: Array.isArray(bizData.services) && bizData.services.length > 0
+          ? bizData.services
+          : ["GENERAL_SERVICE"],
+        legal_specialties: bizData.legal_specialties || null,
+        base_location_name: bizData.location_raw || "Louisville, KY",
+        bio: bizData.bio || rawMessage,
+        flyer_media_url: extraMetadata.mediaUrl || null,
+        subscription_tier: "FREE_LAUNCH",
+        monthly_consultation_limit: 10,
+        monthly_consultations_used: 0,
+        scheduling_reminders_enabled: false,
+        connection_mode: "CONTACT_ONLY"
+      });
+
+      const reqToResolve = activeRegReq || db.createRequest({
+        channel,
+        conversation_reference: phone,
+        raw_message: rawMessage,
+        media_url: extraMetadata.mediaUrl || null,
+        visual_analysis: extraMetadata.visualAnalysis || null,
+        service_category: "BUSINESS_REGISTRATION",
+        normalized_intent: "BUSINESS_REGISTRATION_COMPLETED",
+        status: "RESOLVED"
+      });
+
+      const updatedReq = db.updateRequest(reqToResolve.id, {
+        status: "RESOLVED",
+        service_category: "BUSINESS_REGISTRATION",
+        normalized_intent: "BUSINESS_REGISTRATION_COMPLETED",
+        matched_provider_id: newProvider.id,
+        media_url: extraMetadata.mediaUrl || reqToResolve.media_url,
+        visual_analysis: extraMetadata.visualAnalysis || reqToResolve.visual_analysis,
+        completed_at: new Date().toISOString()
+      });
+
+      db.logEvent(updatedReq.id, "BUSINESS_REGISTERED_FREE_LAUNCH", "PROVIDER", {
+        provider_id: newProvider.id,
+        display_name: newProvider.display_name,
+        category: newProvider.category,
+        services: newProvider.services,
+        monthly_consultation_limit: 10,
+        connection_mode: "CONTACT_ONLY"
+      });
+
+      const confirmText =
+        `¡Listo! ✅ Tu negocio *${newProvider.display_name}* ya quedó inscrito y activo en *Dame La Letra* de forma *100% gratuita* (sin ningún costo de inscripción).\n\n` +
+        `📋 *Condiciones de tu cuenta:*\n` +
+        `• Cuentas con un total de *10 consultas al mes* totalmente gratis.\n` +
+        `• *Importante:* No está disponible la opción de recordatorios ni agendamientos de citas; nuestro sistema realiza *solamente el contacto directo* entre el cliente y tú.\n\n` +
+        `¡Bienvenido(a)! En cuanto alguien solicite tus servicios en Louisville, te notificaremos por esta misma vía.`;
+
+      await channels.sendCustomerMessage(updatedReq, confirmText);
+
+      return {
+        success: true,
+        status: "REGISTERED",
+        provider: newProvider,
+        request: updatedReq,
+        message: confirmText
+      };
+    }
+
+    // Step 1: User asked to register their business but hasn't sent details/flyer yet
+    const regReq = activeRegReq
+      ? db.updateRequest(activeRegReq.id, {
+          raw_message: rawMessage,
+          status: "WAITING_BUSINESS_REGISTRATION",
+          service_category: "BUSINESS_REGISTRATION",
+          normalized_intent: "BUSINESS_REGISTRATION_INQUIRY"
+        })
+      : db.createRequest({
+          channel,
+          conversation_reference: phone,
+          raw_message: rawMessage,
+          service_category: "BUSINESS_REGISTRATION",
+          normalized_intent: "BUSINESS_REGISTRATION_INQUIRY",
+          status: "WAITING_BUSINESS_REGISTRATION"
+        });
+
+    db.logEvent(regReq.id, "BUSINESS_REGISTRATION_INQUIRY", "PROVIDER", {
+      phone,
+      rawMessage
+    });
+
+    const welcomeRegText =
+      `¡Con mucho gusto! 🎉 Por lanzamiento, la inscripción de tu negocio en *Dame La Letra* es *100% GRATUITA* (no se te cobrará nada).\n\n` +
+      `📋 *Qué incluye tu inscripción:*\n` +
+      `• Te damos un total de *10 consultas al mes* sin costo.\n` +
+      `• *Alcance del servicio:* No está disponible la opción de recordatorios ni agendamientos de citas; te brindamos *solamente el contacto directo* con el cliente.\n\n` +
+      `Para activar tu negocio ahora mismo, envíame por aquí:\n` +
+      `1️⃣ El nombre de tu negocio o profesional y qué servicios ofreces\n` +
+      `2️⃣ O simplemente envíame una *foto de tu flyer o tarjeta de presentación* para registrarte de inmediato.`;
+
+    await channels.sendCustomerMessage(regReq, welcomeRegText);
+
+    return {
+      success: true,
+      status: "WAITING_BUSINESS_REGISTRATION",
+      request: regReq,
+      message: welcomeRegText
+    };
+  }
 }
 
 export const providerOnboarding = new ProviderOnboardingEngine();
