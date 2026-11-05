@@ -382,8 +382,7 @@ body.modal-open .fab{transform:translateY(160%)!important}
 .toast{position:fixed;z-index:160;left:50%;bottom:calc(84px + env(safe-area-inset-bottom));transform:translate(-50%,20px);opacity:0;padding:12px 18px;background:var(--paper);color:var(--ink);font:400 .85rem/1 var(--mono);transition:.3s var(--ease);pointer-events:none}
 .toast.on{opacity:1;transform:translate(-50%,0)}
 
-/* ---------- SPATIAL AR MODE ("WEB FLOTANDO EN EL AIRE") ---------- */
-:root{--ar-rx:0deg;--ar-ry:0deg;--ar-tx:0px;--ar-ty:0px}
+/* ---------- AMAZON-STYLE 3D ROOM AR ("VER EN TU ESPACIO / VIEW IN YOUR ROOM") ---------- */
 .top-right{display:flex;align-items:center;gap:10px}
 .ar-pill{display:inline-flex;align-items:center;gap:6px;padding:7px 12px;border:1px solid var(--letra);background:rgba(106,72,136,.32);color:var(--letra);font:400 .72rem/1 var(--mono);letter-spacing:.09em;text-transform:uppercase;cursor:pointer;box-shadow:3px 3px 0 var(--violeta);transition:transform .2s var(--ease),background-color .2s,color .2s}
 .ar-pill:hover{background:var(--letra);color:var(--ink);transform:translate(-1px,-1px)}
@@ -393,77 +392,38 @@ body.modal-open .fab{transform:translateY(160%)!important}
 .btn-ar:hover{background:var(--letra);color:var(--ink);box-shadow:6px 6px 0 var(--violeta)}
 .btn-ar:hover b{color:var(--ink)}
 
-#ar-backdrop{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;opacity:0;visibility:hidden;transition:opacity .45s var(--ease),visibility .45s;background:radial-gradient(circle at 50% 35%,rgba(106,72,136,.42),rgba(10,7,16,.88) 78%)}
-body.ar-mode #ar-backdrop{opacity:1;visibility:visible}
-#ar-cam-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scale(1.02)}
-#ar-spatial-grid{position:absolute;inset:-15%;background:
-  radial-gradient(circle at 50% 50%,transparent 40%,rgba(10,7,15,.32) 100%),
-  linear-gradient(rgba(255,204,41,.14) 1px,transparent 1px),
-  linear-gradient(90deg,rgba(255,204,41,.14) 1px,transparent 1px);
-  background-size:100% 100%,52px 52px,52px 52px;
-  transform:perspective(700px) rotateX(calc(58deg + var(--ar-rx))) rotateZ(calc(var(--ar-ry) * .6));
-  transform-origin:50% 75%;opacity:.75}
-
-#ar-hud{position:fixed;top:0;left:0;right:0;z-index:150;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px var(--pad);background:rgba(12,8,18,.78);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid rgba(255,204,41,.45);transform:translateY(-120%);transition:transform .35s var(--ease)}
-body.ar-mode #ar-hud{transform:none}
-.ar-hud-status{display:inline-flex;align-items:center;gap:6px;font:400 .68rem/1.1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--letra);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.ar-live-dot{flex:none;width:8px;height:8px;border-radius:50%;background:#30e87a;box-shadow:0 0 10px #30e87a;animation:pulse 2s infinite}
-.ar-hud-actions{display:flex;align-items:center;gap:6px;flex:none}
-.ar-hud-btn{padding:6px 9px;border:1px solid rgba(243,238,227,.32);background:rgba(25,18,35,.75);color:var(--paper);font:400 .66rem/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;cursor:pointer;white-space:nowrap}
-.ar-hud-btn:hover{border-color:var(--letra);color:var(--letra)}
-.ar-hud-btn.exit{border-color:var(--letra);background:var(--letra);color:var(--ink);font-weight:700}
-
-#ar-portal{position:fixed;inset:0;z-index:155;display:grid;place-items:center;padding:24px;background:rgba(10,7,16,.88);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);opacity:0;pointer-events:none;transition:opacity .3s var(--ease)}
+#ar-portal{position:fixed;inset:0;z-index:155;display:flex;align-items:flex-start;justify-content:center;padding:clamp(10px,2.5vw,28px);background:rgba(10,7,16,.92);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);opacity:0;pointer-events:none;transition:opacity .3s var(--ease);overflow-y:auto}
 #ar-portal.open{opacity:1;pointer-events:auto}
-.ar-portal-card{max-width:460px;width:100%;padding:28px 24px;border:1px solid var(--letra);background:rgba(20,13,30,.92);box-shadow:10px 10px 0 var(--violeta),0 30px 80px rgba(0,0,0,.75);text-align:left}
-.ar-portal-kicker{font:400 .74rem/1.3 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--letra);margin-bottom:10px}
-.ar-portal-title{font:400 clamp(2.1rem,8vw,3.2rem)/.92 var(--display);text-transform:uppercase;margin:0 0 12px}
-.ar-portal-copy{color:var(--mute);font-size:.98rem;line-height:1.48;margin-bottom:20px}
-.ar-portal-actions{display:grid;gap:10px}
-
-@keyframes arFloat{0%{transform:perspective(1100px) rotateX(var(--ar-rx,0deg)) rotateY(var(--ar-ry,0deg)) translate3d(var(--ar-tx,0px),calc(var(--ar-ty,0px) - 5px),0)}100%{transform:perspective(1100px) rotateX(var(--ar-rx,0deg)) rotateY(var(--ar-ry,0deg)) translate3d(var(--ar-tx,0px),calc(var(--ar-ty,0px) + 7px),0)}}
-
-html:has(body.ar-mode),body.ar-mode{background:transparent!important}
-body.ar-mode header,body.ar-mode main,body.ar-mode footer,body.ar-mode .logo-rail{position:relative;z-index:2}
-body.ar-mode .hero{padding-top:54px}
-body.ar-mode .btn-ar,body.ar-mode .ar-pill{display:none}
-body.ar-mode .hero,body.ar-mode .logo-rail,body.ar-mode .sec,body.ar-mode .arch-sec,body.ar-mode .founder-sec,body.ar-mode .contact,body.ar-mode .foot{background:transparent!important;border-color:transparent!important}
-body.ar-mode .hero::before,body.ar-mode .type-bg,body.ar-mode .hero-glyph{opacity:.14}
-body.ar-mode .hero-in,
-body.ar-mode .logo-rail-rows,
-body.ar-mode .svc-item,
-body.ar-mode .proj,
-body.ar-mode .arch-stage-wrap,
-body.ar-mode .sheet,
-body.ar-mode .more-card,
-body.ar-mode .film-item,
-body.ar-mode .founder-sec .wrap,
-body.ar-mode .contact .wrap,
-body.ar-mode .foot{
-  background:rgba(14,10,20,.58)!important;
-  backdrop-filter:blur(16px) saturate(175%);
-  -webkit-backdrop-filter:blur(16px) saturate(175%);
-  border:1px solid rgba(255,204,41,.52)!important;
-  box-shadow:0 24px 60px rgba(0,0,0,.65),0 0 28px rgba(106,72,136,.48),inset 0 1px 0 rgba(255,255,255,.22)!important;
-  transform:perspective(1100px) rotateX(var(--ar-rx,0deg)) rotateY(var(--ar-ry,0deg)) translate3d(var(--ar-tx,0px),var(--ar-ty,0px),0);
-  animation:arFloat 4.2s ease-in-out infinite alternate;
-  transition:transform .14s ease-out,box-shadow .3s;
-  will-change:transform;
+.ar-portal-card{max-width:980px;width:100%;margin:auto;border:1px solid var(--letra);background:rgba(18,12,28,.96);box-shadow:10px 10px 0 var(--violeta),0 30px 80px rgba(0,0,0,.82);text-align:left;overflow:hidden}
+.ar-portal-top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 18px;border-bottom:1px solid var(--line);background:rgba(12,8,18,.9)}
+.ar-portal-kicker{display:inline-flex;align-items:center;gap:8px;font:400 .7rem/1.2 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--letra);margin:0}
+.ar-live-dot{flex:none;width:8px;height:8px;border-radius:50%;background:#30e87a;box-shadow:0 0 10px #30e87a;animation:pulse 2s infinite}
+.ar-portal-grid{display:grid;grid-template-columns:1fr;gap:0}
+.ar-mv-stage{position:relative;height:clamp(260px,38svh,460px);background:radial-gradient(circle at 50% 42%,rgba(106,72,136,.38),rgba(8,6,13,.98) 76%);border-bottom:1px solid var(--line)}
+.ar-mv-stage model-viewer{width:100%;height:100%;display:block;--poster-color:transparent}
+.ar-mv-tabs{position:absolute;top:10px;left:10px;right:10px;z-index:3;display:flex;flex-wrap:wrap;gap:6px;pointer-events:none}
+.ar-mv-tab{pointer-events:auto;padding:6px 10px;border:1px solid rgba(243,238,227,.28);background:rgba(14,10,20,.82);backdrop-filter:blur(8px);color:var(--paper);font:400 .64rem/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;cursor:pointer;transition:.2s}
+.ar-mv-tab.active,.ar-mv-tab:hover{border-color:var(--letra);background:var(--letra);color:var(--ink);font-weight:700}
+.ar-mv-orbits{position:absolute;bottom:10px;left:10px;right:10px;z-index:3;display:flex;align-items:center;justify-content:space-between;gap:6px;pointer-events:none}
+.ar-mv-orbit-group{display:flex;flex-wrap:wrap;gap:6px;pointer-events:auto}
+.ar-mv-orbit{padding:5px 9px;border:1px solid rgba(243,238,227,.24);background:rgba(14,10,20,.82);color:var(--paper);font:400 .62rem/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;cursor:pointer}
+.ar-mv-orbit:hover{border-color:var(--letra);color:var(--letra)}
+.ar-mv-badge{display:none;padding:5px 9px;background:rgba(14,10,20,.82);border:1px solid rgba(255,204,41,.35);color:var(--letra);font:400 .6rem/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;pointer-events:none;white-space:nowrap}
+.ar-portal-info{padding:clamp(16px,2.8vw,28px);display:flex;flex-direction:column;justify-content:space-between;gap:12px}
+.ar-portal-title{font:400 clamp(1.75rem,5.6vw,2.75rem)/.94 var(--display);text-transform:uppercase;margin:0}
+.ar-portal-title em{font-style:normal;color:var(--letra)}
+.ar-portal-copy{color:var(--mute);font-size:.9rem;line-height:1.45;margin:0}
+.ar-steps{list-style:none;padding:10px 0;margin:0;display:grid;gap:7px;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.ar-steps li{display:flex;align-items:baseline;gap:10px;font-size:.84rem;color:var(--paper)}
+.ar-steps b{font:400 .68rem/1 var(--mono);color:var(--letra);letter-spacing:.08em;text-transform:uppercase;flex:none}
+.ar-portal-actions{display:grid;gap:8px}
+.ar-slot-btn{position:absolute;left:50%;bottom:14px;transform:translateX(-50%);z-index:4;padding:10px 18px;background:var(--letra);color:var(--ink);border:1px solid var(--ink);box-shadow:4px 4px 0 var(--violeta);font:400 .88rem/1 var(--display);letter-spacing:.05em;text-transform:uppercase;cursor:pointer;white-space:nowrap}
+@media (min-width:860px){
+  #ar-portal{align-items:center}
+  .ar-portal-grid{grid-template-columns:1.25fr 1fr}
+  .ar-mv-stage{height:500px;border-bottom:0;border-right:1px solid var(--line)}
+  .ar-mv-badge{display:inline-block}
 }
-body.ar-mode .hero-in,body.ar-mode .founder-sec .wrap,body.ar-mode .contact .wrap{padding:clamp(22px,4vw,40px);margin-top:14px}
-body.ar-mode .svc{border-top:0;display:grid;gap:18px}
-body.ar-mode .svc-item{padding:22px 18px;margin:0}
-body.ar-mode .svc-item::before{inset:0}
-body.ar-mode .proj{padding:clamp(18px,3.5vw,34px)}
-body.ar-mode .more-card,body.ar-mode .film-item,body.ar-mode .sheet{padding:14px}
-body.ar-mode .founder-sec{color:var(--paper)!important}
-body.ar-mode .founder-sec .label,body.ar-mode .founder-sec .facts dt,body.ar-mode .founder-name span{color:var(--letra)!important}
-body.ar-mode .founder-sec .label i,body.ar-mode .founder-sec .founder-txt{color:rgba(243,238,227,.86)!important}
-body.ar-mode .founder-sec .founder-lead mark{color:var(--ink)!important}
-body.ar-mode .founder-sec .facts,body.ar-mode .founder-sec .facts div{border-color:rgba(243,238,227,.22)!important}
-body.ar-mode .contact{color:var(--paper)!important}
-body.ar-mode .contact .label,body.ar-mode .contact .tool{color:var(--letra)!important}
-body.ar-mode .contact .btn-line{color:var(--paper);border-color:var(--letra)}
 
 /* ---------- reveal ---------- */
 .js [data-reveal]{opacity:0;transform:translateY(34px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
@@ -539,7 +499,7 @@ body.ar-mode .contact .btn-line{color:var(--paper);border-color:var(--letra)}
   <div class="top">
     <a class="brand" href="#inicio"><img src="/hola/img/dame-la-letra-logo.png" width="1102" height="161" alt="Dame la Letra"></a>
     <div class="top-right">
-      <button class="ar-pill" type="button" data-toggle-ar aria-label="Activar Modo Realidad Aumentada"><i>✦</i> Modo AR</button>
+      <button class="ar-pill" type="button" data-toggle-ar aria-label="Ver en tu espacio en Realidad Aumentada"><i>✦</i> Ver en tu espacio (AR)</button>
       <p class="top-meta"><span class="dot" aria-hidden="true"></span>Louisville, KY</p>
     </div>
   </div>
@@ -570,7 +530,7 @@ body.ar-mode .contact .btn-line{color:var(--paper);border-color:var(--letra)}
         </a>
         <button class="btn btn-ar" type="button" data-toggle-ar>
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 3 7v10l9 5 9-5V7l-9-5Zm0 2.3L18.8 8 12 11.7 5.2 8 12 4.3ZM5 9.8l6 3.3v6.5l-6-3.3V9.8Zm8 9.8v-6.5l6-3.3v6.5l-6 3.3Z"/></svg>
-          <span><b>✦ Ver en AR</b> · Hacer flotar esta web en el aire</span>
+          <span><b>✦ Ver en tu espacio (AR)</b> · Coloca esta web 3D en tu habitación</span>
         </button>
         <div class="row">
           <a class="btn btn-ghost" href="/hola/miguel-sosa-dame-la-letra.vcf" data-track="vcard-hero">
@@ -914,13 +874,15 @@ body.ar-mode .contact .btn-line{color:var(--paper);border-color:var(--letra)}
         <div class="arch-bar">
           <div class="arch-tabs" role="tablist" aria-label="Seleccionar modelo 3D">
             <button class="arch-btn active" type="button" data-iframe="/hola/mayor-viewer/index.html" data-glb-label="Modelo 01 / Proyecto del Alcalde · Monumento &amp; Plaza Cívica (Lynnview)">01 / Proyecto del Alcalde 3D (Completo)</button>
-            <button class="arch-btn" type="button" data-glb="/hola/3d/casa-1607.glb" data-glb-label="Modelo 02 / Residencia de 2 Niveles (.GLB)">02 / Residencia 2 Niveles (.GLB)</button>
-            <button class="arch-btn" type="button" data-glb="/hola/3d/porche-7107.glb" data-glb-label="Modelo 03 / Porche Estructural y Cubierta (.GLB)">03 / Porche &amp; Estructura (.GLB)</button>
+            <button class="arch-btn" type="button" data-glb="/hola/3d/dame-la-letra-web-ar.glb" data-usdz="/hola/3d/dame-la-letra-web-ar.usdz" data-glb-label="Modelo 02 / Instalación 3D Flotante de la Web de Dame la Letra (AR)">02 / Web Dame la Letra en AR (.GLB/.USDZ)</button>
+            <button class="arch-btn" type="button" data-glb="/hola/3d/casa-1607.glb" data-glb-label="Modelo 03 / Residencia de 2 Niveles (.GLB)">03 / Residencia 2 Niveles (.GLB)</button>
+            <button class="arch-btn" type="button" data-glb="/hola/3d/porche-7107.glb" data-glb-label="Modelo 04 / Porche Estructural y Cubierta (.GLB)">04 / Porche &amp; Estructura (.GLB)</button>
           </div>
           <div class="arch-cams" id="arch-cams-glb" hidden aria-label="Ángulos de cámara">
+            <button class="arch-btn" type="button" data-orbit="0deg 78deg 105%">Frente</button>
             <button class="arch-btn" type="button" data-orbit="35deg 72deg 105%">Isométrica</button>
-            <button class="arch-btn" type="button" data-orbit="0deg 82deg 105%">Fachada</button>
-            <button class="arch-btn" type="button" data-orbit="0deg 12deg 115%">Planta</button>
+            <button class="arch-btn" type="button" data-orbit="180deg 78deg 105%">Reverso</button>
+            <button class="arch-btn active" type="button" data-toggle-ar>✦ Ver en tu espacio (AR)</button>
           </div>
           <div class="arch-cams" id="arch-cams-mayor" aria-label="Acciones del visor">
             <button class="arch-btn" type="button" data-open-stage="mychief">Abrir en pantalla completa +</button>
@@ -1272,29 +1234,48 @@ body.ar-mode .contact .btn-line{color:var(--paper);border-color:var(--letra)}
 
 <div class="toast" role="status" aria-live="polite"></div>
 
-<!-- SPATIAL AR CAMERA BACKDROP & HUD ("WEB FLOTANDO EN EL AIRE") -->
-<div id="ar-backdrop" aria-hidden="true">
-  <video id="ar-cam-video" autoplay muted playsinline></video>
-  <div id="ar-spatial-grid"></div>
-</div>
-
-<div id="ar-hud" role="region" aria-label="Controles de Realidad Aumentada">
-  <span class="ar-hud-status"><i class="ar-live-dot"></i><span id="ar-status-txt">AR EN VIVO</span></span>
-  <div class="ar-hud-actions">
-    <button class="ar-hud-btn" type="button" data-ar-flip>Cámara</button>
-    <button class="ar-hud-btn" type="button" data-ar-center>Centrar 3D</button>
-    <button class="ar-hud-btn exit" type="button" data-toggle-ar>Salir ×</button>
-  </div>
-</div>
-
+<!-- AMAZON-STYLE "VER EN TU ESPACIO / VIEW IN YOUR ROOM" 3D AR MODAL -->
 <div id="ar-portal" role="dialog" aria-modal="true" aria-labelledby="arp-title" aria-hidden="true">
   <div class="ar-portal-card">
-    <p class="ar-portal-kicker">✦ Experiencia Espacial · Dame la Letra</p>
-    <h3 class="ar-portal-title" id="arp-title">Haz flotar esta web en el aire.</h3>
-    <p class="ar-portal-copy">Apunta tu teléfono frente a ti. Al activar la cámara, todo el portafolio de Dame la Letra flotará en 3D sobre tu espacio real y reaccionará al movimiento de tu mano.</p>
-    <div class="ar-portal-actions">
-      <button class="btn btn-primary" type="button" data-start-ar style="width:100%">✦ Activar Cámara &amp; Ver Flotando</button>
-      <button class="btn btn-ghost" type="button" data-close-ar-portal style="width:100%">Ver tarjeta en modo normal</button>
+    <div class="ar-portal-top">
+      <p class="ar-portal-kicker"><i class="ar-live-dot"></i> <span>Realidad Aumentada Espacial · Ver en tu habitación (Estilo Amazon)</span></p>
+      <button class="stage-close" type="button" data-close-ar-portal>Cerrar [Esc]</button>
+    </div>
+    <div class="ar-portal-grid">
+      <div class="ar-mv-stage" id="ar-mv-wrap">
+        <div class="ar-mv-tabs" role="tablist" aria-label="Objeto 3D para colocar en tu espacio">
+          <button class="ar-mv-tab active" type="button" data-ar-model="/hola/3d/dame-la-letra-web-ar.glb" data-ar-usdz="/hola/3d/dame-la-letra-web-ar.usdz#callToAction=Hablar%20con%20Miguel&amp;checkoutTitle=Dame%20la%20Letra&amp;checkoutSubtitle=Estudio%20Creativo%20%C2%B7%20Louisville%20KY" data-ar-badge="3D · Web Flotando en el Aire">01 / La Web Flotando 3D</button>
+          <button class="ar-mv-tab" type="button" data-ar-model="/hola/3d/casa-1607.glb" data-ar-usdz="" data-ar-badge="3D · Residencia 2 Niveles">02 / Casa 2 Niveles</button>
+          <button class="ar-mv-tab" type="button" data-ar-model="/hola/3d/porche-7107.glb" data-ar-usdz="" data-ar-badge="3D · Porche Estructural">03 / Porche 3D</button>
+        </div>
+        <div class="ar-mv-orbits">
+          <div class="ar-mv-orbit-group">
+            <button class="ar-mv-orbit" type="button" data-ar-orbit="0deg 78deg 105%">Frente</button>
+            <button class="ar-mv-orbit" type="button" data-ar-orbit="32deg 74deg 105%">360° Isométrica</button>
+            <button class="ar-mv-orbit" type="button" data-ar-orbit="180deg 78deg 105%">Reverso</button>
+          </div>
+          <span class="ar-mv-badge" id="ar-mv-badge">3D · Web Flotando en el Aire</span>
+        </div>
+      </div>
+      <div class="ar-portal-info">
+        <div>
+          <h3 class="ar-portal-title" id="arp-title">Coloca esta web <em>en tu habitación.</em></h3>
+          <p class="ar-portal-copy" style="margin-top:10px">Igual que cuando pruebas un mueble de Amazon en tu sala: apunta la cámara de tu teléfono al piso o a una mesa para colocar la instalación 3D de <strong>Dame la Letra</strong> flotando en tu espacio real y camina alrededor de cada capítulo.</p>
+        </div>
+        <ul class="ar-steps">
+          <li><b>Paso 01</b><span>Toca <strong>«Colocar en tu espacio (Cámara AR)»</strong> desde tu iPhone o Android.</span></li>
+          <li><b>Paso 02</b><span>Apunta al piso o mesa para anclar la base 3D y ver las pantallas flotando en el aire.</span></li>
+          <li><b>Paso 03</b><span>Acércate a leer cada proyecto, rodéala 360° o pellizca para ajustar su escala.</span></li>
+        </ul>
+        <div class="ar-portal-actions">
+          <button class="btn btn-primary" type="button" data-launch-native-ar style="width:100%">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 3 7v10l9 5 9-5V7l-9-5Zm0 2.3L18.8 8 12 11.7 5.2 8 12 4.3ZM5 9.8l6 3.3v6.5l-6-3.3V9.8Zm8 9.8v-6.5l6-3.3v6.5l-6 3.3Z"/></svg>
+            ✦ Colocar en tu espacio (Cámara AR)
+          </button>
+          <a id="ios-quicklook-fallback" rel="ar" href="/hola/3d/dame-la-letra-web-ar.usdz#callToAction=Hablar%20con%20Miguel&amp;checkoutTitle=Dame%20la%20Letra&amp;checkoutSubtitle=Estudio%20Creativo%20%C2%B7%20Louisville%20KY" style="display:none"><img src="/hola/img/dame-la-letra-logo.png" alt="Dame la Letra AR"></a>
+          <button class="btn btn-ghost" type="button" data-close-ar-portal style="width:100%">Seguir viendo la tarjeta normal</button>
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -1793,19 +1774,39 @@ body.ar-mode .contact .btn-line{color:var(--paper);border-color:var(--letra)}
     b.addEventListener('click',closeStage);
   });
 
-  /* 5. Interactive 3D Viewer (Proyecto del Alcalde Default + .GLB Models) */
+  /* 5. Interactive 3D Viewer (Proyecto del Alcalde Default + .GLB/.USDZ Models) */
   var glbStage=d.getElementById('glb-stage'), glbLabel=d.getElementById('glb-current-label'),
       mayorFrame=d.getElementById('mayor-inline-frame'),
       camsGlb=d.getElementById('arch-cams-glb'), camsMayor=d.getElementById('arch-cams-mayor'),
-      mvLoaded=false, mvEl=null;
+      mvLoaded=false, mvEl=null, mvLibCbs=[];
+
+  function loadModelViewerLib(cb){
+    if(window.customElements&&window.customElements.get('model-viewer')){if(cb)cb();return;}
+    if(cb)mvLibCbs.push(cb);
+    if(d.getElementById('mv-lib-script'))return;
+    var s=d.createElement('script');
+    s.id='mv-lib-script';
+    s.type='module';
+    s.src='/hola/vendor/model-viewer.min.js';
+    s.onload=function(){
+      var list=mvLibCbs.slice();mvLibCbs=[];
+      list.forEach(function(fn){try{fn()}catch(e){}});
+    };
+    d.head.appendChild(s);
+  }
 
   function ensureModelViewer(cb){
     if(mvLoaded&&mvEl){if(cb)cb(mvEl);return;}
-    var createMv=function(){
+    loadModelViewerLib(function(){
       if(!mvEl){
         mvEl=d.createElement('model-viewer');
-        mvEl.setAttribute('src','/hola/3d/casa-1607.glb');
-        mvEl.setAttribute('alt','Modelo arquitectónico 3D interactivo');
+        mvEl.setAttribute('src','/hola/3d/dame-la-letra-web-ar.glb');
+        mvEl.setAttribute('ios-src','/hola/3d/dame-la-letra-web-ar.usdz#callToAction=Hablar%20con%20Miguel&checkoutTitle=Dame%20la%20Letra&checkoutSubtitle=Estudio%20Creativo%20%C2%B7%20Louisville%20KY');
+        mvEl.setAttribute('alt','Modelo 3D interactivo de Dame la Letra');
+        mvEl.setAttribute('ar','');
+        mvEl.setAttribute('ar-modes','webxr scene-viewer quick-look');
+        mvEl.setAttribute('ar-scale','auto');
+        mvEl.setAttribute('ar-placement','floor');
         mvEl.setAttribute('camera-controls','');
         mvEl.setAttribute('auto-rotate','');
         mvEl.setAttribute('shadow-intensity','1');
@@ -1815,13 +1816,7 @@ body.ar-mode .contact .btn-line{color:var(--paper);border-color:var(--letra)}
       }
       mvLoaded=true;
       if(cb)cb(mvEl);
-    };
-    if(window.customElements&&window.customElements.get('model-viewer')){createMv();return;}
-    var s=d.createElement('script');
-    s.type='module';
-    s.src='/hola/vendor/model-viewer.min.js';
-    s.onload=createMv;
-    d.head.appendChild(s);
+    });
   }
 
   var archTabs=d.querySelectorAll('.arch-tabs .arch-btn');
@@ -1839,9 +1834,13 @@ body.ar-mode .contact .btn-line{color:var(--paper);border-color:var(--letra)}
         if(mayorFrame)mayorFrame.style.display='none';
         if(camsMayor)camsMayor.hidden=true;
         if(camsGlb)camsGlb.hidden=false;
+        var glbSrc=tab.getAttribute('data-glb');
+        var usdzSrc=tab.getAttribute('data-usdz')||'';
         ensureModelViewer(function(mv){
           mv.style.display='block';
-          mv.setAttribute('src',tab.getAttribute('data-glb'));
+          mv.setAttribute('src',glbSrc);
+          if(usdzSrc)mv.setAttribute('ios-src',usdzSrc);
+          else mv.removeAttribute('ios-src');
         });
       }
     });
@@ -1887,7 +1886,6 @@ body.ar-mode .contact .btn-line{color:var(--paper);border-color:var(--letra)}
     d.body.classList.remove('modal-open');
   }
   d.querySelectorAll('[data-close-sheet]').forEach(function(b){b.addEventListener('click',closeSheet)});
-  d.addEventListener('keydown',function(e){if(e.key==='Escape'){closeStage();closeSheet();}});
 
   /* 7. Floating WhatsApp FAB & Share Toast */
   var fab=d.querySelector('.fab'), cta=d.getElementById('hero-cta'), contact=d.getElementById('contacto');
@@ -1898,7 +1896,7 @@ body.ar-mode .contact .btn-line{color:var(--paper);border-color:var(--letra)}
   } else if(fab){fab.classList.add('show')}
 
   var toast=d.querySelector('.toast'),tt;
-  function say(m){toast.textContent=m;toast.classList.add('on');clearTimeout(tt);tt=setTimeout(function(){toast.classList.remove('on')},2200)}
+  function say(m){toast.textContent=m;toast.classList.add('on');clearTimeout(tt);tt=setTimeout(function(){toast.classList.remove('on')},2600)}
   d.querySelectorAll('[data-share]').forEach(function(b){b.addEventListener('click',function(){
     var data={title:'Dame la Letra',text:'Dame la Letra — estudio creativo independiente. Fundado por Miguel Sosa.',url:'https://www.damelaletra.com/hola'};
     if(navigator.share){navigator.share(data).catch(function(){});return;}
@@ -1906,137 +1904,127 @@ body.ar-mode .contact .btn-line{color:var(--paper);border-color:var(--letra)}
     else{say(data.url)}
   })});
   d.querySelectorAll('[data-share-ar]').forEach(function(b){b.addEventListener('click',function(){
-    var data={title:'Dame la Letra · Experiencia en Realidad Aumentada',text:'Apunta tu teléfono y haz flotar el portafolio de Dame la Letra en el aire (AR).',url:'https://www.damelaletra.com/hola?ar=1'};
+    var data={title:'Dame la Letra · Ver en tu habitación (AR)',text:'Coloca la web 3D de Dame la Letra flotando en tu habitación con Realidad Aumentada.',url:'https://www.damelaletra.com/hola?ar=1'};
     if(navigator.share){navigator.share(data).catch(function(){});return;}
     if(navigator.clipboard){navigator.clipboard.writeText(data.url).then(function(){say('Enlace AR copiado')},function(){say(data.url)});}
     else{say(data.url)}
   })});
 
-  /* 8. Spatial AR Mode ("Web Flotando en el Aire" — Live Camera + Gyroscope 3D Parallax) */
-  var arActive=false, arStream=null, arFacing='environment',
-      arVideo=d.getElementById('ar-cam-video'),
-      arStatus=d.getElementById('ar-status-txt'),
-      arPortal=d.getElementById('ar-portal'),
-      rootStyle=d.documentElement.style,
-      baseBeta=null, baseGamma=null, gyroBound=false;
+  /* 8. Amazon-Style 3D Room AR ("Ver en tu espacio / View in Your Room") */
+  var arPortal=d.getElementById('ar-portal'),
+      arMvWrap=d.getElementById('ar-mv-wrap'),
+      arMvBadge=d.getElementById('ar-mv-badge'),
+      iosFallback=d.getElementById('ios-quicklook-fallback'),
+      arMvEl=null;
 
-  function clamp(v,min,max){return Math.max(min,Math.min(max,v))}
-  function setArTilt(rx,ry,tx,ty){
-    rootStyle.setProperty('--ar-rx',rx.toFixed(2)+'deg');
-    rootStyle.setProperty('--ar-ry',ry.toFixed(2)+'deg');
-    rootStyle.setProperty('--ar-tx',tx.toFixed(1)+'px');
-    rootStyle.setProperty('--ar-ty',ty.toFixed(1)+'px');
-  }
-
-  function onDeviceOrient(e){
-    if(!arActive||e.beta==null||e.gamma==null)return;
-    if(baseBeta===null){baseBeta=e.beta;baseGamma=e.gamma;}
-    var db=clamp(e.beta-baseBeta,-28,28);
-    var dg=clamp(e.gamma-baseGamma,-28,28);
-    setArTilt(clamp(-db*0.34,-10,10), clamp(dg*0.38,-12,12), dg*0.65, db*0.55);
-  }
-
-  function enableGyro(){
-    if(gyroBound)return;
-    if(typeof DeviceOrientationEvent!=='undefined'&&typeof DeviceOrientationEvent.requestPermission==='function'){
-      DeviceOrientationEvent.requestPermission().then(function(state){
-        if(state==='granted'){
-          gyroBound=true;
-          window.addEventListener('deviceorientation',onDeviceOrient,true);
-        }
-      }).catch(function(){});
-    }else if('DeviceOrientationEvent' in window){
-      gyroBound=true;
-      window.addEventListener('deviceorientation',onDeviceOrient,true);
-    }
-  }
-
-  window.addEventListener('pointermove',function(e){
-    if(!arActive||baseBeta!==null)return;
-    var nx=(e.clientX/(window.innerWidth||1))-0.5;
-    var ny=(e.clientY/(window.innerHeight||1))-0.5;
-    setArTilt(clamp(-ny*10,-8,8), clamp(nx*12,-10,10), nx*14, ny*12);
-  },{passive:true});
-
-  function startCamera(){
-    if(arStream){arStream.getTracks().forEach(function(t){t.stop()});arStream=null;}
-    if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){
-      if(arStatus)arStatus.textContent='MODO ESPACIAL 3D · WEB FLOTANDO';
-      return;
-    }
-    navigator.mediaDevices.getUserMedia({
-      video:{facingMode:{ideal:arFacing},width:{ideal:1920},height:{ideal:1080}},
-      audio:false
-    }).then(function(stream){
-      if(!arActive){stream.getTracks().forEach(function(t){t.stop()});return;}
-      arStream=stream;
-      if(arVideo){
-        arVideo.srcObject=stream;
-        var p=arVideo.play();if(p&&p.catch)p.catch(function(){});
+  function ensureArPortalViewer(cb){
+    if(arMvEl){if(cb)cb(arMvEl);return;}
+    loadModelViewerLib(function(){
+      if(!arMvEl&&arMvWrap){
+        arMvEl=d.createElement('model-viewer');
+        arMvEl.id='ar-web-mv';
+        arMvEl.setAttribute('src','/hola/3d/dame-la-letra-web-ar.glb');
+        arMvEl.setAttribute('ios-src','/hola/3d/dame-la-letra-web-ar.usdz#callToAction=Hablar%20con%20Miguel&checkoutTitle=Dame%20la%20Letra&checkoutSubtitle=Estudio%20Creativo%20%C2%B7%20Louisville%20KY');
+        arMvEl.setAttribute('alt','Instalación 3D Flotante de la Web de Dame la Letra para colocar en tu habitación');
+        arMvEl.setAttribute('ar','');
+        arMvEl.setAttribute('ar-modes','webxr scene-viewer quick-look');
+        arMvEl.setAttribute('ar-scale','auto');
+        arMvEl.setAttribute('ar-placement','floor');
+        arMvEl.setAttribute('camera-controls','');
+        arMvEl.setAttribute('auto-rotate','');
+        arMvEl.setAttribute('rotation-per-second','16deg');
+        arMvEl.setAttribute('camera-orbit','0deg 78deg 105%');
+        arMvEl.setAttribute('shadow-intensity','1');
+        arMvEl.setAttribute('exposure','1.08');
+        arMvEl.setAttribute('touch-action','pan-y');
+        var slotBtn=d.createElement('button');
+        slotBtn.setAttribute('slot','ar-button');
+        slotBtn.className='ar-slot-btn';
+        slotBtn.type='button';
+        slotBtn.textContent='✦ Colocar en tu piso o mesa (Cámara AR)';
+        arMvEl.appendChild(slotBtn);
+        arMvWrap.appendChild(arMvEl);
       }
-      if(arStatus)arStatus.textContent='AR EN VIVO';
-    }).catch(function(){
-      if(arStatus)arStatus.textContent='MODO ESPACIAL 3D';
-      say('Modo Espacial 3D activado');
+      if(cb)cb(arMvEl);
     });
   }
 
-  function enterArMode(){
-    arActive=true;
-    baseBeta=null;baseGamma=null;
-    if(arPortal){arPortal.classList.remove('open');arPortal.setAttribute('aria-hidden','true');}
-    d.body.classList.add('ar-mode');
-    els.forEach(function(el){el.classList.add('in')});
-    enableGyro();
-    startCamera();
-    say('✦ Modo AR activado: mueve tu teléfono');
+  function openArPortal(){
+    if(!arPortal)return;
+    arPortal.classList.add('open');
+    arPortal.setAttribute('aria-hidden','false');
+    d.body.style.overflow='hidden';
+    d.body.classList.add('modal-open');
+    ensureArPortalViewer();
   }
 
-  function exitArMode(){
-    arActive=false;
-    d.body.classList.remove('ar-mode');
-    if(arStream){arStream.getTracks().forEach(function(t){t.stop()});arStream=null;}
-    if(arVideo)arVideo.srcObject=null;
-    setArTilt(0,0,0,0);
-    say('Modo editorial restaurado');
+  function closeArPortal(){
+    if(!arPortal||!arPortal.classList.contains('open'))return;
+    arPortal.classList.remove('open');
+    arPortal.setAttribute('aria-hidden','true');
+    d.body.style.overflow='';
+    d.body.classList.remove('modal-open');
+  }
+
+  function triggerNativeRoomAr(){
+    ensureArPortalViewer(function(mv){
+      var isIOS=/iPad|iPhone|iPod/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+      if(mv&&typeof mv.activateAR==='function'){
+        try{
+          var p=mv.activateAR();
+          if(p&&p.catch){
+            p.catch(function(){
+              if(isIOS&&iosFallback){iosFallback.click();return;}
+              say('Abre esta página en tu iPhone o Android para colocar el 3D en tu habitación');
+            });
+          }
+          return;
+        }catch(err){}
+      }
+      if(isIOS&&iosFallback){iosFallback.click();return;}
+      say('Escanea el QR con tu iPhone o Android para colocar la web 3D en tu espacio');
+    });
   }
 
   d.querySelectorAll('[data-toggle-ar]').forEach(function(btn){
-    btn.addEventListener('click',function(){
-      if(arActive)exitArMode();
-      else enterArMode();
-    });
+    btn.addEventListener('click',openArPortal);
   });
-
-  d.querySelectorAll('[data-start-ar]').forEach(function(btn){
-    btn.addEventListener('click',enterArMode);
-  });
-
   d.querySelectorAll('[data-close-ar-portal]').forEach(function(btn){
-    btn.addEventListener('click',function(){
-      if(arPortal){arPortal.classList.remove('open');arPortal.setAttribute('aria-hidden','true');}
+    btn.addEventListener('click',closeArPortal);
+  });
+  d.querySelectorAll('[data-launch-native-ar]').forEach(function(btn){
+    btn.addEventListener('click',triggerNativeRoomAr);
+  });
+
+  var arModelTabs=d.querySelectorAll('[data-ar-model]');
+  arModelTabs.forEach(function(tab){
+    tab.addEventListener('click',function(){
+      arModelTabs.forEach(function(t){t.classList.remove('active')});
+      tab.classList.add('active');
+      var glb=tab.getAttribute('data-ar-model');
+      var usdz=tab.getAttribute('data-ar-usdz')||'';
+      var badge=tab.getAttribute('data-ar-badge')||'';
+      if(arMvBadge&&badge)arMvBadge.textContent=badge;
+      ensureArPortalViewer(function(mv){
+        mv.setAttribute('src',glb);
+        if(usdz)mv.setAttribute('ios-src',usdz);
+        else mv.removeAttribute('ios-src');
+      });
     });
   });
 
-  var flipBtn=d.querySelector('[data-ar-flip]');
-  if(flipBtn){
-    flipBtn.addEventListener('click',function(){
-      arFacing=(arFacing==='environment')?'user':'environment';
-      startCamera();
+  d.querySelectorAll('[data-ar-orbit]').forEach(function(ob){
+    ob.addEventListener('click',function(){
+      ensureArPortalViewer(function(mv){
+        mv.setAttribute('camera-orbit',ob.getAttribute('data-ar-orbit'));
+      });
     });
-  }
+  });
 
-  var centerBtn=d.querySelector('[data-ar-center]');
-  if(centerBtn){
-    centerBtn.addEventListener('click',function(){
-      baseBeta=null;baseGamma=null;
-      setArTilt(0,0,0,0);
-      say('Perspectiva 3D centrada');
-    });
-  }
+  d.addEventListener('keydown',function(e){if(e.key==='Escape'){closeStage();closeSheet();closeArPortal();}});
 
   if(window.location.search.indexOf('ar=1')!==-1||window.location.hash==='#ar'){
-    if(arPortal){arPortal.classList.add('open');arPortal.setAttribute('aria-hidden','false');}
+    openArPortal();
   }
 })();
 </script>
