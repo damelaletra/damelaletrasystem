@@ -3,11 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Dame la Letra — Estudio creativo, desarrollo &amp; arquitectura · Miguel Sosa</title>
-<meta name="description" content="No hacemos más de lo mismo. Dame la Letra es un estudio creativo independiente en Louisville, KY: diseño, branding, realización de video, desarrollo web, software a medida y planos arquitectónicos 3D. Fundado por Miguel Sosa.">
+<title>Dame la Letra — Estudio creativo independiente · Miguel Sosa</title>
+<meta name="description" content="No hacemos más de lo mismo. Dame la Letra es un estudio creativo independiente en Louisville, KY: estrategia, branding, realización de video, web, software y arquitectura 3D. Fundado por Miguel Sosa.">
 <link rel="canonical" href="https://www.damelaletra.com/hola">
 <meta name="robots" content="index, follow">
-<meta name="theme-color" content="#140b1d">
+<meta name="theme-color" content="#0e0a14">
 <meta name="color-scheme" content="dark">
 <meta name="format-detection" content="telephone=no">
 
@@ -16,14 +16,14 @@
 <meta property="og:locale" content="es_US">
 <meta property="og:url" content="https://www.damelaletra.com/hola">
 <meta property="og:title" content="Dame la Letra — No hacemos más de lo mismo.">
-<meta property="og:description" content="Diseño, branding, realización de video, web, software y planos 3D. Fundado por Miguel Sosa en Louisville, KY.">
+<meta property="og:description" content="Estudio creativo independiente. Diseño, video, desarrollo web, software y planos 3D. Fundado por Miguel Sosa.">
 <meta property="og:image" content="https://www.damelaletra.com/hola/og.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Dame la Letra — No hacemos más de lo mismo.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Dame la Letra — No hacemos más de lo mismo.">
-<meta name="twitter:description" content="Estudio creativo independiente. Diseño, código, video y planos 3D. Fundado por Miguel Sosa.">
+<meta name="twitter:description" content="Estudio creativo independiente. Fundado por Miguel Sosa.">
 <meta name="twitter:image" content="https://www.damelaletra.com/hola/og.jpg">
 
 <link rel="icon" href="/hola/favicon.svg" type="image/svg+xml">
@@ -33,7 +33,6 @@
 
 <link rel="preload" href="/hola/fonts/anton.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/hola/fonts/courierprime-400.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="/hola/img/dml-bg.webp" as="image" type="image/webp">
 
 <script>document.documentElement.classList.add('js')</script>
 
@@ -43,7 +42,7 @@
   "@type": "ProfessionalService",
   "name": "Dame la Letra",
   "legalName": "Dame la Letra LLC",
-  "description": "Estudio creativo independiente: diseño, branding, producción de video, desarrollo web, software a medida y planos arquitectónicos 3D.",
+  "description": "Estudio creativo independiente: estrategia, branding, realización de video, desarrollo web, e-commerce y arquitectura 3D.",
   "url": "https://www.damelaletra.com/hola",
   "logo": "https://www.damelaletra.com/hola/icon-512.png",
   "image": "https://www.damelaletra.com/hola/og.jpg",
@@ -60,29 +59,26 @@
 @font-face{font-family:"Cloister";src:url(/hola/fonts/cloister.woff2) format("woff2");font-display:swap}
 
 :root{
-  --ink:#120a1a;
-  --ink2:#1b1026;
-  --ink3:#251635;
-  --purple:#6a4888;
-  --purple-hi:#8b62b2;
-  --purple-dark:#3e2752;
-  --paper:#f6f2ea;
+  --ink:#0e0a14;
+  --ink2:#171122;
+  --paper:#f3eee3;
   --letra:#ffcc29;
+  --violeta:#6a4888;
+  --violeta-hi:#8459ab;
+  --violeta-deep:#3d2552;
   --fuego:#ff5b1f;
-  --mint:#38e5a5;
-  --mute:rgba(246,242,234,.74);
-  --line:rgba(246,242,234,.16);
-  --pad:clamp(18px,5vw,60px);
+  --mute:rgba(243,238,227,.72);
+  --line:rgba(243,238,227,.17);
+  --pad:clamp(20px,5.2vw,64px);
   --display:"Anton","Impact","Haettenschweiler","Arial Narrow Bold",sans-serif;
   --mono:"Courier Prime",ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace;
-  --gothic:"Cloister",Georgia,serif;
   --sans:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
   --ease:cubic-bezier(.2,.75,.15,1);
 }
 *,*::before,*::after{box-sizing:border-box}
-html{-webkit-text-size-adjust:100%;text-size-adjust:100%;background:var(--ink);scroll-behavior:smooth;scroll-padding-top:64px}
-body{margin:0;background:var(--ink);color:var(--paper);font:400 1.04rem/1.55 var(--sans);overflow-x:hidden;-webkit-font-smoothing:antialiased}
-@supports (overflow:clip){body{overflow-x:clip}}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%;background:var(--ink);scroll-behavior:smooth}
+body{margin:0;background:var(--ink);color:var(--paper);font:400 1.0625rem/1.55 var(--sans);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+@supports (overflow:clip){html,body{overflow-x:clip}}
 img,svg,video{display:block;max-width:100%}
 a{color:inherit}
 p{margin:0}
@@ -90,54 +86,56 @@ button{font:inherit;color:inherit}
 :focus-visible{outline:3px solid var(--letra);outline-offset:3px}
 .sr-only{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 
-/* subtle film grain */
-body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:100;opacity:.055;
+/* film grain — static, cheap */
+body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:100;opacity:.065;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
 
 /* ---------- shared ---------- */
-.sec{position:relative;padding:clamp(68px,11vw,140px) var(--pad)}
+.sec{position:relative;padding:clamp(80px,13vw,164px) var(--pad)}
 .wrap{max-width:1320px;margin:0 auto;position:relative}
-.label{display:flex;flex-wrap:wrap;align-items:center;gap:8px .85em;margin:0 0 18px;font:400 .78rem/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--letra)}
-.label b{display:inline-grid;place-items:center;padding:0 .7em;height:2.2em;border:1px solid currentColor;border-radius:999px;font-weight:400;letter-spacing:.06em;background:rgba(255,204,41,.08)}
-.h2{margin:0;max-width:16ch;font:400 clamp(2.25rem,9.2vw,5.6rem)/.93 var(--display);text-transform:uppercase;letter-spacing:-.003em}
+.label{display:flex;flex-wrap:wrap;align-items:center;gap:8px .85em;margin:0 0 24px;font:400 .8rem/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--letra)}
+.label b{display:inline-grid;place-items:center;width:2.5em;height:2.5em;border:1px solid currentColor;border-radius:50%;font-weight:400;letter-spacing:0}
+.label i{flex-basis:100%;padding-left:calc(2.5em + .85em);font-style:normal;letter-spacing:.04em;text-transform:none;color:var(--mute)}
+@media (min-width:700px){.label i{flex-basis:auto;padding-left:0}}
+.h2{margin:0;max-width:15ch;font:400 clamp(2.4rem,10vw,6.4rem)/.93 var(--display);text-transform:uppercase;letter-spacing:-.003em}
 .h2 em{font-style:normal;color:var(--letra)}
-.h2 .goth{font-family:var(--gothic);text-transform:none;color:var(--letra);font-weight:400;font-size:1.06em}
-.sec-sub{margin-top:14px;max-width:48ch;color:var(--mute);font-size:1rem}
+.amp{font-family:"Cloister",Georgia,serif;text-transform:none;color:var(--letra);font-size:1.02em;line-height:0;padding:0 .03em;font-weight:400}
 
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:.6em;min-height:54px;padding:0 22px;border:2px solid transparent;border-radius:0;
-  font:400 1.12rem/1 var(--display);letter-spacing:.035em;text-transform:uppercase;text-decoration:none;cursor:pointer;-webkit-tap-highlight-color:transparent;
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.65em;min-height:58px;padding:0 24px;border:2px solid transparent;border-radius:0;
+  font:400 1.18rem/1 var(--display);letter-spacing:.035em;text-transform:uppercase;text-decoration:none;cursor:pointer;-webkit-tap-highlight-color:transparent;
   transition:transform .18s var(--ease),box-shadow .18s var(--ease),background-color .2s,color .2s}
-.btn svg{width:1.18em;height:1.18em;flex:none;fill:currentColor}
+.btn svg{width:1.2em;height:1.2em;flex:none;fill:currentColor}
 .btn .arr{transition:transform .25s var(--ease)}
 .btn:hover .arr{transform:translateX(5px)}
-.btn-primary{background:var(--letra);color:var(--ink);box-shadow:6px 6px 0 var(--purple-dark)}
-.btn-primary:hover{transform:translate(-2px,-2px);box-shadow:8px 8px 0 var(--purple-dark)}
-.btn-primary:active{transform:translate(3px,3px);box-shadow:0 0 0 var(--purple-dark)}
-.btn-ghost{color:var(--paper);border-color:rgba(246,242,234,.82);background:rgba(18,10,26,.55);backdrop-filter:blur(6px)}
+.btn-primary{background:var(--letra);color:var(--ink);box-shadow:6px 6px 0 var(--violeta)}
+.btn-primary:hover{transform:translate(-2px,-2px);box-shadow:8px 8px 0 var(--violeta)}
+.btn-primary:active{transform:translate(4px,4px);box-shadow:0 0 0 var(--violeta)}
+.btn-ghost{color:var(--paper);border-color:rgba(243,238,227,.85);background:rgba(14,10,20,.45)}
 .btn-ghost:hover{background:var(--paper);color:var(--ink)}
-.btn-ink{background:var(--ink);color:var(--letra);box-shadow:6px 6px 0 var(--purple)}
-.btn-ink:hover{transform:translate(-2px,-2px);box-shadow:8px 8px 0 var(--purple)}
+.btn-ink{background:var(--ink);color:var(--letra);box-shadow:6px 6px 0 var(--violeta)}
+.btn-ink:hover{transform:translate(-2px,-2px);box-shadow:8px 8px 0 var(--violeta)}
+.btn-ink:active{transform:translate(4px,4px);box-shadow:0 0 0 var(--violeta)}
 .btn-line{color:var(--ink);border-color:var(--ink);background:transparent}
 .btn-line:hover{background:var(--ink);color:var(--letra)}
 
-/* ---------- header + hero (Authentic Purple Typewriter Brand) ---------- */
-.hero{position:relative;overflow:hidden;padding:0 var(--pad) clamp(44px,7vw,80px);isolation:isolate;
-  background-color:#3a244d;
-  background-image:
-    linear-gradient(180deg,rgba(18,10,26,.52) 0%,rgba(62,39,82,.38) 48%,rgba(18,10,26,.96) 100%),
-    radial-gradient(circle at 78% 24%,rgba(106,72,136,.68),transparent 62%),
-    url(/hola/img/dml-bg.webp);
-  background-size:cover;background-position:center}
-.top{position:relative;z-index:3;width:100%;display:flex;align-items:center;justify-content:space-between;gap:14px;padding:18px 0 0;max-width:1320px;margin:0 auto}
-.brand{display:inline-flex;align-items:center;gap:10px;text-decoration:none}
-.brand img{height:clamp(24px,3.6vw,34px);width:auto;filter:drop-shadow(0 4px 14px rgba(0,0,0,.45))}
-.top-meta{display:flex;align-items:center;gap:.55em;font:400 .72rem/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--paper);background:rgba(18,10,26,.62);padding:7px 12px;border:1px solid rgba(255,204,41,.32);white-space:nowrap}
-.dot{width:8px;height:8px;border-radius:50%;background:var(--letra);animation:pulse 2.4s ease-out infinite}
-.hero-glyph{position:absolute;z-index:-1;right:-26vw;top:48px;height:min(86%,900px);width:auto;fill:rgba(255,204,41,.13);animation:drift 11s ease-in-out infinite alternate;transform-origin:60% 40%}
+/* ---------- header + hero ---------- */
+.hero{position:relative;overflow:hidden;padding:0 var(--pad) clamp(56px,8vw,96px);isolation:isolate;
+  background:
+    radial-gradient(ellipse 90% 70% at 78% 22%,rgba(106,72,136,.38),transparent 65%),
+    radial-gradient(ellipse 70% 60% at 12% 85%,rgba(61,37,82,.42),transparent 65%),
+    var(--ink)}
+.hero::before{content:"";position:absolute;inset:-20%;z-index:-2;transform:rotate(-7deg);pointer-events:none;opacity:.055;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='560' height='88'%3E%3Cg fill='%23f3eee3' font-family='Courier New,Courier,monospace' font-size='24' font-weight='700'%3E%3Ctext x='0' y='32'%3Edame la letra. dame la letra.%3C/text%3E%3Ctext x='-140' y='76'%3Edame la letra. dame la letra. dame la%3C/text%3E%3C/g%3E%3C/svg%3E")}
+.top{position:relative;z-index:3;width:100%;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:20px 0 0;max-width:1320px;margin:0 auto}
+.brand{display:block}
+.brand img{height:24px;width:auto}
+.top-meta{display:flex;align-items:center;gap:.6em;font:400 .74rem/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--mute);white-space:nowrap}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--letra);animation:pulse 2.6s ease-out infinite}
+.hero-glyph{position:absolute;z-index:-1;right:-30vw;top:64px;height:min(88%,940px);width:auto;fill:var(--violeta);opacity:.82;animation:drift 11s ease-in-out infinite alternate;transform-origin:60% 40%}
 .hero-in{max-width:1320px;margin:0 auto;position:relative}
-.kicker{margin:clamp(22px,4.5vh,56px) 0 10px;font:400 .92rem/1 var(--mono);color:var(--letra);text-shadow:0 2px 10px rgba(0,0,0,.5)}
+.kicker{margin:clamp(26px,5.5vh,72px) 0 12px;font:400 .95rem/1 var(--mono);color:var(--letra)}
 .kicker span{display:inline-block;animation:blink 1.1s steps(1) infinite;margin-left:2px}
-.hero-title{margin:0;font:400 clamp(3rem,min(16.2vw,14.8vh),11rem)/.96 var(--display);text-transform:uppercase;letter-spacing:-.004em;text-shadow:0 10px 34px rgba(10,4,16,.55)}
+.hero-title{margin:0;font:400 clamp(3.1rem,min(16.6vw,15.5vh),11.4rem)/.97 var(--display);text-transform:uppercase;letter-spacing:-.004em}
 .ln{display:block;overflow:hidden;padding-top:.12em;margin-top:-.12em;white-space:nowrap}
 .ln>span{display:inline-block;animation:rise .85s var(--ease) both}
 .ln:nth-child(2)>span{animation-delay:.08s}
@@ -147,256 +145,290 @@ body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:100;op
 .badge svg{width:100%;height:100%;overflow:visible}
 .badge .ring{transform-origin:60px 60px;animation:spin 22s linear infinite}
 .badge text{font:400 10.4px var(--mono);letter-spacing:.17em;fill:var(--paper);text-transform:uppercase}
-.strike{position:relative;color:var(--letra)}
-.strike::after{content:"";position:absolute;left:-.02em;right:-.04em;top:50%;height:.11em;background:var(--paper);transform:rotate(-3.2deg) scaleX(0);transform-origin:0 50%;animation:strike .55s .95s cubic-bezier(.75,0,.2,1) forwards}
-
-.hero-grid{display:grid;gap:20px;margin-top:clamp(18px,3.2vh,36px)}
-.hero-copy{max-width:34ch;font-size:clamp(1.02rem,1.25vw,1.26rem);line-height:1.48;text-shadow:0 2px 12px rgba(0,0,0,.55)}
+.strike{position:relative}
+.strike::after{content:"";position:absolute;left:-.03em;right:-.05em;top:47%;height:.12em;background:var(--violeta-hi);transform:rotate(-3.2deg) scaleX(0);transform-origin:0 50%;animation:strike .55s 1s cubic-bezier(.75,0,.2,1) forwards}
+.hero-grid{display:grid;gap:22px;margin-top:clamp(18px,3.4vh,40px)}
+.hero-copy{max-width:32ch;font-size:clamp(1.02rem,1.25vw,1.3rem);line-height:1.48}
 .hero-copy strong{color:var(--letra);font-weight:600}
-.founder-tag{display:inline-flex;flex-wrap:wrap;align-items:center;gap:6px 10px;padding-top:12px;border-top:1px solid rgba(246,242,234,.24);max-width:40ch;font:400 .76rem/1.5 var(--mono);letter-spacing:.07em;text-transform:uppercase;color:rgba(246,242,234,.85)}
-.founder-tag b{color:var(--letra);font-weight:400}
-.hero-cta{display:grid;gap:12px;max-width:450px}
+.founder{order:3;padding-top:14px;border-top:1px solid var(--line);max-width:38ch;font:400 .76rem/1.55 var(--mono);letter-spacing:.07em;text-transform:uppercase;color:var(--mute)}
+.founder b{color:var(--paper);font-weight:400}
+.hero-cta{display:grid;gap:14px;max-width:440px}
 .hero-cta .row{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center}
-.hero-cta .row .btn{padding:0 14px;font-size:1.02rem;white-space:nowrap}
-.link-down{white-space:nowrap;display:inline-flex;align-items:center;gap:.35em;min-height:48px;padding:0 4px;font:400 .8rem/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--letra);text-decoration:underline;text-underline-offset:.35em}
+.hero-cta .row .btn{padding:0 14px;font-size:1.04rem;white-space:nowrap}
+.link-down{white-space:nowrap;display:inline-flex;align-items:center;gap:.4em;min-height:48px;padding:0 4px;font:400 .82rem/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;text-decoration:underline;text-underline-offset:.35em;text-decoration-thickness:1px}
 
-/* hero quick-jump chapter pills */
-.chapter-pills{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:clamp(22px,3.6vh,38px);padding-top:18px;border-top:1px solid rgba(246,242,234,.18)}
-.cpill{display:flex;flex-direction:column;justify-content:space-between;gap:4px;padding:11px 12px;background:rgba(18,10,26,.68);border:1px solid rgba(255,204,41,.28);text-decoration:none;transition:transform .2s var(--ease),border-color .2s,background-color .2s}
-.cpill:hover{transform:translateY(-2px);border-color:var(--letra);background:rgba(62,39,82,.72)}
-.cpill small{font:400 .66rem/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--letra)}
-.cpill strong{font:400 clamp(.95rem,2.8vw,1.25rem)/1.05 var(--display);letter-spacing:.02em;text-transform:uppercase;color:var(--paper)}
-.cpill span{font:400 .68rem/1.2 var(--mono);color:var(--mute)}
+/* editorial chapter jump strip inside hero */
+.hero-chapters{display:flex;flex-wrap:wrap;gap:10px 28px;margin-top:clamp(28px,4.5vh,48px);padding-top:18px;border-top:1px solid var(--line)}
+.hchap{display:inline-flex;align-items:baseline;gap:.55em;text-decoration:none;font:400 1.05rem/1.1 var(--display);letter-spacing:.03em;text-transform:uppercase;color:var(--paper);transition:color .2s}
+.hchap span{font:400 .74rem/1 var(--mono);color:var(--letra);letter-spacing:.08em}
+.hchap:hover{color:var(--letra)}
 
-/* ---------- sticky chapter navigation ---------- */
-.chap-nav{position:sticky;top:0;z-index:55;background:rgba(18,10,26,.88);backdrop-filter:blur(12px);border-top:1px solid rgba(255,204,41,.22);border-bottom:1px solid rgba(246,242,234,.14)}
-.chap-nav-in{max-width:1320px;margin:0 auto;padding:0 var(--pad);display:flex;align-items:center;gap:6px;overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none}
-.chap-nav-in::-webkit-scrollbar{display:none}
-.chap-link{flex:none;display:inline-flex;align-items:center;gap:6px;height:46px;padding:0 12px;font:400 .74rem/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;text-decoration:none;color:var(--mute);border-bottom:2px solid transparent;transition:color .2s,border-color .2s}
-.chap-link b{color:var(--letra);font-weight:400}
-.chap-link:hover,.chap-link.active{color:var(--paper);border-bottom-color:var(--letra)}
+/* ---------- marquee bands ---------- */
+.band-wrap{overflow:hidden;padding:28px 0;margin:-28px 0;position:relative;z-index:4}
+.band{display:flex;width:max-content;margin-left:-2vw;padding:14px 0;transform:rotate(-2.4deg);background:var(--letra);color:var(--ink);font:400 clamp(1.5rem,5.4vw,3rem)/1 var(--display);text-transform:uppercase;letter-spacing:.01em;white-space:nowrap}
+.band.alt{background:var(--violeta);color:var(--paper);transform:rotate(1.8deg)}
+.band-track{display:flex;flex:none;animation:marquee 26s linear infinite}
+.band.alt .band-track{animation-direction:reverse;animation-duration:30s}
+.band-track span{display:inline-flex;align-items:center;gap:.5em;padding-right:.5em}
+.star{display:inline-block;width:.62em;height:.62em;background:currentColor;clip-path:polygon(50% 0,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%)}
 
-/* ---------- fast touch/click-pausable client logo marquee ---------- */
-.logo-strip{position:relative;background:var(--ink2);border-bottom:1px solid var(--line);padding:18px 0 16px;overflow:hidden;user-select:none;-webkit-user-select:none}
-.logo-strip-head{max-width:1320px;margin:0 auto 12px;padding:0 var(--pad);display:flex;align-items:center;justify-content:space-between;gap:10px}
-.logo-strip-label{font:400 .7rem/1.2 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--mute)}
-.logo-strip-label strong{color:var(--letra);font-weight:400}
-.marquee-toggle{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border:1px solid rgba(255,204,41,.38);background:rgba(18,10,26,.7);color:var(--letra);font:400 .68rem/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;cursor:pointer}
-.logo-marquee{display:flex;width:max-content;cursor:grab;touch-action:pan-y}
-.logo-marquee:active{cursor:grabbing}
-.logo-track{display:flex;align-items:center;gap:clamp(22px,4.5vw,48px);padding-right:clamp(22px,4.5vw,48px);animation:marquee 17s linear infinite}
-.logo-strip.paused .logo-track{animation-play-state:paused!important}
-.logo-pill{flex:none;display:inline-flex;align-items:center;gap:10px;height:48px;padding:6px 16px;background:rgba(246,242,234,.05);border:1px solid rgba(246,242,234,.12);border-radius:4px;transition:border-color .2s,transform .2s}
-.logo-pill:hover{border-color:var(--letra);transform:scale(1.04)}
-.logo-pill img{height:32px;width:auto;max-width:120px;object-fit:contain;filter:brightness(1.08) contrast(1.05)}
-.logo-pill span{font:400 .92rem/1 var(--display);letter-spacing:.04em;text-transform:uppercase;color:var(--paper);white-space:nowrap}
-.logo-pill small{font:400 .64rem/1 var(--mono);color:var(--letra);text-transform:uppercase;letter-spacing:.08em}
+/* ---------- fast touch/click-pausable logo marquee ---------- */
+.logo-rail{position:relative;padding:26px 0 22px;border-bottom:1px solid var(--line);background:var(--ink);overflow:hidden;user-select:none;-webkit-user-select:none}
+.logo-rail-head{max-width:1320px;margin:0 auto 14px;padding:0 var(--pad);display:flex;align-items:center;justify-content:space-between;gap:12px}
+.logo-rail-meta{font:400 .74rem/1.3 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--mute)}
+.logo-rail-meta b{color:var(--letra);font-weight:400}
+.logo-rail-btn{padding:6px 12px;border:1px solid var(--line);background:transparent;color:var(--letra);font:400 .72rem/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:border-color .2s,background-color .2s,color .2s}
+.logo-rail-btn:hover{border-color:var(--letra);background:var(--letra);color:var(--ink)}
+.logo-rail-track-wrap{display:flex;width:max-content;cursor:pointer;touch-action:pan-y}
+.logo-rail-track{display:flex;align-items:center;gap:clamp(32px,6vw,72px);padding-right:clamp(32px,6vw,72px);animation:marquee 16s linear infinite}
+.logo-rail.paused .logo-rail-track{animation-play-state:paused!important}
+.logo-item{flex:none;display:inline-flex;align-items:center;gap:12px;opacity:.86;transition:opacity .2s,transform .2s}
+.logo-item:hover{opacity:1;transform:translateY(-2px)}
+.logo-item img{height:34px;width:auto;max-width:130px;object-fit:contain}
+.logo-item span{font:400 1.35rem/1 var(--display);letter-spacing:.03em;text-transform:uppercase;color:var(--paper)}
+.logo-item small{font:400 .68rem/1 var(--mono);color:var(--letra);letter-spacing:.08em;text-transform:uppercase}
 
-/* ---------- compact mobile-first video project cards ---------- */
-.pgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:clamp(28px,5vw,48px)}
-.pcard{position:relative;display:flex;flex-direction:column;background:var(--ink2);border:1px solid rgba(246,242,234,.16);padding:0;text-align:left;cursor:pointer;overflow:hidden;isolation:isolate;transition:transform .28s var(--ease),border-color .28s,box-shadow .28s;-webkit-tap-highlight-color:transparent}
-.pcard:hover{transform:translateY(-4px);border-color:var(--letra);box-shadow:0 16px 38px rgba(0,0,0,.55),4px 4px 0 var(--letra)}
-.pcard-screen{position:relative;width:100%;aspect-ratio:9/15.2;background:#09050e;overflow:hidden;border-bottom:1px solid rgba(246,242,234,.12)}
-.pcard-screen video,.pcard-screen img{width:100%;height:100%;object-fit:cover;object-position:top center;display:block;transition:transform .5s var(--ease)}
-.pcard:hover .pcard-screen video,.pcard:hover .pcard-screen img{transform:scale(1.04)}
-.pcard-screen::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(12,6,18,.35) 0%,transparent 28%,transparent 58%,rgba(12,6,18,.92) 100%);pointer-events:none}
-.pcard-top{position:absolute;z-index:2;top:8px;left:8px;right:8px;display:flex;align-items:center;justify-content:space-between;gap:6px;pointer-events:none}
-.pcard-num{font:400 .68rem/1 var(--mono);letter-spacing:.1em;padding:4px 7px;background:rgba(18,10,26,.82);border:1px solid rgba(255,204,41,.4);color:var(--letra)}
-.pcard-fx-badge{font:400 .62rem/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;padding:4px 7px;background:rgba(106,72,136,.88);color:var(--paper);border-radius:2px;max-width:72%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.pcard-open{position:absolute;z-index:2;bottom:8px;left:8px;right:8px;display:flex;align-items:center;justify-content:space-between;gap:6px;padding:6px 9px;background:rgba(18,10,26,.85);border:1px solid rgba(255,204,41,.45);font:400 .66rem/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--letra);backdrop-filter:blur(6px)}
-.pcard-open i{font-style:normal;display:inline-grid;place-items:center;width:18px;height:18px;background:var(--letra);color:var(--ink);font-weight:700}
-.pcard-body{padding:11px 11px 13px;display:flex;flex-direction:column;gap:4px;flex:1}
-.pcard-tag{font:400 .64rem/1.2 var(--mono);letter-spacing:.09em;text-transform:uppercase;color:var(--letra)}
-.pcard-title{margin:0;font:400 clamp(1.18rem,4.5vw,1.65rem)/.98 var(--display);text-transform:uppercase;letter-spacing:.01em;color:var(--paper)}
-.pcard-desc{font-size:.78rem;line-height:1.35;color:var(--mute);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+/* ---------- services (Lo que hacemos) ---------- */
+.svc{list-style:none;margin:clamp(44px,7vw,88px) 0 0;padding:0;border-top:1px solid var(--line)}
+.svc-item{position:relative;display:grid;grid-template-columns:2.6em 1fr;column-gap:12px;padding:24px 0 28px;border-bottom:1px solid var(--line);isolation:isolate}
+.svc-item::before{content:"";position:absolute;inset:0 calc(var(--pad)*-1);z-index:-1;background:var(--violeta);transform:scaleY(0);transform-origin:50% 100%;transition:transform .45s var(--ease)}
+.svc-n{padding-top:.55em;font:400 .82rem/1 var(--mono);color:var(--letra)}
+.svc-t{margin:0;font:400 clamp(2.15rem,10.6vw,5.6rem)/.9 var(--display);text-transform:uppercase;transition:transform .45s var(--ease),color .3s}
+.svc-d{grid-column:2;margin-top:12px;max-width:46ch;color:var(--mute);font-size:1rem}
+.svc-proof{grid-column:2;margin-top:12px;font:400 .78rem/1.5 var(--mono);color:var(--mute)}
+.svc-proof a{color:var(--letra);text-underline-offset:.25em}
 
-/* ---------- Dedicated Video Reel Sub-section (Realización de Videos) ---------- */
-.reels-sub{margin-top:clamp(52px,8vw,96px);padding-top:clamp(36px,6vw,64px);border-top:1px solid var(--line)}
-.reels-head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:14px;margin-bottom:22px}
-.reels-title{margin:0;font:400 clamp(1.75rem,6.8vw,3.4rem)/.95 var(--display);text-transform:uppercase}
-.reels-title span{color:var(--letra)}
-.reels-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-.rcard{position:relative;aspect-ratio:9/16;background:#08040d;border:1px solid rgba(246,242,234,.18);overflow:hidden;cursor:pointer;padding:0;text-align:left;isolation:isolate;transition:transform .25s var(--ease),border-color .25s}
-.rcard:hover{transform:translateY(-4px);border-color:var(--letra)}
-.rcard video{width:100%;height:100%;object-fit:cover;display:block}
-.rcard::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(12,6,18,.4) 0%,transparent 35%,rgba(12,6,18,.9) 100%);pointer-events:none}
-.rcard-play{position:absolute;z-index:2;top:10px;right:10px;display:inline-flex;align-items:center;gap:5px;padding:5px 9px;background:rgba(18,10,26,.82);border:1px solid var(--letra);color:var(--letra);font:400 .64rem/1 var(--mono);letter-spacing:.08em;text-transform:uppercase}
-.rcard-info{position:absolute;z-index:2;left:10px;right:10px;bottom:10px}
-.rcard-kicker{font:400 .62rem/1.2 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--letra)}
-.rcard-name{margin:3px 0 0;font:400 clamp(1.05rem,3.8vw,1.4rem)/1 var(--display);text-transform:uppercase;color:var(--paper)}
+/* ---------- portfolio chapters & v1 overlapping project compositions ---------- */
+.sec-sub{margin-top:18px;max-width:44ch;color:var(--mute)}
+.proj{position:relative;display:grid;gap:22px;margin-top:clamp(92px,13vw,156px)}
+.proj-media{position:relative;display:block;padding:0 0 18% 0;text-decoration:none;border:0;background:none;text-align:left;cursor:pointer;width:100%;-webkit-tap-highlight-color:transparent}
+.proj-num{position:absolute;z-index:3;left:-.04em;top:-.52em;font:400 clamp(5.2rem,24vw,11.5rem)/1 var(--display);color:transparent;-webkit-text-stroke:1.5px var(--letra);pointer-events:none}
+.m-main{position:relative;z-index:1;width:64%;height:auto;aspect-ratio:9/16;object-fit:cover;object-position:top;margin-left:10%;border:1px solid var(--line);background:var(--ink2);box-shadow:0 34px 70px rgba(0,0,0,.6)}
+.m-sub{position:absolute;z-index:2;right:0;bottom:0;width:58%;height:auto;border:1px solid rgba(14,10,20,.7);background:var(--ink2);transform:rotate(2.6deg);box-shadow:8px 8px 0 var(--letra)}
+.m-sub.tall{width:38%;right:2%}
+.proj:nth-of-type(even) .m-main{margin-left:auto;margin-right:4%}
+.proj:nth-of-type(even) .m-sub{right:auto;left:0;transform:rotate(-2.6deg);box-shadow:-8px 8px 0 var(--violeta-hi)}
+.proj:nth-of-type(even) .proj-num{left:auto;right:-.02em}
+.proj-meta{display:flex;flex-wrap:wrap;gap:.3em .6em;font:400 .78rem/1.4 var(--mono);letter-spacing:.09em;text-transform:uppercase;color:var(--letra)}
+.proj-meta span+span::before{content:"/";margin-right:.6em;color:var(--mute)}
+.proj-t{margin:10px 0 14px;font:400 clamp(2.6rem,12vw,6.2rem)/.88 var(--display);text-transform:uppercase}
+.proj-d{max-width:44ch;margin-bottom:22px;color:var(--mute)}
+.proj-links{display:flex;flex-wrap:wrap;align-items:center;gap:14px 28px}
+.proj-link{display:inline-flex;flex-wrap:wrap;align-items:baseline;gap:.2em .7em;padding:6px 0;border:0;border-bottom:2px solid var(--letra);background:none;color:var(--paper);font:400 1.1rem/1.2 var(--display);letter-spacing:.04em;text-transform:uppercase;text-decoration:none;cursor:pointer}
+.proj-link small{font:400 .76rem/1 var(--mono);letter-spacing:0;text-transform:none;color:var(--mute)}
+.proj-link:hover{color:var(--letra)}
+.proj-link.ext{border-bottom-color:rgba(243,238,227,.35);font-size:.98rem}
+.proj-link.ext:hover{border-bottom-color:var(--letra)}
 
-/* ---------- Chapter 03: Planos & Arquitectura 3D ---------- */
-.viewer3d-box{margin-top:clamp(26px,4.5vw,44px);background:linear-gradient(180deg,#1a1026 0%,#0f0817 100%);border:1px solid rgba(255,204,41,.35);box-shadow:0 24px 60px rgba(0,0,0,.5);overflow:hidden}
-.viewer3d-bar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;padding:12px 14px;background:rgba(18,10,26,.9);border-bottom:1px solid rgba(246,242,234,.14)}
-.viewer3d-tabs{display:flex;flex-wrap:wrap;gap:8px}
-.vtab{padding:7px 12px;border:1px solid rgba(246,242,234,.24);background:transparent;color:var(--paper);font:400 .72rem/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;cursor:pointer;transition:background-color .2s,color .2s,border-color .2s}
-.vtab.active{background:var(--letra);color:var(--ink);border-color:var(--letra);font-weight:700}
-.viewer3d-cams{display:flex;flex-wrap:wrap;gap:6px}
-.vcam{padding:5px 9px;border:1px solid rgba(255,204,41,.3);background:rgba(106,72,136,.24);color:var(--letra);font:400 .66rem/1 var(--mono);text-transform:uppercase;cursor:pointer}
-.vcam:hover{background:var(--letra);color:var(--ink)}
-.viewer3d-stage{position:relative;width:100%;height:clamp(310px,54vw,500px);background:radial-gradient(circle at 50% 42%,#2c1b40 0%,#11091a 75%)}
-.viewer3d-stage model-viewer{width:100%;height:100%;display:block;--poster-color:transparent}
-.viewer3d-hint{position:absolute;left:12px;bottom:12px;z-index:3;pointer-events:none;display:inline-flex;align-items:center;gap:6px;padding:6px 10px;background:rgba(18,10,26,.82);border:1px solid rgba(255,204,41,.35);font:400 .68rem/1.2 var(--mono);color:var(--paper)}
+/* ---------- Realización de Videos (Asymmetric Editorial Filmstrip) ---------- */
+.films-block{margin-top:clamp(96px,14vw,160px);padding-top:clamp(48px,7vw,88px);border-top:1px solid var(--line)}
+.films-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px 16px;margin-top:clamp(36px,6vw,64px)}
+.film-item{position:relative;display:block;border:0;background:none;padding:0;text-align:left;cursor:pointer;color:inherit;-webkit-tap-highlight-color:transparent}
+.film-item:nth-child(even){margin-top:28px}
+.film-frame{position:relative;aspect-ratio:9/16;border:1px solid var(--line);background:var(--ink2);box-shadow:6px 6px 0 var(--violeta-deep);overflow:hidden;transition:transform .4s var(--ease),box-shadow .4s var(--ease)}
+.film-item:hover .film-frame{transform:translate(-3px,-3px);box-shadow:9px 9px 0 var(--letra)}
+.film-frame video{width:100%;height:100%;object-fit:cover}
+.film-idx{display:block;margin-top:12px;font:400 .74rem/1.3 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--letra)}
+.film-name{display:block;margin-top:4px;font:400 clamp(1.35rem,4.8vw,2rem)/.95 var(--display);text-transform:uppercase}
+.film-sub{display:block;margin-top:4px;font:400 .74rem/1.4 var(--mono);color:var(--mute)}
 
-/* Architectural plans filter & grid */
-.plans-wrap{margin-top:clamp(36px,6vw,64px)}
-.plan-filters{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 20px}
-.pf-btn{padding:7px 12px;border:1px solid rgba(246,242,234,.22);background:var(--ink2);color:var(--mute);font:400 .72rem/1 var(--mono);letter-spacing:.07em;text-transform:uppercase;cursor:pointer;transition:.2s}
-.pf-btn.active,.pf-btn:hover{border-color:var(--letra);color:var(--ink);background:var(--letra)}
-.plans-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-.plancard{position:relative;background:#f8f6f1;color:var(--ink);border:2px solid rgba(246,242,234,.22);padding:0;text-align:left;cursor:pointer;overflow:hidden;transition:transform .24s var(--ease),border-color .24s}
-.plancard:hover{transform:translateY(-3px);border-color:var(--letra)}
-.plancard[hidden]{display:none!important}
-.plancard-img{width:100%;height:auto;aspect-ratio:4/3;object-fit:contain;background:#fff;padding:6px;display:block}
-.plancard-meta{padding:8px 10px;background:var(--ink2);color:var(--paper);border-top:1px solid rgba(246,242,234,.14);display:flex;align-items:center;justify-content:space-between;gap:8px}
-.plancard-meta strong{font:400 .95rem/1.05 var(--display);text-transform:uppercase;letter-spacing:.02em;display:block}
-.plancard-meta small{font:400 .64rem/1.2 var(--mono);color:var(--letra);text-transform:uppercase}
-.plancard-zoom{flex:none;font:400 .68rem/1 var(--mono);color:var(--letra);border:1px solid rgba(255,204,41,.4);padding:4px 6px}
+/* ---------- More Systems & Software (ZHomes, Barba CRM, My Chief, Tri-Lion) ---------- */
+.more{margin-top:clamp(80px,12vw,148px);padding-top:28px;border-top:1px solid var(--line)}
+.more-list{list-style:none;margin:24px 0 0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:24px 18px}
+.more-card{display:block;text-decoration:none;border:0;background:none;padding:0;text-align:left;cursor:pointer;color:inherit}
+.more-card img,.more-card video{width:100%;height:auto;aspect-ratio:4/5;object-fit:cover;object-position:top;border:1px solid var(--line);background:var(--ink2);margin-bottom:12px;box-shadow:6px 6px 0 var(--violeta-deep);transition:transform .4s var(--ease),box-shadow .4s var(--ease)}
+.more-card:hover img,.more-card:hover video{transform:translateY(-5px) rotate(-1deg);box-shadow:8px 8px 0 var(--letra)}
+.more-t{display:block;font:400 clamp(1.4rem,4.5vw,2rem)/1 var(--display);text-transform:uppercase}
+.more-d{display:block;margin-top:6px;font:400 .74rem/1.45 var(--mono);color:var(--mute)}
 
-/* ---------- Section 04: Detrás de las ideas (Miguel Sosa + Cutout Portrait) ---------- */
-.founder-sec{position:relative;overflow:hidden;isolation:isolate;
-  background-color:#3a244d;
-  background-image:
-    linear-gradient(180deg,rgba(18,10,26,.88) 0%,rgba(58,36,77,.48) 50%,rgba(18,10,26,.94) 100%),
-    url(/hola/img/dml-bg.webp);
-  background-size:cover;background-position:center;color:var(--paper)}
-.founder-layout{display:grid;gap:28px;align-items:end}
-.founder-portrait-wrap{position:relative;max-width:420px;margin:0 auto;width:100%}
-.founder-halo{position:absolute;inset:8% 6% 0;background:radial-gradient(circle at 50% 38%,rgba(255,204,41,.28),rgba(106,72,136,.35) 55%,transparent 75%);border:1px solid rgba(255,204,41,.35);z-index:-1}
-.founder-portrait{width:100%;height:auto;display:block;filter:drop-shadow(0 22px 44px rgba(0,0,0,.75));border-bottom:3px solid var(--letra)}
-.founder-badge{position:absolute;right:8px;bottom:14px;background:var(--ink);border:1px solid var(--letra);padding:8px 12px;font:400 .7rem/1.25 var(--mono);color:var(--letra);text-transform:uppercase;letter-spacing:.08em;box-shadow:5px 5px 0 var(--purple)}
-.founder-name{margin:4px 0 0;font:400 clamp(3.4rem,15vw,8.6rem)/.94 var(--gothic);letter-spacing:0;color:var(--paper)}
-.founder-name span{color:var(--letra)}
-.founder-role{margin:12px 0 22px;font:400 .82rem/1.4 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--letra)}
-.founder-role::before{content:"";display:inline-block;width:28px;height:2px;background:var(--letra);vertical-align:middle;margin-right:10px}
-.founder-lead{max-width:22ch;font:400 clamp(1.65rem,6vw,2.9rem)/1.08 var(--display);text-transform:uppercase;margin-bottom:16px}
-.founder-lead mark{background:none;color:var(--letra);text-decoration:underline;text-decoration-thickness:3px;text-underline-offset:.12em}
-.founder-txt{max-width:50ch;font-size:1.03rem;color:rgba(246,242,234,.9);margin-bottom:20px}
-.facts{margin:0;display:grid;border-top:1px solid rgba(246,242,234,.22)}
-.facts div{display:grid;grid-template-columns:7.5em 1fr;gap:12px;padding:12px 0;border-bottom:1px solid rgba(246,242,234,.22)}
-.facts dt{font:400 .74rem/1.5 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--letra)}
+/* ---------- Chapter 03: Planos & Arquitectura 3D (Editorial Drafting Table) ---------- */
+.arch-sec{background:
+  linear-gradient(rgba(243,238,227,.035) 1px,transparent 1px),
+  linear-gradient(90deg,rgba(243,238,227,.035) 1px,transparent 1px),
+  var(--ink2);
+  background-size:36px 36px;border-top:1px solid var(--line)}
+.arch-stage-wrap{margin-top:clamp(36px,6vw,64px);border:1px solid var(--line);background:var(--ink);box-shadow:10px 10px 0 var(--violeta)}
+.arch-bar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;padding:14px 18px;border-bottom:1px solid var(--line)}
+.arch-tabs,.arch-cams{display:flex;flex-wrap:wrap;gap:8px}
+.arch-btn{padding:7px 14px;border:1px solid var(--line);background:transparent;color:var(--mute);font:400 .74rem/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:background-color .2s,color .2s,border-color .2s}
+.arch-btn.active,.arch-btn:hover{border-color:var(--letra);background:var(--letra);color:var(--ink)}
+.arch-canvas{position:relative;width:100%;height:clamp(320px,54vw,520px);background:radial-gradient(circle at 50% 45%,#28193b 0%,#0e0a14 75%)}
+.arch-canvas model-viewer{width:100%;height:100%;display:block;--poster-color:transparent}
+.arch-caption{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;padding:10px 18px;border-top:1px solid var(--line);font:400 .74rem/1.4 var(--mono);color:var(--mute);letter-spacing:.06em;text-transform:uppercase}
+.arch-caption b{color:var(--letra);font-weight:400}
+
+.sheets-head{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:16px;margin-top:clamp(64px,10vw,112px);padding-top:28px;border-top:1px solid var(--line)}
+.sheet-filters{display:flex;flex-wrap:wrap;gap:8px;margin:20px 0 28px}
+.sheets-grid{display:grid;grid-template-columns:1fr;gap:28px}
+.sheet{position:relative;display:block;border:0;background:none;padding:0;text-align:left;cursor:pointer;color:inherit}
+.sheet[hidden]{display:none!important}
+.sheet-paper{background:#f7f4ec;padding:10px;border:1px solid var(--line);box-shadow:8px 8px 0 var(--violeta-deep);transition:transform .35s var(--ease),box-shadow .35s var(--ease)}
+.sheet:nth-child(even) .sheet-paper{transform:rotate(-1.1deg)}
+.sheet:nth-child(odd) .sheet-paper{transform:rotate(.9deg)}
+.sheet:hover .sheet-paper{transform:rotate(0deg) translateY(-4px);box-shadow:10px 10px 0 var(--letra)}
+.sheet-paper img{width:100%;height:auto;aspect-ratio:16/12;object-fit:contain;background:#fff;display:block}
+.sheet-meta{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-top:14px}
+.sheet-title{font:400 clamp(1.35rem,4.2vw,1.85rem)/1 var(--display);text-transform:uppercase}
+.sheet-cat{font:400 .74rem/1 var(--mono);color:var(--letra);letter-spacing:.08em;text-transform:uppercase;white-space:nowrap}
+
+/* ---------- Section 04: Detrás de las ideas (v1 Editorial Paper + Miguel Sosa Cutout) ---------- */
+.founder-sec{background:var(--paper);color:var(--ink);overflow:hidden;isolation:isolate}
+.founder-sec .label{color:var(--violeta-deep)}
+.founder-sec .label i{color:rgba(14,10,20,.65)}
+.founder-name{margin:6px 0 0;font:400 clamp(3.7rem,17.5vw,11.5rem)/.96 "Cloister",Georgia,serif;letter-spacing:0}
+.founder-name span{color:var(--violeta)}
+.founder-role{margin:14px 0 clamp(32px,5vw,56px);font:400 .84rem/1.4 var(--mono);letter-spacing:.12em;text-transform:uppercase}
+.founder-role::before{content:"";display:inline-block;width:28px;height:2px;background:var(--violeta);vertical-align:middle;margin-right:12px}
+.founder-grid{display:grid;gap:28px;align-items:end}
+.founder-lead{max-width:20ch;font:400 clamp(1.75rem,6.8vw,3.3rem)/1.02 var(--display);text-transform:uppercase}
+.founder-lead mark{background:linear-gradient(transparent 58%,var(--letra) 58%);color:inherit;padding:0 .05em}
+.founder-txt{max-width:46ch;font-size:1.06rem;margin-top:18px}
+.facts{margin:22px 0 0;display:grid;border-top:1px solid rgba(14,10,20,.2)}
+.facts div{display:grid;grid-template-columns:6.8em 1fr;gap:12px;padding:14px 0;border-bottom:1px solid rgba(14,10,20,.2)}
+.facts dt{font:400 .76rem/1.6 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--violeta-deep)}
 .facts dd{margin:0;font-weight:500}
+.founder-figure{position:relative;margin:12px auto 0;max-width:380px;width:100%}
+.founder-figure::before{content:"";position:absolute;right:-10px;bottom:0;width:82%;height:78%;background:var(--violeta);box-shadow:-10px -10px 0 var(--letra);z-index:-1;transform:rotate(2deg)}
+.founder-figure img{width:100%;height:auto;display:block;filter:contrast(1.04) drop-shadow(0 18px 32px rgba(14,10,20,.28));border-bottom:4px solid var(--ink)}
 
-/* ---------- Section 05: Contact ---------- */
+/* ---------- Section 05: Hablemos / Contact ---------- */
 .contact{background:var(--letra);color:var(--ink);overflow:hidden;isolation:isolate}
 .contact .label{color:var(--ink)}
-.contact .label b{border-color:var(--ink);background:rgba(18,10,26,.08)}
-.type-bg{position:absolute;z-index:-1;inset:-30%;transform:rotate(-8deg);pointer-events:none;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='560' height='88'%3E%3Cg fill='%23140b1d' fill-opacity='.07' font-family='Courier New,Courier,monospace' font-size='26' font-weight='700'%3E%3Ctext x='0' y='32'%3Edame la letra. dame la letra.%3C/text%3E%3Ctext x='-140' y='76'%3Edame la letra. dame la letra. dame la%3C/text%3E%3C/g%3E%3C/svg%3E")}
-.contact-t{margin:0;max-width:11ch;font:400 clamp(2.9rem,14.5vw,9.4rem)/.88 var(--display);text-transform:uppercase}
-.contact-copy{margin:20px 0 28px;max-width:34ch;font-size:clamp(1.08rem,1.4vw,1.35rem);line-height:1.45}
-.contact-cta{display:grid;gap:12px;max-width:460px}
+.type-bg{position:absolute;z-index:-1;inset:-30%;transform:rotate(-9deg);pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='560' height='88'%3E%3Cg fill='%23000' fill-opacity='.06' font-family='Courier New,Courier,monospace' font-size='26' font-weight='700'%3E%3Ctext x='0' y='32'%3Edame la letra. dame la letra.%3C/text%3E%3Ctext x='-140' y='76'%3Edame la letra. dame la letra. dame la%3C/text%3E%3C/g%3E%3C/svg%3E")}
+.contact-t{margin:0;max-width:11ch;font:400 clamp(3.1rem,15.4vw,10.4rem)/.86 var(--display);text-transform:uppercase}
+.contact-copy{margin:24px 0 32px;max-width:32ch;font-size:clamp(1.12rem,1.5vw,1.4rem);line-height:1.45}
+.contact-cta{display:grid;gap:14px;max-width:460px}
 .contact-qr{display:none}
-.contact-tools{display:flex;flex-wrap:wrap;gap:6px 22px;margin-top:24px}
-.tool{display:inline-flex;align-items:center;min-height:44px;padding:0;border:0;background:none;color:var(--ink);font:400 .8rem/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;text-decoration:underline;text-underline-offset:.35em;cursor:pointer}
+.contact-tools{display:flex;flex-wrap:wrap;gap:6px 22px;margin-top:28px}
+.tool{display:inline-flex;align-items:center;min-height:44px;padding:0;border:0;background:none;color:var(--ink);font:400 .82rem/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;text-decoration:underline;text-underline-offset:.35em;cursor:pointer}
 .contact :focus-visible{outline-color:var(--ink)}
-.foot{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px;padding:26px var(--pad) calc(92px + env(safe-area-inset-bottom));font:400 .74rem/1.5 var(--mono);letter-spacing:.06em;color:var(--mute);background:var(--ink);border-top:1px solid var(--line)}
-.foot img{height:20px;width:auto}
+.foot{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px;padding:28px var(--pad) calc(96px + env(safe-area-inset-bottom));font:400 .74rem/1.5 var(--mono);letter-spacing:.06em;color:var(--mute)}
+.foot img{height:18px;width:auto}
 
-/* ---------- Interactive Project Experience Modal (Signature FX + Videos) ---------- */
-.pmodal{position:fixed;inset:0;z-index:120;display:flex;align-items:flex-end;justify-content:center;background:rgba(9,4,14,.84);backdrop-filter:blur(10px);opacity:0;pointer-events:none;transition:opacity .28s var(--ease)}
-.pmodal.open{opacity:1;pointer-events:auto}
-.pmodal-sheet{position:relative;width:100%;max-width:1040px;max-height:92svh;background:var(--ink2);border-top:2px solid var(--letra);box-shadow:0 -20px 70px rgba(0,0,0,.8);overflow-y:auto;overflow-x:hidden;isolation:isolate;transform:translateY(28px);transition:transform .32s var(--ease)}
-.pmodal.open .pmodal-sheet{transform:none}
-/* Signature FX stage inside modal */
-.pmodal-fx{position:absolute;inset:0;pointer-events:none;z-index:0;overflow:hidden}
-/* Lucky Shaker floating fruits */
-.fx-fruit{position:absolute;width:clamp(46px,9vw,78px);height:auto;opacity:.88;filter:drop-shadow(0 10px 18px rgba(0,0,0,.55));animation:floatFruit var(--dur,9s) ease-in-out infinite alternate;will-change:transform}
-@keyframes floatFruit{0%{transform:translate3d(0,0,0) rotate(var(--r0,-12deg)) scale(.95)}100%{transform:translate3d(var(--dx,18px),var(--dy,-28px),0) rotate(var(--r1,22deg)) scale(1.06)}}
-/* New Era glowing SVG pattern lines */
-.fx-newera-svg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.38}
-.fx-newera-svg path.base{stroke:rgba(218,184,120,.26);stroke-width:14;fill:none}
-.fx-newera-svg path.spark{stroke:#ffcc29;stroke-width:26;fill:none;stroke-linecap:round;stroke-dasharray:260 2600;animation:sparkFlow var(--sdur,4.5s) linear infinite;filter:drop-shadow(0 0 12px #ffcc29)}
-@keyframes sparkFlow{from{stroke-dashoffset:2860}to{stroke-dashoffset:0}}
-/* Ely's floating roses */
-.fx-rose{position:absolute;width:clamp(64px,12vw,110px);height:auto;opacity:.34;animation:floatFruit var(--dur,11s) ease-in-out infinite alternate}
-/* La Bonita gold shimmer */
-.fx-gold-dot{position:absolute;width:6px;height:6px;border-radius:50%;background:radial-gradient(circle,#fff 0%,#ffcc29 60%,transparent 100%);box-shadow:0 0 12px #ffcc29;animation:twinkle var(--tdur,3.2s) ease-in-out infinite alternate}
-@keyframes twinkle{0%{opacity:.15;transform:scale(.6) translateY(0)}100%{opacity:.95;transform:scale(1.35) translateY(-18px)}}
+/* ---------- Bespoke Interactive Project Stage (Drawer) ---------- */
+.stage{position:fixed;inset:0;z-index:120;background:rgba(10,7,15,.92);backdrop-filter:blur(12px);overflow-y:auto;overflow-x:hidden;opacity:0;pointer-events:none;transition:opacity .32s var(--ease)}
+.stage.open{opacity:1;pointer-events:auto}
+.stage-inner{position:relative;min-height:100svh;max-width:1320px;margin:0 auto;padding:24px var(--pad) 72px;display:flex;flex-direction:column;justify-content:space-between;isolation:isolate}
+.stage-fx{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+/* Lucky Shaker depth-of-field floating fruits around the perimeter (never over center text) */
+.stage-fruit{position:absolute;height:auto;pointer-events:none;animation:fruitFloat var(--dur,9s) ease-in-out infinite alternate;will-change:transform}
+@keyframes fruitFloat{from{transform:translate3d(0,0,0) rotate(var(--r0,-14deg))}to{transform:translate3d(var(--dx,16px),var(--dy,-26px),0) rotate(var(--r1,20deg))}}
+/* New Era full-screen architectural SVG with golden sparks */
+.stage-newera-svg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.32}
+.stage-newera-svg path.base{stroke:rgba(218,184,120,.24);stroke-width:14;fill:none}
+.stage-newera-svg path.spark{stroke:var(--letra);stroke-width:26;fill:none;stroke-linecap:round;stroke-dasharray:280 2600;animation:sparkFlow var(--sdur,4s) linear infinite;filter:drop-shadow(0 0 12px var(--letra))}
+@keyframes sparkFlow{from{stroke-dashoffset:2880}to{stroke-dashoffset:0}}
+/* Ely's floating vector roses */
+.stage-rose{position:absolute;width:clamp(80px,14vw,140px);height:auto;opacity:.22;animation:fruitFloat var(--dur,12s) ease-in-out infinite alternate}
+/* La Bonita subtle gold dust */
+.stage-gold{position:absolute;width:5px;height:5px;border-radius:50%;background:var(--letra);box-shadow:0 0 12px var(--letra);animation:goldPulse var(--gdur,3.4s) ease-in-out infinite alternate}
+@keyframes goldPulse{from{opacity:.12;transform:scale(.6) translateY(0)}to{opacity:.85;transform:scale(1.3) translateY(-20px)}}
 
-.pmodal-top{position:sticky;top:0;z-index:5;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 16px;background:rgba(18,10,26,.9);backdrop-filter:blur(10px);border-bottom:1px solid rgba(246,242,234,.14)}
-.pmodal-kicker{font:400 .72rem/1.2 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--letra)}
-.pmodal-close{display:inline-flex;align-items:center;gap:6px;padding:7px 12px;background:var(--letra);color:var(--ink);border:0;font:400 .8rem/1 var(--mono);font-weight:700;text-transform:uppercase;cursor:pointer}
-.pmodal-content{position:relative;z-index:2;padding:20px 16px 32px;display:grid;gap:22px}
-.pmodal-head h3{margin:4px 0 8px;font:400 clamp(2rem,7.5vw,4rem)/.92 var(--display);text-transform:uppercase}
-.pmodal-head p{max-width:56ch;color:var(--mute);font-size:.98rem}
-.pmodal-fx-bar{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:12px}
-.fx-trigger{display:inline-flex;align-items:center;gap:6px;padding:7px 12px;background:rgba(106,72,136,.35);border:1px solid var(--letra);color:var(--letra);font:400 .72rem/1 var(--mono);text-transform:uppercase;cursor:pointer}
-.fx-trigger:hover{background:var(--letra);color:var(--ink)}
-.pmodal-media-grid{display:grid;gap:14px;align-items:start}
-.pmodal-video-wrap{position:relative;background:#07030c;border:1px solid rgba(255,204,41,.35);overflow:hidden}
-.pmodal-video-wrap video{width:100%;max-height:68svh;object-fit:contain;display:block;margin:0 auto}
-.pmodal-gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
-.pmodal-gallery img,.pmodal-gallery video{width:100%;border:1px solid rgba(246,242,234,.16);background:#09050e;object-fit:cover}
-.pmodal-actions{display:flex;flex-wrap:wrap;gap:12px;padding-top:10px;border-top:1px solid var(--line)}
+.stage-bar{position:sticky;top:0;z-index:5;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 0;border-bottom:1px solid var(--line);background:rgba(14,10,20,.82);backdrop-filter:blur(8px)}
+.stage-kicker{font:400 .78rem/1.3 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--letra)}
+.stage-close{padding:8px 16px;border:1px solid var(--letra);background:var(--ink);color:var(--letra);font:400 .8rem/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:background-color .2s,color .2s}
+.stage-close:hover{background:var(--letra);color:var(--ink)}
+.stage-body{position:relative;z-index:2;display:grid;gap:32px;margin-top:clamp(24px,4vw,48px);align-items:start}
+.stage-title{margin:0 0 14px;font:400 clamp(2.4rem,9vw,5.4rem)/.9 var(--display);text-transform:uppercase}
+.stage-desc{max-width:46ch;color:var(--mute);font-size:1.05rem;margin-bottom:22px}
+.stage-fx-btn{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border:1px solid var(--letra);background:rgba(106,72,136,.28);color:var(--letra);font:400 .74rem/1 var(--mono);letter-spacing:.09em;text-transform:uppercase;cursor:pointer;margin-bottom:24px}
+.stage-fx-btn:hover{background:var(--letra);color:var(--ink)}
+.stage-actions{display:flex;flex-wrap:wrap;gap:14px}
+.stage-showcase{display:grid;gap:22px}
+.stage-main-video{border:1px solid var(--line);background:#07050a;box-shadow:10px 10px 0 var(--violeta)}
+.stage-main-video video{width:100%;max-height:70svh;object-fit:contain;margin:0 auto}
+.stage-sec-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px}
+.stage-sec-item{margin:0}
+.stage-sec-item img,.stage-sec-item video{width:100%;height:auto;border:1px solid var(--line);background:var(--ink2);box-shadow:6px 6px 0 var(--ink)}
+.stage-sec-item figcaption{margin-top:8px;font:400 .72rem/1.3 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--letra)}
 
-/* ---------- Lightbox for High-Res Plans ---------- */
-.plan-modal{position:fixed;inset:0;z-index:130;background:rgba(10,5,16,.94);display:flex;flex-direction:column;opacity:0;pointer-events:none;transition:opacity .22s}
-.plan-modal.open{opacity:1;pointer-events:auto}
-.plan-modal-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 16px;background:var(--ink);border-bottom:1px solid var(--line)}
-.plan-modal-title{font:400 .8rem/1.2 var(--mono);color:var(--letra);text-transform:uppercase}
-.plan-modal-body{flex:1;overflow:auto;display:grid;place-items:center;padding:16px}
-.plan-modal-body img{max-width:100%;max-height:84svh;width:auto;height:auto;background:#fff;padding:8px;border:2px solid var(--letra)}
+/* ---------- High-Res Blueprint Lightbox ---------- */
+.sheet-modal{position:fixed;inset:0;z-index:130;background:rgba(10,7,15,.95);display:flex;flex-direction:column;opacity:0;pointer-events:none;transition:opacity .25s}
+.sheet-modal.open{opacity:1;pointer-events:auto}
+.sheet-modal-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px var(--pad);border-bottom:1px solid var(--line)}
+.sheet-modal-title{font:400 .8rem/1.3 var(--mono);color:var(--letra);letter-spacing:.08em;text-transform:uppercase}
+.sheet-modal-body{flex:1;overflow:auto;display:grid;place-items:center;padding:20px}
+.sheet-modal-body img{max-width:100%;max-height:84svh;width:auto;height:auto;background:#fff;padding:10px;box-shadow:10px 10px 0 var(--letra)}
 
 /* ---------- floating WhatsApp ---------- */
-.fab{position:fixed;z-index:60;right:16px;bottom:calc(16px + env(safe-area-inset-bottom));display:inline-flex;align-items:center;gap:9px;height:52px;padding:0 18px 0 15px;background:var(--letra);color:var(--ink);text-decoration:none;font:400 1.02rem/1 var(--display);letter-spacing:.04em;text-transform:uppercase;box-shadow:4px 4px 0 var(--ink),0 14px 34px rgba(0,0,0,.45);transition:transform .4s var(--ease)}
-.fab svg{width:21px;height:21px;fill:currentColor}
+.fab{position:fixed;z-index:60;right:16px;bottom:calc(16px + env(safe-area-inset-bottom));display:inline-flex;align-items:center;gap:9px;height:54px;padding:0 20px 0 16px;background:var(--letra);color:var(--ink);text-decoration:none;font:400 1.05rem/1 var(--display);letter-spacing:.04em;text-transform:uppercase;box-shadow:4px 4px 0 var(--ink),0 14px 34px rgba(0,0,0,.4);transition:transform .45s var(--ease)}
+.fab svg{width:22px;height:22px;fill:currentColor}
 .js .fab{transform:translateY(160%)}
 .js .fab.show{transform:none}
 body.modal-open .fab{transform:translateY(160%)!important}
 
-.toast{position:fixed;z-index:140;left:50%;bottom:calc(82px + env(safe-area-inset-bottom));transform:translate(-50%,20px);opacity:0;padding:11px 18px;background:var(--paper);color:var(--ink);font:400 .84rem/1 var(--mono);transition:.3s var(--ease);pointer-events:none}
+.toast{position:fixed;z-index:140;left:50%;bottom:calc(84px + env(safe-area-inset-bottom));transform:translate(-50%,20px);opacity:0;padding:12px 18px;background:var(--paper);color:var(--ink);font:400 .85rem/1 var(--mono);transition:.3s var(--ease);pointer-events:none}
 .toast.on{opacity:1;transform:translate(-50%,0)}
 
 /* ---------- reveal ---------- */
-.js [data-reveal]{opacity:0;transform:translateY(26px);transition:opacity .75s var(--ease),transform .75s var(--ease)}
+.js [data-reveal]{opacity:0;transform:translateY(34px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
 .js [data-reveal].in{opacity:1;transform:none}
+.js .proj .m-main{opacity:0;translate:0 40px;transition:opacity 1s var(--ease),translate 1.1s var(--ease)}
+.js .proj .m-sub{opacity:0;translate:0 70px;scale:.92;transition:opacity 1s .2s var(--ease),translate 1.2s .2s var(--ease),scale 1.2s .2s var(--ease)}
+.js .proj.in .m-main,.js .proj.in .m-sub{opacity:1;translate:0 0;scale:1}
 
+/* ---------- keyframes ---------- */
 @keyframes rise{from{transform:translateY(108%)}to{transform:none}}
 @keyframes pop{from{transform:scale(0) rotate(-90deg)}to{transform:none}}
 @keyframes spin{to{transform:rotate(360deg)}}
 @keyframes strike{to{transform:rotate(-3.2deg) scaleX(1)}}
 @keyframes drift{from{transform:rotate(-4deg) translateY(0)}to{transform:rotate(2deg) translateY(-18px)}}
-@keyframes marquee{to{transform:translateX(-50%)}}
-@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(255,204,41,.75)}70%,100%{box-shadow:0 0 0 9px rgba(255,204,41,0)}}
+@keyframes marquee{to{transform:translateX(-100%)}}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(255,204,41,.7)}70%,100%{box-shadow:0 0 0 9px rgba(255,204,41,0)}}
 @keyframes blink{50%{opacity:0}}
 
-@media (max-width:359px){
-  .btn{font-size:.98rem;padding:0 12px}
-  .chapter-pills{grid-template-columns:1fr}
-  .pcard-title{font-size:1.08rem}
-}
-@media (min-width:720px){
-  .pgrid{grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
-  .reels-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
-  .plans-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
-  .pmodal{align-items:center;padding:24px}
-  .pmodal-sheet{border:2px solid var(--letra);max-height:88svh}
-  .pmodal-content{padding:28px 32px 36px}
-  .pmodal-media-grid{grid-template-columns:minmax(260px,360px) 1fr;gap:24px}
+@media (max-width:359px){.btn{font-size:1.02rem;padding:0 14px;gap:.5em}.hero-cta .row .btn{font-size:.96rem;padding:0 10px}.link-down{font-size:.74rem}}
+@media (min-width:700px){
+  .hero-glyph{right:-12vw}
+  .films-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:24px}
+  .more-list{grid-template-columns:repeat(4,minmax(0,1fr));gap:24px}
+  .sheets-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:32px}
   .contact-cta{grid-template-columns:1fr 1fr;max-width:720px}
   .contact-cta .btn:first-child{grid-column:1/-1}
 }
 @media (min-width:980px){
-  .hero{min-height:94svh;display:flex;flex-direction:column}
+  .brand img{height:30px}
+  .hero{min-height:100vh;min-height:100svh;display:flex;flex-direction:column}
   .hero-in{flex:1;display:flex;flex-direction:column;justify-content:center;width:100%}
-  .hero-glyph{right:-4vw;top:36px;height:92%}
-  .hero-grid{grid-template-columns:minmax(0,1fr) minmax(0,450px);align-items:end;gap:18px 48px}
+  .hero-glyph{right:-4vw;top:40px;height:96%}
+  .hero-grid{grid-template-columns:minmax(0,1fr) minmax(0,440px);align-items:end;gap:18px 48px}
   .hero-copy{grid-column:1;grid-row:1}
-  .founder-tag{grid-column:1;grid-row:2}
+  .founder{grid-column:1;grid-row:2;order:0}
   .hero-cta{grid-column:2;grid-row:1/3}
-  .founder-layout{grid-template-columns:420px minmax(0,1fr);gap:56px;align-items:center}
+  .svc-item{grid-template-columns:5rem minmax(0,1.35fr) minmax(0,1fr);align-items:end;padding:30px 0 34px}
+  .svc-d,.svc-proof{grid-column:3}
+  .svc-proof{grid-row:2}
+  .svc-item:nth-child(even) .svc-t{padding-left:7%}
+  .svc-item:hover::before{transform:scaleY(1)}
+  .svc-item:hover .svc-t{color:var(--letra);transform:translateX(14px)}
+  .svc-item:hover .svc-d{color:var(--paper)}
+  .svc-item:hover .amp{color:var(--paper)}
+  .proj{grid-template-columns:repeat(12,minmax(0,1fr));gap:0 36px;align-items:center}
+  .proj-media{grid-column:1/8}
+  .proj-body{grid-column:8/13}
+  .proj:nth-of-type(even) .proj-media{grid-column:6/13;grid-row:1}
+  .proj:nth-of-type(even) .proj-body{grid-column:1/6;grid-row:1}
+  .m-main{width:54%}
+  .proj-num{font-size:12rem}
+  .sheets-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:36px}
+  .founder-grid{grid-template-columns:1.15fr .85fr;gap:40px 64px;align-items:end}
+  .stage-body{grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);gap:48px}
   .foot{padding-bottom:32px}
-  .contact .wrap{display:grid;grid-template-columns:minmax(0,1fr) 290px;column-gap:60px}
+  .contact .wrap{display:grid;grid-template-columns:minmax(0,1fr) 300px;column-gap:64px}
   .contact .wrap>*{grid-column:1}
-  .contact .wrap>.contact-qr{display:block;grid-column:2;grid-row:2/6;align-self:end;margin:0;font:400 .74rem/1.5 var(--mono);letter-spacing:.06em;text-transform:uppercase}
-  .contact-qr img{width:100%;height:auto;background:#fff;box-shadow:8px 8px 0 var(--ink);margin-bottom:14px}
+  .contact .wrap>.contact-qr{display:block;grid-column:2;grid-row:2/6;align-self:end;margin:0;font:400 .76rem/1.5 var(--mono);letter-spacing:.06em;text-transform:uppercase}
+  .contact-qr img{width:100%;height:auto;background:#fff;box-shadow:8px 8px 0 var(--ink);margin-bottom:16px}
 }
+
+/* ---------- reduced motion ---------- */
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
-  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
-  .logo-track,.badge .ring,.hero-glyph,.dot,.kicker span{animation:none!important}
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;animation-delay:0s!important;transition-duration:.001ms!important}
+  .band-track,.logo-rail-track,.badge .ring,.hero-glyph,.dot,.kicker span{animation:none!important}
+  .strike::after{transform:rotate(-3.2deg) scaleX(1)}
   .js [data-reveal]{opacity:1;transform:none}
+  .js .proj .m-main,.js .proj .m-sub{opacity:1;translate:0 0;scale:1}
 }
 </style>
 </head>
@@ -405,9 +437,7 @@ body.modal-open .fab{transform:translateY(160%)!important}
 <header class="hero" id="inicio">
   <svg class="hero-glyph" viewBox="0 269 630 711" aria-hidden="true" focusable="false"><path d="M494 269V271H479Q449 271 410 286Q376 300 353 327Q322 377 319 435Q318 440 318 445Q318 450 318 455Q318 462 318.5 473.5Q319 485 320 501Q323 517 325.5 540.0Q328 563 330 593Q333 610 333 637V654Q332 655 332 658V664Q310 814 190 897V894Q190 893 191 892V888Q191 887 192 886V885Q226 838 246 799Q269 754 285 701V639Q285 632 284.5 627.0Q284 622 284 616Q284 610 283.5 602.5Q283 595 282 581Q281 570 280.5 561.0Q280 552 280 545Q277 524 277 476Q277 463 278.0 449.5Q279 436 280 423Q284 407 286 389Q289 376 291.0 367.0Q293 358 295 352L357 282L353 277Q352 278 351 278Q351 278 350 279Q343 283 339 283Q313 293 300.0 298.5Q287 304 279 304Q271 305 265.5 305.5Q260 306 258 306H254Q252 306 252 305H246Q243 305 242 302L136 273H129Q127 274 121 274L106 277Q64 285 32 318Q0 350 0 391V395L2 399H4Q7 399 10 396H11Q12 396 13 395H14Q19 388 23.5 383.5Q28 379 30 375Q34 371 34 370Q34 368 36 366L47 355H49Q54 355 55 354H74Q77 355 80 355H84Q90 357 93 357L108 360Q115 360 123 365Q128 366 131.5 368.0Q135 370 143 370H145Q146 371 148 371H157Q158 372 160 372H165Q179 372 183 371Q195 370 201 368L228 359Q234 357 240.5 354.5Q247 352 254 348Q176 426 176 527V537Q176 540 177.0 545.0Q178 550 179 551V556Q179 559 180 560V563L157 565Q121 568 106 575Q82 585 68 608L74 606L85 608Q87 608 91.5 608.5Q96 609 102 610Q121 613 122 614Q140 620 167 640Q188 657 188 676V691H181Q180 691 172 689H161Q159 689 158 688H150Q133 689 122 694Q107 700 101 709Q105 709 111.0 710.5Q117 712 120 713Q126 715 130.5 717.0Q135 719 138 720Q151 725 169 740Q173 745 175.5 749.0Q178 753 180 755Q184 759 183.5 759.5Q183 760 187 771Q187 773 189 783Q189 787 190 789V794Q190 796 189.5 800.5Q189 805 188 812Q188 814 187.0 819.0Q186 824 183 830Q181 838 180.0 840.0Q179 842 177 847Q173 855 169 862L74 957L89 965Q102 958 120.5 951.0Q139 944 164 936Q218 919 246 916Q257 914 266.0 913.5Q275 913 280 912Q291 911 300.0 910.5Q309 910 314 910H324Q326 911 333 911H343Q345 912 353 912Q459 927 512 980L630 868L610 854Q610 855 608.5 856.5Q607 858 607 859Q606 860 600 868L596 872Q595 873 594.5 874.0Q594 875 593 876Q591 877 590 877Q589 877 589 877L583 881Q580 881 576.0 879.5Q572 878 572 876H570L555 864Q550 860 545.5 857.0Q541 854 539 852Q533 851 527 847Q522 845 519.0 844.5Q516 844 514 843Q506 841 500.0 839.0Q494 837 490 835Q466 829 448.0 827.0Q430 825 409 825Q403 825 394.0 825.5Q385 826 374 827Q338 834 310.5 840.5Q283 847 264 852L347 775Q386 739 405 687Q426 630 424 579L415 368Q424 307 496 302Q500 300 502.0 298.0Q504 296 506 295Q512 289 514 284Q512 277 505 276Q505 274 501.5 273.5Q498 273 494 269Z"/></svg>
   <div class="top">
-    <a class="brand" href="#inicio" aria-label="Dame la Letra">
-      <img src="/hola/img/dame-la-letra-logo.png" width="1102" height="161" alt="Dame la Letra">
-    </a>
+    <a class="brand" href="#inicio"><img src="/hola/img/dame-la-letra-logo.png" width="1102" height="161" alt="Dame la Letra"></a>
     <p class="top-meta"><span class="dot" aria-hidden="true"></span>Louisville, KY</p>
   </div>
 
@@ -418,8 +448,8 @@ body.modal-open .fab{transform:translateY(160%)!important}
       <span class="ln ln-2" aria-hidden="true"><span>más de</span>
         <span class="badge"><svg viewBox="0 0 120 120" focusable="false">
           <defs><path id="ring" d="M60 60m-47 0a47 47 0 1 1 94 0a47 47 0 1 1-94 0"/></defs>
-          <circle cx="60" cy="60" r="59" fill="#140b1d" stroke="#ffcc29" stroke-width="1.8"/>
-          <g class="ring"><text><textPath href="#ring" textLength="292" lengthAdjust="spacing">Dame la Letra · Estudio Creativo · </textPath></text></g>
+          <circle cx="60" cy="60" r="59" fill="#0e0a14" stroke="#ffcc29" stroke-width="1.5"/>
+          <g class="ring"><text><textPath href="#ring" textLength="292" lengthAdjust="spacing">Estudio creativo · Independiente · </textPath></text></g>
           <g transform="translate(36.5 47.4) scale(.0336) translate(-14 -257)" fill="#ffcc29"><path d="M39 257Q61 303 107 312L444 298Q481 301 551 308Q600 315 641 352Q679 386 700 435Q719 479 731 528Q733 533 735 544Q735 548 738.0 559.0Q741 570 744 591Q746 599 748 641Q751 692 751 693V727Q751 739 752 744V811Q752 819 751.0 835.5Q750 852 750 860Q671 890 585 965Q572 961 503 944Q489 941 461 935Q419 926 397 926Q365 922 333 922H308Q306 923 300 923Q283 924 250 928Q233 930 202 938Q129 957 62 996H59Q58 996 57 997H51Q51 997 50 998H43Q43 996 45 990Q46 987 47.0 987.0Q48 987 49.0 985.5Q50 984 50.0 983.0Q50 982 51 981H52V980L258 846Q290 825 315 786Q337 752 341 707V699Q340 697 339.5 690.0Q339 683 339 673Q336 640 336 639Q336 635 336 630Q335 624 335 621V604Q335 588 336 572Q338 550 342 506Q344 496 349 474Q357 438 366 412L360 410Q359 412 357 412H356L355 413H352Q351 414 349.0 415.0Q347 416 345 416Q298 448 287 494V504Q286 507 286 514Q285 524 285 535Q284 536 284 541V547Q284 546 283 564L282 582Q281 601 281 616V631Q281 641 282 645Q282 661 282.5 675.0Q283 689 285 703Q277 771 231.5 820.5Q186 870 128 909L91 934Q67 950 56 955H43Q43 955 59 939Q65 933 76 921Q113 879 121 866Q143 833 143 800V796Q142 795 141.0 790.0Q140 785 140 781V777Q138 775 138 773V769Q136 767 135 762Q134 762 134 760Q125 739 109.5 725.0Q94 711 74 711L62 709Q54 714 39 723Q33 728 19 737Q18 738 16 740L14 742Q14 697 50 670Q83 647 130 647H136L163 645Q166 495 314 416L130 414Q96 414 63 377Q37 342 33 306V288Q33 285 35 277L36 276V274Q36 273 36.5 269.5Q37 266 37.5 265.0Q38 264 39 262ZM531 728Q529 729 516 732Q499 735 468 748Q457 752 440 767V825Q527 838 588 853Q604 857 636 866Q636 865 637 861V857Q637 855 638 852V820Q637 817 637 812V796Q635 786 635 780L632 765Q621 757 596 744Q578 733 557 732Q555 732 552 731H547Q545 731 542 730H537ZM417 410 390 412Q388 417 383 427Q383 429 381.0 434.0Q379 439 378 442Q376 451 370 472Q370 473 370 476Q369 479 368.5 482.0Q368 485 368 491V500Q367 504 367 510Q364 531 364 539V549Q364 556 362.5 569.5Q361 583 361 589Q360 615 360 626V641Q360 664 361.0 671.0Q362 678 363.0 687.5Q364 697 365 704Q365 707 366 711V719Q358 766 326 819L349 817Q353 820 364 820H381Q395 822 399 822H408Q411 823 417 823ZM628 608Q626 610 622.0 613.0Q618 616 617 617Q611 618 604.5 621.5Q598 625 594 629Q592 629 588.0 630.5Q584 632 582 633Q558 641 535 641Q490 641 442 612V734Q473 721 490 717Q499 714 514 712Q517 712 525 711Q533 711 537 711Q545 711 561 713Q569 713 586 717Q594 718 610 725Q614 727 622 730Q624 731 628.0 732.5Q632 734 634 736ZM440 414V569Q445 593 462 602Q476 611 502 617Q515 620 517 620H535Q537 620 539 619H545Q546 619 548 618H550Q574 613 586.0 606.5Q598 600 620 585Q620 583 622 577Q622 576 623 572V567Q623 566 624 565V553Q623 552 623 549V544Q622 543 622 540Q615 506 588.0 474.5Q561 443 533 429Q531 428 528.5 427.0Q526 426 520 424Q518 422 508 420Q506 420 502 419H495Q491 419 483 417H469Q468 417 463 416H457ZM1276 269V271H1261Q1231 271 1192 286Q1158 300 1135 327Q1104 377 1101 435Q1100 440 1100 445Q1100 450 1100 455Q1100 462 1100.5 473.5Q1101 485 1102 501Q1105 517 1107.5 540.0Q1110 563 1112 593Q1115 610 1115 637V654Q1114 655 1114 658V664Q1092 814 972 897V894Q972 893 973 892V888Q973 887 974 886V885Q1008 838 1028 799Q1051 754 1067 701V639Q1067 632 1066.5 627.0Q1066 622 1066 616Q1066 610 1065.5 602.5Q1065 595 1064 581Q1063 570 1062.5 561.0Q1062 552 1062 545Q1059 524 1059 476Q1059 463 1060.0 449.5Q1061 436 1062 423Q1066 407 1068 389Q1071 376 1073.0 367.0Q1075 358 1077 352L1139 282L1135 277Q1134 278 1133 278Q1133 278 1132 279Q1125 283 1121 283Q1095 293 1082.0 298.5Q1069 304 1061 304Q1053 305 1047.5 305.5Q1042 306 1040 306H1036Q1034 306 1034 305H1028Q1025 305 1024 302L918 273H911Q909 274 903 274L888 277Q846 285 814 318Q782 350 782 391V395L784 399H786Q789 399 792 396H793Q794 396 795 395H796Q801 388 805.5 383.5Q810 379 812 375Q816 371 816 370Q816 368 818 366L829 355H831Q836 355 837 354H856Q859 355 862 355H866Q872 357 875 357L890 360Q897 360 905 365Q910 366 913.5 368.0Q917 370 925 370H927Q928 371 930 371H939Q940 372 942 372H947Q961 372 965 371Q977 370 983 368L1010 359Q1016 357 1022.5 354.5Q1029 352 1036 348Q958 426 958 527V537Q958 540 959.0 545.0Q960 550 961 551V556Q961 559 962 560V563L939 565Q903 568 888 575Q864 585 850 608L856 606L867 608Q869 608 873.5 608.5Q878 609 884 610Q903 613 904 614Q922 620 949 640Q970 657 970 676V691H963Q962 691 954 689H943Q941 689 940 688H932Q915 689 904 694Q889 700 883 709Q887 709 893.0 710.5Q899 712 902 713Q908 715 912.5 717.0Q917 719 920 720Q933 725 951 740Q955 745 957.5 749.0Q960 753 962 755Q966 759 965.5 759.5Q965 760 969 771Q969 773 971 783Q971 787 972 789V794Q972 796 971.5 800.5Q971 805 970 812Q970 814 969.0 819.0Q968 824 965 830Q963 838 962.0 840.0Q961 842 959 847Q955 855 951 862L856 957L871 965Q884 958 902.5 951.0Q921 944 946 936Q1000 919 1028 916Q1039 914 1048.0 913.5Q1057 913 1062 912Q1073 911 1082.0 910.5Q1091 910 1096 910H1106Q1108 911 1115 911H1125Q1127 912 1135 912Q1241 927 1294 980L1412 868L1392 854Q1392 855 1390.5 856.5Q1389 858 1389 859Q1388 860 1382 868L1378 872Q1377 873 1376.5 874.0Q1376 875 1375 876Q1373 877 1372 877Q1371 877 1371 877L1365 881Q1362 881 1358.0 879.5Q1354 878 1354 876H1352L1337 864Q1332 860 1327.5 857.0Q1323 854 1321 852Q1315 851 1309 847Q1304 845 1301.0 844.5Q1298 844 1296 843Q1288 841 1282.0 839.0Q1276 837 1272 835Q1248 829 1230.0 827.0Q1212 825 1191 825Q1185 825 1176.0 825.5Q1167 826 1156 827Q1120 834 1092.5 840.5Q1065 847 1046 852L1129 775Q1168 739 1187 687Q1208 630 1206 579L1197 368Q1206 307 1278 302Q1282 300 1284.0 298.0Q1286 296 1288 295Q1294 289 1296 284Q1294 277 1287 276Q1287 274 1283.5 273.5Q1280 273 1276 269Z"/></g>
         </svg></span>
       </span>
@@ -427,8 +457,8 @@ body.modal-open .fab{transform:translateY(160%)!important}
     </h1>
 
     <div class="hero-grid">
-      <p class="hero-copy">Somos <strong>Dame la Letra</strong>. Pensamos diferente, creamos con intención y conectamos <strong>diseño, video, código y arquitectura</strong> para hacer que las ideas funcionen.</p>
-      <p class="founder-tag">Estudio Creativo Independiente · Fundado por <b>Miguel Sosa</b></p>
+      <p class="hero-copy">Somos <strong>Dame la Letra</strong>. Un estudio creativo donde las ideas, la estrategia, el diseño y el código se encuentran para construir cosas que importan.</p>
+      <p class="founder">Estudio creativo independiente · Fundado por <b>Miguel Sosa</b></p>
       <div class="hero-cta" id="hero-cta">
         <a class="btn btn-primary" href="https://wa.me/15026587853?text=Hola%20Miguel%2C%20vi%20la%20tarjeta%20digital%20de%20Dame%20la%20Letra%20y%20me%20gustar%C3%ADa%20conversar%20sobre%20un%20proyecto." target="_blank" rel="noopener" data-track="wa-hero">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
@@ -440,189 +470,207 @@ body.modal-open .fab{transform:translateY(160%)!important}
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm0 2c-4.4 0-8 2.2-8 5v1h11.1a6 6 0 0 1-.1-1c0-1.7.7-3.3 1.8-4.4A13 13 0 0 0 12 14Zm7 0v3h-3v2h3v3h2v-3h3v-2h-3v-3z"/></svg>
             Guardar contacto
           </a>
-          <a class="link-down" href="#cap-diseno">Explorar ↓</a>
+          <a class="link-down" href="#cap-diseno">Ver trabajo <span aria-hidden="true">↓</span></a>
         </div>
       </div>
     </div>
 
-    <div class="chapter-pills" aria-label="Grandes áreas del estudio">
-      <a class="cpill" href="#cap-diseno">
-        <small>Capítulo 01</small>
-        <strong>Diseño, Branding &amp; Video</strong>
-        <span>Identidad · Reels · Dirección</span>
-      </a>
-      <a class="cpill" href="#cap-codigo">
-        <small>Capítulo 02</small>
-        <strong>Web, E-Commerce &amp; Software</strong>
-        <span>Plataformas · 3D · Sistemas IA</span>
-      </a>
-      <a class="cpill" href="#cap-planos">
-        <small>Capítulo 03</small>
-        <strong>Planos &amp; Arquitectura 3D</strong>
-        <span>Modelos .GLB · Láminas · CAD</span>
-      </a>
-    </div>
+    <nav class="hero-chapters" aria-label="Capítulos del portafolio">
+      <a class="hchap" href="#cap-diseno"><span>01 /</span> Diseño, Branding &amp; Video</a>
+      <a class="hchap" href="#cap-codigo"><span>02 /</span> Programación &amp; Web</a>
+      <a class="hchap" href="#cap-planos"><span>03 /</span> Planos &amp; Arquitectura 3D</a>
+      <a class="hchap" href="#fundador"><span>04 /</span> Detrás de las ideas</a>
+    </nav>
   </div>
 </header>
 
-<nav class="chap-nav" aria-label="Navegación de secciones">
-  <div class="chap-nav-in">
-    <a class="chap-link" href="#cap-diseno"><b>01</b> Diseño &amp; Video</a>
-    <a class="chap-link" href="#cap-codigo"><b>02</b> Web &amp; Software</a>
-    <a class="chap-link" href="#cap-planos"><b>03</b> Planos &amp; 3D</a>
-    <a class="chap-link" href="#fundador"><b>04</b> Detrás de las ideas</a>
-    <a class="chap-link" href="#contacto"><b>05</b> Hablemos</a>
-  </div>
-</nav>
+<div class="band-wrap" aria-hidden="true">
+  <div class="band"><div class="band-track"><span>Pensamos diferente <i class="star"></i> Creamos con intención <i class="star"></i> Hacemos que las ideas sucedan <i class="star"></i></span><span>Pensamos diferente <i class="star"></i> Creamos con intención <i class="star"></i> Hacemos que las ideas sucedan <i class="star"></i></span></div><div class="band-track"><span>Pensamos diferente <i class="star"></i> Creamos con intención <i class="star"></i> Hacemos que las ideas sucedan <i class="star"></i></span><span>Pensamos diferente <i class="star"></i> Creamos con intención <i class="star"></i> Hacemos que las ideas sucedan <i class="star"></i></span></div></div>
+</div>
+<p class="sr-only">Pensamos diferente. Creamos con intención. Hacemos que las ideas sucedan.</p>
 
-<section class="logo-strip" id="marcas" aria-label="Marcas y proyectos creados">
-  <div class="logo-strip-head">
-    <p class="logo-strip-label"><strong>Marcas &amp; Proyectos</strong> · Mantén presionado o haz clic para detener</p>
-    <button class="marquee-toggle" type="button" data-marquee-btn aria-pressed="false">⏸ Detener</button>
+<!-- FAST TOUCH/CLICK-PAUSABLE CLIENT LOGO MARQUEE -->
+<section class="logo-rail" id="marcas" aria-label="Marcas y proyectos">
+  <div class="logo-rail-head">
+    <p class="logo-rail-meta"><b>Marcas &amp; Sistemas</b> / Toca o mantén presionado para detener</p>
+    <button class="logo-rail-btn" type="button" data-marquee-btn aria-pressed="false">Detener</button>
   </div>
-  <div class="logo-marquee" data-marquee>
-    <div class="logo-track">
-      <div class="logo-pill"><img src="/hola/img/dame-la-letra-logo.png" alt="Dame la Letra" width="120" height="24"><small>Estudio</small></div>
-      <div class="logo-pill"><img src="/hola/img/logos/zhomes.webp" alt="ZHomes" width="90" height="32"><span>ZHomes</span></div>
-      <div class="logo-pill"><img src="/hola/img/logos/barba.webp" alt="Barba Construction" width="90" height="32"><span>Barba Construction</span></div>
-      <div class="logo-pill"><img src="/hola/img/logos/clover-jewelry.webp" alt="Clover Jewelry" width="90" height="32"><span>Clover Jewelry</span></div>
-      <div class="logo-pill"><img src="/hola/img/logos/tri-lion.webp" alt="Tri-Lion Academy" width="90" height="32"><span>Tri-Lion Academy</span></div>
-      <div class="logo-pill"><img src="/hola/img/logos/edward.webp" alt="Edward Siding &amp; Gutter" width="90" height="32"><span>Edward Siding</span></div>
-      <div class="logo-pill"><img src="/hola/img/logos/pool-extended.webp" alt="Pool Extended" width="110" height="32"><span>Pool Extended</span></div>
-      <div class="logo-pill"><img src="/hola/img/logos/tzel.webp" alt="Tzel" width="80" height="32"><span>Tzel</span></div>
-      <div class="logo-pill"><span>Ely’s Charcuterie</span><small>Branding</small></div>
-      <div class="logo-pill"><span>La Bonita Jewelry</span><small>Oro 10K·14K</small></div>
-      <div class="logo-pill"><span>Lucky Shaker</span><small>Cocktails 3D</small></div>
-      <div class="logo-pill"><span>New Era Real Estate</span><small>Brokerage</small></div>
-      <div class="logo-pill"><span>DPhotography Studios</span><small>Cinema &amp; Web</small></div>
-      <div class="logo-pill"><span>Prime Stone Builders</span><small>3D Showcase</small></div>
-      <!-- duplicate set for seamless high-speed loop -->
-      <div class="logo-pill" aria-hidden="true"><img src="/hola/img/dame-la-letra-logo.png" alt="" width="120" height="24"><small>Estudio</small></div>
-      <div class="logo-pill" aria-hidden="true"><img src="/hola/img/logos/zhomes.webp" alt="" width="90" height="32"><span>ZHomes</span></div>
-      <div class="logo-pill" aria-hidden="true"><img src="/hola/img/logos/barba.webp" alt="" width="90" height="32"><span>Barba Construction</span></div>
-      <div class="logo-pill" aria-hidden="true"><img src="/hola/img/logos/clover-jewelry.webp" alt="" width="90" height="32"><span>Clover Jewelry</span></div>
-      <div class="logo-pill" aria-hidden="true"><img src="/hola/img/logos/tri-lion.webp" alt="" width="90" height="32"><span>Tri-Lion Academy</span></div>
-      <div class="logo-pill" aria-hidden="true"><img src="/hola/img/logos/edward.webp" alt="" width="90" height="32"><span>Edward Siding</span></div>
-      <div class="logo-pill" aria-hidden="true"><img src="/hola/img/logos/pool-extended.webp" alt="" width="110" height="32"><span>Pool Extended</span></div>
-      <div class="logo-pill" aria-hidden="true"><img src="/hola/img/logos/tzel.webp" alt="" width="80" height="32"><span>Tzel</span></div>
-      <div class="logo-pill" aria-hidden="true"><span>Ely’s Charcuterie</span><small>Branding</small></div>
-      <div class="logo-pill" aria-hidden="true"><span>La Bonita Jewelry</span><small>Oro 10K·14K</small></div>
-      <div class="logo-pill" aria-hidden="true"><span>Lucky Shaker</span><small>Cocktails 3D</small></div>
-      <div class="logo-pill" aria-hidden="true"><span>New Era Real Estate</span><small>Brokerage</small></div>
-      <div class="logo-pill" aria-hidden="true"><span>DPhotography Studios</span><small>Cinema &amp; Web</small></div>
-      <div class="logo-pill" aria-hidden="true"><span>Prime Stone Builders</span><small>3D Showcase</small></div>
+  <div class="logo-rail-track-wrap" data-marquee>
+    <div class="logo-rail-track">
+      <div class="logo-item"><img src="/hola/img/dame-la-letra-logo.png" alt="Dame la Letra" width="120" height="22"></div>
+      <div class="logo-item"><img src="/hola/img/logos/zhomes.webp" alt="ZHomes" width="96" height="34"><span>ZHomes</span></div>
+      <div class="logo-item"><img src="/hola/img/logos/barba.webp" alt="Barba Construction" width="96" height="34"><span>Barba Construction</span></div>
+      <div class="logo-item"><img src="/hola/img/logos/clover-jewelry.webp" alt="Clover Jewelry" width="96" height="34"><span>Clover Jewelry</span></div>
+      <div class="logo-item"><img src="/hola/img/logos/tri-lion.webp" alt="Tri-Lion Academy" width="96" height="34"><span>Tri-Lion Academy</span></div>
+      <div class="logo-item"><img src="/hola/img/logos/edward.webp" alt="Edward Siding" width="96" height="34"><span>Edward Siding</span></div>
+      <div class="logo-item"><img src="/hola/img/logos/pool-extended.webp" alt="Pool Extended" width="110" height="34"><span>Pool Extended</span></div>
+      <div class="logo-item"><img src="/hola/img/logos/tzel.webp" alt="Tzel" width="84" height="34"><span>Tzel</span></div>
+      <div class="logo-item"><span>Ely’s Charcuterie</span><small>Branding</small></div>
+      <div class="logo-item"><span>La Bonita Jewelry</span><small>E-Commerce</small></div>
+      <div class="logo-item"><span>Lucky Shaker</span><small>3D &amp; Web</small></div>
+      <div class="logo-item"><span>New Era Real Estate</span><small>Brokerage</small></div>
+      <div class="logo-item"><span>DPhotography Studios</span><small>Cinema</small></div>
+      <div class="logo-item"><span>Prime Stone Builders</span><small>Spatial UI</small></div>
+    </div>
+    <div class="logo-rail-track" aria-hidden="true">
+      <div class="logo-item"><img src="/hola/img/dame-la-letra-logo.png" alt="" width="120" height="22"></div>
+      <div class="logo-item"><img src="/hola/img/logos/zhomes.webp" alt="" width="96" height="34"><span>ZHomes</span></div>
+      <div class="logo-item"><img src="/hola/img/logos/barba.webp" alt="" width="96" height="34"><span>Barba Construction</span></div>
+      <div class="logo-item"><img src="/hola/img/logos/clover-jewelry.webp" alt="" width="96" height="34"><span>Clover Jewelry</span></div>
+      <div class="logo-item"><img src="/hola/img/logos/tri-lion.webp" alt="" width="96" height="34"><span>Tri-Lion Academy</span></div>
+      <div class="logo-item"><img src="/hola/img/logos/edward.webp" alt="" width="96" height="34"><span>Edward Siding</span></div>
+      <div class="logo-item"><img src="/hola/img/logos/pool-extended.webp" alt="" width="110" height="34"><span>Pool Extended</span></div>
+      <div class="logo-item"><img src="/hola/img/logos/tzel.webp" alt="" width="84" height="34"><span>Tzel</span></div>
+      <div class="logo-item"><span>Ely’s Charcuterie</span><small>Branding</small></div>
+      <div class="logo-item"><span>La Bonita Jewelry</span><small>E-Commerce</small></div>
+      <div class="logo-item"><span>Lucky Shaker</span><small>3D &amp; Web</small></div>
+      <div class="logo-item"><span>New Era Real Estate</span><small>Brokerage</small></div>
+      <div class="logo-item"><span>DPhotography Studios</span><small>Cinema</small></div>
+      <div class="logo-item"><span>Prime Stone Builders</span><small>Spatial UI</small></div>
     </div>
   </div>
 </section>
 
 <main>
   <!-- =================================================================
+       LO QUE HACEMOS (v1 Editorial Discipline List)
+       ================================================================= -->
+  <section class="sec" id="servicios" aria-labelledby="svc-title">
+    <div class="wrap">
+      <p class="label" data-reveal><b>01</b> Lo que hacemos</p>
+      <h2 class="h2" id="svc-title" data-reveal>No solo hacemos que las cosas se vean bien. <em>Hacemos que las ideas funcionen.</em></h2>
+
+      <ol class="svc">
+        <li class="svc-item" data-reveal>
+          <span class="svc-n">01</span>
+          <h3 class="svc-t">Diseño, Branding <span class="amp">&amp;</span> Video</h3>
+          <p class="svc-d">Identidad visual, construcción de marca, dirección de arte, reels cinematográficos y campañas diseñadas para diferenciar.</p>
+          <p class="svc-proof">Explorar en <a href="#p-elys">Ely’s Charcuterie</a> · <a href="#p-dp">DPhotography</a> · <a href="#realizacion-video">Realización de Video</a></p>
+        </li>
+        <li class="svc-item" data-reveal>
+          <span class="svc-n">02</span>
+          <h3 class="svc-t">Web, E-commerce <span class="amp">&amp;</span> Código</h3>
+          <p class="svc-d">Sitios web interactivos, tiendas Shopify a medida, experiencias 3D de producto y plataformas con inteligencia artificial.</p>
+          <p class="svc-proof">Explorar en <a href="#p-lucky">Lucky Shaker</a> · <a href="#p-newera">New Era Real Estate</a> · <a href="#p-labonita">La Bonita Jewelry</a></p>
+        </li>
+        <li class="svc-item" data-reveal>
+          <span class="svc-n">03</span>
+          <h3 class="svc-t">Software <span class="amp">&amp;</span> Automatización</h3>
+          <p class="svc-d">Sistemas internos, CRMs de construcción, estimadores con IA y motores propios para operar y escalar negocios reales.</p>
+          <p class="svc-proof">Explorar en <a href="#mas-sistemas">ZHomes</a> · <a href="#mas-sistemas">Barba CRM</a> · <a href="#mas-sistemas">My Chief CAD</a></p>
+        </li>
+        <li class="svc-item" data-reveal>
+          <span class="svc-n">04</span>
+          <h3 class="svc-t">Planos <span class="amp">&amp;</span> Arquitectura 3D</h3>
+          <p class="svc-d">Láminas arquitectónicas, ingeniería MEP/HVAC, detalles estructurales bajo código IRC y modelos 3D interactivos.</p>
+          <p class="svc-proof">Explorar en <a href="#cap-planos">Visor 3D (.GLB) &amp; Pliegos Técnicos</a></p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- =================================================================
        CAPÍTULO 01 — DISEÑO, BRANDING & REALIZACIÓN DE VIDEO
        ================================================================= -->
-  <section class="sec" id="cap-diseno" aria-labelledby="t-diseno">
+  <section class="sec" id="cap-diseno" aria-labelledby="diseno-title" style="padding-top:clamp(32px,5vw,72px)">
     <div class="wrap">
-      <p class="label" data-reveal><b>Capítulo 01</b> Diseño · Branding · Producción Audiovisual</p>
-      <h2 class="h2" id="t-diseno" data-reveal>Identidades con carácter <span class="goth">&amp;</span> <em>cine vertical.</em></h2>
-      <p class="sec-sub" data-reveal>Cada tarjeta muestra el proyecto en movimiento. Tócala para abrir la experiencia interactiva con sus elementos visuales únicos.</p>
+      <p class="label" data-reveal><b>02</b> Capítulo 01 · Diseño, Branding &amp; Video <i>/ Toca cualquier proyecto para abrir su experiencia interactiva.</i></p>
+      <h2 class="h2" id="diseno-title" data-reveal>Identidad, dirección de arte <span class="amp">&amp;</span> <em>movimiento.</em></h2>
 
-      <div class="pgrid">
-        <!-- 01. Ely's Charcuterie -->
-        <button class="pcard" type="button" data-open-project="elys" data-reveal>
-          <div class="pcard-screen">
-            <video muted loop playsinline preload="none" poster="/hola/media/elys-poster.jpg" data-loop-src="/hola/media/elys-loop.mp4"></video>
-            <div class="pcard-top">
-              <span class="pcard-num">01</span>
-              <span class="pcard-fx-badge">🌹 Rosas &amp; Reel</span>
-            </div>
-            <span class="pcard-open">Tocar para explorar <i>＋</i></span>
-          </div>
-          <div class="pcard-body">
-            <span class="pcard-tag">Branding · Packaging · Reel</span>
-            <h3 class="pcard-title">Ely’s Charcuterie</h3>
-            <p class="pcard-desc">Identidad completa en burgundy y oro, isotipo de rosa, papelería y reel de revelación de marca.</p>
-          </div>
+      <!-- 01. Ely's Charcuterie -->
+      <article class="proj" id="p-elys" data-reveal>
+        <button class="proj-media" type="button" data-open-stage="elys" aria-label="Explorar experiencia de Ely’s Charcuterie">
+          <span class="proj-num">01</span>
+          <video class="m-main" muted loop playsinline preload="none" poster="/hola/media/elys-poster.jpg" data-loop-src="/hola/media/elys-loop.mp4" width="480" height="854"></video>
+          <img class="m-sub" src="/hola/img/elys-cards-640.webp" srcset="/hola/img/elys-cards-640.webp 640w, /hola/img/elys-cards-1100.webp 1100w" sizes="(min-width:980px) 34vw, 58vw" width="640" height="478" alt="Tarjetas de presentación Ely’s Charcuterie" loading="lazy" decoding="async">
         </button>
-
-        <!-- 02. DPhotography Studios -->
-        <button class="pcard" type="button" data-open-project="dp" data-reveal>
-          <div class="pcard-screen">
-            <video muted loop playsinline preload="none" poster="/hola/media/dp-poster.jpg" data-loop-src="/hola/media/dp-loop.mp4"></video>
-            <div class="pcard-top">
-              <span class="pcard-num">02</span>
-              <span class="pcard-fx-badge">🎬 Promo + Audio</span>
-            </div>
-            <span class="pcard-open">Tocar para explorar <i>＋</i></span>
+        <div class="proj-body">
+          <p class="proj-meta"><span>Branding</span><span>Identidad</span><span>Reel &amp; Web</span></p>
+          <h3 class="proj-t">Ely’s Charcuterie</h3>
+          <p class="proj-d">Identidad completa para un atelier de charcutería en Louisville — logotipo, isotipo de rosa en burgundy y oro, papelería impresa, reel de revelación de marca y catálogo digital con pedidos por WhatsApp.</p>
+          <div class="proj-links">
+            <button class="proj-link" type="button" data-open-stage="elys">Abrir experiencia <small>reel + rosas + diseño +</small></button>
+            <a class="proj-link ext" href="https://charcuterieelys-byte.github.io/website/" target="_blank" rel="noopener">Sitio en vivo <small>↗</small></a>
           </div>
-          <div class="pcard-body">
-            <span class="pcard-tag">Dirección de Arte · Promo Reel</span>
-            <h3 class="pcard-title">DPhotography Studios</h3>
-            <p class="pcard-desc">Dirección visual y pieza audiovisual de lanzamiento para estudio de fotografía de lujo y cine.</p>
-          </div>
-        </button>
-
-        <!-- 03. La Bonita Jewelry (Design & Brand Film) -->
-        <button class="pcard" type="button" data-open-project="labonita-brand" data-reveal>
-          <div class="pcard-screen">
-            <video muted loop playsinline preload="none" poster="/hola/media/labonita-reveal-poster.jpg" data-loop-src="/hola/media/labonita-reveal-loop.mp4"></video>
-            <div class="pcard-top">
-              <span class="pcard-num">03</span>
-              <span class="pcard-fx-badge">✨ Destellos 14K</span>
-            </div>
-            <span class="pcard-open">Tocar para explorar <i>＋</i></span>
-          </div>
-          <div class="pcard-body">
-            <span class="pcard-tag">Campaña · Dirección 3D · Joyería</span>
-            <h3 class="pcard-title">La Bonita · Art Film</h3>
-            <p class="pcard-desc">Universo visual en mármol clásico y oro 10K/14K con piezas audiovisuales de alto impacto.</p>
-          </div>
-        </button>
-      </div>
-
-      <!-- SUB-SECCIÓN: REALIZACIÓN DE VIDEOS (4 FILMS VERTICALES) -->
-      <div class="reels-sub" id="realizacion-video">
-        <div class="reels-head" data-reveal>
-          <div>
-            <p class="label" style="margin-bottom:8px"><b>Realización de Video</b> Dirección · Edición · Motion Graphics</p>
-            <h3 class="reels-title">Piezas audiovisuales <span>que detienen el scroll.</span></h3>
-          </div>
-          <p class="sec-sub" style="margin:0;max-width:34ch">Toca cualquier reel para reproducirlo en pantalla grande con sonido.</p>
         </div>
+      </article>
 
-        <div class="reels-grid">
-          <button class="rcard" type="button" data-open-project="reel-luxury" data-reveal>
-            <video muted loop playsinline preload="none" poster="/hola/media/labonita-film-poster.jpg" data-loop-src="/hola/media/labonita-film-loop.mp4"></video>
-            <span class="rcard-play">🔊 Ver film</span>
-            <div class="rcard-info">
-              <span class="rcard-kicker">Art Film · Joyería 3D</span>
-              <h4 class="rcard-name">La Bonita Luxury</h4>
+      <!-- 02. DPhotography Studios -->
+      <article class="proj" id="p-dp" data-reveal>
+        <button class="proj-media" type="button" data-open-stage="dp" aria-label="Explorar experiencia de DPhotography Studios">
+          <span class="proj-num">02</span>
+          <video class="m-main" muted loop playsinline preload="none" poster="/hola/media/dp-poster.jpg" data-loop-src="/hola/media/dp-loop.mp4" width="480" height="854"></video>
+          <img class="m-sub" src="/hola/media/dp-poster.jpg" width="480" height="854" alt="DPhotography Studios &amp; Films" loading="lazy" decoding="async" style="aspect-ratio:16/10;object-fit:cover;object-position:center">
+        </button>
+        <div class="proj-body">
+          <p class="proj-meta"><span>Dirección Creativa</span><span>Cinema Promo</span><span>Web</span></p>
+          <h3 class="proj-t">DPhotography Studios</h3>
+          <p class="proj-d">Dirección visual, pieza audiovisual promocional y plataforma web para un estudio de fotografía de lujo, bodas, quinceañeras y producción cinematográfica en Louisville.</p>
+          <div class="proj-links">
+            <button class="proj-link" type="button" data-open-stage="dp">Ver pieza con sonido <small>reel promo +</small></button>
+            <a class="proj-link ext" href="https://www.dphotographystudios.com/" target="_blank" rel="noopener">dphotographystudios.com <small>↗</small></a>
+          </div>
+        </div>
+      </article>
+
+      <!-- 03. La Bonita Jewelry — Dirección de Arte & Film -->
+      <article class="proj" id="p-labonita-arte" data-reveal>
+        <button class="proj-media" type="button" data-open-stage="labonita" aria-label="Explorar experiencia de La Bonita Jewelry">
+          <span class="proj-num">03</span>
+          <video class="m-main" muted loop playsinline preload="none" poster="/hola/media/labonita-reveal-poster.jpg" data-loop-src="/hola/media/labonita-reveal-loop.mp4" width="480" height="854"></video>
+          <img class="m-sub" src="/hola/img/labonita-d-640.webp" srcset="/hola/img/labonita-d-640.webp 640w, /hola/img/labonita-d-1100.webp 1100w" sizes="(min-width:980px) 34vw, 58vw" width="640" height="360" alt="La Bonita Jewelry dirección de arte" loading="lazy" decoding="async">
+        </button>
+        <div class="proj-body">
+          <p class="proj-meta"><span>Dirección de Arte</span><span>3D &amp; Motion</span><span>Joyería 10K·14K</span></p>
+          <h3 class="proj-t">La Bonita · Universo Visual</h3>
+          <p class="proj-d">Fusión de escultura clásica en mármol y joyería de oro real de 10K y 14K: campaña audiovisual de revelación, art film y estética editorial de lujo.</p>
+          <div class="proj-links">
+            <button class="proj-link" type="button" data-open-stage="labonita">Abrir experiencia <small>films + destellos 14K +</small></button>
+            <a class="proj-link ext" href="https://www.labonitajewelry.com/" target="_blank" rel="noopener">labonitajewelry.com <small>↗</small></a>
+          </div>
+        </div>
+      </article>
+
+      <!-- SUB-SECCIÓN: REALIZACIÓN DE VIDEOS (4 FILMS EN TIRAS ASIMÉTRICAS) -->
+      <div class="films-block" id="realizacion-video">
+        <p class="label" data-reveal><b>Video</b> Realización Audiovisual &amp; Reels <i>/ Toca cualquier pieza para reproducirla con sonido.</i></p>
+        <h3 class="h2" data-reveal style="font-size:clamp(2rem,7.8vw,4.6rem)">Piezas que <em>detienen el scroll.</em></h3>
+
+        <div class="films-grid">
+          <button class="film-item" type="button" data-open-stage="reel-luxury" data-reveal>
+            <div class="film-frame">
+              <video muted loop playsinline preload="none" poster="/hola/media/labonita-film-poster.jpg" data-loop-src="/hola/media/labonita-film-loop.mp4"></video>
             </div>
+            <span class="film-idx">Film 01 / Con sonido</span>
+            <span class="film-name">Luxury Jewelry Art Film</span>
+            <span class="film-sub">Escultura en mármol &amp; oro 14K</span>
           </button>
 
-          <button class="rcard" type="button" data-open-project="reel-agents" data-reveal>
-            <video muted loop playsinline preload="none" poster="/hola/media/vid-agents-poster.jpg" data-loop-src="/hola/media/vid-agents-loop.mp4"></video>
-            <span class="rcard-play">🔊 Ver reel</span>
-            <div class="rcard-info">
-              <span class="rcard-kicker">Collage Editorial · Motion</span>
-              <h4 class="rcard-name">Top Agents · ZHomes</h4>
+          <button class="film-item" type="button" data-open-stage="reel-agents" data-reveal>
+            <div class="film-frame">
+              <video muted loop playsinline preload="none" poster="/hola/media/vid-agents-poster.jpg" data-loop-src="/hola/media/vid-agents-loop.mp4"></video>
             </div>
+            <span class="film-idx">Film 02 / Con sonido</span>
+            <span class="film-name">Top Agents · Collage</span>
+            <span class="film-sub">Animación editorial &amp; recorte</span>
           </button>
 
-          <button class="rcard" type="button" data-open-project="reel-sellers" data-reveal>
-            <video muted loop playsinline preload="none" poster="/hola/media/vid-sellers-poster.jpg" data-loop-src="/hola/media/vid-sellers-loop.mp4"></video>
-            <span class="rcard-play">🔊 Ver reel</span>
-            <div class="rcard-info">
-              <span class="rcard-kicker">Ritmo Cinético · Campaña</span>
-              <h4 class="rcard-name">Top Sellers · ZHomes</h4>
+          <button class="film-item" type="button" data-open-stage="reel-sellers" data-reveal>
+            <div class="film-frame">
+              <video muted loop playsinline preload="none" poster="/hola/media/vid-sellers-poster.jpg" data-loop-src="/hola/media/vid-sellers-loop.mp4"></video>
             </div>
+            <span class="film-idx">Film 03 / Con sonido</span>
+            <span class="film-name">Top Sellers · Cinético</span>
+            <span class="film-sub">Motion graphics &amp; ritmo</span>
           </button>
 
-          <button class="rcard" type="button" data-open-project="reel-shoot" data-reveal>
-            <video muted loop playsinline preload="none" poster="/hola/media/vid-shoot-poster.jpg" data-loop-src="/hola/media/vid-shoot-loop.mp4"></video>
-            <span class="rcard-play">🔊 Ver reel</span>
-            <div class="rcard-info">
-              <span class="rcard-kicker">Dirección en Set · Retrato</span>
-              <h4 class="rcard-name">Sesión Editorial</h4>
+          <button class="film-item" type="button" data-open-stage="reel-shoot" data-reveal>
+            <div class="film-frame">
+              <video muted loop playsinline preload="none" poster="/hola/media/vid-shoot-poster.jpg" data-loop-src="/hola/media/vid-shoot-loop.mp4"></video>
             </div>
+            <span class="film-idx">Film 04 / Con sonido</span>
+            <span class="film-name">Sesión Editorial</span>
+            <span class="film-sub">Dirección en set · B&amp;N a color</span>
           </button>
         </div>
       </div>
@@ -630,250 +678,254 @@ body.modal-open .fab{transform:translateY(160%)!important}
   </section>
 
   <!-- =================================================================
-       CAPÍTULO 02 — PROGRAMACIÓN, WEB & SOFTWARE
+       CAPÍTULO 02 — PROGRAMACIÓN, WEB, E-COMMERCE & SOFTWARE
        ================================================================= -->
-  <section class="sec" id="cap-codigo" aria-labelledby="t-codigo" style="background:linear-gradient(180deg,var(--ink2) 0%,var(--ink) 100%);border-top:1px solid var(--line)">
+  <section class="sec" id="cap-codigo" aria-labelledby="codigo-title" style="border-top:1px solid var(--line)">
     <div class="wrap">
-      <p class="label" data-reveal><b>Capítulo 02</b> Programación · Web Interactiva · E-Commerce · Software</p>
-      <h2 class="h2" id="t-codigo" data-reveal>Código a medida <span class="goth">&amp;</span> <em>experiencias vivas.</em></h2>
-      <p class="sec-sub" data-reveal>Toca cada proyecto para ver cómo cobra vida: desde las frutas flotantes de Lucky Shaker hasta el patrón arquitectónico con destellos de New Era.</p>
+      <p class="label" data-reveal><b>03</b> Capítulo 02 · Programación, Web &amp; Software <i>/ Experiencias reales en producción.</i></p>
+      <h2 class="h2" id="codigo-title" data-reveal>Pruebas, <em>no promesas.</em></h2>
+      <p class="sec-sub" data-reveal>Sitios interactivos, e-commerce y software a medida. Toca cualquier proyecto para ver sus elementos interactivos especiales en acción.</p>
 
-      <div class="pgrid">
-        <!-- 01. Lucky Shaker -->
-        <button class="pcard" type="button" data-open-project="lucky" data-reveal>
-          <div class="pcard-screen">
-            <video muted loop playsinline preload="none" poster="/hola/media/lucky-poster.jpg" data-loop-src="/hola/media/lucky-loop.mp4"></video>
-            <div class="pcard-top">
-              <span class="pcard-num">01</span>
-              <span class="pcard-fx-badge">🍋 Frutas Flotantes</span>
-            </div>
-            <span class="pcard-open">Tocar para agitar <i>＋</i></span>
-          </div>
-          <div class="pcard-body">
-            <span class="pcard-tag">E-Commerce · 3D · Cinemática 60fps</span>
-            <h3 class="pcard-title">Lucky Shaker</h3>
-            <p class="pcard-desc">Coctelería embotellada con secuencias reales a 60fps, botella 3D e ingredientes flotando en pantalla.</p>
-          </div>
+      <!-- 01. Lucky Shaker -->
+      <article class="proj" id="p-lucky" data-reveal>
+        <button class="proj-media" type="button" data-open-stage="lucky" aria-label="Explorar experiencia interactiva de Lucky Shaker">
+          <span class="proj-num">01</span>
+          <video class="m-main" muted loop playsinline preload="none" poster="/hola/media/lucky-poster.jpg" data-loop-src="/hola/media/lucky-loop.mp4" width="480" height="854"></video>
+          <img class="m-sub tall" src="/hola/img/lucky-3d-420.webp" srcset="/hola/img/lucky-3d-420.webp 420w, /hola/img/lucky-3d-720.webp 720w" sizes="(min-width:980px) 22vw, 38vw" width="420" height="583" alt="Botella 3D Lucky Shaker" loading="lazy" decoding="async">
         </button>
+        <div class="proj-body">
+          <p class="proj-meta"><span>E-commerce</span><span>3D de producto</span><span>Cinemática 60fps</span></p>
+          <h3 class="proj-t">Lucky Shaker</h3>
+          <p class="proj-d">Tienda Shopify para cócteles embotellados y servicio de bartending móvil, con producto modelado en 3D, secuencias a 60fps e ingredientes flotando en pantalla.</p>
+          <div class="proj-links">
+            <button class="proj-link" type="button" data-open-stage="lucky">Abrir experiencia <small>frutas flotando + video 60fps +</small></button>
+            <a class="proj-link ext" href="https://luckyshakersupply.com/" target="_blank" rel="noopener">luckyshakersupply.com <small>↗</small></a>
+          </div>
+        </div>
+      </article>
 
-        <!-- 02. New Era Real Estate -->
-        <button class="pcard" type="button" data-open-project="newera" data-reveal>
-          <div class="pcard-screen">
-            <video muted loop playsinline preload="none" poster="/hola/media/newera-poster.jpg" data-loop-src="/hola/media/newera-loop.mp4"></video>
-            <div class="pcard-top">
-              <span class="pcard-num">02</span>
-              <span class="pcard-fx-badge">⚡ Patrón SVG Destellos</span>
-            </div>
-            <span class="pcard-open">Tocar para explorar <i>＋</i></span>
-          </div>
-          <div class="pcard-body">
-            <span class="pcard-tag">Plataforma Inmobiliaria · Suite IA</span>
-            <h3 class="pcard-title">New Era Real Estate</h3>
-            <p class="pcard-desc">Correduría en Kentucky con patrón geométrico SVG vivo haciendo destellos, mapa interactivo y ARM IA.</p>
-          </div>
+      <!-- 02. New Era Real Estate -->
+      <article class="proj" id="p-newera" data-reveal>
+        <button class="proj-media" type="button" data-open-stage="newera" aria-label="Explorar experiencia interactiva de New Era Real Estate">
+          <span class="proj-num">02</span>
+          <video class="m-main" muted loop playsinline preload="none" poster="/hola/media/newera-poster.jpg" data-loop-src="/hola/media/newera-loop.mp4" width="480" height="854"></video>
+          <img class="m-sub" src="/hola/img/newera-d-640.webp" srcset="/hola/img/newera-d-640.webp 640w, /hola/img/newera-d-1100.webp 1100w" sizes="(min-width:980px) 34vw, 58vw" width="640" height="315" alt="Plataforma New Era Real Estate" loading="lazy" decoding="async">
         </button>
+        <div class="proj-body">
+          <p class="proj-meta"><span>Web Interactiva</span><span>Suite IA (ARM)</span><span>Patrón SVG Vivo</span></p>
+          <h3 class="proj-t">New Era Real Estate</h3>
+          <p class="proj-d">Plataforma inmobiliaria bilingüe y suite de automatización omnicanal en Kentucky: mapa interactivo, directorio de agentes y su característico patrón arquitectónico SVG haciendo destellos en vivo.</p>
+          <div class="proj-links">
+            <button class="proj-link" type="button" data-open-stage="newera">Abrir experiencia <small>patrón SVG con destellos + demo IA +</small></button>
+            <a class="proj-link ext" href="https://www.neweraky.com/" target="_blank" rel="noopener">neweraky.com <small>↗</small></a>
+          </div>
+        </div>
+      </article>
 
-        <!-- 03. La Bonita Jewelry (Web & E-commerce) -->
-        <button class="pcard" type="button" data-open-project="labonita-web" data-reveal>
-          <div class="pcard-screen">
-            <video muted loop playsinline preload="none" poster="/hola/media/labonita-marble-poster.jpg" data-loop-src="/hola/media/labonita-marble-loop.mp4"></video>
-            <div class="pcard-top">
-              <span class="pcard-num">03</span>
-              <span class="pcard-fx-badge">👑 Shopify + Oro Vivo</span>
-            </div>
-            <span class="pcard-open">Tocar para explorar <i>＋</i></span>
-          </div>
-          <div class="pcard-body">
-            <span class="pcard-tag">Shopify a Medida · Calculadora</span>
-            <h3 class="pcard-title">La Bonita Jewelry Web</h3>
-            <p class="pcard-desc">Tema Shopify de lujo con escultura 3D interactiva, calculadora de oro al día y combos inteligentes.</p>
-          </div>
+      <!-- 03. La Bonita Jewelry E-Commerce -->
+      <article class="proj" id="p-labonita" data-reveal>
+        <button class="proj-media" type="button" data-open-stage="labonita" aria-label="Explorar tienda de La Bonita Jewelry">
+          <span class="proj-num">03</span>
+          <video class="m-main" muted loop playsinline preload="none" poster="/hola/media/labonita-marble-poster.jpg" data-loop-src="/hola/media/labonita-marble-loop.mp4" width="480" height="854"></video>
+          <img class="m-sub" src="/hola/img/labonita-m-480.webp" srcset="/hola/img/labonita-m-480.webp 480w, /hola/img/labonita-m-820.webp 820w" sizes="(min-width:980px) 24vw, 42vw" width="480" height="831" alt="La Bonita Jewelry Mobile" loading="lazy" decoding="async" style="width:42%">
         </button>
+        <div class="proj-body">
+          <p class="proj-meta"><span>E-commerce</span><span>Shopify a medida</span><span>Calculadora de Oro</span></p>
+          <h3 class="proj-t">La Bonita Jewelry</h3>
+          <p class="proj-d">Tema Shopify a medida para joyería de oro 10K y 14K: escultura 3D en el hero, catálogo con filtros, combos promocionales, financiamiento y calculadora de compra de oro conectada al precio del día.</p>
+          <div class="proj-links">
+            <button class="proj-link" type="button" data-open-stage="labonita">Abrir experiencia <small>tienda + calculadora +</small></button>
+            <a class="proj-link ext" href="https://www.labonitajewelry.com/" target="_blank" rel="noopener">labonitajewelry.com <small>↗</small></a>
+          </div>
+        </div>
+      </article>
 
-        <!-- 04. Prime Stone Builders -->
-        <button class="pcard" type="button" data-open-project="primestone" data-reveal>
-          <div class="pcard-screen">
-            <video muted loop playsinline preload="none" poster="/hola/media/primestone-poster.jpg" data-loop-src="/hola/media/primestone-loop.mp4"></video>
-            <div class="pcard-top">
-              <span class="pcard-num">04</span>
-              <span class="pcard-fx-badge">🏛️ Showcase 16:9 + 9:16</span>
-            </div>
-            <span class="pcard-open">Tocar para ver video <i>＋</i></span>
-          </div>
-          <div class="pcard-body">
-            <span class="pcard-tag">Arquitectura Digital · UI Espacial</span>
-            <h3 class="pcard-title">Prime Stone Builders</h3>
-            <p class="pcard-desc">Experiencia web de construcción de alto nivel con transiciones espaciales en desktop y móvil.</p>
-          </div>
+      <!-- 04. Prime Stone Builders -->
+      <article class="proj" id="p-primestone" data-reveal>
+        <button class="proj-media" type="button" data-open-stage="primestone" aria-label="Explorar showcase de Prime Stone Builders">
+          <span class="proj-num">04</span>
+          <video class="m-main" muted loop playsinline preload="none" poster="/hola/media/primestone-poster.jpg" data-loop-src="/hola/media/primestone-loop.mp4" width="480" height="854"></video>
+          <img class="m-sub" src="/hola/media/primestone-desk-poster.jpg" width="640" height="360" alt="Prime Stone Builders Desktop 16:9" loading="lazy" decoding="async">
         </button>
+        <div class="proj-body">
+          <p class="proj-meta"><span>Arquitectura Digital</span><span>UI Espacial</span><span>Video Showcase</span></p>
+          <h3 class="proj-t">Prime Stone Builders</h3>
+          <p class="proj-d">Diseño de interfaz espacial y showcase audiovisual de construcción de alto nivel, producido tanto en formato panorámico Desktop (16:9) como en experiencia Mobile (9:16).</p>
+          <div class="proj-links">
+            <button class="proj-link" type="button" data-open-stage="primestone">Ver showcase completo <small>videos 16:9 y 9:16 +</small></button>
+          </div>
+        </div>
+      </article>
 
-        <!-- 05. ZHomes App -->
-        <button class="pcard" type="button" data-open-project="zhomes" data-reveal>
-          <div class="pcard-screen">
-            <video muted loop playsinline preload="none" poster="/hola/media/zhomes-poster.jpg" data-loop-src="/hola/media/zhomes-loop.mp4"></video>
-            <div class="pcard-top">
-              <span class="pcard-num">05</span>
-              <span class="pcard-fx-badge">🏠 SaaS Inmobiliario</span>
-            </div>
-            <span class="pcard-open">Tocar para explorar <i>＋</i></span>
-          </div>
-          <div class="pcard-body">
-            <span class="pcard-tag">Web App · Producto Digital</span>
-            <h3 class="pcard-title">ZHomes Platform</h3>
-            <p class="pcard-desc">Ecosistema inmobiliario en producción para agentes, propiedades y generación de campañas.</p>
-          </div>
-        </button>
-
-        <!-- 06. Software a Medida: Barba CRM + My Chief + Tri-Lion -->
-        <button class="pcard" type="button" data-open-project="software" data-reveal>
-          <div class="pcard-screen">
-            <img src="/hola/img/barba-crm-board.webp" width="960" height="600" alt="Barba CRM y Sistemas Propios" loading="lazy" style="object-position:left top">
-            <div class="pcard-top">
-              <span class="pcard-num">06</span>
-              <span class="pcard-fx-badge">⚙️ CRM · CAD · Apps</span>
-            </div>
-            <span class="pcard-open">Tocar para explorar <i>＋</i></span>
-          </div>
-          <div class="pcard-body">
-            <span class="pcard-tag">Sistemas Propios · IA · Automatización</span>
-            <h3 class="pcard-title">Barba CRM &amp; Sistemas</h3>
-            <p class="pcard-desc">Estimador de construcción con IA, motor CAD en Python (My Chief) y portal Tri-Lion Academy.</p>
-          </div>
-        </button>
+      <!-- Y TAMBIÉN: ZHOMES, BARBA CRM, MY CHIEF CAD, TRI-LION ACADEMY -->
+      <div class="more" id="mas-sistemas" data-reveal>
+        <p class="label"><b>+</b> Software propio, SaaS &amp; plataformas en línea</p>
+        <ul class="more-list">
+          <li>
+            <button class="more-card" type="button" data-open-stage="zhomes">
+              <video muted loop playsinline preload="none" poster="/hola/media/zhomes-poster.jpg" data-loop-src="/hola/media/zhomes-loop.mp4"></video>
+              <span class="more-t">ZHomes</span>
+              <span class="more-d">App inmobiliaria · Ver video y plataforma +</span>
+            </button>
+          </li>
+          <li>
+            <button class="more-card" type="button" data-open-stage="software">
+              <img src="/hola/img/barba-crm-board.webp" width="960" height="600" alt="Barba Construction CRM" loading="lazy" decoding="async">
+              <span class="more-t">Barba CRM</span>
+              <span class="more-d">Software de obras &amp; estimador con IA +</span>
+            </button>
+          </li>
+          <li>
+            <button class="more-card" type="button" data-open-stage="software">
+              <img src="/hola/img/plan-mychief-details-720.webp" width="720" height="557" alt="My Chief Motor CAD en Python" loading="lazy" decoding="async" style="background:#fff;object-fit:contain;padding:8px">
+              <span class="more-t">My Chief CAD</span>
+              <span class="more-d">Motor en Python generador de planos IRC +</span>
+            </button>
+          </li>
+          <li>
+            <a class="more-card" href="https://trilionacademy.com/" target="_blank" rel="noopener">
+              <img src="/hola/img/trilion-m-360.webp" srcset="/hola/img/trilion-m-360.webp 360w, /hola/img/trilion-m-600.webp 600w" sizes="(min-width:700px) 280px, 45vw" width="360" height="623" alt="Tri-Lion Academy" loading="lazy" decoding="async">
+              <span class="more-t">Tri-Lion Academy</span>
+              <span class="more-d">Web · Reservas y membresías ↗</span>
+            </a>
+          </li>
+        </ul>
       </div>
     </div>
   </section>
 
   <!-- =================================================================
-       CAPÍTULO 03 — PLANOS & ARQUITECTURA 3D (.GLB + LÁMINAS PRIVADAS)
+       CAPÍTULO 03 — PLANOS & ARQUITECTURA 3D (.GLB + PLIEGOS PRIVADOS)
        ================================================================= -->
-  <section class="sec" id="cap-planos" aria-labelledby="t-planos" style="border-top:1px solid var(--line)">
+  <section class="sec arch-sec" id="cap-planos" aria-labelledby="planos-title">
     <div class="wrap">
-      <p class="label" data-reveal><b>Capítulo 03</b> Planos Técnicos · Ingeniería · Modelos 3D Interactivos</p>
-      <h2 class="h2" id="t-planos" data-reveal>Del plano técnico <span class="goth">al</span> <em>modelo 3D vivo.</em></h2>
-      <p class="sec-sub" data-reveal>Gira y explora con el dedo las estructuras 3D reales en la página, o inspecciona nuestras láminas arquitectónicas, estructurales y MEP.</p>
+      <p class="label" data-reveal><b>04</b> Capítulo 03 · Planos Técnicos &amp; Modelos 3D <i>/ Barba Construction &amp; My Chief CAD</i></p>
+      <h2 class="h2" id="planos-title" data-reveal>Del plano técnico <span class="amp">al</span> <em>modelo 3D vivo.</em></h2>
+      <p class="sec-sub" data-reveal>Explora con el dedo las estructuras tridimensionales directamente en la página o inspecciona nuestros pliegos arquitectónicos, estructurales y MEP.</p>
 
       <!-- VISOR 3D INTERACTIVO (.GLB) -->
-      <div class="viewer3d-box" id="visor-3d" data-reveal>
-        <div class="viewer3d-bar">
-          <div class="viewer3d-tabs" role="tablist" aria-label="Seleccionar modelo 3D">
-            <button class="vtab active" type="button" data-glb="/hola/3d/casa-1607.glb" data-glb-title="Residencia 2 Niveles · Modelo Estructural Completo">01 · Residencia 2 Niveles (3D)</button>
-            <button class="vtab" type="button" data-glb="/hola/3d/porche-7107.glb" data-glb-title="Porche Estructural &amp; Cubierta · Detalle Constructivo">02 · Porche &amp; Cubierta (3D)</button>
+      <div class="arch-stage-wrap" id="visor-3d" data-reveal>
+        <div class="arch-bar">
+          <div class="arch-tabs" role="tablist" aria-label="Seleccionar modelo 3D">
+            <button class="arch-btn active" type="button" data-glb="/hola/3d/casa-1607.glb" data-glb-label="Modelo 01 / Residencia de 2 Niveles">01 / Residencia 2 Niveles (.GLB)</button>
+            <button class="arch-btn" type="button" data-glb="/hola/3d/porche-7107.glb" data-glb-label="Modelo 02 / Porche Estructural y Cubierta">02 / Porche &amp; Estructura (.GLB)</button>
           </div>
-          <div class="viewer3d-cams" aria-label="Ángulos de cámara">
-            <button class="vcam" type="button" data-orbit="35deg 72deg 105%">Isométrica</button>
-            <button class="vcam" type="button" data-orbit="0deg 82deg 105%">Frontal</button>
-            <button class="vcam" type="button" data-orbit="0deg 12deg 115%">Planta</button>
+          <div class="arch-cams" aria-label="Ángulos de cámara">
+            <button class="arch-btn" type="button" data-orbit="35deg 72deg 105%">Isométrica</button>
+            <button class="arch-btn" type="button" data-orbit="0deg 82deg 105%">Fachada</button>
+            <button class="arch-btn" type="button" data-orbit="0deg 12deg 115%">Planta</button>
           </div>
         </div>
-        <div class="viewer3d-stage" id="glb-stage">
-          <div class="viewer3d-hint" id="glb-hint">🖐️ Arrastra con un dedo para girar · Pellizca para hacer zoom</div>
+        <div class="arch-canvas" id="glb-stage"></div>
+        <div class="arch-caption">
+          <span id="glb-current-label"><b>Modelo 01</b> / Residencia de 2 Niveles</span>
+          <span>Arrastra para rotar · Pellizca para hacer zoom</span>
         </div>
       </div>
 
-      <!-- GALERÍA PRIVADA DE PLANOS (11 LÁMINAS) -->
-      <div class="plans-wrap">
-        <div class="reels-head" data-reveal>
-          <div>
-            <p class="label" style="margin-bottom:6px"><b>Láminas Técnicas</b> Edición Privada · Barba Construction &amp; My Chief CAD</p>
-            <h3 class="reels-title">Planos que pasan <span>inspección y construyen.</span></h3>
-          </div>
-          <p class="sec-sub" style="margin:0;max-width:34ch">Toca cualquier plano para abrirlo en alta resolución (1800px).</p>
+      <!-- PLIEGOS TÉCNICOS (EDICIÓN PRIVADA SIN DATOS SENSIBLES) -->
+      <div class="sheets-head" data-reveal>
+        <div>
+          <p class="label" style="margin-bottom:10px"><b>Pliegos</b> Láminas Arquitectónicas, Estructurales &amp; MEP</p>
+          <h3 class="h2" style="font-size:clamp(2rem,7.2vw,4.2rem)">Planos listos <em>para construir.</em></h3>
         </div>
+        <p class="sec-sub" style="margin:0">Edición privada. Toca cualquier pliego para abrirlo en alta resolución (1800px).</p>
+      </div>
 
-        <div class="plan-filters" role="tablist" aria-label="Filtrar planos">
-          <button class="pf-btn active" type="button" data-plan-filter="all">Todos (11)</button>
-          <button class="pf-btn" type="button" data-plan-filter="arq">Plantas &amp; Elevaciones</button>
-          <button class="pf-btn" type="button" data-plan-filter="mep">MEP &amp; HVAC</button>
-          <button class="pf-btn" type="button" data-plan-filter="estruct">Decks &amp; Cortes</button>
-          <button class="pf-btn" type="button" data-plan-filter="mychief">My Chief CAD</button>
-        </div>
+      <div class="sheet-filters" role="tablist" aria-label="Filtrar láminas por especialidad">
+        <button class="arch-btn active" type="button" data-sheet-filter="destacados">Selección Principal (6)</button>
+        <button class="arch-btn" type="button" data-sheet-filter="all">Ver las 11 láminas</button>
+        <button class="arch-btn" type="button" data-sheet-filter="arq">Arquitectura &amp; Fachadas</button>
+        <button class="arch-btn" type="button" data-sheet-filter="mep">Ingeniería MEP &amp; HVAC</button>
+        <button class="arch-btn" type="button" data-sheet-filter="estruct">Estructural &amp; My Chief CAD</button>
+      </div>
 
-        <div class="plans-grid" id="plans-grid">
-          <button class="plancard" type="button" data-plan-cat="arq" data-plan-full="/hola/img/plan-floor-a-1800.webp" data-plan-title="Planta Arquitectónica Acotada · Distribución Residencial">
-            <img class="plancard-img" src="/hola/img/plan-floor-a-720.webp" width="720" height="561" alt="Planta Arquitectónica Residencial" loading="lazy">
-            <div class="plancard-meta"><div><small>Arquitectura</small><strong>Planta Acotada Principal</strong></div><span class="plancard-zoom">Zoom ＋</span></div>
-          </button>
+      <div class="sheets-grid">
+        <button class="sheet" type="button" data-sheet-cat="arq" data-sheet-feat="1" data-sheet-full="/hola/img/plan-floor-a-1800.webp" data-sheet-title="Planta Arquitectónica Acotada · Distribución Principal">
+          <div class="sheet-paper"><img src="/hola/img/plan-floor-a-720.webp" width="720" height="561" alt="Planta Arquitectónica Acotada" loading="lazy"></div>
+          <div class="sheet-meta"><span class="sheet-title">Planta Acotada Principal</span><span class="sheet-cat">01 / Arquitectura +</span></div>
+        </button>
 
-          <button class="plancard" type="button" data-plan-cat="mep" data-plan-full="/hola/img/plan-mep-1800.webp" data-plan-title="Plano MEP Multidisciplinario · Eléctrico, Plomería y Mecánico">
-            <img class="plancard-img" src="/hola/img/plan-mep-720.webp" width="720" height="563" alt="Plano MEP" loading="lazy">
-            <div class="plancard-meta"><div><small>Ingeniería MEP</small><strong>Eléctrico &amp; Instalaciones</strong></div><span class="plancard-zoom">Zoom ＋</span></div>
-          </button>
+        <button class="sheet" type="button" data-sheet-cat="mep" data-sheet-feat="1" data-sheet-full="/hola/img/plan-mep-1800.webp" data-sheet-title="Ingeniería MEP · Eléctrico, Iluminación e Instalaciones">
+          <div class="sheet-paper"><img src="/hola/img/plan-mep-720.webp" width="720" height="563" alt="Plano MEP" loading="lazy"></div>
+          <div class="sheet-meta"><span class="sheet-title">Eléctrico &amp; MEP</span><span class="sheet-cat">02 / Ingeniería +</span></div>
+        </button>
 
-          <button class="plancard" type="button" data-plan-cat="mychief" data-plan-full="/hola/img/plan-mychief-basement-1800.webp" data-plan-title="My Chief CAD · Planta de Sótano y Ejes Estructurales (IRC)">
-            <img class="plancard-img" src="/hola/img/plan-mychief-basement-720.webp" width="720" height="557" alt="Plano Sótano My Chief CAD" loading="lazy">
-            <div class="plancard-meta"><div><small>My Chief CAD</small><strong>Planta de Sótano (IRC)</strong></div><span class="plancard-zoom">Zoom ＋</span></div>
-          </button>
+        <button class="sheet" type="button" data-sheet-cat="estruct" data-sheet-feat="1" data-sheet-full="/hola/img/plan-mychief-basement-1800.webp" data-sheet-title="My Chief CAD · Planta de Sótano y Ejes bajo Código IRC">
+          <div class="sheet-paper"><img src="/hola/img/plan-mychief-basement-720.webp" width="720" height="557" alt="Planta Sótano My Chief CAD" loading="lazy"></div>
+          <div class="sheet-meta"><span class="sheet-title">Planta de Sótano (IRC)</span><span class="sheet-cat">03 / My Chief CAD +</span></div>
+        </button>
 
-          <button class="plancard" type="button" data-plan-cat="mychief" data-plan-full="/hola/img/plan-mychief-details-1800.webp" data-plan-title="My Chief CAD · Excavación, Muro de Contención y Cortes">
-            <img class="plancard-img" src="/hola/img/plan-mychief-details-720.webp" width="720" height="557" alt="Detalles Muro de Contención y Excavación" loading="lazy">
-            <div class="plancard-meta"><div><small>My Chief CAD</small><strong>Excavación &amp; Contención</strong></div><span class="plancard-zoom">Zoom ＋</span></div>
-          </button>
+        <button class="sheet" type="button" data-sheet-cat="estruct" data-sheet-feat="1" data-sheet-full="/hola/img/plan-mychief-details-1800.webp" data-sheet-title="My Chief CAD · Excavación, Muro de Contención y Secciones">
+          <div class="sheet-paper"><img src="/hola/img/plan-mychief-details-720.webp" width="720" height="557" alt="Detalles Muro de Contención" loading="lazy"></div>
+          <div class="sheet-meta"><span class="sheet-title">Excavación &amp; Contención</span><span class="sheet-cat">04 / Estructural +</span></div>
+        </button>
 
-          <button class="plancard" type="button" data-plan-cat="arq" data-plan-full="/hola/img/plan-elev-2story-1800.webp" data-plan-title="Elevaciones Arquitectónicas · Residencia de 2 Niveles">
-            <img class="plancard-img" src="/hola/img/plan-elev-2story-720.webp" width="720" height="563" alt="Elevaciones 2 Niveles" loading="lazy">
-            <div class="plancard-meta"><div><small>Elevaciones</small><strong>Fachadas 2 Niveles</strong></div><span class="plancard-zoom">Zoom ＋</span></div>
-          </button>
+        <button class="sheet" type="button" data-sheet-cat="arq" data-sheet-feat="1" data-sheet-full="/hola/img/plan-elev-2story-1800.webp" data-sheet-title="Elevaciones Arquitectónicas · Residencia de 2 Niveles">
+          <div class="sheet-paper"><img src="/hola/img/plan-elev-2story-720.webp" width="720" height="563" alt="Elevaciones 2 Niveles" loading="lazy"></div>
+          <div class="sheet-meta"><span class="sheet-title">Fachadas 2 Niveles</span><span class="sheet-cat">05 / Elevaciones +</span></div>
+        </button>
 
-          <button class="plancard" type="button" data-plan-cat="estruct" data-plan-full="/hola/img/plan-deck-section-1800.webp" data-plan-title="Sección Constructiva · Deck, Cimentación y Estructura de Techo">
-            <img class="plancard-img" src="/hola/img/plan-deck-section-720.webp" width="720" height="561" alt="Sección Estructural Deck" loading="lazy">
-            <div class="plancard-meta"><div><small>Estructural</small><strong>Corte de Deck &amp; Cubierta</strong></div><span class="plancard-zoom">Zoom ＋</span></div>
-          </button>
+        <button class="sheet" type="button" data-sheet-cat="estruct" data-sheet-feat="1" data-sheet-full="/hola/img/plan-deck-section-1800.webp" data-sheet-title="Sección Constructiva · Deck, Cimentación y Estructura de Cubierta">
+          <div class="sheet-paper"><img src="/hola/img/plan-deck-section-720.webp" width="720" height="561" alt="Corte Estructural de Deck" loading="lazy"></div>
+          <div class="sheet-meta"><span class="sheet-title">Corte de Deck &amp; Cubierta</span><span class="sheet-cat">06 / Detalle +</span></div>
+        </button>
 
-          <button class="plancard" type="button" data-plan-cat="estruct" data-plan-full="/hola/img/plan-deck-3d-1800.webp" data-plan-title="Perspectivas 3D de Estructura de Madera y Cubierta">
-            <img class="plancard-img" src="/hola/img/plan-deck-3d-720.webp" width="720" height="563" alt="Estructura 3D Deck" loading="lazy">
-            <div class="plancard-meta"><div><small>Modelado 3D</small><strong>Isometría de Estructura</strong></div><span class="plancard-zoom">Zoom ＋</span></div>
-          </button>
+        <button class="sheet" type="button" hidden data-sheet-cat="estruct" data-sheet-full="/hola/img/plan-deck-3d-1800.webp" data-sheet-title="Isometría Estructural 3D de Madera y Cubierta">
+          <div class="sheet-paper"><img src="/hola/img/plan-deck-3d-720.webp" width="720" height="563" alt="Isometría 3D Deck" loading="lazy"></div>
+          <div class="sheet-meta"><span class="sheet-title">Isometría de Estructura</span><span class="sheet-cat">07 / Modelado 3D +</span></div>
+        </button>
 
-          <button class="plancard" type="button" data-plan-cat="mep" data-plan-full="/hola/img/plan-hvac-1800.webp" data-plan-title="Plano de Climatización HVAC · Ductería y Difusores">
-            <img class="plancard-img" src="/hola/img/plan-hvac-720.webp" width="720" height="542" alt="Plano HVAC" loading="lazy">
-            <div class="plancard-meta"><div><small>Ingeniería HVAC</small><strong>Red de Climatización</strong></div><span class="plancard-zoom">Zoom ＋</span></div>
-          </button>
+        <button class="sheet" type="button" hidden data-sheet-cat="mep" data-sheet-full="/hola/img/plan-hvac-1800.webp" data-sheet-title="Ingeniería HVAC · Red de Climatización y Ductería">
+          <div class="sheet-paper"><img src="/hola/img/plan-hvac-720.webp" width="720" height="542" alt="Plano HVAC" loading="lazy"></div>
+          <div class="sheet-meta"><span class="sheet-title">Red de Climatización HVAC</span><span class="sheet-cat">08 / HVAC +</span></div>
+        </button>
 
-          <button class="plancard" type="button" data-plan-cat="arq" data-plan-full="/hola/img/plan-floor-b-1800.webp" data-plan-title="Planta de Distribución y Cuadro de Áreas">
-            <img class="plancard-img" src="/hola/img/plan-floor-b-720.webp" width="720" height="561" alt="Planta de Distribución" loading="lazy">
-            <div class="plancard-meta"><div><small>Arquitectura</small><strong>Planta &amp; Cuadro devanos</strong></div><span class="plancard-zoom">Zoom ＋</span></div>
-          </button>
+        <button class="sheet" type="button" hidden data-sheet-cat="arq" data-sheet-full="/hola/img/plan-floor-b-1800.webp" data-sheet-title="Planta de Distribución y Cuadro de Vanos">
+          <div class="sheet-paper"><img src="/hola/img/plan-floor-b-720.webp" width="720" height="561" alt="Planta de Distribución" loading="lazy"></div>
+          <div class="sheet-meta"><span class="sheet-title">Planta &amp; Cuadro de Vanos</span><span class="sheet-cat">09 / Arquitectura +</span></div>
+        </button>
 
-          <button class="plancard" type="button" data-plan-cat="arq" data-plan-full="/hola/img/plan-cottage-1800.webp" data-plan-title="Elevaciones y Planta · Vivienda Auxiliar / Cottage">
-            <img class="plancard-img" src="/hola/img/plan-cottage-720.webp" width="720" height="563" alt="Plano Cottage" loading="lazy">
-            <div class="plancard-meta"><div><small>Residencial</small><strong>Elevaciones &amp; Planta ADU</strong></div><span class="plancard-zoom">Zoom ＋</span></div>
-          </button>
+        <button class="sheet" type="button" hidden data-sheet-cat="arq" data-sheet-full="/hola/img/plan-cottage-1800.webp" data-sheet-title="Elevaciones y Planta · Vivienda Auxiliar (ADU / Cottage)">
+          <div class="sheet-paper"><img src="/hola/img/plan-cottage-720.webp" width="720" height="563" alt="Plano Cottage ADU" loading="lazy"></div>
+          <div class="sheet-meta"><span class="sheet-title">Vivienda Auxiliar (ADU)</span><span class="sheet-cat">10 / Residencial +</span></div>
+        </button>
 
-          <button class="plancard" type="button" data-plan-cat="arq" data-plan-full="/hola/img/plan-render-brick-1800.webp" data-plan-title="Visualización Exterior · Ampliación en Ladrillo y Cubierta">
-            <img class="plancard-img" src="/hola/img/plan-render-brick-720.webp" width="720" height="540" alt="Render Exterior Ladrillo" loading="lazy">
-            <div class="plancard-meta"><div><small>Visualización</small><strong>Render Exterior Residencial</strong></div><span class="plancard-zoom">Zoom ＋</span></div>
-          </button>
-        </div>
+        <button class="sheet" type="button" hidden data-sheet-cat="arq" data-sheet-full="/hola/img/plan-render-brick-1800.webp" data-sheet-title="Visualización Exterior · Ampliación en Ladrillo">
+          <div class="sheet-paper"><img src="/hola/img/plan-render-brick-720.webp" width="720" height="540" alt="Render Exterior Residencial" loading="lazy"></div>
+          <div class="sheet-meta"><span class="sheet-title">Visualización Exterior</span><span class="sheet-cat">11 / Render +</span></div>
+        </button>
       </div>
     </div>
   </section>
 
+  <div class="band-wrap" aria-hidden="true">
+    <div class="band alt"><div class="band-track"><span>Diseño <i class="star"></i> Negocio <i class="star"></i> Código <i class="star"></i> Arquitectura <i class="star"></i></span><span>Diseño <i class="star"></i> Negocio <i class="star"></i> Código <i class="star"></i> Arquitectura <i class="star"></i></span></div><div class="band-track"><span>Diseño <i class="star"></i> Negocio <i class="star"></i> Código <i class="star"></i> Arquitectura <i class="star"></i></span><span>Diseño <i class="star"></i> Negocio <i class="star"></i> Código <i class="star"></i> Arquitectura <i class="star"></i></span></div></div>
+  </div>
+
   <!-- =================================================================
-       SECCIÓN 04 — DETRÁS DE LAS IDEAS (MIGUEL SOSA)
+       SECCIÓN 04 — DETRÁS DE LAS IDEAS (v1 Editorial Paper + Miguel Sosa)
        ================================================================= -->
   <section class="sec founder-sec" id="fundador" aria-labelledby="founder-title">
     <div class="wrap">
-      <p class="label" data-reveal><b>04</b> Detrás de las ideas</p>
+      <p class="label" data-reveal><b>05</b> Detrás de las ideas <i lang="en">/ Behind the ideas.</i></p>
+      <h2 class="founder-name" id="founder-title" data-reveal>Miguel <span>Sosa</span></h2>
+      <p class="founder-role" data-reveal>Fundador · Dame la Letra</p>
 
-      <div class="founder-layout">
-        <div class="founder-portrait-wrap" data-reveal>
-          <div class="founder-halo" aria-hidden="true"></div>
-          <img class="founder-portrait" src="/hola/img/miguel-sosa-520.webp" srcset="/hola/img/miguel-sosa-520.webp 520w, /hola/img/miguel-sosa-960.webp 960w" sizes="(min-width:980px) 420px, 82vw" width="520" height="515" alt="Miguel Sosa — Fundador de Dame la Letra" loading="lazy" decoding="async">
-          <span class="founder-badge">Diseño · Código · Planos</span>
-        </div>
-
+      <div class="founder-grid">
         <div>
-          <h2 class="founder-name" id="founder-title" data-reveal>Miguel <span>Sosa</span></h2>
-          <p class="founder-role" data-reveal>Fundador &amp; Director Creativo · Dame la Letra</p>
-          <p class="founder-lead" data-reveal>Una mente multidisciplinaria que <mark>conecta diseño, negocio, código y arquitectura.</mark></p>
-          <p class="founder-txt" data-reveal>En Dame la Letra no hay teléfono roto entre quien imagina una idea y quien la construye. Desde la identidad visual, el rodaje de un film o la programación de una plataforma e-commerce hasta los planos estructurales y modelos 3D: hablas directamente con quien lo hace realidad.</p>
+          <p class="founder-lead" data-reveal>Una mirada multidisciplinaria que <mark>conecta diseño, negocio, marketing y tecnología.</mark></p>
+          <p class="founder-txt" data-reveal>Dame la Letra es un estudio independiente: quien piensa la estrategia es quien la ejecuta, de la identidad y el video al código y los planos. Sin capas ni teléfono roto — una conversación directa con la persona que va a construir tu proyecto.</p>
           <dl class="facts" data-reveal>
             <div><dt>Base</dt><dd>Louisville, Kentucky</dd></div>
-            <div><dt>Disciplinas</dt><dd>Branding + Video + Desarrollo Web/IA + Planos 3D</dd></div>
-            <div><dt>Filosofía</dt><dd>No hacemos más de lo mismo</dd></div>
+            <div><dt>Cruce</dt><dd>Diseño + video + código + arquitectura 3D</dd></div>
+            <div><dt>Trato</dt><dd>Directo, de principio a fin</dd></div>
           </dl>
         </div>
+
+        <figure class="founder-figure" data-reveal>
+          <img src="/hola/img/miguel-sosa-520.webp" srcset="/hola/img/miguel-sosa-520.webp 520w, /hola/img/miguel-sosa-960.webp 960w" sizes="(min-width:980px) 380px, 78vw" width="520" height="515" alt="Miguel Sosa — Fundador de Dame la Letra" loading="lazy" decoding="async">
+        </figure>
       </div>
     </div>
   </section>
@@ -884,13 +936,13 @@ body.modal-open .fab{transform:translateY(160%)!important}
   <section class="sec contact" id="contacto" aria-labelledby="contact-title">
     <div class="type-bg" aria-hidden="true"></div>
     <div class="wrap">
-      <p class="label"><b>05</b> Hablemos</p>
+      <p class="label"><b>06</b> Hablemos</p>
       <h2 class="contact-t" id="contact-title" lang="en">Good ideas start with a conversation.</h2>
-      <p class="contact-copy">¿Tienes una marca que lanzar, una plataforma que programar o un proyecto que diseñar? Escríbeme directo.</p>
+      <p class="contact-copy">¿Tienes un proyecto, una idea o simplemente quieres explorar posibilidades? Hablemos.</p>
       <div class="contact-cta">
-        <a class="btn btn-ink" href="https://wa.me/15026587853?text=Hola%20Miguel%2C%20vi%20la%20tarjeta%20digital%20de%20Dame%20la%20Letra%20y%20me%20gustar%C3%ADa%20conversar%20sobre%20un%20proyecto." target="_blank" rel="noopener" data-track="wa-contact">
+        <a class="btn btn-ink" href="https://wa.me/15026587853?text=Hola%20Miguel%2C%20vi%20la%20tarjeta%20digital%20de%20Dame%20la%20Letra%20y%20me%20gustar%C3%ADa%20conversar%20sobre%20un%20proyecto." target="_blank" rel="noopener" lang="en" data-track="wa-contact">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
-          Hablemos por WhatsApp
+          Let’s talk on WhatsApp
           <svg class="arr" viewBox="0 0 24 24" aria-hidden="true"><path d="M13.2 5.3 19.9 12l-6.7 6.7-1.4-1.4 4.3-4.3H4v-2h12.1l-4.3-4.3z"/></svg>
         </a>
         <a class="btn btn-line" href="https://www.instagram.com/damelaletra_ky/" target="_blank" rel="noopener" lang="en" data-track="ig-contact">
@@ -899,13 +951,13 @@ body.modal-open .fab{transform:translateY(160%)!important}
         </a>
         <a class="btn btn-line" href="/hola/miguel-sosa-dame-la-letra.vcf" data-track="vcard-contact">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm0 2c-4.4 0-8 2.2-8 5v1h11.1a6 6 0 0 1-.1-1c0-1.7.7-3.3 1.8-4.4A13 13 0 0 0 12 14Zm7 0v3h-3v2h3v3h2v-3h3v-2h-3v-3z"/></svg>
-          Guardar contacto (.vcf)
+          Guardar contacto
         </a>
       </div>
       <figure class="contact-qr"><img src="/hola/qr/dame-la-letra-qr.svg" width="300" height="300" alt="Código QR hacia damelaletra.com/hola" loading="lazy"><figcaption>¿Estás en una computadora? Escanea para llevarte esta tarjeta en el teléfono.</figcaption></figure>
       <div class="contact-tools">
         <button class="tool" type="button" data-share>Compartir esta tarjeta</button>
-        <a class="tool" href="/hola/qr/">Mostrar código QR a pantalla completa</a>
+        <a class="tool" href="/hola/qr/">Mostrar código QR</a>
       </div>
     </div>
   </section>
@@ -913,42 +965,41 @@ body.modal-open .fab{transform:translateY(160%)!important}
 
 <footer class="foot">
   <img src="/hola/img/dame-la-letra-logo.png" width="1102" height="161" alt="Dame la Letra" loading="lazy">
-  <p>© 2026 Dame la Letra LLC · Miguel Sosa · Louisville, Kentucky</p>
+  <p>© 2026 Dame la Letra LLC · Louisville, Kentucky</p>
 </footer>
 
-<!-- FLOATING WHATSAPP -->
 <a class="fab" href="https://wa.me/15026587853?text=Hola%20Miguel%2C%20vi%20la%20tarjeta%20digital%20de%20Dame%20la%20Letra%20y%20me%20gustar%C3%ADa%20conversar%20sobre%20un%20proyecto." target="_blank" rel="noopener" aria-label="Hablemos por WhatsApp" data-track="wa-fab">
   <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>Hablemos
 </a>
 
-<!-- INTERACTIVE PROJECT EXPERIENCE MODAL -->
-<div class="pmodal" id="project-modal" role="dialog" aria-modal="true" aria-labelledby="pm-title" aria-hidden="true">
-  <div class="pmodal-sheet">
-    <div class="pmodal-fx" id="pm-fx" aria-hidden="true"></div>
-    <div class="pmodal-top">
-      <span class="pmodal-kicker" id="pm-kicker">Proyecto</span>
-      <button class="pmodal-close" type="button" data-close-modal>Cerrar ✕</button>
+<!-- BESPOKE INTERACTIVE PROJECT STAGE -->
+<div class="stage" id="project-stage" role="dialog" aria-modal="true" aria-labelledby="st-title" aria-hidden="true">
+  <div class="stage-fx" id="st-fx" aria-hidden="true"></div>
+  <div class="stage-inner">
+    <div class="stage-bar">
+      <span class="stage-kicker" id="st-kicker">Proyecto</span>
+      <button class="stage-close" type="button" data-close-stage>Cerrar [Esc]</button>
     </div>
-    <div class="pmodal-content">
-      <div class="pmodal-head">
-        <h3 id="pm-title">Título</h3>
-        <p id="pm-desc"></p>
-        <div class="pmodal-fx-bar" id="pm-fx-bar"></div>
+    <div class="stage-body">
+      <div class="stage-info">
+        <h3 class="stage-title" id="st-title">Título</h3>
+        <p class="stage-desc" id="st-desc"></p>
+        <div id="st-fx-ctrl"></div>
+        <div class="stage-actions" id="st-actions"></div>
       </div>
-      <div class="pmodal-media-grid" id="pm-media"></div>
-      <div class="pmodal-actions" id="pm-actions"></div>
+      <div class="stage-showcase" id="st-showcase"></div>
     </div>
   </div>
 </div>
 
-<!-- HIGH-RES PLAN LIGHTBOX -->
-<div class="plan-modal" id="plan-modal" role="dialog" aria-modal="true" aria-labelledby="plm-title" aria-hidden="true">
-  <div class="plan-modal-bar">
-    <span class="plan-modal-title" id="plm-title">Plano Técnico</span>
-    <button class="pmodal-close" type="button" data-close-plan>Cerrar ✕</button>
+<!-- HIGH-RES SHEET LIGHTBOX -->
+<div class="sheet-modal" id="sheet-modal" role="dialog" aria-modal="true" aria-labelledby="shm-title" aria-hidden="true">
+  <div class="sheet-modal-bar">
+    <span class="sheet-modal-title" id="shm-title">Pliego Técnico</span>
+    <button class="stage-close" type="button" data-close-sheet>Cerrar</button>
   </div>
-  <div class="plan-modal-body" data-close-plan>
-    <img id="plm-img" src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" alt="Plano Técnico en Alta Resolución">
+  <div class="sheet-modal-body" data-close-sheet>
+    <img id="shm-img" src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" alt="Pliego Técnico en Alta Resolución">
   </div>
 </div>
 
@@ -962,11 +1013,11 @@ body.modal-open .fab{transform:translateY(160%)!important}
   var els=d.querySelectorAll('[data-reveal]');
   if(!('IntersectionObserver' in window)||reduce){els.forEach(function(e){e.classList.add('in')});}
   else{
-    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}})},{rootMargin:'0px 0px -8% 0px',threshold:.05});
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}})},{rootMargin:'0px 0px -10% 0px',threshold:.06});
     els.forEach(function(e){io.observe(e)});
   }
 
-  /* 2. Lazy-load & play/pause card loop videos when visible */
+  /* 2. Lazy-load & play/pause inline loop videos */
   var loopVids=d.querySelectorAll('video[data-loop-src]');
   if('IntersectionObserver' in window){
     var vio=new IntersectionObserver(function(es){
@@ -979,20 +1030,20 @@ body.modal-open .fab{transform:translateY(160%)!important}
           if(!v.paused)v.pause();
         }
       });
-    },{rootMargin:'160px 0px'});
+    },{rootMargin:'200px 0px'});
     loopVids.forEach(function(v){vio.observe(v)});
   }
 
   /* 3. Fast Touch/Click-Pausable Logo Marquee */
-  var strip=d.getElementById('marcas'), mBtn=d.querySelector('[data-marquee-btn]'), mArea=d.querySelector('[data-marquee]');
+  var rail=d.getElementById('marcas'), mBtn=d.querySelector('[data-marquee-btn]'), mArea=d.querySelector('[data-marquee]');
   var lockedPause=false;
   function setMarqueePaused(p){
-    if(!strip)return;
-    strip.classList.toggle('paused',p);
-    if(mBtn){mBtn.setAttribute('aria-pressed',String(p));mBtn.textContent=p?'▶ Reanudar':'⏸ Detener';}
+    if(!rail)return;
+    rail.classList.toggle('paused',p);
+    if(mBtn){mBtn.setAttribute('aria-pressed',String(p));mBtn.textContent=p?'Reanudar':'Detener';}
   }
   if(mBtn){
-    mBtn.addEventListener('click',function(){lockedPause=!strip.classList.contains('paused');setMarqueePaused(lockedPause);});
+    mBtn.addEventListener('click',function(){lockedPause=!rail.classList.contains('paused');setMarqueePaused(lockedPause);});
   }
   if(mArea){
     mArea.addEventListener('pointerdown',function(){setMarqueePaused(true)});
@@ -1001,203 +1052,194 @@ body.modal-open .fab{transform:translateY(160%)!important}
     mArea.addEventListener('click',function(){lockedPause=!lockedPause;setMarqueePaused(lockedPause)});
   }
 
-  /* 4. Interactive Project Experience Modal Data & Signature Effects */
-  var PROJECTS={
+  /* 4. Bespoke Project Stage & Perimeter Depth-of-Field FX */
+  var STAGES={
     lucky:{
-      kicker:'E-Commerce · 3D · Cinemática 60fps',
-      title:'Lucky Shaker Cocktails',
-      desc:'Tienda Shopify y experiencia inmersiva para cócteles artesanales embotellados y barra móvil. Incluye secuencias reales a 60fps (mobile y desktop), modelado 3D de botellas y las frutas de cada cóctel flotando en vivo por la pantalla.',
+      kicker:'01 / E-Commerce · 3D de Producto · Cinemática 60fps',
+      title:'Lucky Shaker',
+      desc:'Tienda Shopify y dirección creativa para cócteles embotellados y servicio de barra móvil. Modelamos cada botella en 3D, rodamos secuencias reales a 60fps para mobile y desktop, y programamos los ingredientes flotando con profundidad de campo.',
       fx:'fruits',
-      fxBtn:'🍹 Agitar más frutas en pantalla',
+      fxBtn:'Agitar ingredientes en escena',
       mainVideo:{src:'/hola/media/lucky.mp4',poster:'/hola/media/lucky-poster.jpg',muted:true},
-      gallery:[
-        {type:'video',src:'/hola/media/lucky-desk.mp4',poster:'/hola/media/lucky-desk-poster.jpg',label:'Showcase Desktop 16:9 (60fps)'},
-        {type:'img',src:'/hola/img/lucky-3d-720.webp',label:'Render 3D de Producto'},
-        {type:'img',src:'/hola/img/lucky-m-820.webp',label:'Interfaz Mobile'}
+      secondary:[
+        {type:'video',src:'/hola/media/lucky-desk.mp4',poster:'/hola/media/lucky-desk-poster.jpg',caption:'Secuencia Desktop 16:9 a 60fps'},
+        {type:'img',src:'/hola/img/lucky-3d-720.webp',caption:'Modelado & Render 3D de Producto'}
       ],
       url:'https://luckyshakersupply.com/',
       urlLabel:'Visitar luckyshakersupply.com ↗'
     },
     newera:{
-      kicker:'Plataforma Inmobiliaria · Suite IA · SVG Vivo',
+      kicker:'02 / Plataforma Inmobiliaria · Suite IA · Patrón SVG',
       title:'New Era Real Estate',
-      desc:'Plataforma bilingüe para correduría inmobiliaria en Kentucky y suite de inteligencia artificial (ARM). Al igual que en su web, el patrón arquitectónico hexagonal en SVG dibuja destellos dorados en tiempo real.',
+      desc:'Correduría inmobiliaria bilingüe en Kentucky acompañada de la suite de automatización omnicanal ARM. El patrón geométrico hexagonal en SVG recorre el fondo dibujando destellos dorados en vivo tal como en su plataforma.',
       fx:'newera',
-      fxBtn:'⚡ Lanzar destellos en el patrón SVG',
+      fxBtn:'Lanzar destellos en el patrón SVG',
       mainVideo:{src:'/hola/media/newera-demo.mp4',poster:'/hola/media/newera-demo-poster.jpg',muted:false},
-      gallery:[
-        {type:'video',src:'/hola/media/newera-loop.mp4',poster:'/hola/media/newera-poster.jpg',label:'Hero Mobile en Vivo'},
-        {type:'img',src:'/hola/img/newera-d-1100.webp',label:'Plataforma Desktop & Mapa'},
-        {type:'img',src:'/hola/img/newera-m-820.webp',label:'Vista Mobile'}
+      secondary:[
+        {type:'video',src:'/hola/media/newera-loop.mp4',poster:'/hola/media/newera-poster.jpg',caption:'Hero Mobile en Vivo'},
+        {type:'img',src:'/hola/img/newera-d-1100.webp',caption:'Vista Desktop & Mapa de Propiedades'}
       ],
       url:'https://www.neweraky.com/',
       urlLabel:'Visitar neweraky.com ↗'
     },
     elys:{
-      kicker:'Branding · Identidad · Packaging · Web',
+      kicker:'01 / Branding · Packaging · Sitio Web & Reel',
       title:'Ely’s Charcuterie',
-      desc:'Construcción integral de marca para un atelier de charcutería fina en Louisville: logotipo, emblema de rosa en burgundy y dorado, tarjetas de presentación, reel de revelación y catálogo web con pedidos por WhatsApp.',
+      desc:'Sistema de identidad completo para un atelier de charcutería en Louisville: logotipo, isotipo de rosa en burgundy y dorado, tarjetas impresas, reel de revelación y sitio web bilingüe con pedidos por WhatsApp.',
       fx:'roses',
-      fxBtn:'🌹 Animar emblemas de rosa',
+      fxBtn:'Animar emblemas de rosa',
       mainVideo:{src:'/hola/media/elys.mp4',poster:'/hola/media/elys-poster.jpg',muted:true},
-      gallery:[
-        {type:'img',src:'/hola/img/elys-cards-1100.webp',label:'Papelería & Tarjetas de Lujo'},
-        {type:'img',src:'/hola/img/elys-m-820.webp',label:'Sitio Web & Catálogo Mobile'}
+      secondary:[
+        {type:'img',src:'/hola/img/elys-cards-1100.webp',caption:'Tarjetas de Presentación & Papelería'},
+        {type:'img',src:'/hola/img/elys-m-820.webp',caption:'Catálogo Web Mobile'}
       ],
       url:'https://charcuterieelys-byte.github.io/website/',
       urlLabel:'Visitar sitio web de Ely’s ↗'
     },
     dp:{
-      kicker:'Dirección de Arte · Cine · Sitio Web',
-      title:'DPhotography Studios & Films',
-      desc:'Pieza promocional audiovisual y presencia digital para estudio de fotografía de bodas, quinceañeras y producción cinematográfica en Louisville, KY.',
+      kicker:'02 / Dirección Creativa · Promo Film · Web',
+      title:'DPhotography Studios',
+      desc:'Pieza audiovisual de lanzamiento y plataforma digital para estudio de fotografía de bodas, quinceañeras y cine en Louisville, Kentucky.',
       fx:'gold',
       mainVideo:{src:'/hola/media/dp.mp4',poster:'/hola/media/dp-poster.jpg',muted:false},
-      gallery:[],
+      secondary:[],
       url:'https://www.dphotographystudios.com/',
       urlLabel:'Visitar dphotographystudios.com ↗'
     },
-    'labonita-brand':{
-      kicker:'Dirección Creativa · Art Film 3D · Joyería',
-      title:'La Bonita · Identidad & Film',
-      desc:'Dirección de arte y piezas audiovisuales que fusionan escultura clásica en mármol con joyería de oro 10K y 14K.',
+    labonita:{
+      kicker:'03 / Shopify a Medida · Art Film 3D · Oro 10K y 14K',
+      title:'La Bonita Jewelry',
+      desc:'Dirección de arte y tienda Shopify a medida: escultura clásica en mármol, films de campaña, catálogo filtrado por quilataje y calculadora de compra de oro con cotización diaria en tiempo real.',
       fx:'gold',
-      fxBtn:'✨ Más destellos de oro 14K',
+      fxBtn:'Activar destellos 14K',
       mainVideo:{src:'/hola/media/labonita-reveal.mp4',poster:'/hola/media/labonita-reveal-poster.jpg',muted:false},
-      gallery:[
-        {type:'video',src:'/hola/media/labonita-film.mp4',poster:'/hola/media/labonita-film-poster.jpg',label:'Luxury Jewelry Art Film'},
-        {type:'img',src:'/hola/img/labonita-d-1100.webp',label:'Dirección Visual en Tienda'}
-      ],
-      url:'https://www.labonitajewelry.com/',
-      urlLabel:'Visitar labonitajewelry.com ↗'
-    },
-    'labonita-web':{
-      kicker:'E-Commerce · Shopify a Medida · Calculadora de Oro',
-      title:'La Bonita Jewelry · E-Commerce',
-      desc:'Desarrollo de tienda online sobre Shopify con busto de mármol 3D interactivo, filtros por quilataje, combos promocionales y calculadora de compra de oro conectada al precio diario.',
-      fx:'gold',
-      fxBtn:'✨ Destellos de oro 14K',
-      mainVideo:{src:'/hola/media/labonita-marble-loop.mp4',poster:'/hola/media/labonita-marble-poster.jpg',muted:true},
-      gallery:[
-        {type:'img',src:'/hola/img/labonita-d-1100.webp',label:'Experiencia Desktop'},
-        {type:'img',src:'/hola/img/labonita-m-820.webp',label:'Tienda Mobile & Calculadora'},
-        {type:'video',src:'/hola/media/labonita-reveal.mp4',poster:'/hola/media/labonita-reveal-poster.jpg',label:'Reel de Lanzamiento'}
+      secondary:[
+        {type:'video',src:'/hola/media/labonita-film.mp4',poster:'/hola/media/labonita-film-poster.jpg',caption:'Luxury Jewelry Art Film'},
+        {type:'img',src:'/hola/img/labonita-d-1100.webp',caption:'Tienda Shopify Desktop'}
       ],
       url:'https://www.labonitajewelry.com/',
       urlLabel:'Visitar labonitajewelry.com ↗'
     },
     primestone:{
-      kicker:'Showcase Audiovisual · UI Espacial · 3D',
+      kicker:'04 / Arquitectura Digital · Interfaz Espacial',
       title:'Prime Stone Builders',
-      desc:'Presentación en video de interfaz espacial y visualización arquitectónica tanto en formato panorámico Desktop (16:9) como en versión vertical Mobile (9:16).',
+      desc:'Showcase audiovisual de diseño web y visualización arquitectónica en formato panorámico Desktop (16:9) y versión vertical Mobile (9:16).',
       fx:'gold',
       mainVideo:{src:'/hola/media/primestone-desk.mp4',poster:'/hola/media/primestone-desk-poster.jpg',muted:true},
-      gallery:[
-        {type:'video',src:'/hola/media/primestone.mp4',poster:'/hola/media/primestone-poster.jpg',label:'Showcase Mobile 9:16'}
+      secondary:[
+        {type:'video',src:'/hola/media/primestone.mp4',poster:'/hola/media/primestone-poster.jpg',caption:'Versión Vertical Mobile (9:16)'}
       ]
     },
     zhomes:{
-      kicker:'Producto Digital · App Inmobiliaria · Marketing',
+      kicker:'SaaS Inmobiliario · Producto Digital & Contenido',
       title:'ZHomes Platform',
-      desc:'Plataforma web y ecosistema digital inmobiliario para agentes y compradores, acompañada de producción audiovisual continua.',
+      desc:'Ecosistema digital para agentes inmobiliarios y presentación de propiedades, acompañado de dirección audiovisual continua.',
       fx:'gold',
       mainVideo:{src:'/hola/media/zhomes.mp4',poster:'/hola/media/zhomes-poster.jpg',muted:false},
-      gallery:[
-        {type:'img',src:'/hola/img/zhomes-m-600.webp',label:'Interfaz Mobile ZHomes'}
+      secondary:[
+        {type:'img',src:'/hola/img/zhomes-m-600.webp',caption:'Aplicación Mobile ZHomes'}
       ],
       url:'https://zhomesapp.com/',
       urlLabel:'Visitar zhomesapp.com ↗'
     },
     software:{
-      kicker:'Software a Medida · CRM · Motor CAD en Python',
-      title:'Barba CRM, My Chief CAD & Sistemas',
-      desc:'Desarrollamos herramientas internas que automatizan operaciones reales: Barba CRM (tablero de obras, pipeline comercial y estimador con IA), My Chief (motor en Python que genera planos DXF/PDF bajo código IRC) y Tri-Lion Academy.',
+      kicker:'Sistemas Propios · Automatización · Ingeniería',
+      title:'Barba CRM & My Chief CAD',
+      desc:'Software interno desarrollado a medida: Barba CRM (gestión de proyectos de construcción, pipeline comercial y estimador con inteligencia artificial) y My Chief (motor en Python que genera planos estructurales bajo normativa IRC).',
       fx:'newera',
-      gallery:[
-        {type:'img',src:'/hola/img/barba-crm-board.webp',label:'Barba CRM · Tablero de Proyectos'},
-        {type:'img',src:'/hola/img/barba-crm-estimates.webp',label:'Barba CRM · Estimador & Presupuestos'},
-        {type:'img',src:'/hola/img/barba-crm-pipeline.webp',label:'Barba CRM · Pipeline Comercial'},
-        {type:'img',src:'/hola/img/trilion-m-600.webp',label:'Tri-Lion Academy · Web & Membresías'}
-      ],
-      url:'https://trilionacademy.com/',
-      urlLabel:'Ver Tri-Lion Academy ↗'
+      secondary:[
+        {type:'img',src:'/hola/img/barba-crm-board.webp',caption:'Barba CRM · Tablero de Obras'},
+        {type:'img',src:'/hola/img/barba-crm-estimates.webp',caption:'Barba CRM · Estimador & Presupuestos'},
+        {type:'img',src:'/hola/img/barba-crm-pipeline.webp',caption:'Barba CRM · Pipeline Comercial'}
+      ]
     },
     'reel-luxury':{
-      kicker:'Realización de Video · Luxury Art Film',
+      kicker:'Film 01 / Dirección de Arte & 3D',
       title:'La Bonita · Luxury Art Film',
-      desc:'Pieza audiovisual cinematográfica combinando escultura clásica y alta joyería.',
+      desc:'Pieza audiovisual combinando escultura clásica en mármol e iluminación cinematográfica de joyería.',
       fx:'gold',
       mainVideo:{src:'/hola/media/labonita-film.mp4',poster:'/hola/media/labonita-film-poster.jpg',muted:false},
-      gallery:[]
+      secondary:[]
     },
     'reel-agents':{
-      kicker:'Realización de Video · Collage & Motion',
-      title:'Top Agents · Editorial Reel',
-      desc:'Dirección y animación estilo collage mixto con recortes de papel, textura editorial y ritmo urbano.',
+      kicker:'Film 02 / Animación Editorial & Collage',
+      title:'Top Agents · ZHomes',
+      desc:'Dirección y motion graphics estilo collage con textura de papel y recorte editorial.',
       fx:'gold',
       mainVideo:{src:'/hola/media/vid-agents.mp4',poster:'/hola/media/vid-agents-poster.jpg',muted:false},
-      gallery:[]
+      secondary:[]
     },
     'reel-sellers':{
-      kicker:'Realización de Video · Tipografía Cinética',
-      title:'Top Sellers · Kinetic Reel',
-      desc:'Edición dinámica de alto contraste con gráficos en movimiento y transiciones rápidas para redes sociales.',
+      kicker:'Film 03 / Tipografía Cinética & Ritmo',
+      title:'Top Sellers · ZHomes',
+      desc:'Pieza vertical de alto contraste con edición rítmica y gráficos en movimiento.',
       fx:'gold',
       mainVideo:{src:'/hola/media/vid-sellers.mp4',poster:'/hola/media/vid-sellers-poster.jpg',muted:false},
-      gallery:[]
+      secondary:[]
     },
     'reel-shoot':{
-      kicker:'Realización de Video · Dirección en Set',
-      title:'Sesión Editorial · Behind the Lens',
-      desc:'Dirección de talento en estudio con transición de blanco y negro a color y acabado cinematográfico.',
+      kicker:'Film 04 / Dirección en Set',
+      title:'Sesión Editorial',
+      desc:'Dirección de retrato en estudio con transición de blanco y negro a color.',
       fx:'gold',
       mainVideo:{src:'/hola/media/vid-shoot.mp4',poster:'/hola/media/vid-shoot-poster.jpg',muted:false},
-      gallery:[]
+      secondary:[]
     }
   };
 
-  var pModal=d.getElementById('project-modal'), pmFx=d.getElementById('pm-fx'), pmKicker=d.getElementById('pm-kicker'),
-      pmTitle=d.getElementById('pm-title'), pmDesc=d.getElementById('pm-desc'), pmFxBar=d.getElementById('pm-fx-bar'),
-      pmMedia=d.getElementById('pm-media'), pmActions=d.getElementById('pm-actions');
+  var stage=d.getElementById('project-stage'), stFx=d.getElementById('st-fx'), stKicker=d.getElementById('st-kicker'),
+      stTitle=d.getElementById('st-title'), stDesc=d.getElementById('st-desc'), stFxCtrl=d.getElementById('st-fx-ctrl'),
+      stActions=d.getElementById('st-actions'), stShowcase=d.getElementById('st-showcase');
   var neweraCache=null;
 
-  function renderSignatureFx(kind){
-    pmFx.innerHTML='';
+  /* Perimeter slots keep floating elements around the edges so they never collide with title/copy */
+  var PERIMETER=[
+    {l:'2%',t:'6%',w:88,b:1.5,o:.55},{l:'86%',t:'8%',w:74,b:0,o:.78},{l:'90%',t:'36%',w:62,b:.8,o:.65},
+    {l:'3%',t:'68%',w:70,b:0,o:.72},{l:'84%',t:'72%',w:94,b:2,o:.5},{l:'62%',t:'4%',w:54,b:0,o:.7},
+    {l:'48%',t:'86%',w:68,b:1,o:.6},{l:'14%',t:'88%',w:80,b:1.5,o:.52},{l:'74%',t:'48%',w:58,b:0,o:.68}
+  ];
+
+  function renderStageFx(kind){
+    stFx.innerHTML='';
     if(kind==='fruits'){
       var fruits=['lime-wheel','lemon-wheel','orange-wheel','mint','cherry','lime-half','grapefruit-half','apple-slice','ice'];
-      for(var i=0;i<14;i++){
+      PERIMETER.forEach(function(slot,i){
         var im=d.createElement('img');
-        im.className='fx-fruit';
+        im.className='stage-fruit';
         im.src='/hola/fx/'+fruits[i%fruits.length]+'.webp';
         im.alt='';
-        im.style.left=(4+(i*6.8)%88)+'%';
-        im.style.top=(6+(i*19)%82)+'%';
-        im.style.setProperty('--dx',((i%2?1:-1)*(16+(i*7)%28))+'px');
-        im.style.setProperty('--dy',((i%3?1:-1)*(18+(i*9)%34))+'px');
-        im.style.setProperty('--r0',(-25+(i*13)%40)+'deg');
-        im.style.setProperty('--r1',(15+(i*17)%45)+'deg');
-        im.style.setProperty('--dur',(4.5+(i%5)*1.1)+'s');
-        pmFx.appendChild(im);
-      }
+        im.style.left=slot.l;
+        im.style.top=slot.t;
+        im.style.width=slot.w+'px';
+        im.style.opacity=String(slot.o);
+        if(slot.b)im.style.filter='blur('+slot.b+'px) drop-shadow(0 14px 24px rgba(0,0,0,.6))';
+        else im.style.filter='drop-shadow(0 14px 24px rgba(0,0,0,.6))';
+        im.style.setProperty('--dx',((i%2?1:-1)*(14+i*4))+'px');
+        im.style.setProperty('--dy',((i%3?1:-1)*(18+i*5))+'px');
+        im.style.setProperty('--r0',(-20+i*9)+'deg');
+        im.style.setProperty('--r1',(16+i*11)+'deg');
+        im.style.setProperty('--dur',(5.5+(i%4)*1.3)+'s');
+        stFx.appendChild(im);
+      });
     }else if(kind==='roses'){
-      for(var r=0;r<9;r++){
+      PERIMETER.slice(0,6).forEach(function(slot,r){
         var rm=d.createElement('img');
-        rm.className='fx-rose';
+        rm.className='stage-rose';
         rm.src='/hola/fx/'+(r%2?'rosa-dorado.svg':'rosa-burgundy.svg');
         rm.alt='';
-        rm.style.left=(6+(r*11)%84)+'%';
-        rm.style.top=(8+(r*23)%78)+'%';
-        rm.style.setProperty('--dur',(6+(r%4)*1.5)+'s');
-        pmFx.appendChild(rm);
-      }
+        rm.style.left=slot.l;
+        rm.style.top=slot.t;
+        rm.style.setProperty('--dur',(7+(r%3)*2)+'s');
+        stFx.appendChild(rm);
+      });
     }else if(kind==='gold'){
-      for(var g=0;g<24;g++){
+      for(var g=0;g<20;g++){
         var gd=d.createElement('span');
-        gd.className='fx-gold-dot';
-        gd.style.left=(5+(g*13)%90)+'%';
-        gd.style.top=(8+(g*17)%84)+'%';
-        gd.style.setProperty('--tdur',(2.1+(g%5)*0.6)+'s');
-        pmFx.appendChild(gd);
+        gd.className='stage-gold';
+        gd.style.left=(4+(g*17)%92)+'%';
+        gd.style.top=(6+(g*23)%88)+'%';
+        gd.style.setProperty('--gdur',(2.4+(g%5)*0.6)+'s');
+        stFx.appendChild(gd);
       }
     }else if(kind==='newera'){
       var drawLines=function(data){
@@ -1205,7 +1247,7 @@ body.modal-open .fab{transform:translateY(160%)!important}
         var svg=d.createElementNS(svgNS,'svg');
         svg.setAttribute('viewBox',(data&&data.v)||'0 0 18737 9495');
         svg.setAttribute('preserveAspectRatio','xMidYMid slice');
-        svg.setAttribute('class','fx-newera-svg');
+        svg.setAttribute('class','stage-newera-svg');
         var paths=Array.isArray(data)?data:(data.d||[]);
         paths.forEach(function(pd,idx){
           var p=d.createElementNS(svgNS,'path');
@@ -1220,8 +1262,8 @@ body.modal-open .fab{transform:translateY(160%)!important}
             svg.appendChild(sp);
           }
         });
-        pmFx.innerHTML='';
-        pmFx.appendChild(svg);
+        stFx.innerHTML='';
+        stFx.appendChild(svg);
       };
       if(neweraCache){drawLines(neweraCache);}
       else{
@@ -1230,110 +1272,106 @@ body.modal-open .fab{transform:translateY(160%)!important}
     }
   }
 
-  function openProject(id){
-    var p=PROJECTS[id];
+  function openStage(id){
+    var p=STAGES[id];
     if(!p)return;
-    pmKicker.textContent=p.kicker;
-    pmTitle.textContent=p.title;
-    pmDesc.textContent=p.desc;
-    renderSignatureFx(p.fx);
+    stKicker.textContent=p.kicker;
+    stTitle.textContent=p.title;
+    stDesc.textContent=p.desc;
+    renderStageFx(p.fx);
 
-    pmFxBar.innerHTML='';
+    stFxCtrl.innerHTML='';
     if(p.fxBtn){
       var fb=d.createElement('button');
       fb.type='button';
-      fb.className='fx-trigger';
-      fb.textContent=p.fxBtn;
-      fb.addEventListener('click',function(){renderSignatureFx(p.fx)});
-      pmFxBar.appendChild(fb);
+      fb.className='stage-fx-btn';
+      fb.textContent=p.fxBtn+' +';
+      fb.addEventListener('click',function(){renderStageFx(p.fx)});
+      stFxCtrl.appendChild(fb);
     }
 
-    pmMedia.innerHTML='';
-    if(p.mainVideo){
-      var vw=d.createElement('div');
-      vw.className='pmodal-video-wrap';
-      var vid=d.createElement('video');
-      vid.src=p.mainVideo.src;
-      if(p.mainVideo.poster)vid.poster=p.mainVideo.poster;
-      vid.controls=true;
-      vid.playsInline=true;
-      vid.loop=true;
-      vid.muted=Boolean(p.mainVideo.muted);
-      vw.appendChild(vid);
-      pmMedia.appendChild(vw);
-      setTimeout(function(){var pr=vid.play();if(pr&&pr.catch)pr.catch(function(){vid.muted=true;vid.play().catch(function(){})})},80);
-    }
-
-    if(p.gallery&&p.gallery.length){
-      var gw=d.createElement('div');
-      gw.className='pmodal-gallery';
-      p.gallery.forEach(function(item){
-        var fig=d.createElement('figure');
-        fig.style.margin='0';
-        if(item.type==='video'){
-          var gv=d.createElement('video');
-          gv.src=item.src;
-          if(item.poster)gv.poster=item.poster;
-          gv.controls=true;gv.muted=true;gv.loop=true;gv.playsInline=true;
-          fig.appendChild(gv);
-          gv.play().catch(function(){});
-        }else{
-          var gi=d.createElement('img');
-          gi.src=item.src;gi.alt=item.label||'';gi.loading='lazy';
-          fig.appendChild(gi);
-        }
-        if(item.label){
-          var cap=d.createElement('figcaption');
-          cap.style.cssText='padding:6px 2px 0;font:400 .7rem/1.3 var(--mono);color:var(--letra);text-transform:uppercase';
-          cap.textContent=item.label;
-          fig.appendChild(cap);
-        }
-        gw.appendChild(fig);
-      });
-      pmMedia.appendChild(gw);
-    }
-
-    pmActions.innerHTML='';
+    stActions.innerHTML='';
     if(p.url){
       var a=d.createElement('a');
       a.className='btn btn-primary';
       a.href=p.url;a.target='_blank';a.rel='noopener';
-      a.textContent=p.urlLabel||'Ver sitio en vivo ↗';
-      pmActions.appendChild(a);
+      a.textContent=p.urlLabel||'Visitar sitio web ↗';
+      stActions.appendChild(a);
     }
     var wa=d.createElement('a');
     wa.className='btn btn-ghost';
     wa.href='https://wa.me/15026587853?text=Hola%20Miguel%2C%20vi%20la%20tarjeta%20digital%20de%20Dame%20la%20Letra%20y%20me%20gustar%C3%ADa%20conversar%20sobre%20un%20proyecto.';wa.target='_blank';wa.rel='noopener';
-    wa.textContent='Cotizar algo similar por WhatsApp →';
-    pmActions.appendChild(wa);
+    wa.textContent='Conversar por WhatsApp →';
+    stActions.appendChild(wa);
 
-    pModal.classList.add('open');
-    pModal.setAttribute('aria-hidden','false');
+    stShowcase.innerHTML='';
+    if(p.mainVideo){
+      var vw=d.createElement('div');
+      vw.className='stage-main-video';
+      var vid=d.createElement('video');
+      vid.src=p.mainVideo.src;
+      if(p.mainVideo.poster)vid.poster=p.mainVideo.poster;
+      vid.controls=true;vid.playsInline=true;vid.loop=true;
+      vid.muted=Boolean(p.mainVideo.muted);
+      vw.appendChild(vid);
+      stShowcase.appendChild(vw);
+      setTimeout(function(){var pr=vid.play();if(pr&&pr.catch)pr.catch(function(){vid.muted=true;vid.play().catch(function(){})})},80);
+    }
+
+    if(p.secondary&&p.secondary.length){
+      var sg=d.createElement('div');
+      sg.className='stage-sec-grid';
+      p.secondary.forEach(function(item){
+        var fig=d.createElement('figure');
+        fig.className='stage-sec-item';
+        if(item.type==='video'){
+          var sv=d.createElement('video');
+          sv.src=item.src;
+          if(item.poster)sv.poster=item.poster;
+          sv.controls=true;sv.muted=true;sv.loop=true;sv.playsInline=true;
+          fig.appendChild(sv);
+          sv.play().catch(function(){});
+        }else{
+          var si=d.createElement('img');
+          si.src=item.src;si.alt=item.caption||'';si.loading='lazy';
+          fig.appendChild(si);
+        }
+        if(item.caption){
+          var cap=d.createElement('figcaption');
+          cap.textContent=item.caption;
+          fig.appendChild(cap);
+        }
+        sg.appendChild(fig);
+      });
+      stShowcase.appendChild(sg);
+    }
+
+    stage.classList.add('open');
+    stage.setAttribute('aria-hidden','false');
     d.body.style.overflow='hidden';
     d.body.classList.add('modal-open');
   }
 
-  function closeProject(){
-    if(!pModal.classList.contains('open'))return;
-    pModal.classList.remove('open');
-    pModal.setAttribute('aria-hidden','true');
-    pmMedia.querySelectorAll('video').forEach(function(v){v.pause();v.removeAttribute('src');v.load()});
-    pmMedia.innerHTML='';
-    pmFx.innerHTML='';
+  function closeStage(){
+    if(!stage.classList.contains('open'))return;
+    stage.classList.remove('open');
+    stage.setAttribute('aria-hidden','true');
+    stShowcase.querySelectorAll('video').forEach(function(v){v.pause();v.removeAttribute('src');v.load()});
+    stShowcase.innerHTML='';
+    stFx.innerHTML='';
     d.body.style.overflow='';
     d.body.classList.remove('modal-open');
   }
 
-  d.querySelectorAll('[data-open-project]').forEach(function(btn){
-    btn.addEventListener('click',function(){openProject(btn.getAttribute('data-open-project'))});
+  d.querySelectorAll('[data-open-stage]').forEach(function(b){
+    b.addEventListener('click',function(){openStage(b.getAttribute('data-open-stage'))});
   });
-  d.querySelectorAll('[data-close-modal]').forEach(function(btn){
-    btn.addEventListener('click',closeProject);
+  d.querySelectorAll('[data-close-stage]').forEach(function(b){
+    b.addEventListener('click',closeStage);
   });
-  pModal.addEventListener('click',function(e){if(e.target===pModal)closeProject()});
 
-  /* 5. Lazy 3D .GLB Model Viewer */
-  var glbStage=d.getElementById('glb-stage'), mvLoaded=false, mvEl=null;
+  /* 5. Lazy 3D .GLB Viewer */
+  var glbStage=d.getElementById('glb-stage'), glbLabel=d.getElementById('glb-current-label'), mvLoaded=false, mvEl=null;
   function ensureModelViewer(cb){
     if(mvLoaded&&mvEl){if(cb)cb(mvEl);return;}
     var createMv=function(){
@@ -1371,6 +1409,7 @@ body.modal-open .fab{transform:translateY(160%)!important}
     tab.addEventListener('click',function(){
       d.querySelectorAll('[data-glb]').forEach(function(t){t.classList.remove('active')});
       tab.classList.add('active');
+      if(glbLabel)glbLabel.textContent=tab.getAttribute('data-glb-label')||'';
       ensureModelViewer(function(mv){mv.setAttribute('src',tab.getAttribute('data-glb'))});
     });
   });
@@ -1380,38 +1419,40 @@ body.modal-open .fab{transform:translateY(160%)!important}
     });
   });
 
-  /* 6. Architectural Plans Filter & High-Res Lightbox */
-  var pfBtns=d.querySelectorAll('[data-plan-filter]'), planCards=d.querySelectorAll('.plancard');
-  pfBtns.forEach(function(b){
+  /* 6. Architectural Sheets Filter & High-Res Lightbox */
+  var sfBtns=d.querySelectorAll('[data-sheet-filter]'), sheets=d.querySelectorAll('.sheet');
+  sfBtns.forEach(function(b){
     b.addEventListener('click',function(){
-      var cat=b.getAttribute('data-plan-filter');
-      pfBtns.forEach(function(x){x.classList.remove('active')});
+      var cat=b.getAttribute('data-sheet-filter');
+      sfBtns.forEach(function(x){x.classList.remove('active')});
       b.classList.add('active');
-      planCards.forEach(function(c){
-        c.hidden=(cat!=='all'&&c.getAttribute('data-plan-cat')!==cat);
+      sheets.forEach(function(s){
+        if(cat==='all')s.hidden=false;
+        else if(cat==='destacados')s.hidden=!s.hasAttribute('data-sheet-feat');
+        else s.hidden=(s.getAttribute('data-sheet-cat')!==cat);
       });
     });
   });
 
-  var planModal=d.getElementById('plan-modal'), plmImg=d.getElementById('plm-img'), plmTitle=d.getElementById('plm-title');
-  planCards.forEach(function(c){
-    c.addEventListener('click',function(){
-      plmImg.src=c.getAttribute('data-plan-full');
-      plmTitle.textContent=c.getAttribute('data-plan-title')||'Plano Técnico';
-      planModal.classList.add('open');
-      planModal.setAttribute('aria-hidden','false');
+  var sheetModal=d.getElementById('sheet-modal'), shmImg=d.getElementById('shm-img'), shmTitle=d.getElementById('shm-title');
+  sheets.forEach(function(s){
+    s.addEventListener('click',function(){
+      shmImg.src=s.getAttribute('data-sheet-full');
+      shmTitle.textContent=s.getAttribute('data-sheet-title')||'Pliego Técnico';
+      sheetModal.classList.add('open');
+      sheetModal.setAttribute('aria-hidden','false');
       d.body.style.overflow='hidden';
       d.body.classList.add('modal-open');
     });
   });
-  function closePlan(){
-    planModal.classList.remove('open');
-    planModal.setAttribute('aria-hidden','true');
+  function closeSheet(){
+    sheetModal.classList.remove('open');
+    sheetModal.setAttribute('aria-hidden','true');
     d.body.style.overflow='';
     d.body.classList.remove('modal-open');
   }
-  d.querySelectorAll('[data-close-plan]').forEach(function(b){b.addEventListener('click',closePlan)});
-  d.addEventListener('keydown',function(e){if(e.key==='Escape'){closeProject();closePlan();}});
+  d.querySelectorAll('[data-close-sheet]').forEach(function(b){b.addEventListener('click',closeSheet)});
+  d.addEventListener('keydown',function(e){if(e.key==='Escape'){closeStage();closeSheet();}});
 
   /* 7. Floating WhatsApp FAB & Share Toast */
   var fab=d.querySelector('.fab'), cta=d.getElementById('hero-cta'), contact=d.getElementById('contacto');
@@ -1424,7 +1465,7 @@ body.modal-open .fab{transform:translateY(160%)!important}
   var toast=d.querySelector('.toast'),tt;
   function say(m){toast.textContent=m;toast.classList.add('on');clearTimeout(tt);tt=setTimeout(function(){toast.classList.remove('on')},2200)}
   d.querySelectorAll('[data-share]').forEach(function(b){b.addEventListener('click',function(){
-    var data={title:'Dame la Letra · Miguel Sosa',text:'Dame la Letra — Diseño, video, desarrollo web y planos 3D. Fundado por Miguel Sosa.',url:'https://www.damelaletra.com/hola'};
+    var data={title:'Dame la Letra',text:'Dame la Letra — estudio creativo independiente. Fundado por Miguel Sosa.',url:'https://www.damelaletra.com/hola'};
     if(navigator.share){navigator.share(data).catch(function(){});return;}
     if(navigator.clipboard){navigator.clipboard.writeText(data.url).then(function(){say('Enlace copiado')},function(){say(data.url)});}
     else{say(data.url)}

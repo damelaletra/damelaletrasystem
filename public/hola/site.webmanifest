@@ -4,8 +4,8 @@
   "start_url": "/hola/",
   "scope": "/hola/",
   "display": "standalone",
-  "background_color": "#140b1d",
-  "theme_color": "#140b1d",
+  "background_color": "#0e0a14",
+  "theme_color": "#0e0a14",
   "icons": [
     {
       "src": "/hola/icon-192.png",

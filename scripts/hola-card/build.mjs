@@ -15,7 +15,7 @@ const glyphs = JSON.parse(fs.readFileSync(path.join(HERE, 'glyphs.json'), 'utf8'
 const iconPath = (n) => fs.readFileSync(path.join(HERE, `${n}.svg`), 'utf8').match(/ d="([^"]+)"/)[1];
 const WA_ICON = iconPath('whatsapp');
 const IG_ICON = iconPath('instagram');
-const INK = '#140b1d', LETRA = '#ffcc29', PURPLE = '#6a4888', PAPER = '#f6f2ea';
+const INK = '#0e0a14', LETRA = '#ffcc29', PURPLE = '#6a4888', PAPER = '#f3eee3';
 
 fs.mkdirSync(path.join(OUT, 'qr'), { recursive: true });
 
@@ -100,27 +100,21 @@ fs.writeFileSync(path.join(OUT, cfg.vcardFile), lines.join('\r\n') + '\r\n');
 // ---------- OG image ----------
 const fontsDir = path.join(OUT, 'fonts').replace(/\\/g, '/');
 const logoB64 = fs.readFileSync(path.join(OUT, 'img', 'dame-la-letra-logo.png')).toString('base64');
-const bgB64 = fs.readFileSync(path.join(OUT, 'img', 'dml-bg.webp')).toString('base64');
-const founderB64 = fs.readFileSync(path.join(OUT, 'img', 'miguel-sosa-520.webp')).toString('base64');
 const ogHtml = `<!doctype html><html><head><style>
 @font-face{font-family:Anton;src:url(data:font/woff2;base64,${fs.readFileSync(fontsDir + "/anton.woff2").toString("base64")})}
 @font-face{font-family:CP;src:url(data:font/woff2;base64,${fs.readFileSync(fontsDir + "/courierprime-400.woff2").toString("base64")})}
-html,body{margin:0;width:1200px;height:630px;background:${INK};overflow:hidden;position:relative}
-.bg{position:absolute;inset:0;background:radial-gradient(circle at 30% 25%,rgba(106,72,136,.55),rgba(20,11,29,.94) 72%),url(data:image/webp;base64,${bgB64}) center/cover}
-.g{position:absolute;right:210px;top:-40px;height:700px;fill:${PURPLE};opacity:.45;transform:rotate(-5deg)}
-.portrait{position:absolute;right:24px;bottom:0;height:560px;width:auto;filter:drop-shadow(-18px 10px 36px rgba(0,0,0,.65))}
-.logo{position:absolute;left:64px;top:52px;height:40px}
-h1{position:absolute;left:60px;top:144px;margin:0;font:400 118px/.94 Anton;color:${PAPER};text-transform:uppercase;text-shadow:0 10px 30px rgba(0,0,0,.45)}
-.s{position:relative;display:inline-block;color:${LETRA}}
-.u{position:absolute;left:64px;bottom:48px;font:400 24px CP;color:${LETRA};letter-spacing:.04em;background:rgba(20,11,29,.8);padding:8px 16px;border:1px solid rgba(255,204,41,.4)}
-.t{position:absolute;left:410px;bottom:56px;font:400 18px CP;color:${PAPER};letter-spacing:.1em;text-transform:uppercase;opacity:.85}
+html,body{margin:0;width:1200px;height:630px;background:${INK};overflow:hidden}
+.g{position:absolute;right:-60px;top:-30px;height:720px;fill:${PURPLE};transform:rotate(-4deg)}
+.logo{position:absolute;left:64px;top:56px;height:38px}
+h1{position:absolute;left:60px;top:150px;margin:0;font:400 128px/.95 Anton;color:${PAPER};text-transform:uppercase}
+.s{position:relative;display:inline-block}.s:after{content:"";position:absolute;left:-4px;right:-6px;top:46%;height:15px;background:#8459ab;transform:rotate(-3deg)}
+.u{position:absolute;left:64px;bottom:50px;font:400 26px CP;color:${LETRA};letter-spacing:.04em}
+.t{position:absolute;right:64px;bottom:50px;font:400 20px CP;color:${PAPER};letter-spacing:.12em;text-transform:uppercase}
 </style></head><body>
-<div class="bg"></div>
 <svg class="g" viewBox="0 269 630 711"><path d="${glyphs.L.d}"/></svg>
-<img class="portrait" src="data:image/webp;base64,${founderB64}">
 <img class="logo" src="data:image/png;base64,${logoB64}">
 <h1>No hacemos<br>más de<br><span class="s">lo mismo.</span></h1>
-<div class="u">damelaletra.com/hola</div><div class="t">Diseño · Código · Planos · Video</div>
+<div class="u">damelaletra.com/hola</div><div class="t">Estudio creativo independiente</div>
 </body></html>`;
 const browser = await chromium.launch({ executablePath: 'C:/Program Files/Google/Chrome/Application/chrome.exe' });
 const page = await browser.newPage({ viewport: { width: 1200, height: 630 } });
