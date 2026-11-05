@@ -280,21 +280,23 @@ body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:100;op
 .founder-sec{background:var(--paper);color:var(--ink);overflow:hidden;isolation:isolate}
 .founder-sec .label{color:var(--violeta-deep)}
 .founder-sec .label i{color:rgba(14,10,20,.65)}
-.founder-name{margin:6px 0 0;font:400 clamp(3.7rem,17.5vw,11.5rem)/.96 "Cloister",Georgia,serif;letter-spacing:0}
-.founder-name span{color:var(--violeta)}
-.founder-role{margin:14px 0 clamp(32px,5vw,56px);font:400 .84rem/1.4 var(--mono);letter-spacing:.12em;text-transform:uppercase}
-.founder-role::before{content:"";display:inline-block;width:28px;height:2px;background:var(--violeta);vertical-align:middle;margin-right:12px}
-.founder-grid{display:grid;gap:28px;align-items:end}
-.founder-lead{max-width:20ch;font:400 clamp(1.75rem,6.8vw,3.3rem)/1.02 var(--display);text-transform:uppercase}
+.founder-grid{display:grid;grid-template-columns:minmax(0,1fr) clamp(126px,36vw,168px);gap:26px 14px;align-items:center;margin-top:8px}
+.founder-head{grid-column:1;grid-row:1;min-width:0}
+.founder-name{margin:0;font:400 clamp(3rem,13.2vw,5.2rem)/.92 "Cloister",Georgia,serif;letter-spacing:0}
+.founder-name span{color:var(--violeta);display:block}
+.founder-role{margin:12px 0 0;font:400 .72rem/1.35 var(--mono);letter-spacing:.1em;text-transform:uppercase}
+.founder-role::before{content:"";display:inline-block;width:20px;height:2px;background:var(--violeta);vertical-align:middle;margin-right:8px}
+.founder-figure{grid-column:2;grid-row:1;position:relative;margin:8px 6px 0 auto;max-width:168px;width:100%}
+.founder-figure::before{content:"";position:absolute;right:-6px;bottom:0;width:82%;height:78%;background:var(--violeta);box-shadow:-7px -7px 0 var(--letra);z-index:-1;transform:rotate(2deg)}
+.founder-figure img{width:100%;height:auto;display:block;filter:contrast(1.04) drop-shadow(0 12px 22px rgba(14,10,20,.26));border-bottom:3px solid var(--ink)}
+.founder-body{grid-column:1/-1;grid-row:2}
+.founder-lead{max-width:20ch;font:400 clamp(1.75rem,6.8vw,3.3rem)/1.02 var(--display);text-transform:uppercase;margin:0}
 .founder-lead mark{background:linear-gradient(transparent 58%,var(--letra) 58%);color:inherit;padding:0 .05em}
 .founder-txt{max-width:46ch;font-size:1.06rem;margin-top:18px}
 .facts{margin:22px 0 0;display:grid;border-top:1px solid rgba(14,10,20,.2)}
 .facts div{display:grid;grid-template-columns:8.5em 1fr;gap:12px;padding:14px 0;border-bottom:1px solid rgba(14,10,20,.2)}
 .facts dt{font:400 .76rem/1.6 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--violeta-deep)}
 .facts dd{margin:0;font-weight:500}
-.founder-figure{position:relative;margin:12px auto 0;max-width:380px;width:100%}
-.founder-figure::before{content:"";position:absolute;right:-10px;bottom:0;width:82%;height:78%;background:var(--violeta);box-shadow:-10px -10px 0 var(--letra);z-index:-1;transform:rotate(2deg)}
-.founder-figure img{width:100%;height:auto;display:block;filter:contrast(1.04) drop-shadow(0 18px 32px rgba(14,10,20,.28));border-bottom:4px solid var(--ink)}
 
 /* ---------- Section 05: Hablemos / Contact ---------- */
 .contact{background:var(--letra);color:var(--ink);overflow:hidden;isolation:isolate}
@@ -428,7 +430,16 @@ body.modal-open .fab{transform:translateY(160%)!important}
   .m-main{width:54%}
   .proj-num{font-size:12rem}
   .sheets-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:36px}
-  .founder-grid{grid-template-columns:1.15fr .85fr;gap:40px 64px;align-items:end}
+  .founder-grid{grid-template-columns:1.15fr .85fr;gap:0 64px;align-items:end;margin-top:0}
+  .founder-head{grid-column:1/-1;grid-row:1}
+  .founder-name{margin:6px 0 0;font-size:clamp(3.7rem,17.5vw,11.5rem);line-height:.96}
+  .founder-name span{display:inline}
+  .founder-role{margin:14px 0 clamp(32px,5vw,56px);font-size:.84rem;line-height:1.4;letter-spacing:.12em}
+  .founder-role::before{width:28px;margin-right:12px}
+  .founder-body{grid-column:1;grid-row:2}
+  .founder-figure{grid-column:2;grid-row:2;margin:12px auto 0;max-width:380px}
+  .founder-figure::before{right:-10px;box-shadow:-10px -10px 0 var(--letra)}
+  .founder-figure img{border-bottom:4px solid var(--ink);filter:contrast(1.04) drop-shadow(0 18px 32px rgba(14,10,20,.28))}
   .stage-body{grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);gap:48px}
   .foot{padding-bottom:32px}
   .contact .wrap{display:grid;grid-template-columns:minmax(0,1fr) 300px;column-gap:64px}
@@ -1064,11 +1075,18 @@ body.modal-open .fab{transform:translateY(160%)!important}
   <section class="sec founder-sec" id="fundador" aria-labelledby="founder-title">
     <div class="wrap">
       <p class="label" data-reveal><b>07</b> Detrás de las ideas <i lang="en">/ Behind the ideas.</i></p>
-      <h2 class="founder-name" id="founder-title" data-reveal>Miguel <span>Sosa</span></h2>
-      <p class="founder-role" data-reveal>Fundador · Dame la Letra</p>
 
       <div class="founder-grid">
-        <div>
+        <div class="founder-head">
+          <h2 class="founder-name" id="founder-title" data-reveal>Miguel <span>Sosa</span></h2>
+          <p class="founder-role" data-reveal>Fundador · Dame la Letra</p>
+        </div>
+
+        <figure class="founder-figure" data-reveal>
+          <img src="/hola/img/miguel-sosa-520.webp" srcset="/hola/img/miguel-sosa-520.webp 520w, /hola/img/miguel-sosa-960.webp 960w" sizes="(min-width:980px) 380px, 42vw" width="520" height="515" alt="Miguel Sosa — Fundador de Dame la Letra" loading="lazy" decoding="async">
+        </figure>
+
+        <div class="founder-body">
           <p class="founder-lead" data-reveal>Una mirada multidisciplinaria que <mark>conecta diseño, negocio, marketing y tecnología.</mark></p>
           <p class="founder-txt" data-reveal>Dame la Letra parte de una forma diferente de mirar los negocios: entender que cada desafío puede necesitar una solución distinta y que las mejores ideas muchas veces aparecen al conectar disciplinas que normalmente trabajan por separado.</p>
           <p class="founder-txt" data-reveal>Un proyecto puede comenzar con una pregunta sobre cómo posicionar una marca y terminar en una identidad visual, una campaña audiovisual, una plataforma digital o un sistema desarrollado desde cero. Lo interesante está en descubrir qué necesita realmente cada proyecto y encontrar la manera de llevarlo más lejos.</p>
@@ -1079,10 +1097,6 @@ body.modal-open .fab{transform:translateY(160%)!important}
             <div><dt>Comunicación</dt><dd>Siempre preferiblemente en persona</dd></div>
           </dl>
         </div>
-
-        <figure class="founder-figure" data-reveal>
-          <img src="/hola/img/miguel-sosa-520.webp" srcset="/hola/img/miguel-sosa-520.webp 520w, /hola/img/miguel-sosa-960.webp 960w" sizes="(min-width:980px) 380px, 78vw" width="520" height="515" alt="Miguel Sosa — Fundador de Dame la Letra" loading="lazy" decoding="async">
-        </figure>
       </div>
     </div>
   </section>
