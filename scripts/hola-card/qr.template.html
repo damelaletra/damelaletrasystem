@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>QR · Dame la Letra</title>
 <meta name="robots" content="noindex">
-<meta name="theme-color" content="#0c0b0a">
+<meta name="theme-color" content="#140b1d">
 <link rel="canonical" href="https://www.damelaletra.com/hola">
 <link rel="icon" href="/hola/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/hola/apple-touch-icon.png">
@@ -14,18 +14,20 @@
 @font-face{font-family:"Anton";src:url(/hola/fonts/anton.woff2) format("woff2");font-display:swap}
 @font-face{font-family:"Courier Prime";src:url(/hola/fonts/courierprime-400.woff2) format("woff2");font-display:swap}
 *,*::before,*::after{box-sizing:border-box}
-html,body{margin:0;height:100%;background:#0c0b0a;color:#f3eee3}
-body{min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:clamp(16px,3.2vh,28px);padding:max(20px,env(safe-area-inset-top)) 20px max(20px,env(safe-area-inset-bottom));font:400 1rem/1.4 "Courier Prime",ui-monospace,Menlo,monospace;text-align:center}
-.logo{height:28px;width:auto}
-.card{width:min(84vw,56vh,420px);background:#fff;padding:0;box-shadow:8px 8px 0 #ffcc29}
+html,body{margin:0;height:100%;background:#140b1d;color:#f6f2ea}
+body{min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:clamp(16px,3.2vh,26px);padding:max(20px,env(safe-area-inset-top)) 20px max(20px,env(safe-area-inset-bottom));font:400 1rem/1.4 "Courier Prime",ui-monospace,Menlo,monospace;text-align:center;position:relative;overflow:hidden;isolation:isolate;
+  background-image:radial-gradient(circle at 50% 18%,rgba(106,72,136,.52),rgba(20,11,29,.94) 68%),url(/hola/img/dml-bg.webp);
+  background-size:cover;background-position:center}
+.logo{height:30px;width:auto;filter:drop-shadow(0 4px 16px rgba(0,0,0,.45))}
+.card{width:min(82vw,52vh,390px);background:#fff;padding:10px;border:3px solid #140b1d;box-shadow:10px 10px 0 #ffcc29,0 24px 60px rgba(0,0,0,.55)}
 .card svg{display:block;width:100%;height:auto}
-.title{margin:0;font:400 clamp(1.9rem,8.4vw,2.8rem)/.95 "Anton",Impact,sans-serif;text-transform:uppercase;letter-spacing:.01em}
+.title{margin:0;font:400 clamp(2rem,8.4vw,3rem)/.95 "Anton",Impact,sans-serif;text-transform:uppercase;letter-spacing:.01em;text-shadow:0 4px 18px rgba(0,0,0,.4)}
 .title span{color:#ffcc29}
-.url{margin:0;font-size:1rem;letter-spacing:.04em;color:rgba(243,238,227,.75)}
+.url{margin:0;font-size:.98rem;letter-spacing:.05em;color:#ffcc29;background:rgba(20,11,29,.72);padding:6px 14px;border:1px solid rgba(255,204,41,.35)}
 .actions{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 22px}
-.actions a,.actions button{display:inline-flex;align-items:center;min-height:44px;padding:0;border:0;background:none;color:#f3eee3;font:inherit;font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;text-decoration:underline;text-underline-offset:.35em;cursor:pointer}
+.actions a,.actions button{display:inline-flex;align-items:center;min-height:44px;padding:0;border:0;background:none;color:#f6f2ea;font:inherit;font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;text-decoration:underline;text-underline-offset:.35em;cursor:pointer}
 :focus-visible{outline:3px solid #ffcc29;outline-offset:3px}
-.awake{font-size:.72rem;color:rgba(243,238,227,.5);min-height:1em;margin:0}
+.awake{font-size:.72rem;color:rgba(246,242,234,.62);min-height:1em;margin:0}
 </style>
 </head>
 <body>
@@ -34,13 +36,12 @@ body{min-height:100svh;display:flex;flex-direction:column;align-items:center;jus
   <div class="card" role="img" aria-label="Código QR hacia damelaletra.com/hola">__QR_SVG__</div>
   <p class="url">damelaletra.com/hola</p>
   <div class="actions">
-    <a href="/hola/">Ver la tarjeta</a>
+    <a href="/hola/">Ver la tarjeta interactiva</a>
     <a href="/hola/qr/dame-la-letra-qr.png" download>Descargar QR</a>
   </div>
   <p class="awake" aria-live="polite"></p>
 <script>
 (function(){
-  // Keep the screen on while the QR is being shown (supported browsers only).
   var lock=null, msg=document.querySelector('.awake');
   function req(){ if(!('wakeLock' in navigator)) return;
     navigator.wakeLock.request('screen').then(function(l){lock=l;msg.textContent='Pantalla activa mientras muestras el QR';l.addEventListener('release',function(){msg.textContent=''})}).catch(function(){});
