@@ -9,6 +9,14 @@
       ]
     },
     {
+      "source": "/hola/damelaletra-tap.apk",
+      "headers": [
+        { "key": "Content-Type", "value": "application/vnd.android.package-archive" },
+        { "key": "Content-Disposition", "value": "attachment; filename=\"damelaletra-tap.apk\"" },
+        { "key": "Cache-Control", "value": "public, max-age=60" }
+      ]
+    },
+    {
       "source": "/hola/(img|fonts)/(.*)",
       "headers": [
         { "key": "Cache-Control", "value": "public, max-age=2592000" }
@@ -23,6 +31,10 @@
     {
       "source": "/hola/qr",
       "destination": "/hola/qr/index.html"
+    },
+    {
+      "source": "/hola/tap",
+      "destination": "/hola/tap/index.html"
     },
     {
       "source": "/api/(.*)",

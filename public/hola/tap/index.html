@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Dame la Letra · NFC Tap Studio (Pixel 9 Pro XL)</title>
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#0d0814">
+<link rel="icon" type="image/png" href="/hola/img/dame-la-letra-logo.png">
+<link rel="preload" href="/hola/fonts/anton-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/hola/fonts/space-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+@font-face{font-family:'Anton';font-style:normal;font-weight:400;font-display:swap;src:url('/hola/fonts/anton-latin.woff2') format('woff2')}
+@font-face{font-family:'Space Grotesk';font-style:normal;font-weight:300 700;font-display:swap;src:url('/hola/fonts/space-grotesk-latin.woff2') format('woff2')}
+:root{
+  --bg:#0d0814;--bg-card:#160e22;--ink:#f5efe6;--muted:#b6ab9b;
+  --gold:#ffcc29;--purple:#7a28cb;--green:#25d366;--line:rgba(255,204,41,.22);
+  --display:'Anton',Impact,sans-serif;--sans:'Space Grotesk',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  min-height:100svh;background:radial-gradient(900px 500px at 50% 0%,rgba(122,40,203,.32),transparent 65%),var(--bg);
+  color:var(--ink);font-family:var(--sans);display:flex;align-items:center;justify-content:center;padding:24px 16px;
+}
+.card{
+  width:min(100%,520px);background:rgba(22,14,34,.92);border:1px solid var(--gold);
+  box-shadow:7px 7px 0 var(--purple),0 28px 70px rgba(0,0,0,.75);padding:28px 24px;
+}
+.kicker{
+  display:inline-flex;align-items:center;gap:8px;font-size:.7rem;font-weight:700;
+  letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:10px;
+}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green)}
+h1{font-family:var(--display);font-weight:400;font-size:clamp(2rem,7vw,3rem);line-height:.96;text-transform:uppercase;margin-bottom:12px}
+h1 em{font-style:normal;color:var(--gold)}
+.lead{font-size:.94rem;line-height:1.55;color:var(--muted);margin-bottom:20px}
+.lead strong{color:var(--ink)}
+.dl-btn{
+  display:flex;align-items:center;justify-content:center;gap:10px;width:100%;
+  padding:16px 18px;background:var(--gold);color:#0d0814;font-weight:700;font-size:.86rem;
+  letter-spacing:.12em;text-transform:uppercase;text-decoration:none;border:1px solid var(--gold);
+  box-shadow:4px 4px 0 var(--purple);margin-bottom:18px;transition:transform .15s ease;
+}
+.dl-btn:active{transform:translate(2px,2px)}
+.modes{border-top:1px solid var(--line);padding-top:16px;margin-bottom:18px;display:grid;gap:10px}
+.mode{padding:11px 13px;background:rgba(255,255,255,.03);border:1px solid rgba(255,204,41,.16)}
+.mode b{display:block;font-size:.74rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:3px}
+.mode span{font-size:.84rem;color:var(--ink)}
+.steps{border-top:1px solid var(--line);padding-top:16px;display:grid;gap:8px;font-size:.84rem;color:var(--muted);margin-bottom:18px}
+.steps div strong{color:var(--ink)}
+.back{
+  display:block;text-align:center;padding:12px;border:1px solid var(--line);
+  color:var(--ink);text-decoration:none;font-size:.76rem;letter-spacing:.14em;text-transform:uppercase;
+}
+</style>
+</head>
+<body>
+  <main class="card">
+    <p class="kicker"><i class="dot"></i><span>App Nativa · Google Pixel 9 Pro XL</span></p>
+    <h1>Dame la Letra <em>NFC Tap.</em></h1>
+    <p class="lead">Convierte el chip NFC interno de tu <strong>Pixel 9 Pro XL</strong> en una tarjeta inteligente activa (HCE Type 4 Tag) para compartir tu portafolio y tus modelos 3D en Realidad Aumentada con solo tocar cualquier iPhone o Android.</p>
+
+    <a class="dl-btn" href="/hola/damelaletra-tap.apk" download="damelaletra-tap.apk">
+      ✦ Descargar App para tu Pixel (.APK · 25 KB)
+    </a>
+
+    <div class="modes">
+      <div class="mode">
+        <b>Modo 01 · Tarjeta Completa</b>
+        <span>Dispara damelaletra.com/hola al tocar otro teléfono</span>
+      </div>
+      <div class="mode">
+        <b>Modo 02 · Proyecto del Alcalde en 3D AR</b>
+        <span>Abre directo el Monumento de la Ciudad de Lynnview en AR (?ar=mayor)</span>
+      </div>
+      <div class="mode">
+        <b>Modo 03 · La Web Flotando en 3D AR</b>
+        <span>Abre directo la instalación 3D flotante estilo Amazon (?ar=1)</span>
+      </div>
+      <div class="mode">
+        <b>Modo 04 · Contacto Directo (.VCF) &amp; QR</b>
+        <span>Abre la tarjeta rápida para guardar tu contacto en 1 toque (/hola/qr)</span>
+      </div>
+    </div>
+
+    <div class="steps">
+      <div><strong>1. Instala en 3 segundos:</strong> Toca el botón amarillo arriba desde tu Pixel 9 Pro XL y pulsa «Instalar».</div>
+      <div><strong>2. Elige qué enviar:</strong> Abre <strong>Dame la Letra Tap</strong> (o usa su botón en la barra de ajustes rápidos de tu Pixel) para elegir entre la Tarjeta o el AR.</div>
+      <div><strong>3. Haz el Tap:</strong> Acerca la parte trasera de tu Pixel 9 Pro XL (debajo de la barra de la cámara) a la punta superior del iPhone de la otra persona o al dorso de su Android.</div>
+    </div>
+
+    <a class="back" href="/hola">← Volver a damelaletra.com/hola</a>
+  </main>
+</body>
+</html>
