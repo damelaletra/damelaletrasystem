@@ -172,27 +172,33 @@ body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:100;op
 .band-track span{display:inline-flex;align-items:center;gap:.5em;padding-right:.5em}
 .star{display:inline-block;width:.62em;height:.62em;background:currentColor;clip-path:polygon(50% 0,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%)}
 
-/* ---------- fast touch/click-pausable logo marquee ---------- */
-.logo-rail{position:relative;padding:26px 0 22px;border-bottom:1px solid var(--line);background:var(--ink);overflow:hidden;user-select:none;-webkit-user-select:none}
-.logo-rail-head{max-width:1320px;margin:0 auto 14px;padding:0 var(--pad);display:flex;align-items:center;justify-content:space-between;gap:12px}
-.logo-rail-meta{font:400 .74rem/1.3 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--mute)}
+/* ---------- fast touch/click-pausable double logo marquee ---------- */
+.logo-rail{position:relative;padding:28px 0 26px;border-bottom:1px solid var(--line);background:var(--ink);overflow:hidden;user-select:none;-webkit-user-select:none}
+.logo-rail-head{max-width:1320px;margin:0 auto 18px;padding:0 var(--pad);display:flex;align-items:center;justify-content:space-between;gap:12px}
+.logo-rail-meta{font:400 .76rem/1.3 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--mute)}
 .logo-rail-meta b{color:var(--letra);font-weight:400}
 .logo-rail-btn{padding:6px 12px;border:1px solid var(--line);background:transparent;color:var(--letra);font:400 .72rem/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:border-color .2s,background-color .2s,color .2s}
 .logo-rail-btn:hover{border-color:var(--letra);background:var(--letra);color:var(--ink)}
-.logo-rail-track-wrap{display:flex;width:max-content;cursor:pointer;touch-action:pan-y}
-.logo-rail-track{display:flex;align-items:center;gap:clamp(36px,6.5vw,84px);padding-right:clamp(36px,6.5vw,84px);animation:marquee 18s linear infinite}
+.logo-rail-rows{display:flex;flex-direction:column;gap:20px;cursor:pointer;touch-action:pan-y}
+.logo-rail-track-wrap{display:flex;width:max-content}
+.logo-rail-track{display:flex;flex:none;align-items:center;gap:clamp(38px,5.5vw,76px);padding-right:clamp(38px,5.5vw,76px);animation:marquee 42s linear infinite;will-change:transform}
+.logo-rail-track.rev{animation-direction:reverse;animation-duration:46s}
 .logo-rail.paused .logo-rail-track{animation-play-state:paused!important}
-.logo-item{flex:none;display:inline-flex;align-items:center;justify-content:center;opacity:.9;transition:opacity .2s,transform .2s}
+.logo-item{flex:none;display:inline-flex;align-items:center;justify-content:center;opacity:.92;transition:opacity .2s,transform .2s}
 .logo-item:hover{opacity:1;transform:translateY(-2px)}
-.logo-item img{height:38px;width:auto;max-width:154px;object-fit:contain;filter:drop-shadow(0 2px 10px rgba(0,0,0,.4))}
+.logo-item img{height:42px;width:auto;max-width:154px;object-fit:contain;filter:drop-shadow(0 2px 10px rgba(0,0,0,.45))}
 
 /* ---------- services (Lo que hacemos) ---------- */
 .svc{list-style:none;margin:clamp(44px,7vw,88px) 0 0;padding:0;border-top:1px solid var(--line)}
-.svc-item{position:relative;display:grid;grid-template-columns:2.6em 1fr;column-gap:12px;padding:24px 0 28px;border-bottom:1px solid var(--line);isolation:isolate}
-.svc-item::before{content:"";position:absolute;inset:0 calc(var(--pad)*-1);z-index:-1;background:var(--violeta);transform:scaleY(0);transform-origin:50% 100%;transition:transform .45s var(--ease)}
+.svc-item{position:relative;display:grid;grid-template-columns:2.6em 1fr;column-gap:12px;padding:24px 0 28px;border-bottom:1px solid var(--line);isolation:isolate;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.svc-item::before{content:"";position:absolute;inset:0 calc(var(--pad)*-1);z-index:-1;background:var(--violeta);transform:scaleY(0);transform-origin:50% 100%;transition:transform .42s var(--ease)}
+.svc-item:hover::before,.svc-item.is-active::before{transform:scaleY(1)}
+.svc-item:hover .svc-t,.svc-item.is-active .svc-t{color:var(--letra);transform:translateX(10px)}
+.svc-item:hover .svc-d,.svc-item.is-active .svc-d{color:var(--paper)}
+.svc-item:hover .amp,.svc-item.is-active .amp{color:var(--paper)}
 .svc-n{padding-top:.55em;font:400 .82rem/1 var(--mono);color:var(--letra)}
-.svc-t{margin:0;font:400 clamp(2.15rem,10.6vw,5.6rem)/.9 var(--display);text-transform:uppercase;transition:transform .45s var(--ease),color .3s}
-.svc-d{grid-column:2;margin-top:12px;max-width:46ch;color:var(--mute);font-size:1rem}
+.svc-t{margin:0;font:400 clamp(2.15rem,10.6vw,5.6rem)/.9 var(--display);text-transform:uppercase;transition:transform .42s var(--ease),color .3s}
+.svc-d{grid-column:2;margin-top:12px;max-width:46ch;color:var(--mute);font-size:1rem;transition:color .3s}
 .svc-proof{grid-column:2;margin-top:12px;font:400 .78rem/1.5 var(--mono);color:var(--mute)}
 .svc-proof a{color:var(--letra);text-underline-offset:.25em}
 
@@ -248,10 +254,11 @@ body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:100;op
 .arch-stage-wrap{margin-top:clamp(36px,6vw,64px);border:1px solid var(--line);background:var(--ink);box-shadow:10px 10px 0 var(--violeta)}
 .arch-bar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;padding:14px 18px;border-bottom:1px solid var(--line)}
 .arch-tabs,.arch-cams{display:flex;flex-wrap:wrap;gap:8px}
+.arch-cams[hidden]{display:none!important}
 .arch-btn{padding:7px 14px;border:1px solid var(--line);background:transparent;color:var(--mute);font:400 .74rem/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:background-color .2s,color .2s,border-color .2s}
 .arch-btn.active,.arch-btn:hover{border-color:var(--letra);background:var(--letra);color:var(--ink)}
-.arch-canvas{position:relative;width:100%;height:clamp(320px,54vw,520px);background:radial-gradient(circle at 50% 45%,#28193b 0%,#0e0a14 75%)}
-.arch-canvas model-viewer{width:100%;height:100%;display:block;--poster-color:transparent}
+.arch-canvas{position:relative;width:100%;height:clamp(380px,58vw,560px);background:radial-gradient(circle at 50% 45%,#28193b 0%,#0e0a14 75%)}
+.arch-canvas model-viewer,.arch-canvas iframe{width:100%;height:100%;border:0;display:block;--poster-color:transparent}
 .arch-caption{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;padding:10px 18px;border-top:1px solid var(--line);font:400 .74rem/1.4 var(--mono);color:var(--mute);letter-spacing:.06em;text-transform:uppercase}
 .arch-caption b{color:var(--letra);font-weight:400}
 
@@ -381,10 +388,10 @@ body.modal-open .fab{transform:translateY(160%)!important}
 /* ---------- keyframes ---------- */
 @keyframes rise{from{transform:translateY(108%)}to{transform:none}}
 @keyframes pop{from{transform:scale(0) rotate(-90deg)}to{transform:none}}
-@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
 @keyframes strike{to{transform:rotate(-3.2deg) scaleX(1)}}
 @keyframes drift{from{transform:rotate(-4deg) translateY(0)}to{transform:rotate(2deg) translateY(-18px)}}
-@keyframes marquee{to{transform:translateX(-100%)}}
+@keyframes marquee{0%{transform:translate3d(0,0,0)}100%{transform:translate3d(-100%,0,0)}}
 @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(255,204,41,.7)}70%,100%{box-shadow:0 0 0 9px rgba(255,204,41,0)}}
 @keyframes blink{50%{opacity:0}}
 
@@ -410,10 +417,7 @@ body.modal-open .fab{transform:translateY(160%)!important}
   .svc-d,.svc-proof{grid-column:3}
   .svc-proof{grid-row:2}
   .svc-item:nth-child(even) .svc-t{padding-left:7%}
-  .svc-item:hover::before{transform:scaleY(1)}
-  .svc-item:hover .svc-t{color:var(--letra);transform:translateX(14px)}
-  .svc-item:hover .svc-d{color:var(--paper)}
-  .svc-item:hover .amp{color:var(--paper)}
+  .svc-item:hover .svc-t,.svc-item.is-active .svc-t{color:var(--letra);transform:translateX(14px)}
   .proj{grid-template-columns:repeat(12,minmax(0,1fr));gap:0 36px;align-items:center}
   .proj-media{grid-column:1/8}
   .proj-body{grid-column:8/13}
@@ -429,16 +433,6 @@ body.modal-open .fab{transform:translateY(160%)!important}
   .contact .wrap>*{grid-column:1}
   .contact .wrap>.contact-qr{display:block;grid-column:2;grid-row:2/6;align-self:end;margin:0;font:400 .76rem/1.5 var(--mono);letter-spacing:.06em;text-transform:uppercase}
   .contact-qr img{width:100%;height:auto;background:#fff;box-shadow:8px 8px 0 var(--ink);margin-bottom:16px}
-}
-
-/* ---------- reduced motion ---------- */
-@media (prefers-reduced-motion:reduce){
-  html{scroll-behavior:auto}
-  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;animation-delay:0s!important;transition-duration:.001ms!important}
-  .band-track,.logo-rail-track,.badge .ring,.hero-glyph,.dot,.kicker span{animation:none!important}
-  .strike::after{transform:rotate(-3.2deg) scaleX(1)}
-  .js [data-reveal]{opacity:1;transform:none}
-  .js .proj .m-main,.js .proj .m-sub{opacity:1;translate:0 0;scale:1}
 }
 </style>
 </head>
@@ -501,40 +495,114 @@ body.modal-open .fab{transform:translateY(160%)!important}
 </div>
 <p class="sr-only">Pensamos diferente. Creamos con intención. Hacemos que las ideas sucedan.</p>
 
-<!-- FAST TOUCH/CLICK-PAUSABLE CLIENT LOGO MARQUEE (SOLO LOGOS) -->
-<section class="logo-rail" id="marcas" aria-label="Logos de marcas y proyectos">
+<!-- FAST TOUCH/CLICK-PAUSABLE DOUBLE CLIENT LOGO MARQUEE (2 FILAS EN DIRECCIONES OPUESTAS · SIN REPETIR LOGOS) -->
+<section class="logo-rail" id="marcas" aria-label="Clientes y logos creados">
   <div class="logo-rail-head">
-    <p class="logo-rail-meta"><b>Marcas &amp; Sistemas</b> / Toca o mantén presionado para detener</p>
+    <p class="logo-rail-meta"><b>Clientes y/o logos creados</b> / Toca o mantén presionado para detener</p>
     <button class="logo-rail-btn" type="button" data-marquee-btn aria-pressed="false">Detener</button>
   </div>
-  <div class="logo-rail-track-wrap" data-marquee>
-    <div class="logo-rail-track">
-      <div class="logo-item"><img src="/hola/img/dame-la-letra-logo.png" alt="Dame la Letra" width="132" height="24"></div>
-      <div class="logo-item"><img src="/hola/img/logos/elys.webp" alt="Ely’s Charcuterie" width="124" height="38"></div>
-      <div class="logo-item"><img src="/hola/img/logos/lucky-shaker.webp" alt="Lucky Shaker" width="118" height="38"></div>
-      <div class="logo-item"><img src="/hola/img/logos/dphotography.webp" alt="DPhotography Studios" width="118" height="38"></div>
-      <div class="logo-item"><img src="/hola/img/logos/la-bonita.webp" alt="La Bonita Jewelry" width="124" height="38"></div>
-      <div class="logo-item"><img src="/hola/img/logos/new-era.webp" alt="New Era Real Estate" width="124" height="38"></div>
-      <div class="logo-item"><img src="/hola/img/logos/zhomes.webp" alt="ZHomes" width="106" height="38"></div>
-      <div class="logo-item"><img src="/hola/img/logos/barba.webp" alt="Barba Construction" width="106" height="38"></div>
-      <div class="logo-item"><img src="/hola/img/logos/tzel.webp" alt="Tzel" width="92" height="38"></div>
-      <div class="logo-item"><img src="/hola/img/logos/clover-jewelry.webp" alt="Clover Jewelry" width="106" height="38"></div>
-      <div class="logo-item"><img src="/hola/img/logos/edward.webp" alt="Edward Siding" width="106" height="38"></div>
-      <div class="logo-item"><img src="/hola/img/logos/pool-extended.webp" alt="Pool Extended" width="120" height="38"></div>
+  <div class="logo-rail-rows" data-marquee>
+    <!-- FILA 1: 22 logos únicos (hacia la izquierda) -->
+    <div class="logo-rail-track-wrap">
+      <div class="logo-rail-track">
+        <div class="logo-item"><img src="/hola/img/logos/elys.webp" alt="Ely’s Charcuterie" width="124" height="38"></div>
+        <div class="logo-item"><img src="/hola/img/logos/new-era.webp" alt="New Era Real Estate" width="124" height="38"></div>
+        <div class="logo-item"><img src="/hola/img/logos/primestone.webp" alt="Prime Stone Builders" width="124" height="38"></div>
+        <div class="logo-item"><img src="/hola/img/logos/tla.webp" alt="Tri-Lion Academy" width="118" height="38"></div>
+        <div class="logo-item"><img src="/hola/img/logos/lucky-shaker.webp" alt="Lucky Shaker" width="118" height="38"></div>
+        <div class="logo-item"><img src="/hola/img/logos/dphotography.webp" alt="DPhotography Studios" width="118" height="38"></div>
+        <div class="logo-item"><img src="/hola/img/logos/la-bonita.webp" alt="La Bonita Jewelry" width="124" height="38"></div>
+        <div class="logo-item"><img src="/hola/img/logos/mle.webp" alt="MLE" width="116" height="38"></div>
+        <div class="logo-item"><img src="/hola/img/logos/luis.webp" alt="Luis" width="112" height="38"></div>
+        <div class="logo-item"><img src="/hola/img/logos/balloons-decor.webp" alt="Balloons Decor" width="120" height="38"></div>
+        <div class="logo-item"><img src="/hola/img/logos/berta.webp" alt="Berta" width="112" height="38"></div>
+        <div class="logo-item"><img src="/hola/img/logos/consoliday.webp" alt="Consoliday" width="124" height="38"></div>
+        <div class="logo-item"><img src="/hola/img/logos/david-flowers.webp" alt="David Flowers" width="124" height="38"></div>
+        <div class="logo-item"><img src="/hola/img/logos/flor-de-cuba.webp" alt="Flor de Cuba" width="120" height="38"></div>
+        <div class="logo-item"><img src="/hola/img/logos/lay-logo.webp" alt="Sonrisas y Luz" width="116" height="38"></div>
+        <div class="logo-item"><img src="/hola/img/logos/lay-fuentes.webp" alt="Lay Fuentes Photography" width="124" height="38"></div>
+        <div class="logo-item"><img src="/hola/img/logos/dhm-taxes.webp" alt="DHM Taxes &amp; More" width="120" height="38"></div>
+        <div class="logo-item"><img src="/hola/img/logos/dnj.webp" alt="DNJ" width="112" height="38"></div>
+        <div class="logo-item"><img src="/hola/img/logos/lorena.webp" alt="Lorena" width="120" height="38"></div>
+        <div class="logo-item"><img src="/hola/img/logos/renew-water.webp" alt="Renew Water" width="124" height="38"></div>
+        <div class="logo-item"><img src="/hola/img/logos/fantastico.webp" alt="Fantástico" width="120" height="38"></div>
+        <div class="logo-item"><img src="/hola/img/logos/ubc.webp" alt="UBC" width="116" height="38"></div>
+      </div>
+      <div class="logo-rail-track" aria-hidden="true">
+        <div class="logo-item"><img src="/hola/img/logos/elys.webp" alt="" width="124" height="38"></div>
+        <div class="logo-item"><img src="/hola/img/logos/new-era.webp" alt="" width="124" height="38"></div>
+        <div class="logo-item"><img src="/hola/img/logos/primestone.webp" alt="" width="124" height="38"></div>
+        <div class="logo-item"><img src="/hola/img/logos/tla.webp" alt="" width="118" height="38"></div>
+        <div class="logo-item"><img src="/hola/img/logos/lucky-shaker.webp" alt="" width="118" height="38"></div>
+        <div class="logo-item"><img src="/hola/img/logos/dphotography.webp" alt="" width="118" height="38"></div>
+        <div class="logo-item"><img src="/hola/img/logos/la-bonita.webp" alt="" width="124" height="38"></div>
+        <div class="logo-item"><img src="/hola/img/logos/mle.webp" alt="" width="116" height="38"></div>
+        <div class="logo-item"><img src="/hola/img/logos/luis.webp" alt="" width="112" height="38"></div>
+        <div class="logo-item"><img src="/hola/img/logos/balloons-decor.webp" alt="" width="120" height="38"></div>
+        <div class="logo-item"><img src="/hola/img/logos/berta.webp" alt="" width="112" height="38"></div>
+        <div class="logo-item"><img src="/hola/img/logos/consoliday.webp" alt="" width="124" height="38"></div>
+        <div class="logo-item"><img src="/hola/img/logos/david-flowers.webp" alt="" width="124" height="38"></div>
+        <div class="logo-item"><img src="/hola/img/logos/flor-de-cuba.webp" alt="" width="120" height="38"></div>
+        <div class="logo-item"><img src="/hola/img/logos/lay-logo.webp" alt="" width="116" height="38"></div>
+        <div class="logo-item"><img src="/hola/img/logos/lay-fuentes.webp" alt="" width="124" height="38"></div>
+        <div class="logo-item"><img src="/hola/img/logos/dhm-taxes.webp" alt="" width="120" height="38"></div>
+        <div class="logo-item"><img src="/hola/img/logos/dnj.webp" alt="" width="112" height="38"></div>
+        <div class="logo-item"><img src="/hola/img/logos/lorena.webp" alt="" width="120" height="38"></div>
+        <div class="logo-item"><img src="/hola/img/logos/renew-water.webp" alt="" width="124" height="38"></div>
+        <div class="logo-item"><img src="/hola/img/logos/fantastico.webp" alt="" width="120" height="38"></div>
+        <div class="logo-item"><img src="/hola/img/logos/ubc.webp" alt="" width="116" height="38"></div>
+      </div>
     </div>
-    <div class="logo-rail-track" aria-hidden="true">
-      <div class="logo-item"><img src="/hola/img/dame-la-letra-logo.png" alt="" width="132" height="24"></div>
-      <div class="logo-item"><img src="/hola/img/logos/elys.webp" alt="" width="124" height="38"></div>
-      <div class="logo-item"><img src="/hola/img/logos/lucky-shaker.webp" alt="" width="118" height="38"></div>
-      <div class="logo-item"><img src="/hola/img/logos/dphotography.webp" alt="" width="118" height="38"></div>
-      <div class="logo-item"><img src="/hola/img/logos/la-bonita.webp" alt="" width="124" height="38"></div>
-      <div class="logo-item"><img src="/hola/img/logos/new-era.webp" alt="" width="124" height="38"></div>
-      <div class="logo-item"><img src="/hola/img/logos/zhomes.webp" alt="" width="106" height="38"></div>
-      <div class="logo-item"><img src="/hola/img/logos/barba.webp" alt="" width="106" height="38"></div>
-      <div class="logo-item"><img src="/hola/img/logos/tzel.webp" alt="" width="92" height="38"></div>
-      <div class="logo-item"><img src="/hola/img/logos/clover-jewelry.webp" alt="" width="106" height="38"></div>
-      <div class="logo-item"><img src="/hola/img/logos/edward.webp" alt="" width="106" height="38"></div>
-      <div class="logo-item"><img src="/hola/img/logos/pool-extended.webp" alt="" width="120" height="38"></div>
+    <!-- FILA 2: 22 logos únicos distintos (hacia la derecha) -->
+    <div class="logo-rail-track-wrap">
+      <div class="logo-rail-track rev">
+        <div class="logo-item"><img src="/hola/img/logos/usaclimax.webp" alt="USA Climax" width="120" height="38"></div>
+        <div class="logo-item"><img src="/hola/img/logos/ride-crank.webp" alt="Ride Crank" width="120" height="38"></div>
+        <div class="logo-item"><img src="/hola/img/logos/lush-hydration.webp" alt="Lush Hydration" width="120" height="38"></div>
+        <div class="logo-item"><img src="/hola/img/logos/parra-4d.webp" alt="4D Construction" width="116" height="38"></div>
+        <div class="logo-item"><img src="/hola/img/logos/babi-fernandez.webp" alt="Babi Fernández" width="124" height="38"></div>
+        <div class="logo-item"><img src="/hola/img/logos/dany-plumbing.webp" alt="Dany Plumbing" width="120" height="38"></div>
+        <div class="logo-item"><img src="/hola/img/logos/fantastic-fashion.webp" alt="Fantastic Fashion Show" width="120" height="38"></div>
+        <div class="logo-item"><img src="/hola/img/logos/yes-marcita.webp" alt="Yes Marcita" width="120" height="38"></div>
+        <div class="logo-item"><img src="/hola/img/logos/kingdom-dealer.webp" alt="The Kingdom Dealer" width="120" height="38"></div>
+        <div class="logo-item"><img src="/hola/img/logos/venegas.webp" alt="Venegas" width="120" height="38"></div>
+        <div class="logo-item"><img src="/hola/img/logos/rc-studio80.webp" alt="RC Studio 80" width="118" height="38"></div>
+        <div class="logo-item"><img src="/hola/img/logos/rey-autosales.webp" alt="Rey Auto Sales" width="124" height="38"></div>
+        <div class="logo-item"><img src="/hola/img/logos/senda-de-luz.webp" alt="Senda de Luz" width="118" height="38"></div>
+        <div class="logo-item"><img src="/hola/img/logos/sergio-estrada.webp" alt="Sergio Estrada" width="124" height="38"></div>
+        <div class="logo-item"><img src="/hola/img/logos/tineda.webp" alt="Tienda Online" width="116" height="38"></div>
+        <div class="logo-item"><img src="/hola/img/logos/twoit.webp" alt="TwoIT" width="116" height="38"></div>
+        <div class="logo-item"><img src="/hola/img/logos/zhomes.webp" alt="ZHomes" width="106" height="38"></div>
+        <div class="logo-item"><img src="/hola/img/logos/barba.webp" alt="Barba Construction" width="106" height="38"></div>
+        <div class="logo-item"><img src="/hola/img/logos/tzel.webp" alt="Tzel" width="92" height="38"></div>
+        <div class="logo-item"><img src="/hola/img/logos/clover-jewelry.webp" alt="Clover Jewelry" width="106" height="38"></div>
+        <div class="logo-item"><img src="/hola/img/logos/edward.webp" alt="Edward Siding" width="106" height="38"></div>
+        <div class="logo-item"><img src="/hola/img/logos/pool-extended.webp" alt="Pool Extended" width="120" height="38"></div>
+      </div>
+      <div class="logo-rail-track rev" aria-hidden="true">
+        <div class="logo-item"><img src="/hola/img/logos/usaclimax.webp" alt="" width="120" height="38"></div>
+        <div class="logo-item"><img src="/hola/img/logos/ride-crank.webp" alt="" width="120" height="38"></div>
+        <div class="logo-item"><img src="/hola/img/logos/lush-hydration.webp" alt="" width="120" height="38"></div>
+        <div class="logo-item"><img src="/hola/img/logos/parra-4d.webp" alt="" width="116" height="38"></div>
+        <div class="logo-item"><img src="/hola/img/logos/babi-fernandez.webp" alt="" width="124" height="38"></div>
+        <div class="logo-item"><img src="/hola/img/logos/dany-plumbing.webp" alt="" width="120" height="38"></div>
+        <div class="logo-item"><img src="/hola/img/logos/fantastic-fashion.webp" alt="" width="120" height="38"></div>
+        <div class="logo-item"><img src="/hola/img/logos/yes-marcita.webp" alt="" width="120" height="38"></div>
+        <div class="logo-item"><img src="/hola/img/logos/kingdom-dealer.webp" alt="" width="120" height="38"></div>
+        <div class="logo-item"><img src="/hola/img/logos/venegas.webp" alt="" width="120" height="38"></div>
+        <div class="logo-item"><img src="/hola/img/logos/rc-studio80.webp" alt="" width="118" height="38"></div>
+        <div class="logo-item"><img src="/hola/img/logos/rey-autosales.webp" alt="" width="124" height="38"></div>
+        <div class="logo-item"><img src="/hola/img/logos/senda-de-luz.webp" alt="" width="118" height="38"></div>
+        <div class="logo-item"><img src="/hola/img/logos/sergio-estrada.webp" alt="" width="124" height="38"></div>
+        <div class="logo-item"><img src="/hola/img/logos/tineda.webp" alt="" width="116" height="38"></div>
+        <div class="logo-item"><img src="/hola/img/logos/twoit.webp" alt="" width="116" height="38"></div>
+        <div class="logo-item"><img src="/hola/img/logos/zhomes.webp" alt="" width="106" height="38"></div>
+        <div class="logo-item"><img src="/hola/img/logos/barba.webp" alt="" width="106" height="38"></div>
+        <div class="logo-item"><img src="/hola/img/logos/tzel.webp" alt="" width="92" height="38"></div>
+        <div class="logo-item"><img src="/hola/img/logos/clover-jewelry.webp" alt="" width="106" height="38"></div>
+        <div class="logo-item"><img src="/hola/img/logos/edward.webp" alt="" width="106" height="38"></div>
+        <div class="logo-item"><img src="/hola/img/logos/pool-extended.webp" alt="" width="120" height="38"></div>
+      </div>
     </div>
   </div>
 </section>
@@ -565,13 +633,13 @@ body.modal-open .fab{transform:translateY(160%)!important}
           <span class="svc-n">03</span>
           <h3 class="svc-t">Planos <span class="amp">&amp;</span> Arquitectura 3D</h3>
           <p class="svc-d">Láminas arquitectónicas, ingeniería MEP/HVAC, detalles estructurales bajo código IRC y modelos 3D interactivos en tiempo real.</p>
-          <p class="svc-proof">Explorar en <a href="#cap-planos">Visor 3D (.GLB) &amp; Pliegos Técnicos</a></p>
+          <p class="svc-proof">Explorar en <a href="#cap-planos">Proyecto del Alcalde 3D &amp; Pliegos Técnicos</a></p>
         </li>
         <li class="svc-item" data-reveal>
           <span class="svc-n">04</span>
           <h3 class="svc-t">Software <span class="amp">&amp;</span> Automatización</h3>
-          <p class="svc-d">Sistemas internos, aplicaciones móviles, CRMs de construcción, visores CAD 3D y radares inmobiliarios con IA para operar y escalar.</p>
-          <p class="svc-proof">Explorar en <a href="#cap-software">ZHomes</a> · <a href="#cap-software">Barba CRM</a> · <a href="#cap-software">My Chief CAD</a> · <a href="#cap-software">Tzel</a></p>
+          <p class="svc-d">Sistemas internos, aplicaciones móviles, suites de IA omnicanal, visores CAD 3D y radares inmobiliarios para operar y escalar.</p>
+          <p class="svc-proof">Explorar en <a href="#cap-software">ZHomes</a> · <a href="#cap-software">New Era ARM</a> · <a href="#cap-software">My Chief CAD</a> · <a href="#cap-software">Tzel</a></p>
         </li>
         <li class="svc-item" data-reveal>
           <span class="svc-n">05</span>
@@ -730,105 +798,159 @@ body.modal-open .fab{transform:translateY(160%)!important}
   </section>
 
   <!-- =================================================================
-       CAPÍTULO 03 — PLANOS & ARQUITECTURA 3D (.GLB + PLIEGOS PRIVADOS)
+       CAPÍTULO 03 — PLANOS & ARQUITECTURA 3D (PROYECTO DEL ALCALDE + PLIEGOS)
        ================================================================= -->
   <section class="sec arch-sec" id="cap-planos" aria-labelledby="planos-title">
     <div class="wrap">
-      <p class="label" data-reveal><b>04</b> Capítulo 03 · Planos Técnicos &amp; Modelos 3D <i>/ Barba Construction &amp; My Chief CAD</i></p>
+      <p class="label" data-reveal><b>04</b> Capítulo 03 · Planos Técnicos &amp; Modelos 3D <i>/ Proyecto del Alcalde · My Chief CAD &amp; Barba Construction</i></p>
       <h2 class="h2" id="planos-title" data-reveal>Del plano técnico <span class="amp">al</span> <em>modelo 3D vivo.</em></h2>
-      <p class="sec-sub" data-reveal>Explora con el dedo las estructuras tridimensionales directamente en la página o inspecciona nuestros pliegos arquitectónicos, estructurales y MEP.</p>
+      <p class="sec-sub" data-reveal>Explora en vivo el modelo 3D completo del Proyecto del Alcalde (Monumento &amp; Plaza Cívica de la Ciudad de Lynnview con luz diurna, LED nocturna de 12V, vista vectorial CAD y Rayos-X de cimentaciones) e inspecciona su juego completo de planos listos para construir.</p>
 
-      <!-- VISOR 3D INTERACTIVO (.GLB) -->
+      <!-- VISOR 3D INTERACTIVO (PROYECTO DEL ALCALDE + MODELOS .GLB) -->
       <div class="arch-stage-wrap" id="visor-3d" data-reveal>
         <div class="arch-bar">
           <div class="arch-tabs" role="tablist" aria-label="Seleccionar modelo 3D">
-            <button class="arch-btn active" type="button" data-glb="/hola/3d/casa-1607.glb" data-glb-label="Modelo 01 / Residencia de 2 Niveles">01 / Residencia 2 Niveles (.GLB)</button>
-            <button class="arch-btn" type="button" data-glb="/hola/3d/porche-7107.glb" data-glb-label="Modelo 02 / Porche Estructural y Cubierta">02 / Porche &amp; Estructura (.GLB)</button>
+            <button class="arch-btn active" type="button" data-iframe="/hola/mayor-viewer/index.html" data-glb-label="Modelo 01 / Proyecto del Alcalde · Monumento &amp; Plaza Cívica (Lynnview)">01 / Proyecto del Alcalde 3D (Completo)</button>
+            <button class="arch-btn" type="button" data-glb="/hola/3d/casa-1607.glb" data-glb-label="Modelo 02 / Residencia de 2 Niveles (.GLB)">02 / Residencia 2 Niveles (.GLB)</button>
+            <button class="arch-btn" type="button" data-glb="/hola/3d/porche-7107.glb" data-glb-label="Modelo 03 / Porche Estructural y Cubierta (.GLB)">03 / Porche &amp; Estructura (.GLB)</button>
           </div>
-          <div class="arch-cams" aria-label="Ángulos de cámara">
+          <div class="arch-cams" id="arch-cams-glb" hidden aria-label="Ángulos de cámara">
             <button class="arch-btn" type="button" data-orbit="35deg 72deg 105%">Isométrica</button>
             <button class="arch-btn" type="button" data-orbit="0deg 82deg 105%">Fachada</button>
             <button class="arch-btn" type="button" data-orbit="0deg 12deg 115%">Planta</button>
           </div>
+          <div class="arch-cams" id="arch-cams-mayor" aria-label="Acciones del visor">
+            <button class="arch-btn" type="button" data-open-stage="mychief">Abrir en pantalla completa +</button>
+          </div>
         </div>
-        <div class="arch-canvas" id="glb-stage"></div>
+        <div class="arch-canvas" id="glb-stage">
+          <iframe id="mayor-inline-frame" src="/hola/mayor-viewer/index.html" title="Visor 3D Interactivo — Proyecto del Alcalde (City of Lynnview Monument)" loading="lazy" allow="fullscreen"></iframe>
+        </div>
         <div class="arch-caption">
-          <span id="glb-current-label"><b>Modelo 01</b> / Residencia de 2 Niveles</span>
-          <span>Arrastra para rotar · Pellizca para hacer zoom</span>
+          <span id="glb-current-label"><b>Modelo 01</b> / Proyecto del Alcalde · Monumento &amp; Plaza Cívica (Lynnview)</span>
+          <span>Arrastra para rotar 360° · Alterna Día / Noche LED / CAD / Rayos-X</span>
         </div>
       </div>
 
-      <!-- PLIEGOS TÉCNICOS (EDICIÓN PRIVADA SIN DATOS SENSIBLES) -->
+      <!-- PLIEGOS TÉCNICOS (PROYECTO DEL ALCALDE TERMINADO + RESIDENCIAL/MEP) -->
       <div class="sheets-head" data-reveal>
         <div>
-          <p class="label" style="margin-bottom:10px"><b>Pliegos</b> Láminas Arquitectónicas, Estructurales &amp; MEP</p>
+          <p class="label" style="margin-bottom:10px"><b>Pliegos</b> Juego Completo · Proyecto del Alcalde &amp; Láminas Técnicas</p>
           <h3 class="h2" style="font-size:clamp(2rem,7.2vw,4.2rem)">Planos listos <em>para construir.</em></h3>
         </div>
-        <p class="sec-sub" style="margin:0">Edición privada. Toca cualquier pliego para abrirlo en alta resolución (1800px).</p>
+        <p class="sec-sub" style="margin:0">Toca cualquier lámina para inspeccionarla en alta resolución (1800px).</p>
       </div>
 
       <div class="sheet-filters" role="tablist" aria-label="Filtrar láminas por especialidad">
-        <button class="arch-btn active" type="button" data-sheet-filter="destacados">Selección Principal (6)</button>
-        <button class="arch-btn" type="button" data-sheet-filter="all">Ver las 11 láminas</button>
+        <button class="arch-btn active" type="button" data-sheet-filter="destacados">Selección Proyecto del Alcalde (6)</button>
+        <button class="arch-btn" type="button" data-sheet-filter="mayor">Juego Completo Alcalde (9)</button>
         <button class="arch-btn" type="button" data-sheet-filter="arq">Arquitectura &amp; Fachadas</button>
-        <button class="arch-btn" type="button" data-sheet-filter="mep">Ingeniería MEP &amp; HVAC</button>
-        <button class="arch-btn" type="button" data-sheet-filter="estruct">Estructural &amp; My Chief CAD</button>
+        <button class="arch-btn" type="button" data-sheet-filter="estruct">Estructural &amp; Cimentación</button>
+        <button class="arch-btn" type="button" data-sheet-filter="mep">Ingeniería MEP, LED &amp; HVAC</button>
+        <button class="arch-btn" type="button" data-sheet-filter="all">Ver las 20 láminas</button>
       </div>
 
       <div class="sheets-grid">
-        <button class="sheet" type="button" data-sheet-cat="arq" data-sheet-feat="1" data-sheet-full="/hola/img/plan-floor-a-1800.webp" data-sheet-title="Planta Arquitectónica Acotada · Distribución Principal">
+        <!-- PROYECTO DEL ALCALDE (9 LÁMINAS TERMINADAS) -->
+        <button class="sheet" type="button" data-sheet-cat="arq" data-sheet-mayor="1" data-sheet-feat="1" data-sheet-full="/hola/img/plan-mayor-a1-1800.webp" data-sheet-title="Proyecto del Alcalde · A-1 Planta General, Emplazamiento y Geometría Radial">
+          <div class="sheet-paper"><img src="/hola/img/plan-mayor-a1-720.webp" width="720" height="480" alt="Proyecto del Alcalde A-1 Planta General" loading="lazy"></div>
+          <div class="sheet-meta"><span class="sheet-title">A-1 · Planta General &amp; Plaza</span><span class="sheet-cat">01 / Alcalde · Arq +</span></div>
+        </button>
+
+        <button class="sheet" type="button" data-sheet-cat="arq" data-sheet-mayor="1" data-sheet-feat="1" data-sheet-full="/hola/img/plan-mayor-a2-1800.webp" data-sheet-title="Proyecto del Alcalde · A-2 Elevaciones Frontal y Posterior Acotadas">
+          <div class="sheet-paper"><img src="/hola/img/plan-mayor-a2-720.webp" width="720" height="480" alt="Proyecto del Alcalde A-2 Elevaciones" loading="lazy"></div>
+          <div class="sheet-meta"><span class="sheet-title">A-2 · Elevaciones Monumento</span><span class="sheet-cat">02 / Alcalde · Arq +</span></div>
+        </button>
+
+        <button class="sheet" type="button" data-sheet-cat="estruct" data-sheet-mayor="1" data-sheet-feat="1" data-sheet-full="/hola/img/plan-mayor-s1-1800.webp" data-sheet-title="Proyecto del Alcalde · S-1 Planta de Cimentación, Zapatas Corridas (-36&quot;) y Pilares (-60&quot;)">
+          <div class="sheet-paper"><img src="/hola/img/plan-mayor-s1-720.webp" width="720" height="480" alt="Proyecto del Alcalde S-1 Cimentación" loading="lazy"></div>
+          <div class="sheet-meta"><span class="sheet-title">S-1 · Cimentación &amp; Zapatas</span><span class="sheet-cat">03 / Alcalde · Estruct +</span></div>
+        </button>
+
+        <button class="sheet" type="button" data-sheet-cat="estruct" data-sheet-mayor="1" data-sheet-feat="1" data-sheet-full="/hola/img/plan-mayor-s2-1800.webp" data-sheet-title="Proyecto del Alcalde · S-2 Secciones Estructurales, Acero de Refuerzo y Anclaje">
+          <div class="sheet-paper"><img src="/hola/img/plan-mayor-s2-720.webp" width="720" height="480" alt="Proyecto del Alcalde S-2 Secciones Estructurales" loading="lazy"></div>
+          <div class="sheet-meta"><span class="sheet-title">S-2 · Secciones &amp; Acero</span><span class="sheet-cat">04 / Alcalde · Estruct +</span></div>
+        </button>
+
+        <button class="sheet" type="button" data-sheet-cat="estruct" data-sheet-mayor="1" data-sheet-feat="1" data-sheet-full="/hola/img/plan-mayor-d1-1800.webp" data-sheet-title="Proyecto del Alcalde · D-1 Detalles Constructivos, Albardilla de Caliza y Escudo Cívico">
+          <div class="sheet-paper"><img src="/hola/img/plan-mayor-d1-720.webp" width="720" height="480" alt="Proyecto del Alcalde D-1 Detalles Constructivos" loading="lazy"></div>
+          <div class="sheet-meta"><span class="sheet-title">D-1 · Detalles &amp; Escudo Cívico</span><span class="sheet-cat">05 / Alcalde · Detalle +</span></div>
+        </button>
+
+        <button class="sheet" type="button" data-sheet-cat="mep" data-sheet-mayor="1" data-sheet-feat="1" data-sheet-full="/hola/img/plan-mayor-l1-1800.webp" data-sheet-title="Proyecto del Alcalde · L-1 Ingeniería de Iluminación LED 12V, Paisajismo y Fotocelda">
+          <div class="sheet-paper"><img src="/hola/img/plan-mayor-l1-720.webp" width="720" height="480" alt="Proyecto del Alcalde L-1 Iluminación LED y Paisajismo" loading="lazy"></div>
+          <div class="sheet-meta"><span class="sheet-title">L-1 · Iluminación LED 12V &amp; Plaza</span><span class="sheet-cat">06 / Alcalde · MEP +</span></div>
+        </button>
+
+        <button class="sheet" type="button" hidden data-sheet-cat="arq" data-sheet-mayor="1" data-sheet-full="/hola/img/plan-mayor-a3-1800.webp" data-sheet-title="Proyecto del Alcalde · A-3 Elevaciones Laterales, Perfiles y Geometría Curva">
+          <div class="sheet-paper"><img src="/hola/img/plan-mayor-a3-720.webp" width="720" height="480" alt="Proyecto del Alcalde A-3 Elevaciones Laterales" loading="lazy"></div>
+          <div class="sheet-meta"><span class="sheet-title">A-3 · Elevaciones Laterales</span><span class="sheet-cat">07 / Alcalde · Arq +</span></div>
+        </button>
+
+        <button class="sheet" type="button" hidden data-sheet-cat="estruct" data-sheet-mayor="1" data-sheet-full="/hola/img/plan-mayor-d2-1800.webp" data-sheet-title="Proyecto del Alcalde · D-2 Especificaciones de Materiales, Mortero y Juntas de Expansión">
+          <div class="sheet-paper"><img src="/hola/img/plan-mayor-d2-720.webp" width="720" height="480" alt="Proyecto del Alcalde D-2 Especificaciones" loading="lazy"></div>
+          <div class="sheet-meta"><span class="sheet-title">D-2 · Especificaciones &amp; Juntas</span><span class="sheet-cat">08 / Alcalde · Detalle +</span></div>
+        </button>
+
+        <button class="sheet" type="button" hidden data-sheet-cat="arq" data-sheet-mayor="1" data-sheet-full="/hola/img/plan-mayor-r1-1800.webp" data-sheet-title="Proyecto del Alcalde · R-1 Perspectiva Arquitectónica 3D y Visualización Cívica">
+          <div class="sheet-paper"><img src="/hola/img/plan-mayor-r1-720.webp" width="720" height="480" alt="Proyecto del Alcalde R-1 Perspectiva 3D" loading="lazy"></div>
+          <div class="sheet-meta"><span class="sheet-title">R-1 · Perspectiva Cívica 3D</span><span class="sheet-cat">09 / Alcalde · Render +</span></div>
+        </button>
+
+        <!-- LÁMINAS RESIDENCIALES, ESTRUCTURALES IRC & MEP ADICIONALES -->
+        <button class="sheet" type="button" hidden data-sheet-cat="arq" data-sheet-full="/hola/img/plan-floor-a-1800.webp" data-sheet-title="Planta Arquitectónica Acotada · Distribución Principal">
           <div class="sheet-paper"><img src="/hola/img/plan-floor-a-720.webp" width="720" height="561" alt="Planta Arquitectónica Acotada" loading="lazy"></div>
-          <div class="sheet-meta"><span class="sheet-title">Planta Acotada Principal</span><span class="sheet-cat">01 / Arquitectura +</span></div>
+          <div class="sheet-meta"><span class="sheet-title">Planta Acotada Principal</span><span class="sheet-cat">10 / Arquitectura +</span></div>
         </button>
 
-        <button class="sheet" type="button" data-sheet-cat="mep" data-sheet-feat="1" data-sheet-full="/hola/img/plan-mep-1800.webp" data-sheet-title="Ingeniería MEP · Eléctrico, Iluminación e Instalaciones">
+        <button class="sheet" type="button" hidden data-sheet-cat="mep" data-sheet-full="/hola/img/plan-mep-1800.webp" data-sheet-title="Ingeniería MEP · Eléctrico, Iluminación e Instalaciones">
           <div class="sheet-paper"><img src="/hola/img/plan-mep-720.webp" width="720" height="563" alt="Plano MEP" loading="lazy"></div>
-          <div class="sheet-meta"><span class="sheet-title">Eléctrico &amp; MEP</span><span class="sheet-cat">02 / Ingeniería +</span></div>
+          <div class="sheet-meta"><span class="sheet-title">Eléctrico &amp; MEP</span><span class="sheet-cat">11 / Ingeniería +</span></div>
         </button>
 
-        <button class="sheet" type="button" data-sheet-cat="estruct" data-sheet-feat="1" data-sheet-full="/hola/img/plan-mychief-basement-1800.webp" data-sheet-title="My Chief CAD · Planta de Sótano y Ejes bajo Código IRC">
+        <button class="sheet" type="button" hidden data-sheet-cat="estruct" data-sheet-full="/hola/img/plan-mychief-basement-1800.webp" data-sheet-title="My Chief CAD · Planta de Sótano y Ejes bajo Código IRC">
           <div class="sheet-paper"><img src="/hola/img/plan-mychief-basement-720.webp" width="720" height="557" alt="Planta Sótano My Chief CAD" loading="lazy"></div>
-          <div class="sheet-meta"><span class="sheet-title">Planta de Sótano (IRC)</span><span class="sheet-cat">03 / My Chief CAD +</span></div>
+          <div class="sheet-meta"><span class="sheet-title">Planta de Sótano (IRC)</span><span class="sheet-cat">12 / My Chief CAD +</span></div>
         </button>
 
-        <button class="sheet" type="button" data-sheet-cat="estruct" data-sheet-feat="1" data-sheet-full="/hola/img/plan-mychief-details-1800.webp" data-sheet-title="My Chief CAD · Excavación, Muro de Contención y Secciones">
+        <button class="sheet" type="button" hidden data-sheet-cat="estruct" data-sheet-full="/hola/img/plan-mychief-details-1800.webp" data-sheet-title="My Chief CAD · Excavación, Muro de Contención y Secciones">
           <div class="sheet-paper"><img src="/hola/img/plan-mychief-details-720.webp" width="720" height="557" alt="Detalles Muro de Contención" loading="lazy"></div>
-          <div class="sheet-meta"><span class="sheet-title">Excavación &amp; Contención</span><span class="sheet-cat">04 / Estructural +</span></div>
+          <div class="sheet-meta"><span class="sheet-title">Excavación &amp; Contención</span><span class="sheet-cat">13 / Estructural +</span></div>
         </button>
 
-        <button class="sheet" type="button" data-sheet-cat="arq" data-sheet-feat="1" data-sheet-full="/hola/img/plan-elev-2story-1800.webp" data-sheet-title="Elevaciones Arquitectónicas · Residencia de 2 Niveles">
+        <button class="sheet" type="button" hidden data-sheet-cat="arq" data-sheet-full="/hola/img/plan-elev-2story-1800.webp" data-sheet-title="Elevaciones Arquitectónicas · Residencia de 2 Niveles">
           <div class="sheet-paper"><img src="/hola/img/plan-elev-2story-720.webp" width="720" height="563" alt="Elevaciones 2 Niveles" loading="lazy"></div>
-          <div class="sheet-meta"><span class="sheet-title">Fachadas 2 Niveles</span><span class="sheet-cat">05 / Elevaciones +</span></div>
+          <div class="sheet-meta"><span class="sheet-title">Fachadas 2 Niveles</span><span class="sheet-cat">14 / Elevaciones +</span></div>
         </button>
 
-        <button class="sheet" type="button" data-sheet-cat="estruct" data-sheet-feat="1" data-sheet-full="/hola/img/plan-deck-section-1800.webp" data-sheet-title="Sección Constructiva · Deck, Cimentación y Estructura de Cubierta">
+        <button class="sheet" type="button" hidden data-sheet-cat="estruct" data-sheet-full="/hola/img/plan-deck-section-1800.webp" data-sheet-title="Sección Constructiva · Deck, Cimentación y Estructura de Cubierta">
           <div class="sheet-paper"><img src="/hola/img/plan-deck-section-720.webp" width="720" height="561" alt="Corte Estructural de Deck" loading="lazy"></div>
-          <div class="sheet-meta"><span class="sheet-title">Corte de Deck &amp; Cubierta</span><span class="sheet-cat">06 / Detalle +</span></div>
+          <div class="sheet-meta"><span class="sheet-title">Corte de Deck &amp; Cubierta</span><span class="sheet-cat">15 / Detalle +</span></div>
         </button>
 
         <button class="sheet" type="button" hidden data-sheet-cat="estruct" data-sheet-full="/hola/img/plan-deck-3d-1800.webp" data-sheet-title="Isometría Estructural 3D de Madera y Cubierta">
           <div class="sheet-paper"><img src="/hola/img/plan-deck-3d-720.webp" width="720" height="563" alt="Isometría 3D Deck" loading="lazy"></div>
-          <div class="sheet-meta"><span class="sheet-title">Isometría de Estructura</span><span class="sheet-cat">07 / Modelado 3D +</span></div>
+          <div class="sheet-meta"><span class="sheet-title">Isometría de Estructura</span><span class="sheet-cat">16 / Modelado 3D +</span></div>
         </button>
 
         <button class="sheet" type="button" hidden data-sheet-cat="mep" data-sheet-full="/hola/img/plan-hvac-1800.webp" data-sheet-title="Ingeniería HVAC · Red de Climatización y Ductería">
           <div class="sheet-paper"><img src="/hola/img/plan-hvac-720.webp" width="720" height="542" alt="Plano HVAC" loading="lazy"></div>
-          <div class="sheet-meta"><span class="sheet-title">Red de Climatización HVAC</span><span class="sheet-cat">08 / HVAC +</span></div>
+          <div class="sheet-meta"><span class="sheet-title">Red de Climatización HVAC</span><span class="sheet-cat">17 / HVAC +</span></div>
         </button>
 
         <button class="sheet" type="button" hidden data-sheet-cat="arq" data-sheet-full="/hola/img/plan-floor-b-1800.webp" data-sheet-title="Planta de Distribución y Cuadro de Vanos">
           <div class="sheet-paper"><img src="/hola/img/plan-floor-b-720.webp" width="720" height="561" alt="Planta de Distribución" loading="lazy"></div>
-          <div class="sheet-meta"><span class="sheet-title">Planta &amp; Cuadro de Vanos</span><span class="sheet-cat">09 / Arquitectura +</span></div>
+          <div class="sheet-meta"><span class="sheet-title">Planta &amp; Cuadro de Vanos</span><span class="sheet-cat">18 / Arquitectura +</span></div>
         </button>
 
         <button class="sheet" type="button" hidden data-sheet-cat="arq" data-sheet-full="/hola/img/plan-cottage-1800.webp" data-sheet-title="Elevaciones y Planta · Vivienda Auxiliar (ADU / Cottage)">
           <div class="sheet-paper"><img src="/hola/img/plan-cottage-720.webp" width="720" height="563" alt="Plano Cottage ADU" loading="lazy"></div>
-          <div class="sheet-meta"><span class="sheet-title">Vivienda Auxiliar (ADU)</span><span class="sheet-cat">10 / Residencial +</span></div>
+          <div class="sheet-meta"><span class="sheet-title">Vivienda Auxiliar (ADU)</span><span class="sheet-cat">19 / Residencial +</span></div>
         </button>
 
         <button class="sheet" type="button" hidden data-sheet-cat="arq" data-sheet-full="/hola/img/plan-render-brick-1800.webp" data-sheet-title="Visualización Exterior · Ampliación en Ladrillo">
           <div class="sheet-paper"><img src="/hola/img/plan-render-brick-720.webp" width="720" height="540" alt="Render Exterior Residencial" loading="lazy"></div>
-          <div class="sheet-meta"><span class="sheet-title">Visualización Exterior</span><span class="sheet-cat">11 / Render +</span></div>
+          <div class="sheet-meta"><span class="sheet-title">Visualización Exterior</span><span class="sheet-cat">20 / Render +</span></div>
         </button>
       </div>
     </div>
@@ -841,7 +963,7 @@ body.modal-open .fab{transform:translateY(160%)!important}
     <div class="wrap">
       <p class="label" data-reveal><b>05</b> Capítulo 04 · Software Propio, SaaS &amp; Sistemas <i>/ Herramientas creadas para operar y escalar.</i></p>
       <h2 class="h2" id="software-title" data-reveal>Sistemas que <em>operan negocios.</em></h2>
-      <p class="sec-sub" data-reveal>Aplicaciones móviles, CRMs de construcción con IA, visores arquitectónicos 3D en tiempo real y sistemas de inteligencia inmobiliaria.</p>
+      <p class="sec-sub" data-reveal>Aplicaciones móviles, suites omnicanal de IA inmobiliaria, visores arquitectónicos 3D en tiempo real y sistemas de inteligencia de adquisiciones.</p>
 
       <div class="more" id="mas-sistemas" style="margin-top:clamp(36px,6vw,64px);padding-top:0;border-top:0" data-reveal>
         <ul class="more-list">
@@ -854,9 +976,9 @@ body.modal-open .fab{transform:translateY(160%)!important}
           </li>
           <li>
             <button class="more-card" type="button" data-open-stage="software">
-              <img src="/hola/img/barba-crm-board.webp" width="960" height="600" alt="Barba Construction CRM" loading="lazy" decoding="async">
-              <span class="more-t">Barba CRM</span>
-              <span class="more-d">Software de obras &amp; estimador con IA +</span>
+              <video muted loop playsinline preload="none" poster="/hola/media/newera-demo-poster.jpg" data-loop-src="/hola/media/newera-demo-loop.mp4" width="480" height="854"></video>
+              <span class="more-t">New Era · ARM</span>
+              <span class="more-d">Suite omnicanal de IA inmobiliaria +</span>
             </button>
           </li>
           <li>
@@ -1038,14 +1160,47 @@ body.modal-open .fab{transform:translateY(160%)!important}
 
 <script>
 (function(){
-  var d=document, reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var d=document;
 
-  /* 1. Reveal on scroll */
+  /* 1. Reveal on scroll (always active on PC & Mobile) */
   var els=d.querySelectorAll('[data-reveal]');
-  if(!('IntersectionObserver' in window)||reduce){els.forEach(function(e){e.classList.add('in')});}
+  if(!('IntersectionObserver' in window)){els.forEach(function(e){e.classList.add('in')});}
   else{
-    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}})},{rootMargin:'0px 0px -10% 0px',threshold:.06});
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}})},{rootMargin:'0px 0px -8% 0px',threshold:.05});
     els.forEach(function(e){io.observe(e)});
+  }
+
+  /* 1b. "Lo que hacemos" (.svc-item) purple rectangle highlight on scroll & touch (like video preview activation) */
+  var svcItems=Array.prototype.slice.call(d.querySelectorAll('.svc-item'));
+  if(svcItems.length){
+    var setActiveSvc=function(target){
+      svcItems.forEach(function(it){it.classList.toggle('is-active',it===target)});
+    };
+    svcItems.forEach(function(it){
+      it.addEventListener('pointerdown',function(){setActiveSvc(it)},{passive:true});
+      it.addEventListener('touchstart',function(){setActiveSvc(it)},{passive:true});
+      it.addEventListener('pointerenter',function(){setActiveSvc(it)},{passive:true});
+      it.addEventListener('focusin',function(){setActiveSvc(it)});
+    });
+    var svcTick=false;
+    var updateSvcOnScroll=function(){
+      svcTick=false;
+      var vh=window.innerHeight||d.documentElement.clientHeight;
+      var focusY=vh*0.42;
+      var best=null, bestDist=Infinity;
+      for(var i=0;i<svcItems.length;i++){
+        var r=svcItems[i].getBoundingClientRect();
+        if(r.bottom<vh*0.12||r.top>vh*0.88)continue;
+        var mid=(r.top+r.bottom)*0.5;
+        var dist=Math.abs(mid-focusY);
+        if(dist<bestDist){bestDist=dist;best=svcItems[i];}
+      }
+      if(best)setActiveSvc(best);
+    };
+    window.addEventListener('scroll',function(){
+      if(!svcTick){svcTick=true;window.requestAnimationFrame(updateSvcOnScroll);}
+    },{passive:true});
+    updateSvcOnScroll();
   }
 
   /* 2. Lazy-load & play/pause inline loop videos */
@@ -1191,15 +1346,18 @@ body.modal-open .fab{transform:translateY(160%)!important}
       urlLabel:'Visitar zhomesapp.com ↗'
     },
     software:{
-      kicker:'Software Interno · Construcción & Estimación IA',
-      title:'Barba Construction CRM',
-      desc:'Plataforma interna desarrollada a medida para Barba Construction: tablero operativo de obras en curso, estimador inteligente de costos y materiales con IA, y pipeline comercial de extremo a extremo.',
+      kicker:'Software de Automatización Omnicanal · IA Inmobiliaria',
+      title:'New Era · Suite ARM',
+      desc:'Suite de inteligencia artificial y automatización omnicanal desarrollada para New Era Real Estate: atención y calificación de leads en tiempo real, seguimiento automatizado multi-canal, agendamiento inteligente y sincronización con el inventario de propiedades.',
       fx:'newera',
+      fxBtn:'Lanzar destellos en el patrón SVG',
+      mainVideo:{src:'/hola/media/newera-demo.mp4',poster:'/hola/media/newera-demo-poster.jpg',muted:false},
       secondary:[
-        {type:'img',src:'/hola/img/barba-crm-board.webp',caption:'Barba CRM · Tablero de Obras'},
-        {type:'img',src:'/hola/img/barba-crm-estimates.webp',caption:'Barba CRM · Estimador & Presupuestos IA'},
-        {type:'img',src:'/hola/img/barba-crm-pipeline.webp',caption:'Barba CRM · Pipeline Comercial'}
-      ]
+        {type:'video',src:'/hola/media/newera-arm-desk.mp4',poster:'/hola/media/newera-arm-desk-poster.jpg',caption:'01 / Demo Operativo Completo · Flujo Omnicanal IA (16:9)'},
+        {type:'img',src:'/hola/img/newera-d-1100.webp',caption:'02 / Plataforma Web & Ecosistema New Era Real Estate'}
+      ],
+      url:'https://www.neweraky.com/',
+      urlLabel:'Visitar neweraky.com ↗'
     },
     mychief:{
       kicker:'Motor CAD & BIM · Vista 3D Interactiva en Vivo',
@@ -1208,8 +1366,9 @@ body.modal-open .fab{transform:translateY(160%)!important}
       fx:'gold',
       iframe:'/hola/mayor-viewer/index.html',
       secondary:[
-        {type:'img',src:'/hola/img/mayor-3d-vec.webp',caption:'Vista Vectorial 3D · Chief Architect'},
-        {type:'img',src:'/hola/img/mayor-ca-plan.webp',caption:'Planta Técnica Acotada & Geometría Radial'}
+        {type:'img',src:'/hola/img/plan-mayor-a1-1800.webp',caption:'A-1 · Planta General, Emplazamiento y Geometría Radial'},
+        {type:'img',src:'/hola/img/plan-mayor-s1-1800.webp',caption:'S-1 · Planta de Cimentación y Zapatas (-36" / -60")'},
+        {type:'img',src:'/hola/img/plan-mayor-l1-1800.webp',caption:'L-1 · Ingeniería de Iluminación LED 12V & Paisajismo'}
       ]
     },
     tzel:{
@@ -1493,8 +1652,12 @@ body.modal-open .fab{transform:translateY(160%)!important}
     b.addEventListener('click',closeStage);
   });
 
-  /* 5. Lazy 3D .GLB Viewer */
-  var glbStage=d.getElementById('glb-stage'), glbLabel=d.getElementById('glb-current-label'), mvLoaded=false, mvEl=null;
+  /* 5. Interactive 3D Viewer (Proyecto del Alcalde Default + .GLB Models) */
+  var glbStage=d.getElementById('glb-stage'), glbLabel=d.getElementById('glb-current-label'),
+      mayorFrame=d.getElementById('mayor-inline-frame'),
+      camsGlb=d.getElementById('arch-cams-glb'), camsMayor=d.getElementById('arch-cams-mayor'),
+      mvLoaded=false, mvEl=null;
+
   function ensureModelViewer(cb){
     if(mvLoaded&&mvEl){if(cb)cb(mvEl);return;}
     var createMv=function(){
@@ -1520,22 +1683,29 @@ body.modal-open .fab{transform:translateY(160%)!important}
     d.head.appendChild(s);
   }
 
-  var visorBox=d.getElementById('visor-3d');
-  if('IntersectionObserver' in window&&visorBox){
-    var glbIo=new IntersectionObserver(function(es){
-      es.forEach(function(e){if(e.isIntersecting){ensureModelViewer();glbIo.disconnect();}});
-    },{rootMargin:'300px 0px'});
-    glbIo.observe(visorBox);
-  }
-
-  d.querySelectorAll('[data-glb]').forEach(function(tab){
+  var archTabs=d.querySelectorAll('.arch-tabs .arch-btn');
+  archTabs.forEach(function(tab){
     tab.addEventListener('click',function(){
-      d.querySelectorAll('[data-glb]').forEach(function(t){t.classList.remove('active')});
+      archTabs.forEach(function(t){t.classList.remove('active')});
       tab.classList.add('active');
       if(glbLabel)glbLabel.textContent=tab.getAttribute('data-glb-label')||'';
-      ensureModelViewer(function(mv){mv.setAttribute('src',tab.getAttribute('data-glb'))});
+      if(tab.hasAttribute('data-iframe')){
+        if(mvEl)mvEl.style.display='none';
+        if(mayorFrame)mayorFrame.style.display='block';
+        if(camsGlb)camsGlb.hidden=true;
+        if(camsMayor)camsMayor.hidden=false;
+      }else if(tab.hasAttribute('data-glb')){
+        if(mayorFrame)mayorFrame.style.display='none';
+        if(camsMayor)camsMayor.hidden=true;
+        if(camsGlb)camsGlb.hidden=false;
+        ensureModelViewer(function(mv){
+          mv.style.display='block';
+          mv.setAttribute('src',tab.getAttribute('data-glb'));
+        });
+      }
     });
   });
+
   d.querySelectorAll('[data-orbit]').forEach(function(cam){
     cam.addEventListener('click',function(){
       ensureModelViewer(function(mv){mv.setAttribute('camera-orbit',cam.getAttribute('data-orbit'))});
@@ -1552,6 +1722,7 @@ body.modal-open .fab{transform:translateY(160%)!important}
       sheets.forEach(function(s){
         if(cat==='all')s.hidden=false;
         else if(cat==='destacados')s.hidden=!s.hasAttribute('data-sheet-feat');
+        else if(cat==='mayor')s.hidden=!s.hasAttribute('data-sheet-mayor');
         else s.hidden=(s.getAttribute('data-sheet-cat')!==cat);
       });
     });
