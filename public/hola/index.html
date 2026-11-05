@@ -874,9 +874,10 @@ body.modal-open .fab{transform:translateY(160%)!important}
         <div class="arch-bar">
           <div class="arch-tabs" role="tablist" aria-label="Seleccionar modelo 3D">
             <button class="arch-btn active" type="button" data-iframe="/hola/mayor-viewer/index.html" data-glb-label="Modelo 01 / Proyecto del Alcalde · Monumento &amp; Plaza Cívica (Lynnview)">01 / Proyecto del Alcalde 3D (Completo)</button>
-            <button class="arch-btn" type="button" data-glb="/hola/3d/dame-la-letra-web-ar.glb" data-usdz="/hola/3d/dame-la-letra-web-ar.usdz" data-glb-label="Modelo 02 / Instalación 3D Flotante de la Web de Dame la Letra (AR)">02 / Web Dame la Letra en AR (.GLB/.USDZ)</button>
-            <button class="arch-btn" type="button" data-glb="/hola/3d/casa-1607.glb" data-glb-label="Modelo 03 / Residencia de 2 Niveles (.GLB)">03 / Residencia 2 Niveles (.GLB)</button>
-            <button class="arch-btn" type="button" data-glb="/hola/3d/porche-7107.glb" data-glb-label="Modelo 04 / Porche Estructural y Cubierta (.GLB)">04 / Porche &amp; Estructura (.GLB)</button>
+            <button class="arch-btn" type="button" data-glb="/hola/3d/proyecto-alcalde-ar.glb" data-usdz="/hola/3d/proyecto-alcalde-ar.usdz#callToAction=Hablar%20con%20Miguel&amp;checkoutTitle=Proyecto%20del%20Alcalde&amp;checkoutSubtitle=City%20of%20Lynnview%20Monument%20%C2%B7%203D%20AR" data-ar-key="mayor" data-glb-label="Modelo 02 / Proyecto del Alcalde en Realidad Aumentada (.GLB/.USDZ)">02 / Proyecto del Alcalde en AR (.GLB/.USDZ)</button>
+            <button class="arch-btn" type="button" data-glb="/hola/3d/dame-la-letra-web-ar.glb" data-usdz="/hola/3d/dame-la-letra-web-ar.usdz#callToAction=Hablar%20con%20Miguel&amp;checkoutTitle=Dame%20la%20Letra&amp;checkoutSubtitle=Estudio%20Creativo%20%C2%B7%20Louisville%20KY" data-ar-key="web" data-glb-label="Modelo 03 / Instalación 3D Flotante de la Web de Dame la Letra (AR)">03 / Web Dame la Letra en AR (.GLB/.USDZ)</button>
+            <button class="arch-btn" type="button" data-glb="/hola/3d/casa-1607.glb" data-ar-key="casa" data-glb-label="Modelo 04 / Residencia de 2 Niveles (.GLB)">04 / Residencia 2 Niveles (.GLB)</button>
+            <button class="arch-btn" type="button" data-glb="/hola/3d/porche-7107.glb" data-ar-key="porche" data-glb-label="Modelo 05 / Porche Estructural y Cubierta (.GLB)">05 / Porche &amp; Estructura (.GLB)</button>
           </div>
           <div class="arch-cams" id="arch-cams-glb" hidden aria-label="Ángulos de cámara">
             <button class="arch-btn" type="button" data-orbit="0deg 78deg 105%">Frente</button>
@@ -885,6 +886,7 @@ body.modal-open .fab{transform:translateY(160%)!important}
             <button class="arch-btn active" type="button" data-toggle-ar>✦ Ver en tu espacio (AR)</button>
           </div>
           <div class="arch-cams" id="arch-cams-mayor" aria-label="Acciones del visor">
+            <button class="arch-btn active" type="button" data-open-ar-model="mayor">✦ Ver Proyecto del Alcalde en tu espacio (AR)</button>
             <button class="arch-btn" type="button" data-open-stage="mychief">Abrir en pantalla completa +</button>
           </div>
         </div>
@@ -1244,9 +1246,10 @@ body.modal-open .fab{transform:translateY(160%)!important}
     <div class="ar-portal-grid">
       <div class="ar-mv-stage" id="ar-mv-wrap">
         <div class="ar-mv-tabs" role="tablist" aria-label="Objeto 3D para colocar en tu espacio">
-          <button class="ar-mv-tab active" type="button" data-ar-model="/hola/3d/dame-la-letra-web-ar.glb" data-ar-usdz="/hola/3d/dame-la-letra-web-ar.usdz#callToAction=Hablar%20con%20Miguel&amp;checkoutTitle=Dame%20la%20Letra&amp;checkoutSubtitle=Estudio%20Creativo%20%C2%B7%20Louisville%20KY" data-ar-badge="3D · Web Flotando en el Aire">01 / La Web Flotando 3D</button>
-          <button class="ar-mv-tab" type="button" data-ar-model="/hola/3d/casa-1607.glb" data-ar-usdz="" data-ar-badge="3D · Residencia 2 Niveles">02 / Casa 2 Niveles</button>
-          <button class="ar-mv-tab" type="button" data-ar-model="/hola/3d/porche-7107.glb" data-ar-usdz="" data-ar-badge="3D · Porche Estructural">03 / Porche 3D</button>
+          <button class="ar-mv-tab active" type="button" data-ar-key="web" data-ar-model="/hola/3d/dame-la-letra-web-ar.glb" data-ar-usdz="/hola/3d/dame-la-letra-web-ar.usdz#callToAction=Hablar%20con%20Miguel&amp;checkoutTitle=Dame%20la%20Letra&amp;checkoutSubtitle=Estudio%20Creativo%20%C2%B7%20Louisville%20KY" data-ar-badge="3D · Web Flotando en el Aire" data-ar-title="Coloca esta web &lt;em&gt;en tu habitación.&lt;/em&gt;" data-ar-copy="Igual que cuando pruebas un mueble de Amazon en tu sala: apunta la cámara de tu teléfono al piso o a una mesa para colocar la instalación 3D de &lt;strong&gt;Dame la Letra&lt;/strong&gt; flotando en tu espacio real y camina alrededor de cada capítulo.">01 / La Web Flotando 3D</button>
+          <button class="ar-mv-tab" type="button" data-ar-key="mayor" data-ar-model="/hola/3d/proyecto-alcalde-ar.glb" data-ar-usdz="/hola/3d/proyecto-alcalde-ar.usdz#callToAction=Hablar%20con%20Miguel&amp;checkoutTitle=Proyecto%20del%20Alcalde&amp;checkoutSubtitle=City%20of%20Lynnview%20Monument%20%C2%B7%203D%20AR" data-ar-badge="3D · Proyecto del Alcalde (Monumento)" data-ar-title="El Proyecto del Alcalde &lt;em&gt;en tu espacio.&lt;/em&gt;" data-ar-copy="Apunta la cámara de tu teléfono al piso o a tu escritorio para colocar en Realidad Aumentada la maqueta arquitectónica 3D del &lt;strong&gt;Monumento y Plaza Cívica de la Ciudad de Lynnview&lt;/strong&gt; (monolito en piedra natural, placa histórica en bronce, muros curvos grabados y 3 astas con banderas).">02 / Proyecto del Alcalde 3D</button>
+          <button class="ar-mv-tab" type="button" data-ar-key="casa" data-ar-model="/hola/3d/casa-1607.glb" data-ar-usdz="" data-ar-badge="3D · Residencia 2 Niveles" data-ar-title="Residencia 2 Niveles &lt;em&gt;en tu espacio.&lt;/em&gt;" data-ar-copy="Inspecciona la volumetría 3D de la residencia de dos niveles y colócala sobre tu mesa o piso con la cámara AR.">03 / Casa 2 Niveles</button>
+          <button class="ar-mv-tab" type="button" data-ar-key="porche" data-ar-model="/hola/3d/porche-7107.glb" data-ar-usdz="" data-ar-badge="3D · Porche Estructural" data-ar-title="Porche Estructural &lt;em&gt;en tu espacio.&lt;/em&gt;" data-ar-copy="Explora la estructura y cubierta 3D del porche en Realidad Aumentada a escala desde tu teléfono.">04 / Porche 3D</button>
         </div>
         <div class="ar-mv-orbits">
           <div class="ar-mv-orbit-group">
@@ -1260,7 +1263,7 @@ body.modal-open .fab{transform:translateY(160%)!important}
       <div class="ar-portal-info">
         <div>
           <h3 class="ar-portal-title" id="arp-title">Coloca esta web <em>en tu habitación.</em></h3>
-          <p class="ar-portal-copy" style="margin-top:10px">Igual que cuando pruebas un mueble de Amazon en tu sala: apunta la cámara de tu teléfono al piso o a una mesa para colocar la instalación 3D de <strong>Dame la Letra</strong> flotando en tu espacio real y camina alrededor de cada capítulo.</p>
+          <p class="ar-portal-copy" id="arp-copy" style="margin-top:10px">Igual que cuando pruebas un mueble de Amazon en tu sala: apunta la cámara de tu teléfono al piso o a una mesa para colocar la instalación 3D de <strong>Dame la Letra</strong> flotando en tu espacio real y camina alrededor de cada capítulo.</p>
         </div>
         <ul class="ar-steps">
           <li><b>Paso 01</b><span>Toca <strong>«Colocar en tu espacio (Cámara AR)»</strong> desde tu iPhone o Android.</span></li>
@@ -1484,8 +1487,10 @@ body.modal-open .fab{transform:translateY(160%)!important}
     mychief:{
       kicker:'Motor CAD & BIM · Vista 3D Interactiva en Vivo',
       title:'My Chief CAD · Proyecto del Alcalde',
-      desc:'Propuesta arquitectónica y estructural 3D interactiva para el Monumento y Plaza Cívica de la Ciudad de Lynnview. Gira el modelo 360°, alterna entre luz diurna PBR, iluminación LED nocturna de 12V, vista vectorial CAD y modo Rayos-X de cimentaciones (-36"/-60").',
+      desc:'Propuesta arquitectónica y estructural 3D interactiva para el Monumento y Plaza Cívica de la Ciudad de Lynnview. Gira el modelo 360°, alterna entre luz diurna PBR, iluminación LED nocturna de 12V, vista vectorial CAD, modo Rayos-X de cimentaciones (-36"/-60") o colócalo en tu espacio con Realidad Aumentada.',
       fx:'gold',
+      arModel:'mayor',
+      arLabel:'✦ Ver Proyecto del Alcalde en tu espacio (AR)',
       iframe:'/hola/mayor-viewer/index.html',
       secondary:[
         {type:'img',src:'/hola/img/plan-mayor-a1-1800.webp',caption:'A-1 · Planta General, Emplazamiento y Geometría Radial'},
@@ -1645,6 +1650,17 @@ body.modal-open .fab{transform:translateY(160%)!important}
     }
 
     stActions.innerHTML='';
+    if(p.arModel){
+      var arb=d.createElement('button');
+      arb.type='button';
+      arb.className='btn btn-primary';
+      arb.textContent=p.arLabel||'✦ Ver en tu espacio (AR)';
+      arb.addEventListener('click',function(){
+        closeStage();
+        openArPortal(p.arModel);
+      });
+      stActions.appendChild(arb);
+    }
     if(p.url){
       var a=d.createElement('a');
       a.className='btn btn-primary';
@@ -1914,18 +1930,24 @@ body.modal-open .fab{transform:translateY(160%)!important}
   var arPortal=d.getElementById('ar-portal'),
       arMvWrap=d.getElementById('ar-mv-wrap'),
       arMvBadge=d.getElementById('ar-mv-badge'),
+      arpTitle=d.getElementById('arp-title'),
+      arpCopy=d.getElementById('arp-copy'),
       iosFallback=d.getElementById('ios-quicklook-fallback'),
+      arModelTabs=d.querySelectorAll('[data-ar-model]'),
       arMvEl=null;
 
   function ensureArPortalViewer(cb){
     if(arMvEl){if(cb)cb(arMvEl);return;}
     loadModelViewerLib(function(){
       if(!arMvEl&&arMvWrap){
+        var activeTab=d.querySelector('[data-ar-model].active')||arModelTabs[0];
+        var initGlb=(activeTab&&activeTab.getAttribute('data-ar-model'))||'/hola/3d/dame-la-letra-web-ar.glb';
+        var initUsdz=(activeTab&&activeTab.getAttribute('data-ar-usdz'))||'/hola/3d/dame-la-letra-web-ar.usdz#callToAction=Hablar%20con%20Miguel&checkoutTitle=Dame%20la%20Letra&checkoutSubtitle=Estudio%20Creativo%20%C2%B7%20Louisville%20KY';
         arMvEl=d.createElement('model-viewer');
         arMvEl.id='ar-web-mv';
-        arMvEl.setAttribute('src','/hola/3d/dame-la-letra-web-ar.glb');
-        arMvEl.setAttribute('ios-src','/hola/3d/dame-la-letra-web-ar.usdz#callToAction=Hablar%20con%20Miguel&checkoutTitle=Dame%20la%20Letra&checkoutSubtitle=Estudio%20Creativo%20%C2%B7%20Louisville%20KY');
-        arMvEl.setAttribute('alt','Instalación 3D Flotante de la Web de Dame la Letra para colocar en tu habitación');
+        arMvEl.setAttribute('src',initGlb);
+        if(initUsdz)arMvEl.setAttribute('ios-src',initUsdz);
+        arMvEl.setAttribute('alt','Modelo 3D interactivo de Dame la Letra para colocar en tu espacio con Realidad Aumentada');
         arMvEl.setAttribute('ar','');
         arMvEl.setAttribute('ar-modes','webxr scene-viewer quick-look');
         arMvEl.setAttribute('ar-scale','auto');
@@ -1949,8 +1971,37 @@ body.modal-open .fab{transform:translateY(160%)!important}
     });
   }
 
-  function openArPortal(){
+  function applyArTab(tab){
+    if(!tab)return;
+    arModelTabs.forEach(function(t){t.classList.remove('active')});
+    tab.classList.add('active');
+    var glb=tab.getAttribute('data-ar-model');
+    var usdz=tab.getAttribute('data-ar-usdz')||'';
+    var badge=tab.getAttribute('data-ar-badge')||'';
+    var titleHtml=tab.getAttribute('data-ar-title')||'';
+    var copyHtml=tab.getAttribute('data-ar-copy')||'';
+    if(arMvBadge&&badge)arMvBadge.textContent=badge;
+    if(arpTitle&&titleHtml)arpTitle.innerHTML=titleHtml;
+    if(arpCopy&&copyHtml)arpCopy.innerHTML=copyHtml;
+    if(iosFallback&&usdz)iosFallback.setAttribute('href',usdz);
+    ensureArPortalViewer(function(mv){
+      mv.setAttribute('src',glb);
+      if(usdz)mv.setAttribute('ios-src',usdz);
+      else mv.removeAttribute('ios-src');
+    });
+  }
+
+  function selectArKey(key){
+    if(!key)return;
+    var target=d.querySelector('[data-ar-model][data-ar-key="'+key+'"]');
+    if(target)applyArTab(target);
+  }
+
+  function openArPortal(modelKey){
     if(!arPortal)return;
+    if(typeof modelKey==='string'&&modelKey){
+      selectArKey(modelKey);
+    }
     arPortal.classList.add('open');
     arPortal.setAttribute('aria-hidden','false');
     d.body.style.overflow='hidden';
@@ -1982,12 +2033,26 @@ body.modal-open .fab{transform:translateY(160%)!important}
         }catch(err){}
       }
       if(isIOS&&iosFallback){iosFallback.click();return;}
-      say('Escanea el QR con tu iPhone o Android para colocar la web 3D en tu espacio');
+      say('Escanea el QR con tu iPhone o Android para colocar el modelo 3D en tu espacio');
     });
   }
 
   d.querySelectorAll('[data-toggle-ar]').forEach(function(btn){
-    btn.addEventListener('click',openArPortal);
+    btn.addEventListener('click',function(){
+      var inArch=btn.closest('#visor-3d');
+      if(inArch){
+        var curArch=inArch.querySelector('.arch-tabs .arch-btn.active');
+        var k=curArch&&curArch.getAttribute('data-ar-key');
+        openArPortal(k||'mayor');
+        return;
+      }
+      openArPortal();
+    });
+  });
+  d.querySelectorAll('[data-open-ar-model]').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      openArPortal(btn.getAttribute('data-open-ar-model'));
+    });
   });
   d.querySelectorAll('[data-close-ar-portal]').forEach(function(btn){
     btn.addEventListener('click',closeArPortal);
@@ -1996,20 +2061,9 @@ body.modal-open .fab{transform:translateY(160%)!important}
     btn.addEventListener('click',triggerNativeRoomAr);
   });
 
-  var arModelTabs=d.querySelectorAll('[data-ar-model]');
   arModelTabs.forEach(function(tab){
     tab.addEventListener('click',function(){
-      arModelTabs.forEach(function(t){t.classList.remove('active')});
-      tab.classList.add('active');
-      var glb=tab.getAttribute('data-ar-model');
-      var usdz=tab.getAttribute('data-ar-usdz')||'';
-      var badge=tab.getAttribute('data-ar-badge')||'';
-      if(arMvBadge&&badge)arMvBadge.textContent=badge;
-      ensureArPortalViewer(function(mv){
-        mv.setAttribute('src',glb);
-        if(usdz)mv.setAttribute('ios-src',usdz);
-        else mv.removeAttribute('ios-src');
-      });
+      applyArTab(tab);
     });
   });
 
@@ -2023,7 +2077,9 @@ body.modal-open .fab{transform:translateY(160%)!important}
 
   d.addEventListener('keydown',function(e){if(e.key==='Escape'){closeStage();closeSheet();closeArPortal();}});
 
-  if(window.location.search.indexOf('ar=1')!==-1||window.location.hash==='#ar'){
+  if(window.location.search.indexOf('ar=mayor')!==-1||window.location.hash==='#ar-mayor'){
+    openArPortal('mayor');
+  }else if(window.location.search.indexOf('ar=1')!==-1||window.location.hash==='#ar'){
     openArPortal();
   }
 })();
