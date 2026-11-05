@@ -1,6 +1,29 @@
 {
   "version": 2,
+  "headers": [
+    {
+      "source": "/hola/miguel-sosa-dame-la-letra.vcf",
+      "headers": [
+        { "key": "Content-Type", "value": "text/vcard; charset=utf-8" },
+        { "key": "Cache-Control", "value": "public, max-age=3600" }
+      ]
+    },
+    {
+      "source": "/hola/(img|fonts)/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=2592000" }
+      ]
+    }
+  ],
   "rewrites": [
+    {
+      "source": "/hola",
+      "destination": "/hola/index.html"
+    },
+    {
+      "source": "/hola/qr",
+      "destination": "/hola/qr/index.html"
+    },
     {
       "source": "/api/(.*)",
       "destination": "/api/index.js"

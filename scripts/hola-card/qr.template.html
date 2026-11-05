@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>QR · Dame la Letra</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0c0b0a">
+<link rel="canonical" href="https://www.damelaletra.com/hola">
+<link rel="icon" href="/hola/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/hola/apple-touch-icon.png">
+<link rel="preload" href="/hola/fonts/anton.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+@font-face{font-family:"Anton";src:url(/hola/fonts/anton.woff2) format("woff2");font-display:swap}
+@font-face{font-family:"Courier Prime";src:url(/hola/fonts/courierprime-400.woff2) format("woff2");font-display:swap}
+*,*::before,*::after{box-sizing:border-box}
+html,body{margin:0;height:100%;background:#0c0b0a;color:#f3eee3}
+body{min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:clamp(16px,3.2vh,28px);padding:max(20px,env(safe-area-inset-top)) 20px max(20px,env(safe-area-inset-bottom));font:400 1rem/1.4 "Courier Prime",ui-monospace,Menlo,monospace;text-align:center}
+.logo{height:28px;width:auto}
+.card{width:min(84vw,56vh,420px);background:#fff;padding:0;box-shadow:8px 8px 0 #ffcc29}
+.card svg{display:block;width:100%;height:auto}
+.title{margin:0;font:400 clamp(1.9rem,8.4vw,2.8rem)/.95 "Anton",Impact,sans-serif;text-transform:uppercase;letter-spacing:.01em}
+.title span{color:#ffcc29}
+.url{margin:0;font-size:1rem;letter-spacing:.04em;color:rgba(243,238,227,.75)}
+.actions{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 22px}
+.actions a,.actions button{display:inline-flex;align-items:center;min-height:44px;padding:0;border:0;background:none;color:#f3eee3;font:inherit;font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;text-decoration:underline;text-underline-offset:.35em;cursor:pointer}
+:focus-visible{outline:3px solid #ffcc29;outline-offset:3px}
+.awake{font-size:.72rem;color:rgba(243,238,227,.5);min-height:1em;margin:0}
+</style>
+</head>
+<body>
+  <img class="logo" src="/hola/img/dame-la-letra-logo.png" width="1102" height="161" alt="Dame la Letra">
+  <p class="title">Escanea y <span>hablemos.</span></p>
+  <div class="card" role="img" aria-label="Código QR hacia damelaletra.com/hola">__QR_SVG__</div>
+  <p class="url">damelaletra.com/hola</p>
+  <div class="actions">
+    <a href="/hola/">Ver la tarjeta</a>
+    <a href="/hola/qr/dame-la-letra-qr.png" download>Descargar QR</a>
+  </div>
+  <p class="awake" aria-live="polite"></p>
+<script>
+(function(){
+  // Keep the screen on while the QR is being shown (supported browsers only).
+  var lock=null, msg=document.querySelector('.awake');
+  function req(){ if(!('wakeLock' in navigator)) return;
+    navigator.wakeLock.request('screen').then(function(l){lock=l;msg.textContent='Pantalla activa mientras muestras el QR';l.addEventListener('release',function(){msg.textContent=''})}).catch(function(){});
+  }
+  req();
+  document.addEventListener('visibilitychange',function(){ if(document.visibilityState==='visible') req(); });
+  document.addEventListener('click',function(){ if(!lock) req(); },{once:true});
+})();
+</script>
+</body>
+</html>

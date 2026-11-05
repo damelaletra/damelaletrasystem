@@ -1,0 +1,553 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Dame la Letra — Estudio creativo independiente · Miguel Sosa</title>
+<meta name="description" content="No hacemos más de lo mismo. Dame la Letra es un estudio creativo independiente en Louisville, KY: estrategia, branding, web, e-commerce y producción creativa. Fundado por Miguel Sosa.">
+<link rel="canonical" href="https://www.damelaletra.com/hola">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#0c0b0a">
+<meta name="color-scheme" content="dark">
+<meta name="format-detection" content="telephone=no">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Dame la Letra">
+<meta property="og:locale" content="es_US">
+<meta property="og:url" content="https://www.damelaletra.com/hola">
+<meta property="og:title" content="Dame la Letra — No hacemos más de lo mismo.">
+<meta property="og:description" content="Estudio creativo independiente. Estrategia, branding, web, e-commerce y producción creativa. Fundado por Miguel Sosa.">
+<meta property="og:image" content="https://www.damelaletra.com/hola/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Dame la Letra — No hacemos más de lo mismo.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Dame la Letra — No hacemos más de lo mismo.">
+<meta name="twitter:description" content="Estudio creativo independiente. Fundado por Miguel Sosa.">
+<meta name="twitter:image" content="https://www.damelaletra.com/hola/og.jpg">
+
+<link rel="icon" href="/hola/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/hola/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/hola/apple-touch-icon.png">
+<link rel="manifest" href="/hola/site.webmanifest">
+
+<link rel="preload" href="/hola/fonts/anton.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/hola/fonts/courierprime-400.woff2" as="font" type="font/woff2" crossorigin>
+
+<script>document.documentElement.classList.add('js')</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "name": "Dame la Letra",
+  "legalName": "Dame la Letra LLC",
+  "description": "Estudio creativo independiente: estrategia, branding, web, e-commerce y producción creativa.",
+  "url": "https://www.damelaletra.com/hola",
+  "logo": "https://www.damelaletra.com/hola/icon-512.png",
+  "image": "https://www.damelaletra.com/hola/og.jpg",
+  "areaServed": "US",
+  "address": { "@type": "PostalAddress", "addressLocality": "Louisville", "addressRegion": "KY", "addressCountry": "US" },
+  "founder": { "@type": "Person", "name": "Miguel Sosa" },
+  "sameAs": ["https://www.instagram.com/damelaletra_ky/"]
+}
+</script>
+
+<style>
+@font-face{font-family:"Anton";src:url(/hola/fonts/anton.woff2) format("woff2");font-display:swap}
+@font-face{font-family:"Courier Prime";src:url(/hola/fonts/courierprime-400.woff2) format("woff2");font-display:swap}
+@font-face{font-family:"Cloister";src:url(/hola/fonts/cloister.woff2) format("woff2");font-display:swap}
+
+:root{
+  --ink:#0c0b0a; --ink2:#161412; --paper:#f3eee3; --letra:#ffcc29; --cobalt:#2a3cff; --fuego:#ff5b1f;
+  --mute:rgba(243,238,227,.7); --line:rgba(243,238,227,.17);
+  --pad:clamp(20px,5.2vw,64px);
+  --display:"Anton","Impact","Haettenschweiler","Arial Narrow Bold",sans-serif;
+  --mono:"Courier Prime",ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace;
+  --sans:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --ease:cubic-bezier(.2,.75,.15,1);
+}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%;background:var(--ink);scroll-behavior:smooth}
+body{margin:0;background:var(--ink);color:var(--paper);font:400 1.0625rem/1.55 var(--sans);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+@supports (overflow:clip){body{overflow-x:clip}}
+img,svg{display:block;max-width:100%}
+a{color:inherit}
+p{margin:0}
+:focus-visible{outline:3px solid var(--letra);outline-offset:3px}
+.sr-only{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+/* film grain — static, cheap */
+body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:100;opacity:.07;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+/* ---------- shared ---------- */
+.sec{position:relative;padding:clamp(80px,13vw,168px) var(--pad)}
+.wrap{max-width:1320px;margin:0 auto;position:relative}
+.label{display:flex;flex-wrap:wrap;align-items:center;gap:8px .85em;margin:0 0 24px;font:400 .8rem/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--letra)}
+.label b{display:inline-grid;place-items:center;width:2.5em;height:2.5em;border:1px solid currentColor;border-radius:50%;font-weight:400;letter-spacing:0}
+.label i{flex-basis:100%;padding-left:calc(2.5em + .85em);font-style:normal;opacity:.75;letter-spacing:.04em;text-transform:none}
+@media (min-width:700px){.label i{flex-basis:auto;padding-left:0}}
+.h2{margin:0;max-width:15ch;font:400 clamp(2.4rem,10vw,6.4rem)/.93 var(--display);text-transform:uppercase;letter-spacing:-.003em}
+.h2 em{font-style:normal;color:var(--letra)}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.65em;min-height:58px;padding:0 24px;border:2px solid transparent;border-radius:0;
+  font:400 1.18rem/1 var(--display);letter-spacing:.035em;text-transform:uppercase;text-decoration:none;cursor:pointer;-webkit-tap-highlight-color:transparent;
+  transition:transform .18s var(--ease),box-shadow .18s var(--ease),background-color .2s,color .2s}
+.btn svg{width:1.2em;height:1.2em;flex:none;fill:currentColor}
+.btn .arr{transition:transform .25s var(--ease)}
+.btn:hover .arr{transform:translateX(5px)}
+.btn-primary{background:var(--letra);color:var(--ink);box-shadow:6px 6px 0 var(--fuego)}
+.btn-primary:hover{transform:translate(-2px,-2px);box-shadow:8px 8px 0 var(--fuego)}
+.btn-primary:active{transform:translate(4px,4px);box-shadow:0 0 0 var(--fuego)}
+.btn-ghost{color:var(--paper);border-color:rgba(243,238,227,.85);background:rgba(12,11,10,.42)}
+.btn-ghost:hover{background:var(--paper);color:var(--ink)}
+.btn-ink{background:var(--ink);color:var(--letra);box-shadow:6px 6px 0 var(--cobalt)}
+.btn-ink:hover{transform:translate(-2px,-2px);box-shadow:8px 8px 0 var(--cobalt)}
+.btn-ink:active{transform:translate(4px,4px);box-shadow:0 0 0 var(--cobalt)}
+.btn-line{color:var(--ink);border-color:var(--ink)}
+.btn-line:hover{background:var(--ink);color:var(--letra)}
+
+/* ---------- header + hero ---------- */
+.hero{position:relative;overflow:hidden;padding:0 var(--pad) clamp(56px,8vw,96px);isolation:isolate}
+.top{position:relative;z-index:3;width:100%;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:20px 0 0;max-width:1320px;margin:0 auto}
+.brand{display:block}
+.brand img{height:24px;width:auto}
+.top-meta{display:flex;align-items:center;gap:.6em;font:400 .74rem/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--mute);white-space:nowrap}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--fuego);animation:pulse 2.6s ease-out infinite}
+.hero-glyph{position:absolute;z-index:-1;right:-30vw;top:64px;height:min(88%,940px);width:auto;fill:var(--cobalt);animation:drift 11s ease-in-out infinite alternate;transform-origin:60% 40%}
+.hero-in{max-width:1320px;margin:0 auto;position:relative}
+.kicker{margin:clamp(26px,5.5vh,72px) 0 12px;font:400 .95rem/1 var(--mono);color:var(--letra)}
+.kicker span{display:inline-block;animation:blink 1.1s steps(1) infinite;margin-left:2px}
+.hero-title{margin:0;font:400 clamp(3.1rem,min(16.6vw,15.5vh),11.4rem)/.97 var(--display);text-transform:uppercase;letter-spacing:-.004em}
+.ln{display:block;overflow:hidden;padding-top:.12em;margin-top:-.12em;white-space:nowrap}
+.ln>span{display:inline-block;animation:rise .85s var(--ease) both}
+.ln:nth-child(2)>span{animation-delay:.08s}
+.ln:nth-child(3)>span{animation-delay:.16s}
+.ln-2{display:flex;align-items:center;gap:.16em}
+.badge{flex:none;width:1.02em;height:1.02em;animation:pop .7s .55s var(--ease) both}
+.badge svg{width:100%;height:100%;overflow:visible}
+.badge .ring{transform-origin:60px 60px;animation:spin 22s linear infinite}
+.badge text{font:400 10.4px var(--mono);letter-spacing:.17em;fill:var(--paper);text-transform:uppercase}
+.strike{position:relative}
+.strike::after{content:"";position:absolute;left:-.03em;right:-.05em;top:47%;height:.12em;background:var(--fuego);transform:rotate(-3.2deg) scaleX(0);transform-origin:0 50%;animation:strike .55s 1s cubic-bezier(.75,0,.2,1) forwards}
+.hero-grid{display:grid;gap:22px;margin-top:clamp(18px,3.4vh,40px)}
+.hero-copy{max-width:31ch;font-size:clamp(1.02rem,1.25vw,1.3rem);line-height:1.48}
+.hero-copy strong{color:var(--letra);font-weight:600}
+.founder{order:3;padding-top:14px;border-top:1px solid var(--line);max-width:36ch;font:400 .76rem/1.55 var(--mono);letter-spacing:.07em;text-transform:uppercase;color:var(--mute)}
+.founder b{color:var(--paper);font-weight:400}
+.hero-cta{display:grid;gap:14px;max-width:440px}
+.hero-cta .row{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center}
+.hero-cta .row .btn{padding:0 14px;font-size:1.04rem;white-space:nowrap}
+.link-down{white-space:nowrap;display:inline-flex;align-items:center;gap:.4em;min-height:48px;padding:0 4px;font:400 .82rem/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;text-decoration:underline;text-underline-offset:.35em;text-decoration-thickness:1px}
+
+/* ---------- marquee bands ---------- */
+.band-wrap{overflow:hidden;padding:28px 0;margin:-28px 0;position:relative;z-index:4}
+.band{display:flex;width:max-content;margin-left:-2vw;padding:14px 0;transform:rotate(-2.4deg);background:var(--letra);color:var(--ink);font:400 clamp(1.5rem,5.4vw,3rem)/1 var(--display);text-transform:uppercase;letter-spacing:.01em;white-space:nowrap}
+.band.alt{background:var(--cobalt);color:var(--paper);transform:rotate(1.8deg)}
+.band-track{display:flex;flex:none;animation:marquee 26s linear infinite}
+.band.alt .band-track{animation-direction:reverse;animation-duration:30s}
+.band-track span{display:inline-flex;align-items:center;gap:.5em;padding-right:.5em}
+.star{display:inline-block;width:.62em;height:.62em;background:currentColor;clip-path:polygon(50% 0,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%)}
+
+/* ---------- services ---------- */
+.svc{list-style:none;margin:clamp(44px,7vw,88px) 0 0;padding:0;border-top:1px solid var(--line);counter-reset:s}
+.svc-item{position:relative;display:grid;grid-template-columns:2.6em 1fr;column-gap:12px;padding:24px 0 28px;border-bottom:1px solid var(--line);isolation:isolate}
+.svc-item::before{content:"";position:absolute;inset:0 calc(var(--pad)*-1);z-index:-1;background:var(--cobalt);transform:scaleY(0);transform-origin:50% 100%;transition:transform .45s var(--ease)}
+.svc-n{padding-top:.55em;font:400 .82rem/1 var(--mono);color:var(--letra)}
+.svc-t{margin:0;font:400 clamp(2.15rem,10.6vw,5.8rem)/.9 var(--display);text-transform:uppercase;transition:transform .45s var(--ease),color .3s}
+.amp{font-family:"Cloister",Georgia,serif;text-transform:none;color:var(--letra);font-size:1.02em;line-height:0;padding:0 .03em}
+.svc-d{grid-column:2;margin-top:12px;max-width:46ch;color:var(--mute);font-size:1rem}
+.svc-proof{grid-column:2;margin-top:12px;font:400 .78rem/1.5 var(--mono);color:var(--mute)}
+.svc-proof a{color:var(--letra);text-underline-offset:.25em}
+
+/* ---------- work ---------- */
+.sec-sub{margin-top:18px;max-width:40ch;color:var(--mute)}
+.proj{position:relative;display:grid;gap:22px;margin-top:clamp(120px,15vw,170px)}
+.proj-media{position:relative;display:block;padding:0 0 22% 0;text-decoration:none}
+.proj-num{position:absolute;z-index:3;left:-.04em;top:-.55em;font:400 clamp(5.5rem,26vw,12rem)/1 var(--display);color:transparent;-webkit-text-stroke:1.5px var(--letra);pointer-events:none}
+.m-main{position:relative;z-index:1;width:70%;height:auto;aspect-ratio:480/831;object-fit:cover;object-position:top;margin-left:12%;border:1px solid var(--line);background:var(--ink2);box-shadow:0 34px 70px rgba(0,0,0,.55)}
+.m-sub{position:absolute;z-index:2;right:0;bottom:0;width:60%;height:auto;border:1px solid rgba(12,11,10,.6);background:var(--ink2);transform:rotate(2.6deg);box-shadow:8px 8px 0 var(--letra)}
+.m-sub.tall{width:40%;right:2%}
+.proj:nth-of-type(even) .m-main{margin-left:auto;margin-right:4%}
+.proj:nth-of-type(even) .m-sub{right:auto;left:0;transform:rotate(-2.6deg);box-shadow:-8px 8px 0 var(--fuego)}
+.proj:nth-of-type(even) .proj-num{left:auto;right:-.02em}
+.proj-meta{display:flex;flex-wrap:wrap;gap:.3em .6em;font:400 .78rem/1.4 var(--mono);letter-spacing:.09em;text-transform:uppercase;color:var(--letra)}
+.proj-meta span+span::before{content:"/";margin-right:.6em;color:var(--mute)}
+.proj-t{margin:10px 0 14px;font:400 clamp(2.7rem,12.5vw,6.4rem)/.88 var(--display);text-transform:uppercase}
+.proj-d{max-width:44ch;margin-bottom:22px;color:var(--mute)}
+.proj-link{display:inline-flex;flex-wrap:wrap;align-items:baseline;gap:.2em .7em;padding:6px 0;border-bottom:2px solid var(--letra);font:400 1.1rem/1.2 var(--display);letter-spacing:.04em;text-transform:uppercase;text-decoration:none}
+.proj-link small{font:400 .76rem/1 var(--mono);letter-spacing:0;text-transform:none;color:var(--mute)}
+.proj-link:hover{color:var(--letra)}
+.more{margin-top:clamp(80px,12vw,150px);padding-top:26px;border-top:1px solid var(--line)}
+.more-list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.more-list a{display:block;text-decoration:none}
+.more-list img{width:100%;height:auto;aspect-ratio:4/5;object-fit:cover;object-position:top;border:1px solid var(--line);margin-bottom:12px;transition:transform .4s var(--ease)}
+.more-list a:hover img{transform:translateY(-6px) rotate(-1deg)}
+.more-t{display:block;font:400 1.55rem/1 var(--display);text-transform:uppercase}
+.more-d{display:block;margin-top:6px;font:400 .74rem/1.45 var(--mono);color:var(--mute)}
+
+/* ---------- founder ---------- */
+.founder-sec{background:var(--paper);color:var(--ink)}
+.founder-sec .label{color:var(--cobalt)}
+.founder-name{margin:6px 0 0;font:400 clamp(3.7rem,17.5vw,11.5rem)/.98 "Cloister",Georgia,serif;letter-spacing:0}
+.founder-name span{color:var(--cobalt)}
+.founder-role{margin:14px 0 clamp(36px,6vw,64px);font:400 .84rem/1.4 var(--mono);letter-spacing:.12em;text-transform:uppercase}
+.founder-role::before{content:"";display:inline-block;width:28px;height:2px;background:var(--fuego);vertical-align:middle;margin-right:12px}
+.founder-grid{display:grid;gap:26px}
+.founder-lead{max-width:20ch;font:400 clamp(1.75rem,6.8vw,3.3rem)/1.02 var(--display);text-transform:uppercase}
+.founder-lead mark{background:linear-gradient(transparent 58%,var(--letra) 58%);color:inherit;padding:0 .05em}
+.founder-txt{max-width:46ch;font-size:1.06rem}
+.facts{margin:6px 0 0;display:grid;border-top:1px solid rgba(12,11,10,.2)}
+.facts div{display:grid;grid-template-columns:6.5em 1fr;gap:12px;padding:14px 0;border-bottom:1px solid rgba(12,11,10,.2)}
+.facts dt{font:400 .76rem/1.6 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--cobalt)}
+.facts dd{margin:0;font-weight:500}
+
+/* ---------- contact ---------- */
+.contact{background:var(--letra);color:var(--ink);overflow:hidden;isolation:isolate}
+.contact .label{color:var(--ink)}
+.type-bg{position:absolute;z-index:-1;inset:-30%;transform:rotate(-9deg);pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='560' height='88'%3E%3Cg fill='%23000' fill-opacity='.06' font-family='Courier New,Courier,monospace' font-size='26' font-weight='700'%3E%3Ctext x='0' y='32'%3Edame la letra. dame la letra.%3C/text%3E%3Ctext x='-140' y='76'%3Edame la letra. dame la letra. dame la%3C/text%3E%3C/g%3E%3C/svg%3E")}
+.contact-t{margin:0;max-width:11ch;font:400 clamp(3.1rem,15.4vw,10.4rem)/.86 var(--display);text-transform:uppercase}
+.contact-copy{margin:24px 0 32px;max-width:32ch;font-size:clamp(1.12rem,1.5vw,1.4rem);line-height:1.45}
+.contact-cta{display:grid;gap:14px;max-width:460px}
+.contact-qr{display:none}
+.contact-tools{display:flex;flex-wrap:wrap;gap:6px 22px;margin-top:28px}
+.tool{display:inline-flex;align-items:center;min-height:44px;padding:0;border:0;background:none;color:var(--ink);font:400 .82rem/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;text-decoration:underline;text-underline-offset:.35em;cursor:pointer}
+.contact :focus-visible{outline-color:var(--ink)}
+.foot{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px;padding:28px var(--pad) calc(96px + env(safe-area-inset-bottom));font:400 .74rem/1.5 var(--mono);letter-spacing:.06em;color:var(--mute)}
+.foot img{height:18px;width:auto}
+
+/* ---------- floating WhatsApp ---------- */
+.fab{position:fixed;z-index:60;right:16px;bottom:calc(16px + env(safe-area-inset-bottom));display:inline-flex;align-items:center;gap:9px;height:54px;padding:0 20px 0 16px;background:var(--letra);color:var(--ink);text-decoration:none;font:400 1.05rem/1 var(--display);letter-spacing:.04em;text-transform:uppercase;box-shadow:4px 4px 0 var(--ink),0 14px 34px rgba(0,0,0,.4);transition:transform .45s var(--ease)}
+.fab svg{width:22px;height:22px;fill:currentColor}
+.js .fab{transform:translateY(160%)}
+.js .fab.show{transform:none}
+
+.toast{position:fixed;z-index:70;left:50%;bottom:calc(84px + env(safe-area-inset-bottom));transform:translate(-50%,20px);opacity:0;padding:12px 18px;background:var(--paper);color:var(--ink);font:400 .85rem/1 var(--mono);transition:.3s var(--ease);pointer-events:none}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+
+/* ---------- reveal ---------- */
+.js [data-reveal]{opacity:0;transform:translateY(34px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
+.js [data-reveal].in{opacity:1;transform:none}
+.js .proj .m-main{opacity:0;translate:0 40px;transition:opacity 1s var(--ease),translate 1.1s var(--ease)}
+.js .proj .m-sub{opacity:0;translate:0 70px;scale:.92;transition:opacity 1s .2s var(--ease),translate 1.2s .2s var(--ease),scale 1.2s .2s var(--ease)}
+.js .proj.in .m-main,.js .proj.in .m-sub{opacity:1;translate:0 0;scale:1}
+
+/* ---------- keyframes ---------- */
+@keyframes rise{from{transform:translateY(108%)}to{transform:none}}
+@keyframes pop{from{transform:scale(0) rotate(-90deg)}to{transform:none}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes strike{to{transform:rotate(-3.2deg) scaleX(1)}}
+@keyframes drift{from{transform:rotate(-4deg) translateY(0)}to{transform:rotate(2deg) translateY(-18px)}}
+@keyframes marquee{to{transform:translateX(-100%)}}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(255,91,31,.7)}70%,100%{box-shadow:0 0 0 9px rgba(255,91,31,0)}}
+@keyframes blink{50%{opacity:0}}
+
+@media (max-width:359px){.btn{font-size:1.02rem;padding:0 14px;gap:.5em}.hero-cta .row .btn{font-size:.96rem;padding:0 10px}.link-down{font-size:.74rem}}
+/* ---------- larger screens ---------- */
+@media (min-width:700px){
+  .hero-glyph{right:-12vw}
+  .more-list{grid-template-columns:repeat(2,minmax(0,280px))}
+  .contact-cta{grid-template-columns:1fr 1fr;max-width:720px}
+  .contact-cta .btn:first-child{grid-column:1/-1}
+}
+@media (min-width:980px){
+  .brand img{height:30px}
+  .hero{min-height:100vh;min-height:100svh;display:flex;flex-direction:column}
+  .hero-in{flex:1;display:flex;flex-direction:column;justify-content:center;width:100%}
+  .hero-glyph{right:-4vw;top:40px;height:96%}
+  .hero-grid{grid-template-columns:minmax(0,1fr) minmax(0,440px);align-items:end;gap:18px 48px}
+  .hero-copy{grid-column:1;grid-row:1}
+  .founder{grid-column:1;grid-row:2;order:0}
+  .hero-cta{grid-column:2;grid-row:1/3}
+  .svc-item{grid-template-columns:5rem minmax(0,1.35fr) minmax(0,1fr);align-items:end;padding:30px 0 34px}
+  .svc-d,.svc-proof{grid-column:3}
+  .svc-proof{grid-row:2}
+  .svc-item:nth-child(even) .svc-t{padding-left:7%}
+  .svc-item:hover::before{transform:scaleY(1)}
+  .svc-item:hover .svc-t{color:var(--letra);transform:translateX(14px)}
+  .svc-item:hover .svc-d{color:var(--paper)}
+  .svc-item:hover .amp{color:var(--paper)}
+  .proj{grid-template-columns:repeat(12,minmax(0,1fr));gap:0 36px;align-items:center}
+  .proj-media{grid-column:1/8}
+  .proj-body{grid-column:8/13}
+  .proj:nth-of-type(even) .proj-media{grid-column:6/13;grid-row:1}
+  .proj:nth-of-type(even) .proj-body{grid-column:1/6;grid-row:1}
+  .m-main{width:56%}
+  .proj-num{font-size:12rem}
+  .more-list{grid-template-columns:repeat(2,minmax(0,300px));gap:28px}
+  .founder-grid{grid-template-columns:1.1fr 1fr;gap:40px 72px;align-items:start}
+  .founder-lead{grid-row:1/3}
+  .foot{padding-bottom:32px}
+  .contact .wrap{display:grid;grid-template-columns:minmax(0,1fr) 300px;column-gap:64px}
+  .contact .wrap>*{grid-column:1}
+  .contact .wrap>.contact-qr{display:block;grid-column:2;grid-row:2/6;align-self:end;margin:0;font:400 .76rem/1.5 var(--mono);letter-spacing:.06em;text-transform:uppercase}
+  .contact-qr img{width:100%;height:auto;background:#fff;box-shadow:8px 8px 0 var(--ink);margin-bottom:16px}
+}
+
+/* ---------- reduced motion ---------- */
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;animation-delay:0s!important;transition-duration:.001ms!important}
+  .band-track,.badge .ring,.hero-glyph,.dot,.kicker span{animation:none!important}
+  .strike::after{transform:rotate(-3.2deg) scaleX(1)}
+  .js [data-reveal]{opacity:1;transform:none}
+  .js .proj .m-main,.js .proj .m-sub{opacity:1;translate:0 0;scale:1}
+}
+</style>
+</head>
+<body>
+
+<header class="hero" id="inicio">
+  <svg class="hero-glyph" viewBox="0 269 630 711" aria-hidden="true" focusable="false"><path d="M494 269V271H479Q449 271 410 286Q376 300 353 327Q322 377 319 435Q318 440 318 445Q318 450 318 455Q318 462 318.5 473.5Q319 485 320 501Q323 517 325.5 540.0Q328 563 330 593Q333 610 333 637V654Q332 655 332 658V664Q310 814 190 897V894Q190 893 191 892V888Q191 887 192 886V885Q226 838 246 799Q269 754 285 701V639Q285 632 284.5 627.0Q284 622 284 616Q284 610 283.5 602.5Q283 595 282 581Q281 570 280.5 561.0Q280 552 280 545Q277 524 277 476Q277 463 278.0 449.5Q279 436 280 423Q284 407 286 389Q289 376 291.0 367.0Q293 358 295 352L357 282L353 277Q352 278 351 278Q351 278 350 279Q343 283 339 283Q313 293 300.0 298.5Q287 304 279 304Q271 305 265.5 305.5Q260 306 258 306H254Q252 306 252 305H246Q243 305 242 302L136 273H129Q127 274 121 274L106 277Q64 285 32 318Q0 350 0 391V395L2 399H4Q7 399 10 396H11Q12 396 13 395H14Q19 388 23.5 383.5Q28 379 30 375Q34 371 34 370Q34 368 36 366L47 355H49Q54 355 55 354H74Q77 355 80 355H84Q90 357 93 357L108 360Q115 360 123 365Q128 366 131.5 368.0Q135 370 143 370H145Q146 371 148 371H157Q158 372 160 372H165Q179 372 183 371Q195 370 201 368L228 359Q234 357 240.5 354.5Q247 352 254 348Q176 426 176 527V537Q176 540 177.0 545.0Q178 550 179 551V556Q179 559 180 560V563L157 565Q121 568 106 575Q82 585 68 608L74 606L85 608Q87 608 91.5 608.5Q96 609 102 610Q121 613 122 614Q140 620 167 640Q188 657 188 676V691H181Q180 691 172 689H161Q159 689 158 688H150Q133 689 122 694Q107 700 101 709Q105 709 111.0 710.5Q117 712 120 713Q126 715 130.5 717.0Q135 719 138 720Q151 725 169 740Q173 745 175.5 749.0Q178 753 180 755Q184 759 183.5 759.5Q183 760 187 771Q187 773 189 783Q189 787 190 789V794Q190 796 189.5 800.5Q189 805 188 812Q188 814 187.0 819.0Q186 824 183 830Q181 838 180.0 840.0Q179 842 177 847Q173 855 169 862L74 957L89 965Q102 958 120.5 951.0Q139 944 164 936Q218 919 246 916Q257 914 266.0 913.5Q275 913 280 912Q291 911 300.0 910.5Q309 910 314 910H324Q326 911 333 911H343Q345 912 353 912Q459 927 512 980L630 868L610 854Q610 855 608.5 856.5Q607 858 607 859Q606 860 600 868L596 872Q595 873 594.5 874.0Q594 875 593 876Q591 877 590 877Q589 877 589 877L583 881Q580 881 576.0 879.5Q572 878 572 876H570L555 864Q550 860 545.5 857.0Q541 854 539 852Q533 851 527 847Q522 845 519.0 844.5Q516 844 514 843Q506 841 500.0 839.0Q494 837 490 835Q466 829 448.0 827.0Q430 825 409 825Q403 825 394.0 825.5Q385 826 374 827Q338 834 310.5 840.5Q283 847 264 852L347 775Q386 739 405 687Q426 630 424 579L415 368Q424 307 496 302Q500 300 502.0 298.0Q504 296 506 295Q512 289 514 284Q512 277 505 276Q505 274 501.5 273.5Q498 273 494 269Z"/></svg>
+  <div class="top">
+    <a class="brand" href="#inicio"><img src="/hola/img/dame-la-letra-logo.png" width="1102" height="161" alt="Dame la Letra"></a>
+    <p class="top-meta"><span class="dot" aria-hidden="true"></span>Louisville, KY</p>
+  </div>
+
+  <div class="hero-in">
+    <p class="kicker">Hola, mucho gusto.<span aria-hidden="true">_</span></p>
+    <h1 class="hero-title" aria-label="No hacemos más de lo mismo.">
+      <span class="ln" aria-hidden="true"><span>No hacemos</span></span>
+      <span class="ln ln-2" aria-hidden="true"><span>más de</span>
+        <span class="badge"><svg viewBox="0 0 120 120" focusable="false">
+          <defs><path id="ring" d="M60 60m-47 0a47 47 0 1 1 94 0a47 47 0 1 1-94 0"/></defs>
+          <circle cx="60" cy="60" r="59" fill="#0c0b0a" stroke="#ffcc29" stroke-width="1.5"/>
+          <g class="ring"><text><textPath href="#ring" textLength="292" lengthAdjust="spacing">Estudio creativo · Independiente · </textPath></text></g>
+          <g transform="translate(36.5 47.4) scale(.0336) translate(-14 -257)" fill="#ffcc29"><path d="M39 257Q61 303 107 312L444 298Q481 301 551 308Q600 315 641 352Q679 386 700 435Q719 479 731 528Q733 533 735 544Q735 548 738.0 559.0Q741 570 744 591Q746 599 748 641Q751 692 751 693V727Q751 739 752 744V811Q752 819 751.0 835.5Q750 852 750 860Q671 890 585 965Q572 961 503 944Q489 941 461 935Q419 926 397 926Q365 922 333 922H308Q306 923 300 923Q283 924 250 928Q233 930 202 938Q129 957 62 996H59Q58 996 57 997H51Q51 997 50 998H43Q43 996 45 990Q46 987 47.0 987.0Q48 987 49.0 985.5Q50 984 50.0 983.0Q50 982 51 981H52V980L258 846Q290 825 315 786Q337 752 341 707V699Q340 697 339.5 690.0Q339 683 339 673Q336 640 336 639Q336 635 336 630Q335 624 335 621V604Q335 588 336 572Q338 550 342 506Q344 496 349 474Q357 438 366 412L360 410Q359 412 357 412H356L355 413H352Q351 414 349.0 415.0Q347 416 345 416Q298 448 287 494V504Q286 507 286 514Q285 524 285 535Q284 536 284 541V547Q284 546 283 564L282 582Q281 601 281 616V631Q281 641 282 645Q282 661 282.5 675.0Q283 689 285 703Q277 771 231.5 820.5Q186 870 128 909L91 934Q67 950 56 955H43Q43 955 59 939Q65 933 76 921Q113 879 121 866Q143 833 143 800V796Q142 795 141.0 790.0Q140 785 140 781V777Q138 775 138 773V769Q136 767 135 762Q134 762 134 760Q125 739 109.5 725.0Q94 711 74 711L62 709Q54 714 39 723Q33 728 19 737Q18 738 16 740L14 742Q14 697 50 670Q83 647 130 647H136L163 645Q166 495 314 416L130 414Q96 414 63 377Q37 342 33 306V288Q33 285 35 277L36 276V274Q36 273 36.5 269.5Q37 266 37.5 265.0Q38 264 39 262ZM531 728Q529 729 516 732Q499 735 468 748Q457 752 440 767V825Q527 838 588 853Q604 857 636 866Q636 865 637 861V857Q637 855 638 852V820Q637 817 637 812V796Q635 786 635 780L632 765Q621 757 596 744Q578 733 557 732Q555 732 552 731H547Q545 731 542 730H537ZM417 410 390 412Q388 417 383 427Q383 429 381.0 434.0Q379 439 378 442Q376 451 370 472Q370 473 370 476Q369 479 368.5 482.0Q368 485 368 491V500Q367 504 367 510Q364 531 364 539V549Q364 556 362.5 569.5Q361 583 361 589Q360 615 360 626V641Q360 664 361.0 671.0Q362 678 363.0 687.5Q364 697 365 704Q365 707 366 711V719Q358 766 326 819L349 817Q353 820 364 820H381Q395 822 399 822H408Q411 823 417 823ZM628 608Q626 610 622.0 613.0Q618 616 617 617Q611 618 604.5 621.5Q598 625 594 629Q592 629 588.0 630.5Q584 632 582 633Q558 641 535 641Q490 641 442 612V734Q473 721 490 717Q499 714 514 712Q517 712 525 711Q533 711 537 711Q545 711 561 713Q569 713 586 717Q594 718 610 725Q614 727 622 730Q624 731 628.0 732.5Q632 734 634 736ZM440 414V569Q445 593 462 602Q476 611 502 617Q515 620 517 620H535Q537 620 539 619H545Q546 619 548 618H550Q574 613 586.0 606.5Q598 600 620 585Q620 583 622 577Q622 576 623 572V567Q623 566 624 565V553Q623 552 623 549V544Q622 543 622 540Q615 506 588.0 474.5Q561 443 533 429Q531 428 528.5 427.0Q526 426 520 424Q518 422 508 420Q506 420 502 419H495Q491 419 483 417H469Q468 417 463 416H457ZM1276 269V271H1261Q1231 271 1192 286Q1158 300 1135 327Q1104 377 1101 435Q1100 440 1100 445Q1100 450 1100 455Q1100 462 1100.5 473.5Q1101 485 1102 501Q1105 517 1107.5 540.0Q1110 563 1112 593Q1115 610 1115 637V654Q1114 655 1114 658V664Q1092 814 972 897V894Q972 893 973 892V888Q973 887 974 886V885Q1008 838 1028 799Q1051 754 1067 701V639Q1067 632 1066.5 627.0Q1066 622 1066 616Q1066 610 1065.5 602.5Q1065 595 1064 581Q1063 570 1062.5 561.0Q1062 552 1062 545Q1059 524 1059 476Q1059 463 1060.0 449.5Q1061 436 1062 423Q1066 407 1068 389Q1071 376 1073.0 367.0Q1075 358 1077 352L1139 282L1135 277Q1134 278 1133 278Q1133 278 1132 279Q1125 283 1121 283Q1095 293 1082.0 298.5Q1069 304 1061 304Q1053 305 1047.5 305.5Q1042 306 1040 306H1036Q1034 306 1034 305H1028Q1025 305 1024 302L918 273H911Q909 274 903 274L888 277Q846 285 814 318Q782 350 782 391V395L784 399H786Q789 399 792 396H793Q794 396 795 395H796Q801 388 805.5 383.5Q810 379 812 375Q816 371 816 370Q816 368 818 366L829 355H831Q836 355 837 354H856Q859 355 862 355H866Q872 357 875 357L890 360Q897 360 905 365Q910 366 913.5 368.0Q917 370 925 370H927Q928 371 930 371H939Q940 372 942 372H947Q961 372 965 371Q977 370 983 368L1010 359Q1016 357 1022.5 354.5Q1029 352 1036 348Q958 426 958 527V537Q958 540 959.0 545.0Q960 550 961 551V556Q961 559 962 560V563L939 565Q903 568 888 575Q864 585 850 608L856 606L867 608Q869 608 873.5 608.5Q878 609 884 610Q903 613 904 614Q922 620 949 640Q970 657 970 676V691H963Q962 691 954 689H943Q941 689 940 688H932Q915 689 904 694Q889 700 883 709Q887 709 893.0 710.5Q899 712 902 713Q908 715 912.5 717.0Q917 719 920 720Q933 725 951 740Q955 745 957.5 749.0Q960 753 962 755Q966 759 965.5 759.5Q965 760 969 771Q969 773 971 783Q971 787 972 789V794Q972 796 971.5 800.5Q971 805 970 812Q970 814 969.0 819.0Q968 824 965 830Q963 838 962.0 840.0Q961 842 959 847Q955 855 951 862L856 957L871 965Q884 958 902.5 951.0Q921 944 946 936Q1000 919 1028 916Q1039 914 1048.0 913.5Q1057 913 1062 912Q1073 911 1082.0 910.5Q1091 910 1096 910H1106Q1108 911 1115 911H1125Q1127 912 1135 912Q1241 927 1294 980L1412 868L1392 854Q1392 855 1390.5 856.5Q1389 858 1389 859Q1388 860 1382 868L1378 872Q1377 873 1376.5 874.0Q1376 875 1375 876Q1373 877 1372 877Q1371 877 1371 877L1365 881Q1362 881 1358.0 879.5Q1354 878 1354 876H1352L1337 864Q1332 860 1327.5 857.0Q1323 854 1321 852Q1315 851 1309 847Q1304 845 1301.0 844.5Q1298 844 1296 843Q1288 841 1282.0 839.0Q1276 837 1272 835Q1248 829 1230.0 827.0Q1212 825 1191 825Q1185 825 1176.0 825.5Q1167 826 1156 827Q1120 834 1092.5 840.5Q1065 847 1046 852L1129 775Q1168 739 1187 687Q1208 630 1206 579L1197 368Q1206 307 1278 302Q1282 300 1284.0 298.0Q1286 296 1288 295Q1294 289 1296 284Q1294 277 1287 276Q1287 274 1283.5 273.5Q1280 273 1276 269Z"/></g>
+        </svg></span>
+      </span>
+      <span class="ln" aria-hidden="true"><span class="strike">lo mismo.</span></span>
+    </h1>
+
+    <div class="hero-grid">
+      <p class="hero-copy">Somos <strong>Dame la Letra</strong>. Un estudio creativo donde las ideas, la estrategia y el diseño se encuentran para construir cosas que importan.</p>
+      <p class="founder">Estudio creativo independiente · Fundado por <b>Miguel Sosa</b></p>
+      <div class="hero-cta" id="hero-cta">
+        <a class="btn btn-primary" href="https://wa.me/15026587853?text=Hola%20Miguel%2C%20vi%20la%20tarjeta%20digital%20de%20Dame%20la%20Letra%20y%20me%20gustar%C3%ADa%20conversar%20sobre%20un%20proyecto." target="_blank" rel="noopener" data-track="wa-hero">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+          Hablemos por WhatsApp
+          <svg class="arr" viewBox="0 0 24 24" aria-hidden="true"><path d="M13.2 5.3 19.9 12l-6.7 6.7-1.4-1.4 4.3-4.3H4v-2h12.1l-4.3-4.3z"/></svg>
+        </a>
+        <div class="row">
+          <a class="btn btn-ghost" href="/hola/miguel-sosa-dame-la-letra.vcf" data-track="vcard-hero">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm0 2c-4.4 0-8 2.2-8 5v1h11.1a6 6 0 0 1-.1-1c0-1.7.7-3.3 1.8-4.4A13 13 0 0 0 12 14Zm7 0v3h-3v2h3v3h2v-3h3v-2h-3v-3z"/></svg>
+            Guardar contacto
+          </a>
+          <a class="link-down" href="#trabajo">Ver trabajo <span aria-hidden="true">↓</span></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="band-wrap" aria-hidden="true">
+  <div class="band"><div class="band-track"><span>Pensamos diferente <i class="star"></i> Creamos con intención <i class="star"></i> Hacemos que las ideas sucedan <i class="star"></i></span><span>Pensamos diferente <i class="star"></i> Creamos con intención <i class="star"></i> Hacemos que las ideas sucedan <i class="star"></i></span></div><div class="band-track"><span>Pensamos diferente <i class="star"></i> Creamos con intención <i class="star"></i> Hacemos que las ideas sucedan <i class="star"></i></span><span>Pensamos diferente <i class="star"></i> Creamos con intención <i class="star"></i> Hacemos que las ideas sucedan <i class="star"></i></span></div></div>
+</div>
+<p class="sr-only">Pensamos diferente. Creamos con intención. Hacemos que las ideas sucedan.</p>
+
+<main>
+  <section class="sec" id="servicios" aria-labelledby="svc-title">
+    <div class="wrap">
+      <p class="label" data-reveal><b>02</b> Lo que hacemos</p>
+      <h2 class="h2" id="svc-title" data-reveal>No solo hacemos que las cosas se vean bien. <em>Hacemos que las ideas funcionen.</em></h2>
+
+      <ol class="svc">
+        <li class="svc-item" data-reveal>
+          <span class="svc-n">01</span>
+          <h3 class="svc-t">Estrategia <span class="amp">&amp;</span> Marketing</h3>
+          <p class="svc-d">Investigación, posicionamiento, planificación de campañas y estrategia creativa para diferenciarte — incluyendo iniciativas de marketing poco convencionales.</p>
+        </li>
+        <li class="svc-item" data-reveal>
+          <span class="svc-n">02</span>
+          <h3 class="svc-t">Branding <span class="amp">&amp;</span> Diseño</h3>
+          <p class="svc-d">Identidad visual, desarrollo de marca, diseño gráfico, publicidad y dirección creativa.</p>
+          <p class="svc-proof">Visto en <a href="#p-elys">Ely’s Charcuterie</a></p>
+        </li>
+        <li class="svc-item" data-reveal>
+          <span class="svc-n">03</span>
+          <h3 class="svc-t">Web <span class="amp">&amp;</span> Digital</h3>
+          <p class="svc-d">Diseño y desarrollo de sitios web, apps y plataformas a medida, con interfaces pensadas para convertir.</p>
+          <p class="svc-proof">Visto en <a href="#p-newera">New Era Real Estate</a> · <a href="#mas">ZHomes</a></p>
+        </li>
+        <li class="svc-item" data-reveal>
+          <span class="svc-n">04</span>
+          <h3 class="svc-t">E-commerce <span class="amp">&amp;</span> Crecimiento</h3>
+          <p class="svc-d">Tiendas online, integraciones de negocio e infraestructura digital para vender y operar mejor.</p>
+          <p class="svc-proof">Visto en <a href="#p-labonita">La Bonita Jewelry</a> · <a href="#p-lucky">Lucky Shaker</a></p>
+        </li>
+        <li class="svc-item" data-reveal>
+          <span class="svc-n">05</span>
+          <h3 class="svc-t">Producción creativa</h3>
+          <p class="svc-d">Piezas de campaña, material publicitario, reels, video y render 3D de producto.</p>
+          <p class="svc-proof">Visto en <a href="#p-lucky">Lucky Shaker</a> · <a href="#p-elys">Ely’s Charcuterie</a></p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="sec" id="trabajo" aria-labelledby="work-title" style="padding-top:clamp(40px,6vw,80px)">
+    <div class="wrap">
+      <p class="label" data-reveal><b>03</b> Trabajo seleccionado</p>
+      <h2 class="h2" id="work-title" data-reveal>Pruebas, <em>no promesas.</em></h2>
+      <p class="sec-sub" data-reveal>Proyectos reales, en línea hoy. Toca cualquiera para visitarlo.</p>
+
+      <article class="proj" id="p-elys" data-reveal>
+        <a class="proj-media" href="https://charcuterieelys-byte.github.io/website/" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true">
+          <span class="proj-num">01</span>
+          <img class="m-main" src="/hola/img/elys-m-480.webp" srcset="/hola/img/elys-m-480.webp 480w, /hola/img/elys-m-820.webp 820w" sizes="(min-width:980px) 30vw, 70vw" width="480" height="810" alt="" loading="lazy" decoding="async">
+          <img class="m-sub" src="/hola/img/elys-cards-640.webp" srcset="/hola/img/elys-cards-640.webp 640w, /hola/img/elys-cards-1100.webp 1100w" sizes="(min-width:980px) 34vw, 60vw" width="640" height="478" alt="" loading="lazy" decoding="async">
+        </a>
+        <div class="proj-body">
+          <p class="proj-meta"><span>Branding</span><span>Web</span><span>Video</span></p>
+          <h3 class="proj-t">Ely’s Charcuterie</h3>
+          <p class="proj-d">Identidad completa para un atelier de charcutería en Louisville — logotipo, isotipo y sistema visual — más sitio web bilingüe con catálogo, pedidos por WhatsApp y reel de lanzamiento.</p>
+          <a class="proj-link" href="https://charcuterieelys-byte.github.io/website/" target="_blank" rel="noopener">Ver proyecto <small>sitio web ↗</small></a>
+        </div>
+      </article>
+
+      <article class="proj" id="p-labonita" data-reveal>
+        <a class="proj-media" href="https://www.labonitajewelry.com/" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true">
+          <span class="proj-num">02</span>
+          <img class="m-main" src="/hola/img/labonita-m-480.webp" srcset="/hola/img/labonita-m-480.webp 480w, /hola/img/labonita-m-820.webp 820w" sizes="(min-width:980px) 30vw, 70vw" width="480" height="831" alt="" loading="lazy" decoding="async">
+          <img class="m-sub" src="/hola/img/labonita-d-640.webp" srcset="/hola/img/labonita-d-640.webp 640w, /hola/img/labonita-d-1100.webp 1100w" sizes="(min-width:980px) 34vw, 60vw" width="640" height="360" alt="" loading="lazy" decoding="async">
+        </a>
+        <div class="proj-body">
+          <p class="proj-meta"><span>E-commerce</span><span>Shopify a medida</span></p>
+          <h3 class="proj-t">La Bonita Jewelry</h3>
+          <p class="proj-d">Tienda online con tema Shopify a medida para una joyería de oro 10K y 14K: catálogo con filtros, combos promocionales, financiamiento y calculadora de compra de oro con precio actualizado a diario.</p>
+          <a class="proj-link" href="https://www.labonitajewelry.com/" target="_blank" rel="noopener">Ver proyecto <small>labonitajewelry.com ↗</small></a>
+        </div>
+      </article>
+
+      <article class="proj" id="p-lucky" data-reveal>
+        <a class="proj-media" href="https://luckyshakersupply.com/" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true">
+          <span class="proj-num">03</span>
+          <img class="m-main" src="/hola/img/lucky-m-480.webp" srcset="/hola/img/lucky-m-480.webp 480w, /hola/img/lucky-m-820.webp 820w" sizes="(min-width:980px) 30vw, 70vw" width="480" height="831" alt="" loading="lazy" decoding="async">
+          <img class="m-sub tall" src="/hola/img/lucky-3d-420.webp" srcset="/hola/img/lucky-3d-420.webp 420w, /hola/img/lucky-3d-720.webp 720w" sizes="(min-width:980px) 22vw, 40vw" width="420" height="583" alt="" loading="lazy" decoding="async">
+        </a>
+        <div class="proj-body">
+          <p class="proj-meta"><span>E-commerce</span><span>3D de producto</span><span>Video</span></p>
+          <h3 class="proj-t">Lucky Shaker</h3>
+          <p class="proj-d">Tienda Shopify para cócteles embotellados y servicio de bartending móvil, con el producto modelado en 3D, renders comerciales y videos cinematográficos para web.</p>
+          <a class="proj-link" href="https://luckyshakersupply.com/" target="_blank" rel="noopener">Ver proyecto <small>luckyshakersupply.com ↗</small></a>
+        </div>
+      </article>
+
+      <article class="proj" id="p-newera" data-reveal>
+        <a class="proj-media" href="https://www.neweraky.com/" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true">
+          <span class="proj-num">04</span>
+          <img class="m-main" src="/hola/img/newera-m-480.webp" srcset="/hola/img/newera-m-480.webp 480w, /hola/img/newera-m-820.webp 820w" sizes="(min-width:980px) 30vw, 70vw" width="480" height="831" alt="" loading="lazy" decoding="async">
+          <img class="m-sub" src="/hola/img/newera-d-640.webp" srcset="/hola/img/newera-d-640.webp 640w, /hola/img/newera-d-1100.webp 1100w" sizes="(min-width:980px) 34vw, 60vw" width="640" height="315" alt="" loading="lazy" decoding="async">
+        </a>
+        <div class="proj-body">
+          <p class="proj-meta"><span>Web</span><span>Plataforma inmobiliaria</span></p>
+          <h3 class="proj-t">New Era Real Estate</h3>
+          <p class="proj-d">Sitio web bilingüe para una correduría inmobiliaria de Louisville y Kentucky: propiedades, mapa, directorio de agentes y reserva de asesorías.</p>
+          <a class="proj-link" href="https://www.neweraky.com/" target="_blank" rel="noopener">Ver proyecto <small>neweraky.com ↗</small></a>
+        </div>
+      </article>
+
+      <div class="more" id="mas" data-reveal>
+        <p class="label">Y también</p>
+        <ul class="more-list">
+          <li><a href="https://zhomesapp.com/" target="_blank" rel="noopener">
+            <img src="/hola/img/zhomes-m-360.webp" srcset="/hola/img/zhomes-m-360.webp 360w, /hola/img/zhomes-m-600.webp 600w" sizes="(min-width:700px) 300px, 45vw" width="360" height="623" alt="" loading="lazy" decoding="async">
+            <span class="more-t">ZHomes</span><span class="more-d">App inmobiliaria · Producto digital ↗</span></a></li>
+          <li><a href="https://trilionacademy.com/" target="_blank" rel="noopener">
+            <img src="/hola/img/trilion-m-360.webp" srcset="/hola/img/trilion-m-360.webp 360w, /hola/img/trilion-m-600.webp 600w" sizes="(min-width:700px) 300px, 45vw" width="360" height="623" alt="" loading="lazy" decoding="async">
+            <span class="more-t">Tri-Lion Academy</span><span class="more-d">Web · Reservas y membresías ↗</span></a></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <div class="band-wrap" aria-hidden="true">
+    <div class="band alt"><div class="band-track"><span>Diseño <i class="star"></i> Negocio <i class="star"></i> Marketing <i class="star"></i> Tecnología <i class="star"></i></span><span>Diseño <i class="star"></i> Negocio <i class="star"></i> Marketing <i class="star"></i> Tecnología <i class="star"></i></span></div><div class="band-track"><span>Diseño <i class="star"></i> Negocio <i class="star"></i> Marketing <i class="star"></i> Tecnología <i class="star"></i></span><span>Diseño <i class="star"></i> Negocio <i class="star"></i> Marketing <i class="star"></i> Tecnología <i class="star"></i></span></div></div>
+  </div>
+
+  <section class="sec founder-sec" id="fundador" aria-labelledby="founder-title">
+    <div class="wrap">
+      <p class="label" data-reveal><b>04</b> Detrás de las ideas <i lang="en">/ Behind the ideas.</i></p>
+      <h2 class="founder-name" id="founder-title" data-reveal>Miguel <span>Sosa</span></h2>
+      <p class="founder-role" data-reveal>Fundador · Dame la Letra</p>
+      <div class="founder-grid">
+        <p class="founder-lead" data-reveal>Una mirada multidisciplinaria que <mark>conecta diseño, negocio, marketing y tecnología.</mark></p>
+        <p class="founder-txt" data-reveal>Dame la Letra es un estudio independiente: quien piensa la estrategia es quien la ejecuta, de la marca al código. Sin capas ni teléfono roto — una conversación directa con la persona que va a construir tu proyecto.</p>
+        <dl class="facts" data-reveal>
+          <div><dt>Base</dt><dd>Louisville, Kentucky</dd></div>
+          <div><dt>Cruce</dt><dd>Diseño + negocio + marketing + tecnología</dd></div>
+          <div><dt>Trato</dt><dd>Directo, de principio a fin</dd></div>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec contact" id="contacto" aria-labelledby="contact-title">
+    <div class="type-bg" aria-hidden="true"></div>
+    <div class="wrap">
+      <p class="label"><b>05</b> Hablemos</p>
+      <h2 class="contact-t" id="contact-title" lang="en">Good ideas start with a conversation.</h2>
+      <p class="contact-copy">¿Tienes un proyecto, una idea o simplemente quieres explorar posibilidades? Hablemos.</p>
+      <div class="contact-cta">
+        <a class="btn btn-ink" href="https://wa.me/15026587853?text=Hola%20Miguel%2C%20vi%20la%20tarjeta%20digital%20de%20Dame%20la%20Letra%20y%20me%20gustar%C3%ADa%20conversar%20sobre%20un%20proyecto." target="_blank" rel="noopener" lang="en" data-track="wa-contact">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+          Let’s talk on WhatsApp
+          <svg class="arr" viewBox="0 0 24 24" aria-hidden="true"><path d="M13.2 5.3 19.9 12l-6.7 6.7-1.4-1.4 4.3-4.3H4v-2h12.1l-4.3-4.3z"/></svg>
+        </a>
+        <a class="btn btn-line" href="https://www.instagram.com/damelaletra_ky/" target="_blank" rel="noopener" lang="en" data-track="ig-contact">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.0301.084c-1.2768.0602-2.1487.264-2.911.5634-.7888.3075-1.4575.72-2.1228 1.3877-.6652.6677-1.075 1.3368-1.3802 2.127-.2954.7638-.4956 1.6365-.552 2.914-.0564 1.2775-.0689 1.6882-.0626 4.947.0062 3.2586.0206 3.6671.0825 4.9473.061 1.2765.264 2.1482.5635 2.9107.308.7889.72 1.4573 1.388 2.1228.6679.6655 1.3365 1.0743 2.1285 1.38.7632.295 1.6361.4961 2.9134.552 1.2773.056 1.6884.069 4.9462.0627 3.2578-.0062 3.668-.0207 4.9478-.0814 1.28-.0607 2.147-.2652 2.9098-.5633.7889-.3086 1.4578-.72 2.1228-1.3881.665-.6682 1.0745-1.3378 1.3795-2.1284.2957-.7632.4966-1.636.552-2.9124.056-1.2809.0692-1.6898.063-4.948-.0063-3.2583-.021-3.6668-.0817-4.9465-.0607-1.2797-.264-2.1487-.5633-2.9117-.3084-.7889-.72-1.4568-1.3876-2.1228C21.2982 1.33 20.628.9208 19.8378.6165 19.074.321 18.2017.1197 16.9244.0645 15.6471.0093 15.236-.005 11.977.0014 8.718.0076 8.31.0215 7.0301.0839m.1402 21.6932c-1.17-.0509-1.8053-.2453-2.2287-.408-.5606-.216-.96-.4771-1.3819-.895-.422-.4178-.6811-.8186-.9-1.378-.1644-.4234-.3624-1.058-.4171-2.228-.0595-1.2645-.072-1.6442-.079-4.848-.007-3.2037.0053-3.583.0607-4.848.05-1.169.2456-1.805.408-2.2282.216-.5613.4762-.96.895-1.3816.4188-.4217.8184-.6814 1.3783-.9003.423-.1651 1.0575-.3614 2.227-.4171 1.2655-.06 1.6447-.072 4.848-.079 3.2033-.007 3.5835.005 4.8495.0608 1.169.0508 1.8053.2445 2.228.408.5608.216.96.4754 1.3816.895.4217.4194.6816.8176.9005 1.3787.1653.4217.3617 1.056.4169 2.2263.0602 1.2655.0739 1.645.0796 4.848.0058 3.203-.0055 3.5834-.061 4.848-.051 1.17-.245 1.8055-.408 2.2294-.216.5604-.4763.96-.8954 1.3814-.419.4215-.8181.6811-1.3783.9-.4224.1649-1.0577.3617-2.2262.4174-1.2656.0595-1.6448.072-4.8493.079-3.2045.007-3.5825-.006-4.848-.0608M16.953 5.5864A1.44 1.44 0 1 0 18.39 4.144a1.44 1.44 0 0 0-1.437 1.4424M5.8385 12.012c.0067 3.4032 2.7706 6.1557 6.173 6.1493 3.4026-.0065 6.157-2.7701 6.1506-6.1733-.0065-3.4032-2.771-6.1565-6.174-6.1498-3.403.0067-6.156 2.771-6.1496 6.1738M8 12.0077a4 4 0 1 1 4.008 3.9921A3.9996 3.9996 0 0 1 8 12.0077"/></svg>
+          Follow us on Instagram
+        </a>
+        <a class="btn btn-line" href="/hola/miguel-sosa-dame-la-letra.vcf" data-track="vcard-contact">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm0 2c-4.4 0-8 2.2-8 5v1h11.1a6 6 0 0 1-.1-1c0-1.7.7-3.3 1.8-4.4A13 13 0 0 0 12 14Zm7 0v3h-3v2h3v3h2v-3h3v-2h-3v-3z"/></svg>
+          Guardar contacto
+        </a>
+      </div>
+      <figure class="contact-qr"><img src="/hola/qr/dame-la-letra-qr.svg" width="300" height="300" alt="Código QR hacia damelaletra.com/hola" loading="lazy"><figcaption>¿Estás en una computadora? Escanea para llevarte esta tarjeta en el teléfono.</figcaption></figure>
+      <div class="contact-tools">
+        <button class="tool" type="button" data-share>Compartir esta tarjeta</button>
+        <a class="tool" href="/hola/qr/">Mostrar código QR</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <img src="/hola/img/dame-la-letra-logo.png" width="1102" height="161" alt="Dame la Letra" loading="lazy">
+  <p>© 2026 Dame la Letra LLC · Louisville, Kentucky</p>
+</footer>
+
+<a class="fab" href="https://wa.me/15026587853?text=Hola%20Miguel%2C%20vi%20la%20tarjeta%20digital%20de%20Dame%20la%20Letra%20y%20me%20gustar%C3%ADa%20conversar%20sobre%20un%20proyecto." target="_blank" rel="noopener" aria-label="Hablemos por WhatsApp" data-track="wa-fab">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>Hablemos
+</a>
+<div class="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+  var d=document, reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var els=d.querySelectorAll('[data-reveal]');
+  if(!('IntersectionObserver' in window)||reduce){els.forEach(function(e){e.classList.add('in')});}
+  else{
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}})},{rootMargin:'0px 0px -10% 0px',threshold:.06});
+    els.forEach(function(e){io.observe(e)});
+  }
+  var fab=d.querySelector('.fab'), cta=d.getElementById('hero-cta'), contact=d.getElementById('contacto');
+  if('IntersectionObserver' in window&&fab&&cta&&contact){
+    var vis={hero:true,contact:false};
+    var io2=new IntersectionObserver(function(es){es.forEach(function(e){vis[e.target===cta?'hero':'contact']=e.isIntersecting});fab.classList.toggle('show',!vis.hero&&!vis.contact)});
+    io2.observe(cta);io2.observe(contact);
+  } else if(fab){fab.classList.add('show')}
+  var toast=d.querySelector('.toast'),tt;
+  function say(m){toast.textContent=m;toast.classList.add('on');clearTimeout(tt);tt=setTimeout(function(){toast.classList.remove('on')},2200)}
+  d.querySelectorAll('[data-share]').forEach(function(b){b.addEventListener('click',function(){
+    var data={title:'Dame la Letra',text:'Dame la Letra — estudio creativo independiente. Fundado por Miguel Sosa.',url:'https://www.damelaletra.com/hola'};
+    if(navigator.share){navigator.share(data).catch(function(){});return;}
+    if(navigator.clipboard){navigator.clipboard.writeText(data.url).then(function(){say('Enlace copiado')},function(){say(data.url)});}
+    else{say(data.url)}
+  })});
+})();
+</script>
+</body>
+</html>

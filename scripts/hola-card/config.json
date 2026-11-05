@@ -1,0 +1,22 @@
+{
+  "outDir": "../../public/hola",
+  "url": "https://www.damelaletra.com/hola",
+  "vcardFile": "miguel-sosa-dame-la-letra.vcf",
+  "whatsapp": {
+    "number": "15026587853",
+    "text": "Hola Miguel, vi la tarjeta digital de Dame la Letra y me gustaría conversar sobre un proyecto."
+  },
+  "instagram": "damelaletra_ky",
+  "vcard": {
+    "firstName": "Miguel",
+    "lastName": "Sosa",
+    "org": "Dame la Letra",
+    "title": "Fundador",
+    "phone": "+15026587853",
+    "email": "damelaletra@gmail.com",
+    "city": "Louisville",
+    "region": "KY",
+    "country": "USA",
+    "note": "Dame la Letra — estudio creativo independiente. Estrategia, branding, web, e-commerce y producción creativa."
+  }
+}
