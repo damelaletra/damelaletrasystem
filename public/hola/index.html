@@ -379,8 +379,91 @@ body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:100;op
 .js .fab.show{transform:none}
 body.modal-open .fab{transform:translateY(160%)!important}
 
-.toast{position:fixed;z-index:140;left:50%;bottom:calc(84px + env(safe-area-inset-bottom));transform:translate(-50%,20px);opacity:0;padding:12px 18px;background:var(--paper);color:var(--ink);font:400 .85rem/1 var(--mono);transition:.3s var(--ease);pointer-events:none}
+.toast{position:fixed;z-index:160;left:50%;bottom:calc(84px + env(safe-area-inset-bottom));transform:translate(-50%,20px);opacity:0;padding:12px 18px;background:var(--paper);color:var(--ink);font:400 .85rem/1 var(--mono);transition:.3s var(--ease);pointer-events:none}
 .toast.on{opacity:1;transform:translate(-50%,0)}
+
+/* ---------- SPATIAL AR MODE ("WEB FLOTANDO EN EL AIRE") ---------- */
+:root{--ar-rx:0deg;--ar-ry:0deg;--ar-tx:0px;--ar-ty:0px}
+.top-right{display:flex;align-items:center;gap:10px}
+.ar-pill{display:inline-flex;align-items:center;gap:6px;padding:7px 12px;border:1px solid var(--letra);background:rgba(106,72,136,.32);color:var(--letra);font:400 .72rem/1 var(--mono);letter-spacing:.09em;text-transform:uppercase;cursor:pointer;box-shadow:3px 3px 0 var(--violeta);transition:transform .2s var(--ease),background-color .2s,color .2s}
+.ar-pill:hover{background:var(--letra);color:var(--ink);transform:translate(-1px,-1px)}
+.ar-pill i{font-style:normal;display:inline-block;animation:spin 8s linear infinite}
+.btn-ar{width:100%;min-height:52px;padding:0 18px;border:1px solid var(--letra);background:linear-gradient(135deg,rgba(106,72,136,.52),rgba(25,18,35,.88));color:var(--paper);font:400 .98rem/1 var(--display);letter-spacing:.05em;text-transform:uppercase;box-shadow:5px 5px 0 var(--letra);backdrop-filter:blur(10px)}
+.btn-ar b{color:var(--letra);font-weight:400}
+.btn-ar:hover{background:var(--letra);color:var(--ink);box-shadow:6px 6px 0 var(--violeta)}
+.btn-ar:hover b{color:var(--ink)}
+
+#ar-backdrop{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;opacity:0;visibility:hidden;transition:opacity .45s var(--ease),visibility .45s;background:radial-gradient(circle at 50% 35%,rgba(106,72,136,.42),rgba(10,7,16,.88) 78%)}
+body.ar-mode #ar-backdrop{opacity:1;visibility:visible}
+#ar-cam-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scale(1.02)}
+#ar-spatial-grid{position:absolute;inset:-15%;background:
+  radial-gradient(circle at 50% 50%,transparent 40%,rgba(10,7,15,.32) 100%),
+  linear-gradient(rgba(255,204,41,.14) 1px,transparent 1px),
+  linear-gradient(90deg,rgba(255,204,41,.14) 1px,transparent 1px);
+  background-size:100% 100%,52px 52px,52px 52px;
+  transform:perspective(700px) rotateX(calc(58deg + var(--ar-rx))) rotateZ(calc(var(--ar-ry) * .6));
+  transform-origin:50% 75%;opacity:.75}
+
+#ar-hud{position:fixed;top:0;left:0;right:0;z-index:150;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px var(--pad);background:rgba(12,8,18,.78);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid rgba(255,204,41,.45);transform:translateY(-120%);transition:transform .35s var(--ease)}
+body.ar-mode #ar-hud{transform:none}
+.ar-hud-status{display:inline-flex;align-items:center;gap:6px;font:400 .68rem/1.1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--letra);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ar-live-dot{flex:none;width:8px;height:8px;border-radius:50%;background:#30e87a;box-shadow:0 0 10px #30e87a;animation:pulse 2s infinite}
+.ar-hud-actions{display:flex;align-items:center;gap:6px;flex:none}
+.ar-hud-btn{padding:6px 9px;border:1px solid rgba(243,238,227,.32);background:rgba(25,18,35,.75);color:var(--paper);font:400 .66rem/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;cursor:pointer;white-space:nowrap}
+.ar-hud-btn:hover{border-color:var(--letra);color:var(--letra)}
+.ar-hud-btn.exit{border-color:var(--letra);background:var(--letra);color:var(--ink);font-weight:700}
+
+#ar-portal{position:fixed;inset:0;z-index:155;display:grid;place-items:center;padding:24px;background:rgba(10,7,16,.88);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);opacity:0;pointer-events:none;transition:opacity .3s var(--ease)}
+#ar-portal.open{opacity:1;pointer-events:auto}
+.ar-portal-card{max-width:460px;width:100%;padding:28px 24px;border:1px solid var(--letra);background:rgba(20,13,30,.92);box-shadow:10px 10px 0 var(--violeta),0 30px 80px rgba(0,0,0,.75);text-align:left}
+.ar-portal-kicker{font:400 .74rem/1.3 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--letra);margin-bottom:10px}
+.ar-portal-title{font:400 clamp(2.1rem,8vw,3.2rem)/.92 var(--display);text-transform:uppercase;margin:0 0 12px}
+.ar-portal-copy{color:var(--mute);font-size:.98rem;line-height:1.48;margin-bottom:20px}
+.ar-portal-actions{display:grid;gap:10px}
+
+@keyframes arFloat{0%{transform:perspective(1100px) rotateX(var(--ar-rx,0deg)) rotateY(var(--ar-ry,0deg)) translate3d(var(--ar-tx,0px),calc(var(--ar-ty,0px) - 5px),0)}100%{transform:perspective(1100px) rotateX(var(--ar-rx,0deg)) rotateY(var(--ar-ry,0deg)) translate3d(var(--ar-tx,0px),calc(var(--ar-ty,0px) + 7px),0)}}
+
+html:has(body.ar-mode),body.ar-mode{background:transparent!important}
+body.ar-mode header,body.ar-mode main,body.ar-mode footer,body.ar-mode .logo-rail{position:relative;z-index:2}
+body.ar-mode .hero{padding-top:54px}
+body.ar-mode .btn-ar,body.ar-mode .ar-pill{display:none}
+body.ar-mode .hero,body.ar-mode .logo-rail,body.ar-mode .sec,body.ar-mode .arch-sec,body.ar-mode .founder-sec,body.ar-mode .contact,body.ar-mode .foot{background:transparent!important;border-color:transparent!important}
+body.ar-mode .hero::before,body.ar-mode .type-bg,body.ar-mode .hero-glyph{opacity:.14}
+body.ar-mode .hero-in,
+body.ar-mode .logo-rail-rows,
+body.ar-mode .svc-item,
+body.ar-mode .proj,
+body.ar-mode .arch-stage-wrap,
+body.ar-mode .sheet,
+body.ar-mode .more-card,
+body.ar-mode .film-item,
+body.ar-mode .founder-sec .wrap,
+body.ar-mode .contact .wrap,
+body.ar-mode .foot{
+  background:rgba(14,10,20,.58)!important;
+  backdrop-filter:blur(16px) saturate(175%);
+  -webkit-backdrop-filter:blur(16px) saturate(175%);
+  border:1px solid rgba(255,204,41,.52)!important;
+  box-shadow:0 24px 60px rgba(0,0,0,.65),0 0 28px rgba(106,72,136,.48),inset 0 1px 0 rgba(255,255,255,.22)!important;
+  transform:perspective(1100px) rotateX(var(--ar-rx,0deg)) rotateY(var(--ar-ry,0deg)) translate3d(var(--ar-tx,0px),var(--ar-ty,0px),0);
+  animation:arFloat 4.2s ease-in-out infinite alternate;
+  transition:transform .14s ease-out,box-shadow .3s;
+  will-change:transform;
+}
+body.ar-mode .hero-in,body.ar-mode .founder-sec .wrap,body.ar-mode .contact .wrap{padding:clamp(22px,4vw,40px);margin-top:14px}
+body.ar-mode .svc{border-top:0;display:grid;gap:18px}
+body.ar-mode .svc-item{padding:22px 18px;margin:0}
+body.ar-mode .svc-item::before{inset:0}
+body.ar-mode .proj{padding:clamp(18px,3.5vw,34px)}
+body.ar-mode .more-card,body.ar-mode .film-item,body.ar-mode .sheet{padding:14px}
+body.ar-mode .founder-sec{color:var(--paper)!important}
+body.ar-mode .founder-sec .label,body.ar-mode .founder-sec .facts dt,body.ar-mode .founder-name span{color:var(--letra)!important}
+body.ar-mode .founder-sec .label i,body.ar-mode .founder-sec .founder-txt{color:rgba(243,238,227,.86)!important}
+body.ar-mode .founder-sec .founder-lead mark{color:var(--ink)!important}
+body.ar-mode .founder-sec .facts,body.ar-mode .founder-sec .facts div{border-color:rgba(243,238,227,.22)!important}
+body.ar-mode .contact{color:var(--paper)!important}
+body.ar-mode .contact .label,body.ar-mode .contact .tool{color:var(--letra)!important}
+body.ar-mode .contact .btn-line{color:var(--paper);border-color:var(--letra)}
 
 /* ---------- reveal ---------- */
 .js [data-reveal]{opacity:0;transform:translateY(34px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
@@ -455,7 +538,10 @@ body.modal-open .fab{transform:translateY(160%)!important}
   <svg class="hero-glyph" viewBox="0 269 630 711" aria-hidden="true" focusable="false"><path d="M494 269V271H479Q449 271 410 286Q376 300 353 327Q322 377 319 435Q318 440 318 445Q318 450 318 455Q318 462 318.5 473.5Q319 485 320 501Q323 517 325.5 540.0Q328 563 330 593Q333 610 333 637V654Q332 655 332 658V664Q310 814 190 897V894Q190 893 191 892V888Q191 887 192 886V885Q226 838 246 799Q269 754 285 701V639Q285 632 284.5 627.0Q284 622 284 616Q284 610 283.5 602.5Q283 595 282 581Q281 570 280.5 561.0Q280 552 280 545Q277 524 277 476Q277 463 278.0 449.5Q279 436 280 423Q284 407 286 389Q289 376 291.0 367.0Q293 358 295 352L357 282L353 277Q352 278 351 278Q351 278 350 279Q343 283 339 283Q313 293 300.0 298.5Q287 304 279 304Q271 305 265.5 305.5Q260 306 258 306H254Q252 306 252 305H246Q243 305 242 302L136 273H129Q127 274 121 274L106 277Q64 285 32 318Q0 350 0 391V395L2 399H4Q7 399 10 396H11Q12 396 13 395H14Q19 388 23.5 383.5Q28 379 30 375Q34 371 34 370Q34 368 36 366L47 355H49Q54 355 55 354H74Q77 355 80 355H84Q90 357 93 357L108 360Q115 360 123 365Q128 366 131.5 368.0Q135 370 143 370H145Q146 371 148 371H157Q158 372 160 372H165Q179 372 183 371Q195 370 201 368L228 359Q234 357 240.5 354.5Q247 352 254 348Q176 426 176 527V537Q176 540 177.0 545.0Q178 550 179 551V556Q179 559 180 560V563L157 565Q121 568 106 575Q82 585 68 608L74 606L85 608Q87 608 91.5 608.5Q96 609 102 610Q121 613 122 614Q140 620 167 640Q188 657 188 676V691H181Q180 691 172 689H161Q159 689 158 688H150Q133 689 122 694Q107 700 101 709Q105 709 111.0 710.5Q117 712 120 713Q126 715 130.5 717.0Q135 719 138 720Q151 725 169 740Q173 745 175.5 749.0Q178 753 180 755Q184 759 183.5 759.5Q183 760 187 771Q187 773 189 783Q189 787 190 789V794Q190 796 189.5 800.5Q189 805 188 812Q188 814 187.0 819.0Q186 824 183 830Q181 838 180.0 840.0Q179 842 177 847Q173 855 169 862L74 957L89 965Q102 958 120.5 951.0Q139 944 164 936Q218 919 246 916Q257 914 266.0 913.5Q275 913 280 912Q291 911 300.0 910.5Q309 910 314 910H324Q326 911 333 911H343Q345 912 353 912Q459 927 512 980L630 868L610 854Q610 855 608.5 856.5Q607 858 607 859Q606 860 600 868L596 872Q595 873 594.5 874.0Q594 875 593 876Q591 877 590 877Q589 877 589 877L583 881Q580 881 576.0 879.5Q572 878 572 876H570L555 864Q550 860 545.5 857.0Q541 854 539 852Q533 851 527 847Q522 845 519.0 844.5Q516 844 514 843Q506 841 500.0 839.0Q494 837 490 835Q466 829 448.0 827.0Q430 825 409 825Q403 825 394.0 825.5Q385 826 374 827Q338 834 310.5 840.5Q283 847 264 852L347 775Q386 739 405 687Q426 630 424 579L415 368Q424 307 496 302Q500 300 502.0 298.0Q504 296 506 295Q512 289 514 284Q512 277 505 276Q505 274 501.5 273.5Q498 273 494 269Z"/></svg>
   <div class="top">
     <a class="brand" href="#inicio"><img src="/hola/img/dame-la-letra-logo.png" width="1102" height="161" alt="Dame la Letra"></a>
-    <p class="top-meta"><span class="dot" aria-hidden="true"></span>Louisville, KY</p>
+    <div class="top-right">
+      <button class="ar-pill" type="button" data-toggle-ar aria-label="Activar Modo Realidad Aumentada"><i>✦</i> Modo AR</button>
+      <p class="top-meta"><span class="dot" aria-hidden="true"></span>Louisville, KY</p>
+    </div>
   </div>
 
   <div class="hero-in">
@@ -482,6 +568,10 @@ body.modal-open .fab{transform:translateY(160%)!important}
           Hablemos por WhatsApp
           <svg class="arr" viewBox="0 0 24 24" aria-hidden="true"><path d="M13.2 5.3 19.9 12l-6.7 6.7-1.4-1.4 4.3-4.3H4v-2h12.1l-4.3-4.3z"/></svg>
         </a>
+        <button class="btn btn-ar" type="button" data-toggle-ar>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 3 7v10l9 5 9-5V7l-9-5Zm0 2.3L18.8 8 12 11.7 5.2 8 12 4.3ZM5 9.8l6 3.3v6.5l-6-3.3V9.8Zm8 9.8v-6.5l6-3.3v6.5l-6 3.3Z"/></svg>
+          <span><b>✦ Ver en AR</b> · Hacer flotar esta web en el aire</span>
+        </button>
         <div class="row">
           <a class="btn btn-ghost" href="/hola/miguel-sosa-dame-la-letra.vcf" data-track="vcard-hero">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm0 2c-4.4 0-8 2.2-8 5v1h11.1a6 6 0 0 1-.1-1c0-1.7.7-3.3 1.8-4.4A13 13 0 0 0 12 14Zm7 0v3h-3v2h3v3h2v-3h3v-2h-3v-3z"/></svg>
@@ -1131,6 +1221,8 @@ body.modal-open .fab{transform:translateY(160%)!important}
       </div>
       <figure class="contact-qr"><img src="/hola/qr/dame-la-letra-qr.svg" width="300" height="300" alt="Código QR hacia damelaletra.com/hola" loading="lazy"><figcaption>¿Estás en una computadora? Escanea para llevarte esta tarjeta en el teléfono.</figcaption></figure>
       <div class="contact-tools">
+        <button class="tool" type="button" data-toggle-ar>✦ Ver web flotando en AR</button>
+        <button class="tool" type="button" data-share-ar>Compartir enlace en AR</button>
         <button class="tool" type="button" data-share>Compartir esta tarjeta</button>
         <a class="tool" href="/hola/qr/">Mostrar código QR</a>
       </div>
@@ -1179,6 +1271,33 @@ body.modal-open .fab{transform:translateY(160%)!important}
 </div>
 
 <div class="toast" role="status" aria-live="polite"></div>
+
+<!-- SPATIAL AR CAMERA BACKDROP & HUD ("WEB FLOTANDO EN EL AIRE") -->
+<div id="ar-backdrop" aria-hidden="true">
+  <video id="ar-cam-video" autoplay muted playsinline></video>
+  <div id="ar-spatial-grid"></div>
+</div>
+
+<div id="ar-hud" role="region" aria-label="Controles de Realidad Aumentada">
+  <span class="ar-hud-status"><i class="ar-live-dot"></i><span id="ar-status-txt">AR EN VIVO</span></span>
+  <div class="ar-hud-actions">
+    <button class="ar-hud-btn" type="button" data-ar-flip>Cámara</button>
+    <button class="ar-hud-btn" type="button" data-ar-center>Centrar 3D</button>
+    <button class="ar-hud-btn exit" type="button" data-toggle-ar>Salir ×</button>
+  </div>
+</div>
+
+<div id="ar-portal" role="dialog" aria-modal="true" aria-labelledby="arp-title" aria-hidden="true">
+  <div class="ar-portal-card">
+    <p class="ar-portal-kicker">✦ Experiencia Espacial · Dame la Letra</p>
+    <h3 class="ar-portal-title" id="arp-title">Haz flotar esta web en el aire.</h3>
+    <p class="ar-portal-copy">Apunta tu teléfono frente a ti. Al activar la cámara, todo el portafolio de Dame la Letra flotará en 3D sobre tu espacio real y reaccionará al movimiento de tu mano.</p>
+    <div class="ar-portal-actions">
+      <button class="btn btn-primary" type="button" data-start-ar style="width:100%">✦ Activar Cámara &amp; Ver Flotando</button>
+      <button class="btn btn-ghost" type="button" data-close-ar-portal style="width:100%">Ver tarjeta en modo normal</button>
+    </div>
+  </div>
+</div>
 
 <script>
 (function(){
@@ -1786,6 +1905,139 @@ body.modal-open .fab{transform:translateY(160%)!important}
     if(navigator.clipboard){navigator.clipboard.writeText(data.url).then(function(){say('Enlace copiado')},function(){say(data.url)});}
     else{say(data.url)}
   })});
+  d.querySelectorAll('[data-share-ar]').forEach(function(b){b.addEventListener('click',function(){
+    var data={title:'Dame la Letra · Experiencia en Realidad Aumentada',text:'Apunta tu teléfono y haz flotar el portafolio de Dame la Letra en el aire (AR).',url:'https://www.damelaletra.com/hola?ar=1'};
+    if(navigator.share){navigator.share(data).catch(function(){});return;}
+    if(navigator.clipboard){navigator.clipboard.writeText(data.url).then(function(){say('Enlace AR copiado')},function(){say(data.url)});}
+    else{say(data.url)}
+  })});
+
+  /* 8. Spatial AR Mode ("Web Flotando en el Aire" — Live Camera + Gyroscope 3D Parallax) */
+  var arActive=false, arStream=null, arFacing='environment',
+      arVideo=d.getElementById('ar-cam-video'),
+      arStatus=d.getElementById('ar-status-txt'),
+      arPortal=d.getElementById('ar-portal'),
+      rootStyle=d.documentElement.style,
+      baseBeta=null, baseGamma=null, gyroBound=false;
+
+  function clamp(v,min,max){return Math.max(min,Math.min(max,v))}
+  function setArTilt(rx,ry,tx,ty){
+    rootStyle.setProperty('--ar-rx',rx.toFixed(2)+'deg');
+    rootStyle.setProperty('--ar-ry',ry.toFixed(2)+'deg');
+    rootStyle.setProperty('--ar-tx',tx.toFixed(1)+'px');
+    rootStyle.setProperty('--ar-ty',ty.toFixed(1)+'px');
+  }
+
+  function onDeviceOrient(e){
+    if(!arActive||e.beta==null||e.gamma==null)return;
+    if(baseBeta===null){baseBeta=e.beta;baseGamma=e.gamma;}
+    var db=clamp(e.beta-baseBeta,-28,28);
+    var dg=clamp(e.gamma-baseGamma,-28,28);
+    setArTilt(clamp(-db*0.34,-10,10), clamp(dg*0.38,-12,12), dg*0.65, db*0.55);
+  }
+
+  function enableGyro(){
+    if(gyroBound)return;
+    if(typeof DeviceOrientationEvent!=='undefined'&&typeof DeviceOrientationEvent.requestPermission==='function'){
+      DeviceOrientationEvent.requestPermission().then(function(state){
+        if(state==='granted'){
+          gyroBound=true;
+          window.addEventListener('deviceorientation',onDeviceOrient,true);
+        }
+      }).catch(function(){});
+    }else if('DeviceOrientationEvent' in window){
+      gyroBound=true;
+      window.addEventListener('deviceorientation',onDeviceOrient,true);
+    }
+  }
+
+  window.addEventListener('pointermove',function(e){
+    if(!arActive||baseBeta!==null)return;
+    var nx=(e.clientX/(window.innerWidth||1))-0.5;
+    var ny=(e.clientY/(window.innerHeight||1))-0.5;
+    setArTilt(clamp(-ny*10,-8,8), clamp(nx*12,-10,10), nx*14, ny*12);
+  },{passive:true});
+
+  function startCamera(){
+    if(arStream){arStream.getTracks().forEach(function(t){t.stop()});arStream=null;}
+    if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){
+      if(arStatus)arStatus.textContent='MODO ESPACIAL 3D · WEB FLOTANDO';
+      return;
+    }
+    navigator.mediaDevices.getUserMedia({
+      video:{facingMode:{ideal:arFacing},width:{ideal:1920},height:{ideal:1080}},
+      audio:false
+    }).then(function(stream){
+      if(!arActive){stream.getTracks().forEach(function(t){t.stop()});return;}
+      arStream=stream;
+      if(arVideo){
+        arVideo.srcObject=stream;
+        var p=arVideo.play();if(p&&p.catch)p.catch(function(){});
+      }
+      if(arStatus)arStatus.textContent='AR EN VIVO';
+    }).catch(function(){
+      if(arStatus)arStatus.textContent='MODO ESPACIAL 3D';
+      say('Modo Espacial 3D activado');
+    });
+  }
+
+  function enterArMode(){
+    arActive=true;
+    baseBeta=null;baseGamma=null;
+    if(arPortal){arPortal.classList.remove('open');arPortal.setAttribute('aria-hidden','true');}
+    d.body.classList.add('ar-mode');
+    els.forEach(function(el){el.classList.add('in')});
+    enableGyro();
+    startCamera();
+    say('✦ Modo AR activado: mueve tu teléfono');
+  }
+
+  function exitArMode(){
+    arActive=false;
+    d.body.classList.remove('ar-mode');
+    if(arStream){arStream.getTracks().forEach(function(t){t.stop()});arStream=null;}
+    if(arVideo)arVideo.srcObject=null;
+    setArTilt(0,0,0,0);
+    say('Modo editorial restaurado');
+  }
+
+  d.querySelectorAll('[data-toggle-ar]').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      if(arActive)exitArMode();
+      else enterArMode();
+    });
+  });
+
+  d.querySelectorAll('[data-start-ar]').forEach(function(btn){
+    btn.addEventListener('click',enterArMode);
+  });
+
+  d.querySelectorAll('[data-close-ar-portal]').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      if(arPortal){arPortal.classList.remove('open');arPortal.setAttribute('aria-hidden','true');}
+    });
+  });
+
+  var flipBtn=d.querySelector('[data-ar-flip]');
+  if(flipBtn){
+    flipBtn.addEventListener('click',function(){
+      arFacing=(arFacing==='environment')?'user':'environment';
+      startCamera();
+    });
+  }
+
+  var centerBtn=d.querySelector('[data-ar-center]');
+  if(centerBtn){
+    centerBtn.addEventListener('click',function(){
+      baseBeta=null;baseGamma=null;
+      setArTilt(0,0,0,0);
+      say('Perspectiva 3D centrada');
+    });
+  }
+
+  if(window.location.search.indexOf('ar=1')!==-1||window.location.hash==='#ar'){
+    if(arPortal){arPortal.classList.add('open');arPortal.setAttribute('aria-hidden','false');}
+  }
 })();
 </script>
 </body>

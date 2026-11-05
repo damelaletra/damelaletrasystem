@@ -20,8 +20,12 @@ body{min-height:100svh;display:flex;flex-direction:column;align-items:center;jus
 body::before{content:"";position:absolute;inset:-25%;z-index:-1;transform:rotate(-8deg);pointer-events:none;opacity:.055;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='560' height='88'%3E%3Cg fill='%23f3eee3' font-family='Courier New,Courier,monospace' font-size='24' font-weight='700'%3E%3Ctext x='0' y='32'%3Edame la letra. dame la letra.%3C/text%3E%3Ctext x='-140' y='76'%3Edame la letra. dame la letra. dame la%3C/text%3E%3C/g%3E%3C/svg%3E")}
 .logo{height:28px;width:auto}
-.card{width:min(84vw,56vh,420px);background:#fff;padding:0;box-shadow:8px 8px 0 #ffcc29,-8px -8px 0 #6a4888}
+.mode-tabs{display:inline-flex;border:1px solid rgba(243,238,227,.25);background:rgba(14,10,20,.6)}
+.mode-tab{padding:8px 14px;border:0;background:transparent;color:rgba(243,238,227,.72);font:400 .74rem/1 "Courier Prime",monospace;letter-spacing:.08em;text-transform:uppercase;cursor:pointer}
+.mode-tab.active{background:#ffcc29;color:#0e0a14;font-weight:700}
+.card{width:min(84vw,52vh,400px);background:#fff;padding:0;box-shadow:8px 8px 0 #ffcc29,-8px -8px 0 #6a4888}
 .card svg{display:block;width:100%;height:auto}
+.card svg[hidden]{display:none!important}
 .title{margin:0;font:400 clamp(1.9rem,8.4vw,2.8rem)/.95 "Anton",Impact,sans-serif;text-transform:uppercase;letter-spacing:.01em}
 .title span{color:#ffcc29}
 .url{margin:0;font-size:1rem;letter-spacing:.04em;color:rgba(243,238,227,.78)}
@@ -33,16 +37,43 @@ body::before{content:"";position:absolute;inset:-25%;z-index:-1;transform:rotate
 </head>
 <body>
   <img class="logo" src="/hola/img/dame-la-letra-logo.png" width="1102" height="161" alt="Dame la Letra">
-  <p class="title">Escanea y <span>hablemos.</span></p>
-  <div class="card" role="img" aria-label="Código QR hacia damelaletra.com/hola">__QR_SVG__</div>
-  <p class="url">damelaletra.com/hola</p>
+  <p class="title" id="qr-title">Escanea y <span>hablemos.</span></p>
+  <div class="mode-tabs" role="tablist" aria-label="Modo del código QR">
+    <button class="mode-tab active" type="button" data-qr-mode="ar">✦ QR Flotando en AR</button>
+    <button class="mode-tab" type="button" data-qr-mode="std">QR Tarjeta Normal</button>
+  </div>
+  <div class="card" role="img" aria-label="Código QR hacia damelaletra.com/hola">__QR_SVG____QR_AR_SVG__</div>
+  <p class="url" id="qr-url">damelaletra.com/hola?ar=1</p>
   <div class="actions">
+    <a href="/hola/?ar=1" id="qr-open">Probar modo AR</a>
     <a href="/hola/">Ver la tarjeta</a>
-    <a href="/hola/qr/dame-la-letra-qr.png" download>Descargar QR</a>
+    <a href="/hola/qr/dame-la-letra-qr-ar.png" id="qr-dl" download>Descargar QR</a>
   </div>
   <p class="awake" aria-live="polite"></p>
 <script>
 (function(){
+  var std=document.getElementById('qr-std'), ar=document.getElementById('qr-ar'),
+      urlEl=document.getElementById('qr-url'), dlEl=document.getElementById('qr-dl'),
+      titleEl=document.getElementById('qr-title'), tabs=document.querySelectorAll('[data-qr-mode]');
+  function setMode(m){
+    tabs.forEach(function(t){t.classList.toggle('active',t.getAttribute('data-qr-mode')===m)});
+    if(m==='ar'){
+      if(std)std.hidden=true;
+      if(ar)ar.hidden=false;
+      if(urlEl)urlEl.textContent='damelaletra.com/hola?ar=1';
+      if(dlEl)dlEl.href='/hola/qr/dame-la-letra-qr-ar.png';
+      if(titleEl)titleEl.innerHTML='Escanea y <span>flota en AR.</span>';
+    }else{
+      if(std)std.hidden=false;
+      if(ar)ar.hidden=true;
+      if(urlEl)urlEl.textContent='damelaletra.com/hola';
+      if(dlEl)dlEl.href='/hola/qr/dame-la-letra-qr.png';
+      if(titleEl)titleEl.innerHTML='Escanea y <span>hablemos.</span>';
+    }
+  }
+  tabs.forEach(function(t){t.addEventListener('click',function(){setMode(t.getAttribute('data-qr-mode'))})});
+  setMode('ar');
+
   var lock=null, msg=document.querySelector('.awake');
   function req(){ if(!('wakeLock' in navigator)) return;
     navigator.wakeLock.request('screen').then(function(l){lock=l;msg.textContent='Pantalla activa mientras muestras el QR';l.addEventListener('release',function(){msg.textContent=''})}).catch(function(){});

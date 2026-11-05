@@ -47,7 +47,16 @@ let qrSvg = await QRCode.toString(cfg.url, { ...qrOpts, type: 'svg' });
 qrSvg = qrSvg.replace('<?xml version="1.0" encoding="utf-8"?>', '').trim();
 await QRCode.toFile(path.join(OUT, 'qr', 'dame-la-letra-qr.png'), cfg.url, { ...qrOpts, width: 1200 });
 fs.writeFileSync(path.join(OUT, 'qr', 'dame-la-letra-qr.svg'), qrSvg.replace('<svg ', '<svg width="300" height="300" '));
-let qrHtml = fs.readFileSync(path.join(HERE, 'qr.template.html'), 'utf8').replace('__QR_SVG__', qrSvg.replace('<svg ', '<svg aria-hidden="true" focusable="false" '));
+
+const arUrl = `${cfg.url}?ar=1`;
+let qrArSvg = await QRCode.toString(arUrl, { ...qrOpts, type: 'svg' });
+qrArSvg = qrArSvg.replace('<?xml version="1.0" encoding="utf-8"?>', '').trim();
+await QRCode.toFile(path.join(OUT, 'qr', 'dame-la-letra-qr-ar.png'), arUrl, { ...qrOpts, width: 1200 });
+fs.writeFileSync(path.join(OUT, 'qr', 'dame-la-letra-qr-ar.svg'), qrArSvg.replace('<svg ', '<svg width="300" height="300" '));
+
+let qrHtml = fs.readFileSync(path.join(HERE, 'qr.template.html'), 'utf8')
+  .replace('__QR_SVG__', qrSvg.replace('<svg ', '<svg id="qr-std" aria-hidden="true" focusable="false" '))
+  .replace('__QR_AR_SVG__', qrArSvg.replace('<svg ', '<svg id="qr-ar" hidden aria-hidden="true" focusable="false" '));
 fs.writeFileSync(path.join(OUT, 'qr', 'index.html'), qrHtml);
 
 // ---------- icons (DL monogram from the brand blackletter) ----------
