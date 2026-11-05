@@ -163,9 +163,9 @@ body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:100;op
 .hchap:hover{color:var(--letra)}
 
 /* ---------- marquee bands ---------- */
-.band-wrap{overflow:hidden;padding:28px 0;margin:-28px 0;position:relative;z-index:4}
-.band{display:flex;width:max-content;margin-left:-2vw;padding:14px 0;transform:rotate(-2.4deg);background:var(--letra);color:var(--ink);font:400 clamp(1.5rem,5.4vw,3rem)/1 var(--display);text-transform:uppercase;letter-spacing:.01em;white-space:nowrap}
-.band.alt{background:var(--violeta);color:var(--paper);transform:rotate(1.8deg)}
+.band-wrap{overflow:visible;padding:26px 0;margin:0;position:relative;z-index:4}
+.band{display:flex;width:max-content;margin-left:-2vw;padding:14px 0;transform:rotate(-2.4deg);transform-origin:50vw 50%;background:var(--letra);color:var(--ink);font:400 clamp(1.5rem,5.4vw,3rem)/1 var(--display);text-transform:uppercase;letter-spacing:.01em;white-space:nowrap}
+.band.alt{background:var(--violeta);color:var(--paper);transform:rotate(1.8deg);transform-origin:50vw 50%}
 .band-track{display:flex;flex:none;animation:marquee 26s linear infinite}
 .band.alt .band-track{animation-direction:reverse;animation-duration:30s}
 .band-track span{display:inline-flex;align-items:center;gap:.5em;padding-right:.5em}
@@ -179,13 +179,11 @@ body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:100;op
 .logo-rail-btn{padding:6px 12px;border:1px solid var(--line);background:transparent;color:var(--letra);font:400 .72rem/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:border-color .2s,background-color .2s,color .2s}
 .logo-rail-btn:hover{border-color:var(--letra);background:var(--letra);color:var(--ink)}
 .logo-rail-track-wrap{display:flex;width:max-content;cursor:pointer;touch-action:pan-y}
-.logo-rail-track{display:flex;align-items:center;gap:clamp(32px,6vw,72px);padding-right:clamp(32px,6vw,72px);animation:marquee 16s linear infinite}
+.logo-rail-track{display:flex;align-items:center;gap:clamp(36px,6.5vw,84px);padding-right:clamp(36px,6.5vw,84px);animation:marquee 18s linear infinite}
 .logo-rail.paused .logo-rail-track{animation-play-state:paused!important}
-.logo-item{flex:none;display:inline-flex;align-items:center;gap:12px;opacity:.86;transition:opacity .2s,transform .2s}
+.logo-item{flex:none;display:inline-flex;align-items:center;justify-content:center;opacity:.9;transition:opacity .2s,transform .2s}
 .logo-item:hover{opacity:1;transform:translateY(-2px)}
-.logo-item img{height:34px;width:auto;max-width:130px;object-fit:contain}
-.logo-item span{font:400 1.35rem/1 var(--display);letter-spacing:.03em;text-transform:uppercase;color:var(--paper)}
-.logo-item small{font:400 .68rem/1 var(--mono);color:var(--letra);letter-spacing:.08em;text-transform:uppercase}
+.logo-item img{height:38px;width:auto;max-width:154px;object-fit:contain;filter:drop-shadow(0 2px 10px rgba(0,0,0,.4))}
 
 /* ---------- services (Lo que hacemos) ---------- */
 .svc{list-style:none;margin:clamp(44px,7vw,88px) 0 0;padding:0;border-top:1px solid var(--line)}
@@ -337,10 +335,22 @@ body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:100;op
 .stage-showcase{display:grid;gap:22px}
 .stage-main-video{border:1px solid var(--line);background:#07050a;box-shadow:10px 10px 0 var(--violeta)}
 .stage-main-video video{width:100%;max-height:70svh;object-fit:contain;margin:0 auto}
+.stage-iframe-wrap{position:relative;width:100%;height:clamp(420px,65svh,640px);border:1px solid var(--letra);background:#0f1319;box-shadow:10px 10px 0 var(--violeta)}
+.stage-iframe-wrap iframe{width:100%;height:100%;border:0;display:block}
 .stage-sec-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px}
+.stage-sec-grid.mob-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
 .stage-sec-item{margin:0}
 .stage-sec-item img,.stage-sec-item video{width:100%;height:auto;border:1px solid var(--line);background:var(--ink2);box-shadow:6px 6px 0 var(--ink)}
 .stage-sec-item figcaption{margin-top:8px;font:400 .72rem/1.3 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--letra)}
+.tzel-console{border:1px solid rgba(16,185,129,.45);background:#070b14;padding:18px;box-shadow:10px 10px 0 var(--ink);font:400 .78rem/1.55 var(--mono);color:#cbd5e1}
+.tzel-head{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;padding-bottom:12px;margin-bottom:14px;border-bottom:1px solid rgba(255,255,255,.1)}
+.tzel-badge{display:inline-flex;align-items:center;gap:8px;color:#10b981;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+.tzel-badge::before{content:"";width:8px;height:8px;border-radius:50%;background:#10b981;box-shadow:0 0 10px #10b981}
+.tzel-run{padding:6px 12px;border:1px solid #10b981;background:rgba(16,185,129,.14);color:#10b981;font:700 .72rem/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;cursor:pointer}
+.tzel-run:hover{background:#10b981;color:#070b14}
+.tzel-log{margin:0;padding:0;list-style:none;display:grid;gap:8px}
+.tzel-log li{padding:8px 10px;background:rgba(15,23,42,.85);border-left:2px solid #10b981}
+.tzel-log b{color:var(--letra);font-weight:400}
 
 /* ---------- High-Res Blueprint Lightbox ---------- */
 .sheet-modal{position:fixed;inset:0;z-index:130;background:rgba(10,7,15,.95);display:flex;flex-direction:column;opacity:0;pointer-events:none;transition:opacity .25s}
@@ -488,44 +498,40 @@ body.modal-open .fab{transform:translateY(160%)!important}
 </div>
 <p class="sr-only">Pensamos diferente. Creamos con intención. Hacemos que las ideas sucedan.</p>
 
-<!-- FAST TOUCH/CLICK-PAUSABLE CLIENT LOGO MARQUEE -->
-<section class="logo-rail" id="marcas" aria-label="Marcas y proyectos">
+<!-- FAST TOUCH/CLICK-PAUSABLE CLIENT LOGO MARQUEE (SOLO LOGOS) -->
+<section class="logo-rail" id="marcas" aria-label="Logos de marcas y proyectos">
   <div class="logo-rail-head">
     <p class="logo-rail-meta"><b>Marcas &amp; Sistemas</b> / Toca o mantén presionado para detener</p>
     <button class="logo-rail-btn" type="button" data-marquee-btn aria-pressed="false">Detener</button>
   </div>
   <div class="logo-rail-track-wrap" data-marquee>
     <div class="logo-rail-track">
-      <div class="logo-item"><img src="/hola/img/dame-la-letra-logo.png" alt="Dame la Letra" width="120" height="22"></div>
-      <div class="logo-item"><img src="/hola/img/logos/zhomes.webp" alt="ZHomes" width="96" height="34"><span>ZHomes</span></div>
-      <div class="logo-item"><img src="/hola/img/logos/barba.webp" alt="Barba Construction" width="96" height="34"><span>Barba Construction</span></div>
-      <div class="logo-item"><img src="/hola/img/logos/clover-jewelry.webp" alt="Clover Jewelry" width="96" height="34"><span>Clover Jewelry</span></div>
-      <div class="logo-item"><img src="/hola/img/logos/tri-lion.webp" alt="Tri-Lion Academy" width="96" height="34"><span>Tri-Lion Academy</span></div>
-      <div class="logo-item"><img src="/hola/img/logos/edward.webp" alt="Edward Siding" width="96" height="34"><span>Edward Siding</span></div>
-      <div class="logo-item"><img src="/hola/img/logos/pool-extended.webp" alt="Pool Extended" width="110" height="34"><span>Pool Extended</span></div>
-      <div class="logo-item"><img src="/hola/img/logos/tzel.webp" alt="Tzel" width="84" height="34"><span>Tzel</span></div>
-      <div class="logo-item"><span>Ely’s Charcuterie</span><small>Branding</small></div>
-      <div class="logo-item"><span>La Bonita Jewelry</span><small>E-Commerce</small></div>
-      <div class="logo-item"><span>Lucky Shaker</span><small>3D &amp; Web</small></div>
-      <div class="logo-item"><span>New Era Real Estate</span><small>Brokerage</small></div>
-      <div class="logo-item"><span>DPhotography Studios</span><small>Cinema</small></div>
-      <div class="logo-item"><span>Prime Stone Builders</span><small>Spatial UI</small></div>
+      <div class="logo-item"><img src="/hola/img/dame-la-letra-logo.png" alt="Dame la Letra" width="132" height="24"></div>
+      <div class="logo-item"><img src="/hola/img/logos/elys.webp" alt="Ely’s Charcuterie" width="124" height="38"></div>
+      <div class="logo-item"><img src="/hola/img/logos/lucky-shaker.webp" alt="Lucky Shaker" width="118" height="38"></div>
+      <div class="logo-item"><img src="/hola/img/logos/dphotography.webp" alt="DPhotography Studios" width="118" height="38"></div>
+      <div class="logo-item"><img src="/hola/img/logos/la-bonita.webp" alt="La Bonita Jewelry" width="124" height="38"></div>
+      <div class="logo-item"><img src="/hola/img/logos/new-era.webp" alt="New Era Real Estate" width="124" height="38"></div>
+      <div class="logo-item"><img src="/hola/img/logos/zhomes.webp" alt="ZHomes" width="106" height="38"></div>
+      <div class="logo-item"><img src="/hola/img/logos/barba.webp" alt="Barba Construction" width="106" height="38"></div>
+      <div class="logo-item"><img src="/hola/img/logos/tzel.webp" alt="Tzel" width="92" height="38"></div>
+      <div class="logo-item"><img src="/hola/img/logos/clover-jewelry.webp" alt="Clover Jewelry" width="106" height="38"></div>
+      <div class="logo-item"><img src="/hola/img/logos/edward.webp" alt="Edward Siding" width="106" height="38"></div>
+      <div class="logo-item"><img src="/hola/img/logos/pool-extended.webp" alt="Pool Extended" width="120" height="38"></div>
     </div>
     <div class="logo-rail-track" aria-hidden="true">
-      <div class="logo-item"><img src="/hola/img/dame-la-letra-logo.png" alt="" width="120" height="22"></div>
-      <div class="logo-item"><img src="/hola/img/logos/zhomes.webp" alt="" width="96" height="34"><span>ZHomes</span></div>
-      <div class="logo-item"><img src="/hola/img/logos/barba.webp" alt="" width="96" height="34"><span>Barba Construction</span></div>
-      <div class="logo-item"><img src="/hola/img/logos/clover-jewelry.webp" alt="" width="96" height="34"><span>Clover Jewelry</span></div>
-      <div class="logo-item"><img src="/hola/img/logos/tri-lion.webp" alt="" width="96" height="34"><span>Tri-Lion Academy</span></div>
-      <div class="logo-item"><img src="/hola/img/logos/edward.webp" alt="" width="96" height="34"><span>Edward Siding</span></div>
-      <div class="logo-item"><img src="/hola/img/logos/pool-extended.webp" alt="" width="110" height="34"><span>Pool Extended</span></div>
-      <div class="logo-item"><img src="/hola/img/logos/tzel.webp" alt="" width="84" height="34"><span>Tzel</span></div>
-      <div class="logo-item"><span>Ely’s Charcuterie</span><small>Branding</small></div>
-      <div class="logo-item"><span>La Bonita Jewelry</span><small>E-Commerce</small></div>
-      <div class="logo-item"><span>Lucky Shaker</span><small>3D &amp; Web</small></div>
-      <div class="logo-item"><span>New Era Real Estate</span><small>Brokerage</small></div>
-      <div class="logo-item"><span>DPhotography Studios</span><small>Cinema</small></div>
-      <div class="logo-item"><span>Prime Stone Builders</span><small>Spatial UI</small></div>
+      <div class="logo-item"><img src="/hola/img/dame-la-letra-logo.png" alt="" width="132" height="24"></div>
+      <div class="logo-item"><img src="/hola/img/logos/elys.webp" alt="" width="124" height="38"></div>
+      <div class="logo-item"><img src="/hola/img/logos/lucky-shaker.webp" alt="" width="118" height="38"></div>
+      <div class="logo-item"><img src="/hola/img/logos/dphotography.webp" alt="" width="118" height="38"></div>
+      <div class="logo-item"><img src="/hola/img/logos/la-bonita.webp" alt="" width="124" height="38"></div>
+      <div class="logo-item"><img src="/hola/img/logos/new-era.webp" alt="" width="124" height="38"></div>
+      <div class="logo-item"><img src="/hola/img/logos/zhomes.webp" alt="" width="106" height="38"></div>
+      <div class="logo-item"><img src="/hola/img/logos/barba.webp" alt="" width="106" height="38"></div>
+      <div class="logo-item"><img src="/hola/img/logos/tzel.webp" alt="" width="92" height="38"></div>
+      <div class="logo-item"><img src="/hola/img/logos/clover-jewelry.webp" alt="" width="106" height="38"></div>
+      <div class="logo-item"><img src="/hola/img/logos/edward.webp" alt="" width="106" height="38"></div>
+      <div class="logo-item"><img src="/hola/img/logos/pool-extended.webp" alt="" width="120" height="38"></div>
     </div>
   </div>
 </section>
@@ -555,8 +561,8 @@ body.modal-open .fab{transform:translateY(160%)!important}
         <li class="svc-item" data-reveal>
           <span class="svc-n">03</span>
           <h3 class="svc-t">Software <span class="amp">&amp;</span> Automatización</h3>
-          <p class="svc-d">Sistemas internos, CRMs de construcción, estimadores con IA y motores propios para operar y escalar negocios reales.</p>
-          <p class="svc-proof">Explorar en <a href="#mas-sistemas">ZHomes</a> · <a href="#mas-sistemas">Barba CRM</a> · <a href="#mas-sistemas">My Chief CAD</a></p>
+          <p class="svc-d">Sistemas internos, CRMs de construcción, radares inmobiliarios con IA y motores propios para operar y escalar negocios reales.</p>
+          <p class="svc-proof">Explorar en <a href="#mas-sistemas">ZHomes</a> · <a href="#mas-sistemas">Barba CRM</a> · <a href="#mas-sistemas">My Chief CAD</a> · <a href="#mas-sistemas">Tzel</a></p>
         </li>
         <li class="svc-item" data-reveal>
           <span class="svc-n">04</span>
@@ -581,12 +587,12 @@ body.modal-open .fab{transform:translateY(160%)!important}
         <button class="proj-media" type="button" data-open-stage="elys" aria-label="Explorar experiencia de Ely’s Charcuterie">
           <span class="proj-num">01</span>
           <video class="m-main" muted loop playsinline preload="none" poster="/hola/media/elys-poster.jpg" data-loop-src="/hola/media/elys-loop.mp4" width="480" height="854"></video>
-          <img class="m-sub" src="/hola/img/elys-cards-640.webp" srcset="/hola/img/elys-cards-640.webp 640w, /hola/img/elys-cards-1100.webp 1100w" sizes="(min-width:980px) 34vw, 58vw" width="640" height="478" alt="Tarjetas de presentación Ely’s Charcuterie" loading="lazy" decoding="async">
+          <img class="m-sub tall" src="/hola/img/elys-bag-480.webp" srcset="/hola/img/elys-bag-480.webp 480w, /hola/img/elys-bag-820.webp 820w" sizes="(min-width:980px) 22vw, 38vw" width="480" height="853" alt="Bolsa boutique y grazing cups con logo Ely’s Charcuterie" loading="lazy" decoding="async">
         </button>
         <div class="proj-body">
           <p class="proj-meta"><span>Branding</span><span>Identidad</span><span>Reel &amp; Web</span></p>
           <h3 class="proj-t">Ely’s Charcuterie</h3>
-          <p class="proj-d">Identidad completa para un atelier de charcutería en Louisville — logotipo, isotipo de rosa en burgundy y oro, papelería impresa, reel de revelación de marca y catálogo digital con pedidos por WhatsApp.</p>
+          <p class="proj-d">Identidad completa para un atelier de charcutería en Louisville — logotipo, isotipo de rosa en burgundy y oro, bolsa boutique, grazing cups, reel de revelación de marca y catálogo digital con pedidos por WhatsApp.</p>
           <div class="proj-links">
             <button class="proj-link" type="button" data-open-stage="elys">Abrir experiencia <small>reel + rosas + diseño +</small></button>
             <a class="proj-link ext" href="https://charcuterieelys-byte.github.io/website/" target="_blank" rel="noopener">Sitio en vivo <small>↗</small></a>
@@ -690,12 +696,12 @@ body.modal-open .fab{transform:translateY(160%)!important}
         <button class="proj-media" type="button" data-open-stage="lucky" aria-label="Explorar experiencia interactiva de Lucky Shaker">
           <span class="proj-num">01</span>
           <video class="m-main" muted loop playsinline preload="none" poster="/hola/media/lucky-poster.jpg" data-loop-src="/hola/media/lucky-loop.mp4" width="480" height="854"></video>
-          <img class="m-sub tall" src="/hola/img/lucky-3d-420.webp" srcset="/hola/img/lucky-3d-420.webp 420w, /hola/img/lucky-3d-720.webp 720w" sizes="(min-width:980px) 22vw, 38vw" width="420" height="583" alt="Botella 3D Lucky Shaker" loading="lazy" decoding="async">
+          <img class="m-sub tall" src="/hola/img/lucky-can-480.webp" srcset="/hola/img/lucky-can-480.webp 480w, /hola/img/lucky-can-820.webp 820w" sizes="(min-width:980px) 22vw, 38vw" width="480" height="853" alt="Lata Piña Colada Lucky Shaker con frutas flotando" loading="lazy" decoding="async">
         </button>
         <div class="proj-body">
           <p class="proj-meta"><span>E-commerce</span><span>3D de producto</span><span>Cinemática 60fps</span></p>
           <h3 class="proj-t">Lucky Shaker</h3>
-          <p class="proj-d">Tienda Shopify para cócteles embotellados y servicio de bartending móvil, con producto modelado en 3D, secuencias a 60fps e ingredientes flotando en pantalla.</p>
+          <p class="proj-d">Tienda Shopify para cócteles artesanales en lata y barra móvil, con secuencias reales a 60fps e ingredientes flotando con profundidad de campo en pantalla.</p>
           <div class="proj-links">
             <button class="proj-link" type="button" data-open-stage="lucky">Abrir experiencia <small>frutas flotando + video 60fps +</small></button>
             <a class="proj-link ext" href="https://luckyshakersupply.com/" target="_blank" rel="noopener">luckyshakersupply.com <small>↗</small></a>
@@ -707,15 +713,15 @@ body.modal-open .fab{transform:translateY(160%)!important}
       <article class="proj" id="p-newera" data-reveal>
         <button class="proj-media" type="button" data-open-stage="newera" aria-label="Explorar experiencia interactiva de New Era Real Estate">
           <span class="proj-num">02</span>
-          <video class="m-main" muted loop playsinline preload="none" poster="/hola/media/newera-poster.jpg" data-loop-src="/hola/media/newera-loop.mp4" width="480" height="854"></video>
-          <img class="m-sub" src="/hola/img/newera-d-640.webp" srcset="/hola/img/newera-d-640.webp 640w, /hola/img/newera-d-1100.webp 1100w" sizes="(min-width:980px) 34vw, 58vw" width="640" height="315" alt="Plataforma New Era Real Estate" loading="lazy" decoding="async">
+          <img class="m-main" src="/hola/img/newera-m-480.webp" srcset="/hola/img/newera-m-480.webp 480w, /hola/img/newera-m-820.webp 820w" sizes="(min-width:980px) 36vw, 64vw" width="480" height="831" alt="Sitio web New Era Real Estate en vista mobile" loading="lazy" decoding="async">
+          <img class="m-sub" src="/hola/img/newera-d-640.webp" srcset="/hola/img/newera-d-640.webp 640w, /hola/img/newera-d-1100.webp 1100w" sizes="(min-width:980px) 34vw, 58vw" width="640" height="315" alt="Plataforma New Era Real Estate Desktop" loading="lazy" decoding="async">
         </button>
         <div class="proj-body">
-          <p class="proj-meta"><span>Web Interactiva</span><span>Suite IA (ARM)</span><span>Patrón SVG Vivo</span></p>
+          <p class="proj-meta"><span>Web Interactiva</span><span>Patrón SVG Vivo</span><span>Suite IA (ARM)</span></p>
           <h3 class="proj-t">New Era Real Estate</h3>
-          <p class="proj-d">Plataforma inmobiliaria bilingüe y suite de automatización omnicanal en Kentucky: mapa interactivo, directorio de agentes y su característico patrón arquitectónico SVG haciendo destellos en vivo.</p>
+          <p class="proj-d">Plataforma inmobiliaria bilingüe y suite de automatización omnicanal en Kentucky: experiencia web mobile y desktop, mapa interactivo, patrón arquitectónico SVG haciendo destellos en vivo y el motor de IA ARM.</p>
           <div class="proj-links">
-            <button class="proj-link" type="button" data-open-stage="newera">Abrir experiencia <small>patrón SVG con destellos + demo IA +</small></button>
+            <button class="proj-link" type="button" data-open-stage="newera">Abrir experiencia <small>web mobile + patrón SVG + suite IA +</small></button>
             <a class="proj-link ext" href="https://www.neweraky.com/" target="_blank" rel="noopener">neweraky.com <small>↗</small></a>
           </div>
         </div>
@@ -725,13 +731,13 @@ body.modal-open .fab{transform:translateY(160%)!important}
       <article class="proj" id="p-labonita" data-reveal>
         <button class="proj-media" type="button" data-open-stage="labonita" aria-label="Explorar tienda de La Bonita Jewelry">
           <span class="proj-num">03</span>
-          <video class="m-main" muted loop playsinline preload="none" poster="/hola/media/labonita-marble-poster.jpg" data-loop-src="/hola/media/labonita-marble-loop.mp4" width="480" height="854"></video>
+          <video class="m-main" muted loop playsinline preload="none" poster="/hola/media/labonita-reimagined-poster.jpg" data-loop-src="/hola/media/labonita-reimagined-loop.mp4" width="480" height="854"></video>
           <img class="m-sub" src="/hola/img/labonita-m-480.webp" srcset="/hola/img/labonita-m-480.webp 480w, /hola/img/labonita-m-820.webp 820w" sizes="(min-width:980px) 24vw, 42vw" width="480" height="831" alt="La Bonita Jewelry Mobile" loading="lazy" decoding="async" style="width:42%">
         </button>
         <div class="proj-body">
           <p class="proj-meta"><span>E-commerce</span><span>Shopify a medida</span><span>Calculadora de Oro</span></p>
           <h3 class="proj-t">La Bonita Jewelry</h3>
-          <p class="proj-d">Tema Shopify a medida para joyería de oro 10K y 14K: escultura 3D en el hero, catálogo con filtros, combos promocionales, financiamiento y calculadora de compra de oro conectada al precio del día.</p>
+          <p class="proj-d">Tema Shopify a medida para joyería de oro 10K y 14K: escultura 3D en mármol, catálogo con filtros, combos promocionales, financiamiento y calculadora de compra de oro conectada al precio del día.</p>
           <div class="proj-links">
             <button class="proj-link" type="button" data-open-stage="labonita">Abrir experiencia <small>tienda + calculadora +</small></button>
             <a class="proj-link ext" href="https://www.labonitajewelry.com/" target="_blank" rel="noopener">labonitajewelry.com <small>↗</small></a>
@@ -756,15 +762,15 @@ body.modal-open .fab{transform:translateY(160%)!important}
         </div>
       </article>
 
-      <!-- Y TAMBIÉN: ZHOMES, BARBA CRM, MY CHIEF CAD, TRI-LION ACADEMY -->
+      <!-- Y TAMBIÉN: ZHOMES, BARBA CRM, MY CHIEF CAD, TZEL -->
       <div class="more" id="mas-sistemas" data-reveal>
         <p class="label"><b>+</b> Software propio, SaaS &amp; plataformas en línea</p>
         <ul class="more-list">
           <li>
             <button class="more-card" type="button" data-open-stage="zhomes">
-              <video muted loop playsinline preload="none" poster="/hola/media/zhomes-poster.jpg" data-loop-src="/hola/media/zhomes-loop.mp4"></video>
+              <img src="/hola/img/zhomes-mob-1.webp" width="600" height="1298" alt="ZHomes App en Vista Mobile" loading="lazy" decoding="async">
               <span class="more-t">ZHomes</span>
-              <span class="more-d">App inmobiliaria · Ver video y plataforma +</span>
+              <span class="more-d">App inmobiliaria · Capturas en vista mobile +</span>
             </button>
           </li>
           <li>
@@ -775,18 +781,18 @@ body.modal-open .fab{transform:translateY(160%)!important}
             </button>
           </li>
           <li>
-            <button class="more-card" type="button" data-open-stage="software">
-              <img src="/hola/img/plan-mychief-details-720.webp" width="720" height="557" alt="My Chief Motor CAD en Python" loading="lazy" decoding="async" style="background:#fff;object-fit:contain;padding:8px">
+            <button class="more-card" type="button" data-open-stage="mychief">
+              <img src="/hola/img/mayor-3d-vec.webp" width="1200" height="776" alt="My Chief CAD — Proyecto del Alcalde en 3D" loading="lazy" decoding="async" style="background:#f2f5f8;object-fit:cover;object-position:center">
               <span class="more-t">My Chief CAD</span>
-              <span class="more-d">Motor en Python generador de planos IRC +</span>
+              <span class="more-d">Visor 3D interactivo · Proyecto del Alcalde +</span>
             </button>
           </li>
           <li>
-            <a class="more-card" href="https://trilionacademy.com/" target="_blank" rel="noopener">
-              <img src="/hola/img/trilion-m-360.webp" srcset="/hola/img/trilion-m-360.webp 360w, /hola/img/trilion-m-600.webp 600w" sizes="(min-width:700px) 280px, 45vw" width="360" height="623" alt="Tri-Lion Academy" loading="lazy" decoding="async">
-              <span class="more-t">Tri-Lion Academy</span>
-              <span class="more-d">Web · Reservas y membresías ↗</span>
-            </a>
+            <button class="more-card" type="button" data-open-stage="tzel">
+              <img src="/hola/img/tzel-card.webp" width="600" height="800" alt="Tzel — Radar Inmobiliario Pre-Foreclosure &amp; GIS" loading="lazy" decoding="async">
+              <span class="more-t">Tzel</span>
+              <span class="more-d">Radar pre-foreclosure, GIS &amp; alertas IA +</span>
+            </button>
           </li>
         </ul>
       </div>
@@ -1051,29 +1057,29 @@ body.modal-open .fab{transform:translateY(160%)!important}
   /* 4. Bespoke Project Stage & Perimeter Depth-of-Field FX */
   var STAGES={
     lucky:{
-      kicker:'01 / E-Commerce · 3D de Producto · Cinemática 60fps',
+      kicker:'01 / E-Commerce · Latas & Barra Móvil · Cinemática 60fps',
       title:'Lucky Shaker',
-      desc:'Tienda Shopify y dirección creativa para cócteles embotellados y servicio de barra móvil. Modelamos cada botella en 3D, rodamos secuencias reales a 60fps para mobile y desktop, y programamos los ingredientes flotando con profundidad de campo.',
+      desc:'Tienda Shopify y dirección creativa para cócteles artesanales en lata y servicio de barra móvil. Rodamos secuencias reales a 60fps para mobile y desktop, y programamos los ingredientes flotando con profundidad de campo.',
       fx:'fruits',
       fxBtn:'Agitar ingredientes en escena',
       mainVideo:{src:'/hola/media/lucky.mp4',poster:'/hola/media/lucky-poster.jpg',muted:true},
       secondary:[
         {type:'video',src:'/hola/media/lucky-desk.mp4',poster:'/hola/media/lucky-desk-poster.jpg',caption:'Secuencia Desktop 16:9 a 60fps'},
-        {type:'img',src:'/hola/img/lucky-3d-720.webp',caption:'Modelado & Render 3D de Producto'}
+        {type:'img',src:'/hola/img/lucky-can-820.webp',caption:'Presentación en Lata · Piña Colada & Frutas Reales'}
       ],
       url:'https://luckyshakersupply.com/',
       urlLabel:'Visitar luckyshakersupply.com ↗'
     },
     newera:{
-      kicker:'02 / Plataforma Inmobiliaria · Suite IA · Patrón SVG',
+      kicker:'02 / Plataforma Inmobiliaria · Patrón SVG · Suite IA',
       title:'New Era Real Estate',
-      desc:'Correduría inmobiliaria bilingüe en Kentucky acompañada de la suite de automatización omnicanal ARM. El patrón geométrico hexagonal en SVG recorre el fondo dibujando destellos dorados en vivo tal como en su plataforma.',
+      desc:'Correduría inmobiliaria bilingüe en Kentucky. Arriba puedes ver su plataforma web en vista mobile y desktop con el patrón geométrico hexagonal en SVG haciendo destellos dorados en vivo, y al final su suite de automatización omnicanal con IA (ARM).',
       fx:'newera',
       fxBtn:'Lanzar destellos en el patrón SVG',
-      mainVideo:{src:'/hola/media/newera-demo.mp4',poster:'/hola/media/newera-demo-poster.jpg',muted:false},
+      leadImg:{src:'/hola/img/newera-m-820.webp',caption:'01 / Sitio Web Oficial en Vista Mobile · neweraky.com'},
       secondary:[
-        {type:'video',src:'/hola/media/newera-loop.mp4',poster:'/hola/media/newera-poster.jpg',caption:'Hero Mobile en Vivo'},
-        {type:'img',src:'/hola/img/newera-d-1100.webp',caption:'Vista Desktop & Mapa de Propiedades'}
+        {type:'img',src:'/hola/img/newera-d-1100.webp',caption:'02 / Plataforma Web Desktop & Mapa de Propiedades'},
+        {type:'video',src:'/hola/media/newera-demo.mp4',poster:'/hola/media/newera-demo-poster.jpg',caption:'03 / Software de IA Omnicanal · Suite ARM'}
       ],
       url:'https://www.neweraky.com/',
       urlLabel:'Visitar neweraky.com ↗'
@@ -1081,12 +1087,12 @@ body.modal-open .fab{transform:translateY(160%)!important}
     elys:{
       kicker:'01 / Branding · Packaging · Sitio Web & Reel',
       title:'Ely’s Charcuterie',
-      desc:'Sistema de identidad completo para un atelier de charcutería en Louisville: logotipo, isotipo de rosa en burgundy y dorado, tarjetas impresas, reel de revelación y sitio web bilingüe con pedidos por WhatsApp.',
+      desc:'Sistema de identidad completo para un atelier de charcutería en Louisville: logotipo, isotipo de rosa en burgundy y dorado, bolsa boutique y grazing cups, reel de revelación y sitio web bilingüe con pedidos por WhatsApp.',
       fx:'roses',
       fxBtn:'Animar emblemas de rosa',
       mainVideo:{src:'/hola/media/elys.mp4',poster:'/hola/media/elys-poster.jpg',muted:true},
       secondary:[
-        {type:'img',src:'/hola/img/elys-cards-1100.webp',caption:'Tarjetas de Presentación & Papelería'},
+        {type:'img',src:'/hola/img/elys-bag-820.webp',caption:'Bolsa Boutique & Grazing Cups con Logo en Oro'},
         {type:'img',src:'/hola/img/elys-m-820.webp',caption:'Catálogo Web Mobile'}
       ],
       url:'https://charcuterieelys-byte.github.io/website/',
@@ -1108,10 +1114,10 @@ body.modal-open .fab{transform:translateY(160%)!important}
       desc:'Dirección de arte y tienda Shopify a medida: escultura clásica en mármol, films de campaña, catálogo filtrado por quilataje y calculadora de compra de oro con cotización diaria en tiempo real.',
       fx:'gold',
       fxBtn:'Activar destellos 14K',
-      mainVideo:{src:'/hola/media/labonita-reveal.mp4',poster:'/hola/media/labonita-reveal-poster.jpg',muted:false},
+      mainVideo:{src:'/hola/media/labonita-reimagined.mp4',poster:'/hola/media/labonita-reimagined-poster.jpg',muted:false},
       secondary:[
-        {type:'video',src:'/hola/media/labonita-film.mp4',poster:'/hola/media/labonita-film-poster.jpg',caption:'Luxury Jewelry Art Film'},
-        {type:'img',src:'/hola/img/labonita-d-1100.webp',caption:'Tienda Shopify Desktop'}
+        {type:'video',src:'/hola/media/labonita-reveal.mp4',poster:'/hola/media/labonita-reveal-poster.jpg',caption:'Reel de Revelación · Universo Visual'},
+        {type:'img',src:'/hola/img/labonita-d-1100.webp',caption:'Tienda Shopify & Calculadora de Oro'}
       ],
       url:'https://www.labonitajewelry.com/',
       urlLabel:'Visitar labonitajewelry.com ↗'
@@ -1127,26 +1133,50 @@ body.modal-open .fab{transform:translateY(160%)!important}
       ]
     },
     zhomes:{
-      kicker:'SaaS Inmobiliario · Producto Digital & Contenido',
-      title:'ZHomes Platform',
-      desc:'Ecosistema digital para agentes inmobiliarios y presentación de propiedades, acompañado de dirección audiovisual continua.',
+      kicker:'SaaS Inmobiliario · Nueva Aplicación en Vista Mobile',
+      title:'ZHomes App',
+      desc:'La nueva aplicación inmobiliaria de ZHomes diseñada con navegación móvil tipo Liquid Glass: buscador de propiedades, ZHomes Match interactivo, calculadora de hipotecas en tiempo real, analítica de mercado y directorio de agentes exclusivos.',
       fx:'gold',
-      mainVideo:{src:'/hola/media/zhomes.mp4',poster:'/hola/media/zhomes-poster.jpg',muted:false},
+      gridClass:'mob-grid',
       secondary:[
-        {type:'img',src:'/hola/img/zhomes-m-600.webp',caption:'Aplicación Mobile ZHomes'}
+        {type:'img',src:'/hola/img/zhomes-mob-1.webp',caption:'01 / Inicio, Buscador & ZHomes Match'},
+        {type:'img',src:'/hola/img/zhomes-mob-3.webp',caption:'02 / Calculadora de Hipotecas en Vivo'},
+        {type:'img',src:'/hola/img/zhomes-mob-2.webp',caption:'03 / Analítica de Mercado & Filtros'},
+        {type:'img',src:'/hola/img/zhomes-mob-4.webp',caption:'04 / Directorio de Agentes Exclusivos'}
       ],
       url:'https://zhomesapp.com/',
       urlLabel:'Visitar zhomesapp.com ↗'
     },
     software:{
-      kicker:'Sistemas Propios · Automatización · Ingeniería',
-      title:'Barba CRM & My Chief CAD',
-      desc:'Software interno desarrollado a medida: Barba CRM (gestión de proyectos de construcción, pipeline comercial y estimador con inteligencia artificial) y My Chief (motor en Python que genera planos estructurales bajo normativa IRC).',
+      kicker:'Software Interno · Construcción & Estimación IA',
+      title:'Barba Construction CRM',
+      desc:'Plataforma interna desarrollada a medida para Barba Construction: tablero operativo de obras en curso, estimador inteligente de costos y materiales con IA, y pipeline comercial de extremo a extremo.',
       fx:'newera',
       secondary:[
         {type:'img',src:'/hola/img/barba-crm-board.webp',caption:'Barba CRM · Tablero de Obras'},
-        {type:'img',src:'/hola/img/barba-crm-estimates.webp',caption:'Barba CRM · Estimador & Presupuestos'},
+        {type:'img',src:'/hola/img/barba-crm-estimates.webp',caption:'Barba CRM · Estimador & Presupuestos IA'},
         {type:'img',src:'/hola/img/barba-crm-pipeline.webp',caption:'Barba CRM · Pipeline Comercial'}
+      ]
+    },
+    mychief:{
+      kicker:'Motor CAD & BIM · Vista 3D Interactiva en Vivo',
+      title:'My Chief CAD · Proyecto del Alcalde',
+      desc:'Propuesta arquitectónica y estructural 3D interactiva para el Monumento y Plaza Cívica de la Ciudad de Lynnview. Gira el modelo 360°, alterna entre luz diurna PBR, iluminación LED nocturna de 12V, vista vectorial CAD y modo Rayos-X de cimentaciones (-36"/-60").',
+      fx:'gold',
+      iframe:'/hola/mayor-viewer/index.html',
+      secondary:[
+        {type:'img',src:'/hola/img/mayor-3d-vec.webp',caption:'Vista Vectorial 3D · Chief Architect'},
+        {type:'img',src:'/hola/img/mayor-ca-plan.webp',caption:'Planta Técnica Acotada & Geometría Radial'}
+      ]
+    },
+    tzel:{
+      kicker:'Inteligencia Inmobiliaria · Pre-Foreclosure, GIS & Telegram',
+      title:'Tzel · Distress Radar',
+      desc:'Motor automatizado de inteligencia inmobiliaria en Jefferson County: cruza diariamente expedientes judiciales de pre-foreclosure (Master Commissioner / Lis Pendens), catastro PVA, geometría GIS de LOJIC y comparables ARV de Spark MLS para despachar oportunidades consolidadas por Telegram a las 7:00 AM.',
+      fx:'newera',
+      tzelConsole:true,
+      secondary:[
+        {type:'img',src:'/hola/img/tzel-radar.webp',caption:'Panel de Leads Distress, Spread ARV & Despacho Telegram'}
       ]
     },
     'reel-luxury':{
@@ -1301,6 +1331,56 @@ body.modal-open .fab{transform:translateY(160%)!important}
     stActions.appendChild(wa);
 
     stShowcase.innerHTML='';
+    if(p.leadImg){
+      var lf=d.createElement('figure');
+      lf.className='stage-sec-item';
+      var li=d.createElement('img');
+      li.src=p.leadImg.src;li.alt=p.leadImg.caption||p.title;
+      li.style.maxHeight='68svh';li.style.width='auto';li.style.margin='0 auto';
+      lf.appendChild(li);
+      if(p.leadImg.caption){
+        var lcap=d.createElement('figcaption');
+        lcap.textContent=p.leadImg.caption;
+        lf.appendChild(lcap);
+      }
+      stShowcase.appendChild(lf);
+    }
+    if(p.iframe){
+      var ifw=d.createElement('div');
+      ifw.className='stage-iframe-wrap';
+      var ifr=d.createElement('iframe');
+      ifr.src=p.iframe;
+      ifr.title=p.title;
+      ifr.setAttribute('loading','eager');
+      ifr.setAttribute('allow','fullscreen');
+      ifw.appendChild(ifr);
+      stShowcase.appendChild(ifw);
+    }
+    if(p.tzelConsole){
+      var tc=d.createElement('div');
+      tc.className='tzel-console';
+      tc.innerHTML='<div class="tzel-head"><span class="tzel-badge">TZEL RADAR · CRON 07:00 AM ACTIVO</span><button type="button" class="tzel-run" data-tzel-run>Simular escaneo en vivo</button></div><ul class="tzel-log" id="tzel-log-list"><li><b>[07:00:01]</b> Conectando con Jefferson County PVA &amp; Master Commissioner dockets...</li><li><b>[07:00:03]</b> LOJIC GIS Layer: 4,820 parcelas verificadas (zonificación R-4 / R-5A y sin riesgo de inundación).</li><li><b>[07:00:05]</b> Spark MLS Engine: ARV calculado en radio de 0.5 mi (spread promedio: <b>+38.4% ARV</b>).</li><li><b>[07:00:08]</b> <b>12 Leads Distress</b> de alta prioridad consolidados y enviados al canal de Telegram.</li></ul>';
+      stShowcase.appendChild(tc);
+      var runBtn=tc.querySelector('[data-tzel-run]'), logList=tc.querySelector('#tzel-log-list');
+      if(runBtn&&logList){
+        runBtn.addEventListener('click',function(){
+          var steps=[
+            '<b>[SCAN]</b> Consultando nuevos registros de Lis Pendens y morosidad fiscal en Louisville...',
+            '<b>[GIS]</b> Cruzando polígono parcelario #0482-19 en LOJIC GIS · Lote de 7,400 sqft validado.',
+            '<b>[ARV]</b> Spark MLS Comps: Valor tasado PVA $142,000 vs. ARV estimado $248,500 (+$106,500 spread).',
+            '<b>[OK]</b> Alerta prioritaria despachada vía Telegram Bot con ficha técnica completa.'
+          ];
+          logList.innerHTML='';
+          steps.forEach(function(txt,idx){
+            setTimeout(function(){
+              var li=d.createElement('li');
+              li.innerHTML=txt;
+              logList.appendChild(li);
+            },idx*320);
+          });
+        });
+      }
+    }
     if(p.mainVideo){
       var vw=d.createElement('div');
       vw.className='stage-main-video';
@@ -1316,7 +1396,7 @@ body.modal-open .fab{transform:translateY(160%)!important}
 
     if(p.secondary&&p.secondary.length){
       var sg=d.createElement('div');
-      sg.className='stage-sec-grid';
+      sg.className='stage-sec-grid'+(p.gridClass?' '+p.gridClass:'');
       p.secondary.forEach(function(item){
         var fig=d.createElement('figure');
         fig.className='stage-sec-item';
