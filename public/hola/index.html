@@ -289,7 +289,7 @@ body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:100;op
 .founder-lead mark{background:linear-gradient(transparent 58%,var(--letra) 58%);color:inherit;padding:0 .05em}
 .founder-txt{max-width:46ch;font-size:1.06rem;margin-top:18px}
 .facts{margin:22px 0 0;display:grid;border-top:1px solid rgba(14,10,20,.2)}
-.facts div{display:grid;grid-template-columns:6.8em 1fr;gap:12px;padding:14px 0;border-bottom:1px solid rgba(14,10,20,.2)}
+.facts div{display:grid;grid-template-columns:8.5em 1fr;gap:12px;padding:14px 0;border-bottom:1px solid rgba(14,10,20,.2)}
 .facts dt{font:400 .76rem/1.6 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--violeta-deep)}
 .facts dd{margin:0;font-weight:500}
 .founder-figure{position:relative;margin:12px auto 0;max-width:380px;width:100%}
@@ -301,7 +301,9 @@ body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:100;op
 .contact .label{color:var(--ink)}
 .type-bg{position:absolute;z-index:-1;inset:-30%;transform:rotate(-9deg);pointer-events:none;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='560' height='88'%3E%3Cg fill='%23000' fill-opacity='.06' font-family='Courier New,Courier,monospace' font-size='26' font-weight='700'%3E%3Ctext x='0' y='32'%3Edame la letra. dame la letra.%3C/text%3E%3Ctext x='-140' y='76'%3Edame la letra. dame la letra. dame la%3C/text%3E%3C/g%3E%3C/svg%3E")}
-.contact-t{margin:0;max-width:11ch;font:400 clamp(3.1rem,15.4vw,10.4rem)/.86 var(--display);text-transform:uppercase}
+.contact-t{margin:0;font:400 clamp(3.1rem,14.5vw,9.8rem)/.88 var(--display);text-transform:uppercase}
+.contact-t span{display:block}
+.contact-t .sub-line{font-size:.46em;line-height:1.06;margin:.1em 0;letter-spacing:.04em}
 .contact-copy{margin:24px 0 32px;max-width:32ch;font-size:clamp(1.12rem,1.5vw,1.4rem);line-height:1.45}
 .contact-cta{display:grid;gap:14px;max-width:460px}
 .contact-qr{display:none}
@@ -1068,11 +1070,13 @@ body.modal-open .fab{transform:translateY(160%)!important}
       <div class="founder-grid">
         <div>
           <p class="founder-lead" data-reveal>Una mirada multidisciplinaria que <mark>conecta diseño, negocio, marketing y tecnología.</mark></p>
-          <p class="founder-txt" data-reveal>Dame la Letra es un estudio independiente: quien piensa la estrategia es quien la ejecuta, de la identidad y el video al código y los planos. Sin capas ni teléfono roto — una conversación directa con la persona que va a construir tu proyecto.</p>
+          <p class="founder-txt" data-reveal>Dame la Letra parte de una forma diferente de mirar los negocios: entender que cada desafío puede necesitar una solución distinta y que las mejores ideas muchas veces aparecen al conectar disciplinas que normalmente trabajan por separado.</p>
+          <p class="founder-txt" data-reveal>Un proyecto puede comenzar con una pregunta sobre cómo posicionar una marca y terminar en una identidad visual, una campaña audiovisual, una plataforma digital o un sistema desarrollado desde cero. Lo interesante está en descubrir qué necesita realmente cada proyecto y encontrar la manera de llevarlo más lejos.</p>
+          <p class="founder-txt" data-reveal><strong>Porque las ideas tienen valor cuando encuentran la manera de hacerse realidad.</strong></p>
           <dl class="facts" data-reveal>
             <div><dt>Base</dt><dd>Louisville, Kentucky</dd></div>
-            <div><dt>Cruce</dt><dd>Diseño + video + código + arquitectura 3D</dd></div>
-            <div><dt>Trato</dt><dd>Directo, de principio a fin</dd></div>
+            <div><dt>Cruce</dt><dd>Diseño + marketing + development + arquitectura</dd></div>
+            <div><dt>Comunicación</dt><dd>Siempre preferiblemente en persona</dd></div>
           </dl>
         </div>
 
@@ -1090,7 +1094,11 @@ body.modal-open .fab{transform:translateY(160%)!important}
     <div class="type-bg" aria-hidden="true"></div>
     <div class="wrap">
       <p class="label"><b>08</b> Hablemos</p>
-      <h2 class="contact-t" id="contact-title" lang="en">Good ideas start with a conversation.</h2>
+      <h2 class="contact-t" id="contact-title" lang="en">
+        <span>Good ideas</span>
+        <span class="sub-line">start with a</span>
+        <span>good conversation.</span>
+      </h2>
       <p class="contact-copy">¿Tienes un proyecto, una idea o simplemente quieres explorar posibilidades? Hablemos.</p>
       <div class="contact-cta">
         <a class="btn btn-ink" href="https://wa.me/15026587853?text=Hola%20Miguel%2C%20vi%20la%20tarjeta%20digital%20de%20Dame%20la%20Letra%20y%20me%20gustar%C3%ADa%20conversar%20sobre%20un%20proyecto." target="_blank" rel="noopener" lang="en" data-track="wa-contact">
