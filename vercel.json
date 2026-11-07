@@ -25,16 +25,32 @@
   ],
   "rewrites": [
     {
+      "source": "/",
+      "destination": "/index.html"
+    },
+    {
       "source": "/hola",
       "destination": "/hola/index.html"
+    },
+    {
+      "source": "/qr",
+      "destination": "/hola/qr/index.html"
     },
     {
       "source": "/hola/qr",
       "destination": "/hola/qr/index.html"
     },
     {
+      "source": "/tap",
+      "destination": "/hola/tap/index.html"
+    },
+    {
       "source": "/hola/tap",
       "destination": "/hola/tap/index.html"
+    },
+    {
+      "source": "/tap.apk",
+      "destination": "/hola/damelaletra-tap.apk"
     },
     {
       "source": "/api/(.*)",
@@ -66,7 +82,7 @@
     },
     {
       "source": "/(.*)",
-      "destination": "/public/index.html"
+      "destination": "/index.html"
     }
   ]
 }

@@ -40,6 +40,7 @@ html = html
   .replaceAll('__LD_EXTRA__', ldExtra);
 if (/__[A-Z_]+__/.test(html)) throw new Error('Unreplaced token in index: ' + html.match(/__[A-Z_]+__/)[0]);
 fs.writeFileSync(path.join(OUT, 'index.html'), html);
+fs.writeFileSync(path.resolve(OUT, '..', 'index.html'), html);
 
 // ---------- QR ----------
 const qrOpts = { errorCorrectionLevel: 'M', margin: 4, color: { dark: '#000000', light: '#ffffff' } };
@@ -48,7 +49,7 @@ qrSvg = qrSvg.replace('<?xml version="1.0" encoding="utf-8"?>', '').trim();
 await QRCode.toFile(path.join(OUT, 'qr', 'dame-la-letra-qr.png'), cfg.url, { ...qrOpts, width: 1200 });
 fs.writeFileSync(path.join(OUT, 'qr', 'dame-la-letra-qr.svg'), qrSvg.replace('<svg ', '<svg width="300" height="300" '));
 
-const arUrl = `${cfg.url}?ar=1`;
+const arUrl = `${cfg.url}/?ar=1`;
 let qrArSvg = await QRCode.toString(arUrl, { ...qrOpts, type: 'svg' });
 qrArSvg = qrArSvg.replace('<?xml version="1.0" encoding="utf-8"?>', '').trim();
 await QRCode.toFile(path.join(OUT, 'qr', 'dame-la-letra-qr-ar.png'), arUrl, { ...qrOpts, width: 1200 });
@@ -74,7 +75,7 @@ await sharp(Buffer.from(monogramSvg(512, 0.16))).resize(180, 180).png().toFile(p
 await sharp(Buffer.from(monogramSvg(512, 0.16))).resize(192, 192).png().toFile(path.join(OUT, 'icon-192.png'));
 await sharp(Buffer.from(monogramSvg(512, 0.16))).png().toFile(path.join(OUT, 'icon-512.png'));
 fs.writeFileSync(path.join(OUT, 'site.webmanifest'), JSON.stringify({
-  name: 'Dame la Letra', short_name: 'Dame la Letra', start_url: '/hola/', scope: '/hola/', display: 'standalone',
+  name: 'Dame la Letra', short_name: 'Dame la Letra', start_url: '/', scope: '/', display: 'standalone',
   background_color: INK, theme_color: INK,
   icons: [{ src: '/hola/icon-192.png', sizes: '192x192', type: 'image/png' }, { src: '/hola/icon-512.png', sizes: '512x512', type: 'image/png' }],
 }, null, 2));
@@ -123,7 +124,7 @@ h1{position:absolute;left:60px;top:150px;margin:0;font:400 128px/.95 Anton;color
 <svg class="g" viewBox="0 269 630 711"><path d="${glyphs.L.d}"/></svg>
 <img class="logo" src="data:image/png;base64,${logoB64}">
 <h1>No hacemos<br>más de<br><span class="s">lo mismo.</span></h1>
-<div class="u">damelaletra.com/hola</div><div class="t">Estudio creativo independiente</div>
+<div class="u">damelaletra.com</div><div class="t">Estudio creativo independiente</div>
 </body></html>`;
 const browser = await chromium.launch({ executablePath: 'C:/Program Files/Google/Chrome/Application/chrome.exe' });
 const page = await browser.newPage({ viewport: { width: 1200, height: 630 } });

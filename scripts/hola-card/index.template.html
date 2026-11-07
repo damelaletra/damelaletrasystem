@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Dame la Letra — Estudio creativo independiente · Miguel Sosa</title>
 <meta name="description" content="No hacemos más de lo mismo. Dame la Letra es un estudio creativo independiente en Louisville, KY: estrategia, branding, realización de video, web, software y arquitectura 3D. Fundado por Miguel Sosa.">
-<link rel="canonical" href="https://www.damelaletra.com/hola">
+<link rel="canonical" href="https://www.damelaletra.com">
 <meta name="robots" content="index, follow">
 <meta name="theme-color" content="#0e0a14">
 <meta name="color-scheme" content="dark">
@@ -14,7 +14,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Dame la Letra">
 <meta property="og:locale" content="es_US">
-<meta property="og:url" content="https://www.damelaletra.com/hola">
+<meta property="og:url" content="https://www.damelaletra.com">
 <meta property="og:title" content="Dame la Letra — No hacemos más de lo mismo.">
 <meta property="og:description" content="Estudio creativo independiente. Diseño, video, desarrollo web, software y planos 3D. Fundado por Miguel Sosa.">
 <meta property="og:image" content="https://www.damelaletra.com/hola/og.jpg">
@@ -43,7 +43,7 @@
   "name": "Dame la Letra",
   "legalName": "Dame la Letra LLC",
   "description": "Estudio creativo independiente: estrategia, branding, realización de video, desarrollo web, e-commerce y arquitectura 3D.",
-  "url": "https://www.damelaletra.com/hola",
+  "url": "https://www.damelaletra.com",
   "logo": "https://www.damelaletra.com/hola/icon-512.png",
   "image": "https://www.damelaletra.com/hola/og.jpg",
   "areaServed": "US",
@@ -1179,12 +1179,12 @@ body.modal-open .fab{transform:translateY(160%)!important}
           Guardar contacto
         </a>
       </div>
-      <figure class="contact-qr"><img src="/hola/qr/dame-la-letra-qr.svg" width="300" height="300" alt="Código QR hacia damelaletra.com/hola" loading="lazy"><figcaption>¿Estás en una computadora? Escanea para llevarte esta tarjeta en el teléfono.</figcaption></figure>
+      <figure class="contact-qr"><img src="/hola/qr/dame-la-letra-qr.svg" width="300" height="300" alt="Código QR hacia damelaletra.com" loading="lazy"><figcaption>¿Estás en una computadora? Escanea para llevarte esta tarjeta en el teléfono.</figcaption></figure>
       <div class="contact-tools">
         <button class="tool" type="button" data-toggle-ar>✦ Ver web flotando en AR</button>
         <button class="tool" type="button" data-share-ar>Compartir enlace en AR</button>
         <button class="tool" type="button" data-share>Compartir esta tarjeta</button>
-        <a class="tool" href="/hola/qr/">Mostrar código QR</a>
+        <a class="tool" href="/qr">Mostrar código QR</a>
       </div>
     </div>
   </section>
@@ -1910,13 +1910,13 @@ body.modal-open .fab{transform:translateY(160%)!important}
   var toast=d.querySelector('.toast'),tt;
   function say(m){toast.textContent=m;toast.classList.add('on');clearTimeout(tt);tt=setTimeout(function(){toast.classList.remove('on')},2600)}
   d.querySelectorAll('[data-share]').forEach(function(b){b.addEventListener('click',function(){
-    var data={title:'Dame la Letra',text:'Dame la Letra — estudio creativo independiente. Fundado por Miguel Sosa.',url:'https://www.damelaletra.com/hola'};
+    var data={title:'Dame la Letra',text:'Dame la Letra — estudio creativo independiente. Fundado por Miguel Sosa.',url:'https://www.damelaletra.com'};
     if(navigator.share){navigator.share(data).catch(function(){});return;}
     if(navigator.clipboard){navigator.clipboard.writeText(data.url).then(function(){say('Enlace copiado')},function(){say(data.url)});}
     else{say(data.url)}
   })});
   d.querySelectorAll('[data-share-ar]').forEach(function(b){b.addEventListener('click',function(){
-    var data={title:'Dame la Letra · Ver en tu habitación (AR)',text:'Coloca la web 3D de Dame la Letra flotando en tu habitación con Realidad Aumentada.',url:'https://www.damelaletra.com/hola?ar=1'};
+    var data={title:'Dame la Letra · Ver en tu habitación (AR)',text:'Coloca la web 3D de Dame la Letra flotando en tu habitación con Realidad Aumentada.',url:'https://www.damelaletra.com/?ar=1'};
     if(navigator.share){navigator.share(data).catch(function(){});return;}
     if(navigator.clipboard){navigator.clipboard.writeText(data.url).then(function(){say('Enlace AR copiado')},function(){say(data.url)});}
     else{say(data.url)}

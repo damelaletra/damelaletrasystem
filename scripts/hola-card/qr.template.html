@@ -6,7 +6,7 @@
 <title>QR · Dame la Letra</title>
 <meta name="robots" content="noindex">
 <meta name="theme-color" content="#0e0a14">
-<link rel="canonical" href="https://www.damelaletra.com/hola">
+<link rel="canonical" href="https://www.damelaletra.com">
 <link rel="icon" href="/hola/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/hola/apple-touch-icon.png">
 <link rel="preload" href="/hola/fonts/anton.woff2" as="font" type="font/woff2" crossorigin>
@@ -42,11 +42,11 @@ body::before{content:"";position:absolute;inset:-25%;z-index:-1;transform:rotate
     <button class="mode-tab active" type="button" data-qr-mode="ar">✦ QR Flotando en AR</button>
     <button class="mode-tab" type="button" data-qr-mode="std">QR Tarjeta Normal</button>
   </div>
-  <div class="card" role="img" aria-label="Código QR hacia damelaletra.com/hola">__QR_SVG____QR_AR_SVG__</div>
-  <p class="url" id="qr-url">damelaletra.com/hola?ar=1</p>
+  <div class="card" role="img" aria-label="Código QR hacia damelaletra.com">__QR_SVG____QR_AR_SVG__</div>
+  <p class="url" id="qr-url">damelaletra.com/?ar=1</p>
   <div class="actions">
-    <a href="/hola/?ar=1" id="qr-open">Probar modo AR</a>
-    <a href="/hola/">Ver la tarjeta</a>
+    <a href="/?ar=1" id="qr-open">Probar modo AR</a>
+    <a href="/">Ver la tarjeta</a>
     <a href="/hola/qr/dame-la-letra-qr-ar.png" id="qr-dl" download>Descargar QR</a>
   </div>
   <p class="awake" aria-live="polite"></p>
@@ -60,13 +60,13 @@ body::before{content:"";position:absolute;inset:-25%;z-index:-1;transform:rotate
     if(m==='ar'){
       if(std)std.hidden=true;
       if(ar)ar.hidden=false;
-      if(urlEl)urlEl.textContent='damelaletra.com/hola?ar=1';
+      if(urlEl)urlEl.textContent='damelaletra.com/?ar=1';
       if(dlEl)dlEl.href='/hola/qr/dame-la-letra-qr-ar.png';
       if(titleEl)titleEl.innerHTML='Escanea y <span>flota en AR.</span>';
     }else{
       if(std)std.hidden=false;
       if(ar)ar.hidden=true;
-      if(urlEl)urlEl.textContent='damelaletra.com/hola';
+      if(urlEl)urlEl.textContent='damelaletra.com';
       if(dlEl)dlEl.href='/hola/qr/dame-la-letra-qr.png';
       if(titleEl)titleEl.innerHTML='Escanea y <span>hablemos.</span>';
     }
