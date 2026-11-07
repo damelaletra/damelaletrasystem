@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Branding & Dirección de Arte · Capítulo 01 — Dame la Letra</title>
-<meta name="description" content="Identidad visual, construcción de marca desde cero, universo gráfico, empaque y dirección creativa en Louisville, KY. Casos: Ely’s Charcuterie, New Era Real Estate y La Bonita Jewelry.">
+<meta name="description" content="Identidad visual, construcción de marca desde cero, universo gráfico, empaque y 32 Mini Branding Sets fotorrealistas en Louisville, KY. Casos: Ely’s Charcuterie, New Era Real Estate, La Bonita Jewelry y archivo de 32 sistemas.">
 <link rel="canonical" href="https://www.damelaletra.com/branding">
 <meta name="robots" content="index, follow">
 <meta name="theme-color" content="#0e0a14">
@@ -16,7 +16,7 @@
 <meta property="og:locale" content="es_US">
 <meta property="og:url" content="https://www.damelaletra.com/branding">
 <meta property="og:title" content="Branding & Dirección de Arte · Capítulo 01 — Dame la Letra">
-<meta property="og:description" content="Identidad visual, construcción de marca desde cero, universo gráfico, empaque y dirección creativa en Louisville, KY. Casos: Ely’s Charcuterie, New Era Real Estate y La Bonita Jewelry.">
+<meta property="og:description" content="Identidad visual, construcción de marca desde cero, universo gráfico, empaque y 32 Mini Branding Sets fotorrealistas en Louisville, KY. Casos: Ely’s Charcuterie, New Era Real Estate, La Bonita Jewelry y archivo de 32 sistemas.">
 <meta property="og:image" content="https://www.damelaletra.com/hola/og.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -323,6 +323,25 @@ body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:100;op
 .sheet-title{font:400 clamp(1.35rem,4.2vw,1.85rem)/1 var(--display);text-transform:uppercase}
 .sheet-cat{font:400 .74rem/1 var(--mono);color:var(--letra);letter-spacing:.08em;text-transform:uppercase;white-space:nowrap}
 
+/* ---------- Chapter 01: 32 Mini Branding Sets Archive ---------- */
+.bset-sec{margin-top:clamp(96px,14vw,160px);padding-top:clamp(44px,6.5vw,84px);border-top:1px solid var(--line)}
+.bset-grid{display:grid;grid-template-columns:1fr;gap:28px;margin-top:28px}
+.bset-card{position:relative;display:flex;flex-direction:column;border:1px solid var(--line);background:var(--ink2);padding:0;text-align:left;cursor:pointer;color:inherit;box-shadow:8px 8px 0 var(--violeta-deep);transition:transform .35s var(--ease),box-shadow .35s var(--ease),border-color .35s var(--ease);-webkit-tap-highlight-color:transparent}
+.bset-card[hidden]{display:none!important}
+.bset-card:hover{transform:translate(-3px,-4px);border-color:var(--letra);box-shadow:10px 10px 0 var(--letra)}
+.bset-frame{position:relative;width:100%;aspect-ratio:4/3;overflow:hidden;background:#09070d;border-bottom:1px solid var(--line)}
+.bset-img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .55s var(--ease)}
+.bset-card:hover .bset-img{transform:scale(1.04)}
+.bset-num{position:absolute;top:10px;left:10px;z-index:2;padding:4px 9px;background:rgba(14,10,20,.88);border:1px solid var(--letra);font:400 .72rem/1 var(--mono);letter-spacing:.08em;color:var(--letra)}
+.bset-logo-pill{position:absolute;right:10px;bottom:10px;z-index:2;width:68px;height:44px;padding:5px 7px;border:1px solid rgba(255,204,41,.55);box-shadow:3px 3px 0 rgba(14,10,20,.9);display:flex;align-items:center;justify-content:center}
+.bset-logo-pill img{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;display:block}
+.bset-body{padding:16px 18px 18px;display:flex;flex-direction:column;flex:1;gap:6px}
+.bset-kicker{font:400 .7rem/1.3 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--letra)}
+.bset-title{margin:0;font:400 clamp(1.45rem,4.2vw,1.95rem)/.96 var(--display);text-transform:uppercase;color:var(--paper)}
+.bset-desc{margin:2px 0 10px;font:400 .76rem/1.45 var(--mono);color:var(--mute);flex:1}
+.bset-cta{display:inline-flex;align-items:center;gap:6px;padding-top:10px;border-top:1px solid rgba(243,238,227,.12);font:400 .74rem/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--paper);transition:color .2s}
+.bset-card:hover .bset-cta{color:var(--letra)}
+
 /* ---------- Section 04: Detrás de las ideas (v1 Editorial Paper + Miguel Sosa Cutout) ---------- */
 .founder-sec{background:var(--paper);color:var(--ink);overflow:hidden;isolation:isolate}
 .founder-sec .label{color:var(--violeta-deep)}
@@ -400,6 +419,7 @@ body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:100;op
 .stage-sec-grid.mob-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
 .stage-sec-item{margin:0}
 .stage-sec-item img,.stage-sec-item video{width:100%;height:auto;border:1px solid var(--line);background:var(--ink2);box-shadow:6px 6px 0 var(--ink)}
+.stage-sec-item img{cursor:zoom-in}
 .stage-sec-item figcaption{margin-top:8px;font:400 .72rem/1.3 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--letra)}
 .tzel-console{border:1px solid rgba(16,185,129,.45);background:#070b14;padding:18px;box-shadow:10px 10px 0 var(--ink);font:400 .78rem/1.55 var(--mono);color:#cbd5e1}
 .tzel-head{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;padding-bottom:12px;margin-bottom:14px;border-bottom:1px solid rgba(255,255,255,.1)}
@@ -495,6 +515,7 @@ body.modal-open .fab{transform:translateY(160%)!important}
   .films-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:24px}
   .more-list{grid-template-columns:repeat(4,minmax(0,1fr));gap:24px}
   .sheets-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:32px}
+  .bset-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:28px}
   .contact-cta{grid-template-columns:1fr 1fr;max-width:720px}
   .contact-cta .btn:first-child{grid-column:1/-1}
 }
@@ -523,6 +544,7 @@ body.modal-open .fab{transform:translateY(160%)!important}
   .m-main{width:54%}
   .proj-num{font-size:12rem}
   .sheets-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:36px}
+  .bset-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:32px}
   .founder-grid{grid-template-columns:1.15fr .85fr;gap:0 64px;align-items:end;margin-top:0}
   .founder-head{grid-column:1/-1;grid-row:1}
   .founder-name{margin:6px 0 0;font-size:clamp(3.7rem,17.5vw,11.5rem);line-height:.96}
@@ -566,7 +588,7 @@ body.modal-open .fab{transform:translateY(160%)!important}
     <a class="hchap" href="/software"><span>04 /</span> Tu Software · ARM</a>
     <a class="hchap" href="/videos"><span>05 /</span> Videos &amp; Reels</a>
   </nav>
-  <div class="sub-jumps"><b>En este capítulo:</b> <a href="#p-elys">01 · Ely’s Charcuterie</a> <a href="#p-newera">02 · New Era Real Estate</a> <a href="#p-labonita">03 · La Bonita Jewelry</a></div>
+  <div class="sub-jumps"><b>En este capítulo:</b> <a href="#p-elys">01 · Ely’s Charcuterie</a> <a href="#p-newera">02 · New Era Real Estate</a> <a href="#p-labonita">03 · La Bonita Jewelry</a> <a href="#mini-branding-sets">04 · 32 Mini Branding Sets</a></div>
 </header>
 
 <main>
@@ -631,6 +653,445 @@ body.modal-open .fab{transform:translateY(160%)!important}
           </div>
         </div>
       </article>
+
+      <!-- 04. Archivo Completo: 32 Mini Branding Sets Fotorrealistas -->
+      <div class="bset-sec" id="mini-branding-sets">
+        <div class="sheets-head" style="margin-top:0;padding-top:0;border-top:0" data-reveal>
+          <div>
+            <p class="label"><b>04</b> Sistemas de Identidad · 32 Mini Branding Sets <i>/ Toca cualquier marca para abrir su fotografía de estudio y plancha técnica.</i></p>
+            <h3 class="h2" style="font-size:clamp(2.2rem,7vw,4.4rem)">32 Marcas. <em>32 Universos Físicos.</em></h3>
+            <p class="sec-sub" style="max-width:58ch">Del logotipo vectorial al mundo real: cada sistema incluye papelería corporativa frente y vuelta, indumentaria bordada o estampada, empaque o pieza clave de su oficio, paleta cromática y aplicaciones fotografiadas en estudio.</p>
+          </div>
+        </div>
+
+        <div class="sheet-filters" role="tablist" aria-label="Filtrar sistemas de branding por industria" data-reveal>
+          <button class="arch-btn active" type="button" data-bset-filter="all">Todas las marcas (32)</button>
+          <button class="arch-btn" type="button" data-bset-filter="construccion">Construcción, Real Estate &amp; Hogar (7)</button>
+          <button class="arch-btn" type="button" data-bset-filter="gastronomia">Gastronomía, Flores &amp; Eventos (6)</button>
+          <button class="arch-btn" type="button" data-bset-filter="moda">Moda, Joyería, Belleza &amp; Foto (8)</button>
+          <button class="arch-btn" type="button" data-bset-filter="motor">Ciclismo, Autos &amp; Deporte (5)</button>
+          <button class="arch-btn" type="button" data-bset-filter="servicios">Salud, Educación, Legal &amp; Tech (6)</button>
+        </div>
+
+        <div class="bset-grid" id="bset-grid">
+          <button class="bset-card" type="button" data-open-stage="bset-01" data-bset-cat="servicios" data-reveal aria-label="Abrir Mini Branding Set 01: +1ST DIAGNOSTICS">
+            <div class="bset-frame">
+              <span class="bset-num">01</span>
+              <img class="bset-img" src="/hola/img/branding/mockup-01-sm.webp" srcset="/hola/img/branding/mockup-01-sm.webp 640w, /hola/img/branding/mockup-01.webp 1280w" sizes="(min-width:980px) 30vw, (min-width:700px) 46vw, 92vw" width="640" height="480" alt="Mini Branding Set fotorrealista para +1ST DIAGNOSTICS" loading="lazy" decoding="async">
+              <span class="bset-logo-pill" style="background:#FFFFFF"><img src="/hola/img/branding/logo-01.webp" width="96" height="56" alt="Logotipo +1ST DIAGNOSTICS" loading="lazy" decoding="async"></span>
+            </div>
+            <div class="bset-body">
+              <span class="bset-kicker">01 · QUIROPRÁCTICA Y DIAGNÓSTICO ESPINAL</span>
+              <h4 class="bset-title">+1ST DIAGNOSTICS</h4>
+              <p class="bset-desc">Carpeta de rayos x + ficha de evaluación vertebral (C1–L5) · Scrubs clínicos bordados + gafete doctor · Tarjetas y stickers.</p>
+              <span class="bset-cta">Abrir Mini Branding Set <span aria-hidden="true">→</span></span>
+            </div>
+          </button>
+          <button class="bset-card" type="button" data-open-stage="bset-02" data-bset-cat="construccion" data-reveal aria-label="Abrir Mini Branding Set 02: ABB CONSTRUCTION">
+            <div class="bset-frame">
+              <span class="bset-num">02</span>
+              <img class="bset-img" src="/hola/img/branding/mockup-02-sm.webp" srcset="/hola/img/branding/mockup-02-sm.webp 640w, /hola/img/branding/mockup-02.webp 1280w" sizes="(min-width:980px) 30vw, (min-width:700px) 46vw, 92vw" width="640" height="480" alt="Mini Branding Set fotorrealista para ABB CONSTRUCTION" loading="lazy" decoding="async">
+              <span class="bset-logo-pill" style="background:#F4F1EA"><img src="/hola/img/branding/logo-02.webp" width="96" height="56" alt="Logotipo ABB CONSTRUCTION" loading="lazy" decoding="async"></span>
+            </div>
+            <div class="bset-body">
+              <span class="bset-kicker">02 · CONSTRUCCIÓN Y OBRA CIVIL PESADA</span>
+              <h4 class="bset-title">ABB CONSTRUCTION</h4>
+              <p class="bset-desc">Casco de seguridad + tabla de obra y perímetro de valla · Polo de obra + chaleco reflectivo ANSI clase 2 · Tarjetas y stickers.</p>
+              <span class="bset-cta">Abrir Mini Branding Set <span aria-hidden="true">→</span></span>
+            </div>
+          </button>
+          <button class="bset-card" type="button" data-open-stage="bset-03" data-bset-cat="motor" data-reveal aria-label="Abrir Mini Branding Set 03: ALAFIA RIVER PARK">
+            <div class="bset-frame">
+              <span class="bset-num">03</span>
+              <img class="bset-img" src="/hola/img/branding/mockup-03-sm.webp" srcset="/hola/img/branding/mockup-03-sm.webp 640w, /hola/img/branding/mockup-03.webp 1280w" sizes="(min-width:980px) 30vw, (min-width:700px) 46vw, 92vw" width="640" height="480" alt="Mini Branding Set fotorrealista para ALAFIA RIVER PARK" loading="lazy" decoding="async">
+              <span class="bset-logo-pill" style="background:#F3EFE6"><img src="/hola/img/branding/logo-03.webp" width="96" height="56" alt="Logotipo ALAFIA RIVER PARK" loading="lazy" decoding="async"></span>
+            </div>
+            <div class="bset-body">
+              <span class="bset-kicker">03 · PARQUE DE MOUNTAIN BIKE Y SENDEROS</span>
+              <h4 class="bset-title">ALAFIA RIVER PARK</h4>
+              <p class="bset-desc">Placa dorsal MTB #042 + tótem de dificultad de senderos · Jersey técnico de ciclismo + parche tejido de guardaparques · Tarjetas y stickers.</p>
+              <span class="bset-cta">Abrir Mini Branding Set <span aria-hidden="true">→</span></span>
+            </div>
+          </button>
+          <button class="bset-card" type="button" data-open-stage="bset-04" data-bset-cat="moda" data-reveal aria-label="Abrir Mini Branding Set 04: BF PHOTOGRAPHY">
+            <div class="bset-frame">
+              <span class="bset-num">04</span>
+              <img class="bset-img" src="/hola/img/branding/mockup-04-sm.webp" srcset="/hola/img/branding/mockup-04-sm.webp 640w, /hola/img/branding/mockup-04.webp 1280w" sizes="(min-width:980px) 30vw, (min-width:700px) 46vw, 92vw" width="640" height="480" alt="Mini Branding Set fotorrealista para BF PHOTOGRAPHY" loading="lazy" decoding="async">
+              <span class="bset-logo-pill" style="background:#FBF9F5"><img src="/hola/img/branding/logo-04.webp" width="96" height="56" alt="Logotipo BF PHOTOGRAPHY" loading="lazy" decoding="async"></span>
+            </div>
+            <div class="bset-body">
+              <span class="bset-kicker">04 · FOTÓGRAFA EDITORIAL Y DE BODAS</span>
+              <h4 class="bset-title">BF PHOTOGRAPHY</h4>
+              <p class="bset-desc">Caja de lino fine-art + memoria USB grabada y prints 5×7 · Tote bag de lona cruda + correa de cámara en cuero · Tarjetas y stickers.</p>
+              <span class="bset-cta">Abrir Mini Branding Set <span aria-hidden="true">→</span></span>
+            </div>
+          </button>
+          <button class="bset-card" type="button" data-open-stage="bset-05" data-bset-cat="moda" data-reveal aria-label="Abrir Mini Branding Set 05: CLOVER JEWERLY">
+            <div class="bset-frame">
+              <span class="bset-num">05</span>
+              <img class="bset-img" src="/hola/img/branding/mockup-05-sm.webp" srcset="/hola/img/branding/mockup-05-sm.webp 640w, /hola/img/branding/mockup-05.webp 1280w" sizes="(min-width:980px) 30vw, (min-width:700px) 46vw, 92vw" width="640" height="480" alt="Mini Branding Set fotorrealista para CLOVER JEWERLY" loading="lazy" decoding="async">
+              <span class="bset-logo-pill" style="background:#0D0D11"><img src="/hola/img/branding/logo-05.webp" width="96" height="56" alt="Logotipo CLOVER JEWERLY" loading="lazy" decoding="async"></span>
+            </div>
+            <div class="bset-body">
+              <span class="bset-kicker">05 · ALTA JOYERÍA Y DIAMANTES</span>
+              <h4 class="bset-title">CLOVER JEWERLY</h4>
+              <p class="bset-desc">Estuche de anillo en terciopelo + certificado de autenticidad 18K · Blazer de salón con pin dorado en solapa + guantes de joyero · Tarjetas y stickers.</p>
+              <span class="bset-cta">Abrir Mini Branding Set <span aria-hidden="true">→</span></span>
+            </div>
+          </button>
+          <button class="bset-card" type="button" data-open-stage="bset-06" data-bset-cat="gastronomia" data-reveal aria-label="Abrir Mini Branding Set 06: DAVID FLOWERS">
+            <div class="bset-frame">
+              <span class="bset-num">06</span>
+              <img class="bset-img" src="/hola/img/branding/mockup-06-sm.webp" srcset="/hola/img/branding/mockup-06-sm.webp 640w, /hola/img/branding/mockup-06.webp 1280w" sizes="(min-width:980px) 30vw, (min-width:700px) 46vw, 92vw" width="640" height="480" alt="Mini Branding Set fotorrealista para DAVID FLOWERS" loading="lazy" decoding="async">
+              <span class="bset-logo-pill" style="background:#FFFFFF"><img src="/hola/img/branding/logo-06.webp" width="96" height="56" alt="Logotipo DAVID FLOWERS" loading="lazy" decoding="async"></span>
+            </div>
+            <div class="bset-body">
+              <span class="bset-kicker">06 · FLORISTERÍA DE AUTOR Y ARTE BOTÁNICO</span>
+              <h4 class="bset-title">DAVID FLOWERS</h4>
+              <p class="bset-desc">Envoltorio kraft con sello de lacre + tarjeta de dedicatoria y cuidado · Delantal de florista en lona verde bosque y cuero · Tarjetas y stickers.</p>
+              <span class="bset-cta">Abrir Mini Branding Set <span aria-hidden="true">→</span></span>
+            </div>
+          </button>
+          <button class="bset-card" type="button" data-open-stage="bset-07" data-bset-cat="construccion" data-reveal aria-label="Abrir Mini Branding Set 07: D HOMES">
+            <div class="bset-frame">
+              <span class="bset-num">07</span>
+              <img class="bset-img" src="/hola/img/branding/mockup-07-sm.webp" srcset="/hola/img/branding/mockup-07-sm.webp 640w, /hola/img/branding/mockup-07.webp 1280w" sizes="(min-width:980px) 30vw, (min-width:700px) 46vw, 92vw" width="640" height="480" alt="Mini Branding Set fotorrealista para D HOMES" loading="lazy" decoding="async">
+              <span class="bset-logo-pill" style="background:#121316"><img src="/hola/img/branding/logo-07.webp" width="96" height="56" alt="Logotipo D HOMES" loading="lazy" decoding="async"></span>
+            </div>
+            <div class="bset-body">
+              <span class="bset-kicker">07 · REMODELACIÓN RESIDENCIAL Y CONSTRUCCIÓN</span>
+              <h4 class="bset-title">D HOMES</h4>
+              <p class="bset-desc">Letrero exterior de jardín 'remodeling by d homes' + caja de llaves · Polo ejecutivo negro con bordado dorado + gorra de supervisor · Tarjetas y stickers.</p>
+              <span class="bset-cta">Abrir Mini Branding Set <span aria-hidden="true">→</span></span>
+            </div>
+          </button>
+          <button class="bset-card" type="button" data-open-stage="bset-08" data-bset-cat="servicios" data-reveal aria-label="Abrir Mini Branding Set 08: DIGITAL GARDEN ACADEMIA">
+            <div class="bset-frame">
+              <span class="bset-num">08</span>
+              <img class="bset-img" src="/hola/img/branding/mockup-08-sm.webp" srcset="/hola/img/branding/mockup-08-sm.webp 640w, /hola/img/branding/mockup-08.webp 1280w" sizes="(min-width:980px) 30vw, (min-width:700px) 46vw, 92vw" width="640" height="480" alt="Mini Branding Set fotorrealista para DIGITAL GARDEN ACADEMIA" loading="lazy" decoding="async">
+              <span class="bset-logo-pill" style="background:#0D1115"><img src="/hola/img/branding/logo-08.webp" width="96" height="56" alt="Logotipo DIGITAL GARDEN ACADEMIA" loading="lazy" decoding="async"></span>
+            </div>
+            <div class="bset-body">
+              <span class="bset-kicker">08 · ACADEMIA DIGITAL Y FORMACIÓN ONLINE</span>
+              <h4 class="bset-title">DIGITAL GARDEN ACADEMIA</h4>
+              <p class="bset-desc">Diploma de certificación con sello dorado + credencial de estudiante · Hoodie universitario premium + lanyard de mentor VIP · Tarjetas y stickers.</p>
+              <span class="bset-cta">Abrir Mini Branding Set <span aria-hidden="true">→</span></span>
+            </div>
+          </button>
+          <button class="bset-card" type="button" data-open-stage="bset-09" data-bset-cat="motor" data-reveal aria-label="Abrir Mini Branding Set 09: EDUARD'S DETAILING">
+            <div class="bset-frame">
+              <span class="bset-num">09</span>
+              <img class="bset-img" src="/hola/img/branding/mockup-09-sm.webp" srcset="/hola/img/branding/mockup-09-sm.webp 640w, /hola/img/branding/mockup-09.webp 1280w" sizes="(min-width:980px) 30vw, (min-width:700px) 46vw, 92vw" width="640" height="480" alt="Mini Branding Set fotorrealista para EDUARD'S DETAILING" loading="lazy" decoding="async">
+              <span class="bset-logo-pill" style="background:#0D121A"><img src="/hola/img/branding/logo-09.webp" width="96" height="56" alt="Logotipo EDUARD'S DETAILING" loading="lazy" decoding="async"></span>
+            </div>
+            <div class="bset-body">
+              <span class="bset-kicker">09 · DETAILING DE AUTOS Y CERÁMICO 9H</span>
+              <h4 class="bset-title">EDUARD'S DETAILING</h4>
+              <p class="bset-desc">Botellas pulverizadoras ceramic 9H + colgante aromatizante de espejo · Polo microfibra anti-rayones (sin botones metálicos) · Tarjetas y stickers.</p>
+              <span class="bset-cta">Abrir Mini Branding Set <span aria-hidden="true">→</span></span>
+            </div>
+          </button>
+          <button class="bset-card" type="button" data-open-stage="bset-10" data-bset-cat="moda" data-reveal aria-label="Abrir Mini Branding Set 10: FANTASTIC FASHION SHOW">
+            <div class="bset-frame">
+              <span class="bset-num">10</span>
+              <img class="bset-img" src="/hola/img/branding/mockup-10-sm.webp" srcset="/hola/img/branding/mockup-10-sm.webp 640w, /hola/img/branding/mockup-10.webp 1280w" sizes="(min-width:980px) 30vw, (min-width:700px) 46vw, 92vw" width="640" height="480" alt="Mini Branding Set fotorrealista para FANTASTIC FASHION SHOW" loading="lazy" decoding="async">
+              <span class="bset-logo-pill" style="background:#FAF9F6"><img src="/hola/img/branding/logo-10.webp" width="96" height="56" alt="Logotipo FANTASTIC FASHION SHOW" loading="lazy" decoding="async"></span>
+            </div>
+            <div class="bset-body">
+              <span class="bset-kicker">10 · AGENCIA DE MODA Y PRODUCCIÓN DE PASARELA</span>
+              <h4 class="bset-title">FANTASTIC FASHION SHOW</h4>
+              <p class="bset-desc">Pase de acceso backstage VIP + comp-card de modelo con medidas · Camiseta oversize 'backstage crew' + tote bag de casting · Tarjetas y stickers.</p>
+              <span class="bset-cta">Abrir Mini Branding Set <span aria-hidden="true">→</span></span>
+            </div>
+          </button>
+          <button class="bset-card" type="button" data-open-stage="bset-11" data-bset-cat="construccion" data-reveal aria-label="Abrir Mini Branding Set 11: JIMAGUAS FENCE">
+            <div class="bset-frame">
+              <span class="bset-num">11</span>
+              <img class="bset-img" src="/hola/img/branding/mockup-11-sm.webp" srcset="/hola/img/branding/mockup-11-sm.webp 640w, /hola/img/branding/mockup-11.webp 1280w" sizes="(min-width:980px) 30vw, (min-width:700px) 46vw, 92vw" width="640" height="480" alt="Mini Branding Set fotorrealista para JIMAGUAS FENCE" loading="lazy" decoding="async">
+              <span class="bset-logo-pill" style="background:#F5F6F8"><img src="/hola/img/branding/logo-11.webp" width="96" height="56" alt="Logotipo JIMAGUAS FENCE" loading="lazy" decoding="async"></span>
+            </div>
+            <div class="bset-body">
+              <span class="bset-kicker">11 · INSTALACIÓN DE CERCAS Y PORTONES</span>
+              <h4 class="bset-title">JIMAGUAS FENCE</h4>
+              <p class="bset-desc">Placa metálica remachada para reja + hoja de cotización por pie lineal · Camisa de trabajo manga larga + gorra trucker bordada · Tarjetas y stickers.</p>
+              <span class="bset-cta">Abrir Mini Branding Set <span aria-hidden="true">→</span></span>
+            </div>
+          </button>
+          <button class="bset-card" type="button" data-open-stage="bset-12" data-bset-cat="servicios" data-reveal aria-label="Abrir Mini Branding Set 12: DAME LA LETRA">
+            <div class="bset-frame">
+              <span class="bset-num">12</span>
+              <img class="bset-img" src="/hola/img/branding/mockup-12-sm.webp" srcset="/hola/img/branding/mockup-12-sm.webp 640w, /hola/img/branding/mockup-12.webp 1280w" sizes="(min-width:980px) 30vw, (min-width:700px) 46vw, 92vw" width="640" height="480" alt="Mini Branding Set fotorrealista para DAME LA LETRA" loading="lazy" decoding="async">
+              <span class="bset-logo-pill" style="background:#0E0A14"><img src="/hola/img/branding/logo-12.webp" width="96" height="56" alt="Logotipo DAME LA LETRA" loading="lazy" decoding="async"></span>
+            </div>
+            <div class="bset-body">
+              <span class="bset-kicker">12 · ESTUDIO CREATIVO Y SOFTWARE A LA MEDIDA (MI NEGOCIO)</span>
+              <h4 class="bset-title">DAME LA LETRA</h4>
+              <p class="bset-desc">Tarjeta NFC con realidad aumentada + dosier de arquitectura de software ARM · Hoodie pesado del estudio '#0e0a14' + gorra con monograma 'DL' · Tarjetas y stickers.</p>
+              <span class="bset-cta">Abrir Mini Branding Set <span aria-hidden="true">→</span></span>
+            </div>
+          </button>
+          <button class="bset-card" type="button" data-open-stage="bset-13" data-bset-cat="servicios" data-reveal aria-label="Abrir Mini Branding Set 13: DLEUNAM SERVICES">
+            <div class="bset-frame">
+              <span class="bset-num">13</span>
+              <img class="bset-img" src="/hola/img/branding/mockup-13-sm.webp" srcset="/hola/img/branding/mockup-13-sm.webp 640w, /hola/img/branding/mockup-13.webp 1280w" sizes="(min-width:980px) 30vw, (min-width:700px) 46vw, 92vw" width="640" height="480" alt="Mini Branding Set fotorrealista para DLEUNAM SERVICES" loading="lazy" decoding="async">
+              <span class="bset-logo-pill" style="background:#0B1624"><img src="/hola/img/branding/logo-13.webp" width="96" height="56" alt="Logotipo DLEUNAM SERVICES" loading="lazy" decoding="async"></span>
+            </div>
+            <div class="bset-body">
+              <span class="bset-kicker">13 · NOTARÍA, INMIGRACIÓN Y PREPARACIÓN DE TAXES</span>
+              <h4 class="bset-title">DLEUNAM SERVICES</h4>
+              <p class="bset-desc">Carpeta de expediente legal (USCIS / IRS) + sello de relieve notarial · Camisa oxford ejecutiva bordada + portadocumentos en piel · Tarjetas y stickers.</p>
+              <span class="bset-cta">Abrir Mini Branding Set <span aria-hidden="true">→</span></span>
+            </div>
+          </button>
+          <button class="bset-card" type="button" data-open-stage="bset-14" data-bset-cat="gastronomia" data-reveal aria-label="Abrir Mini Branding Set 14: LATIN FOOD &amp; BAKERY">
+            <div class="bset-frame">
+              <span class="bset-num">14</span>
+              <img class="bset-img" src="/hola/img/branding/mockup-14-sm.webp" srcset="/hola/img/branding/mockup-14-sm.webp 640w, /hola/img/branding/mockup-14.webp 1280w" sizes="(min-width:980px) 30vw, (min-width:700px) 46vw, 92vw" width="640" height="480" alt="Mini Branding Set fotorrealista para LATIN FOOD &amp; BAKERY" loading="lazy" decoding="async">
+              <span class="bset-logo-pill" style="background:#FFF8E7"><img src="/hola/img/branding/logo-14.webp" width="96" height="56" alt="Logotipo LATIN FOOD &amp; BAKERY" loading="lazy" decoding="async"></span>
+            </div>
+            <div class="bset-body">
+              <span class="bset-kicker">14 · TIENDA DE VÍVERES Y RESTAURANTE CUBANO</span>
+              <h4 class="bset-title">LATIN FOOD &amp; BAKERY</h4>
+              <p class="bset-desc">Caja de pastelería 'pastelitos calientes' + vaso de colada cubana · Delantal de panadero rayado + gorra de despacho · Tarjetas y stickers.</p>
+              <span class="bset-cta">Abrir Mini Branding Set <span aria-hidden="true">→</span></span>
+            </div>
+          </button>
+          <button class="bset-card" type="button" data-open-stage="bset-15" data-bset-cat="moda" data-reveal aria-label="Abrir Mini Branding Set 15: LORENA BLANCO PHOTOSTUDIO">
+            <div class="bset-frame">
+              <span class="bset-num">15</span>
+              <img class="bset-img" src="/hola/img/branding/mockup-15-sm.webp" srcset="/hola/img/branding/mockup-15-sm.webp 640w, /hola/img/branding/mockup-15.webp 1280w" sizes="(min-width:980px) 30vw, (min-width:700px) 46vw, 92vw" width="640" height="480" alt="Mini Branding Set fotorrealista para LORENA BLANCO PHOTOSTUDIO" loading="lazy" decoding="async">
+              <span class="bset-logo-pill" style="background:#FFFFFF"><img src="/hola/img/branding/logo-15.webp" width="96" height="56" alt="Logotipo LORENA BLANCO PHOTOSTUDIO" loading="lazy" decoding="async"></span>
+            </div>
+            <div class="bset-body">
+              <span class="bset-kicker">15 · ESTUDIO FOTOGRÁFICO DE RETRATO Y MATERNIDAD</span>
+              <h4 class="bset-title">LORENA BLANCO PHOTOSTUDIO</h4>
+              <p class="bset-desc">Sobre porta-fotos con cinta de seda + tarjeta de regalo 'gift session' · Blusa de estudio negra con bordado rosa + credencial · Tarjetas y stickers.</p>
+              <span class="bset-cta">Abrir Mini Branding Set <span aria-hidden="true">→</span></span>
+            </div>
+          </button>
+          <button class="bset-card" type="button" data-open-stage="bset-16" data-bset-cat="moda" data-reveal aria-label="Abrir Mini Branding Set 16: ML ESSENTIALS · ME">
+            <div class="bset-frame">
+              <span class="bset-num">16</span>
+              <img class="bset-img" src="/hola/img/branding/mockup-16-sm.webp" srcset="/hola/img/branding/mockup-16-sm.webp 640w, /hola/img/branding/mockup-16.webp 1280w" sizes="(min-width:980px) 30vw, (min-width:700px) 46vw, 92vw" width="640" height="480" alt="Mini Branding Set fotorrealista para ML ESSENTIALS · ME" loading="lazy" decoding="async">
+              <span class="bset-logo-pill" style="background:#F7EAE2"><img src="/hola/img/branding/logo-16.webp" width="96" height="56" alt="Logotipo ML ESSENTIALS · ME" loading="lazy" decoding="async"></span>
+            </div>
+            <div class="bset-body">
+              <span class="bset-kicker">16 · ESTUDIO DE EXTENSIONES DE PESTAÑAS (LASHES)</span>
+              <h4 class="bset-title">ML ESSENTIALS · ME</h4>
+              <p class="bset-desc">Caja de pestañas (0.05cc d-curl) + frasco lash shampoo y cepillito spoolie · Filipina estética anti-fluidos en negro mate con bordado nude · Tarjetas y stickers.</p>
+              <span class="bset-cta">Abrir Mini Branding Set <span aria-hidden="true">→</span></span>
+            </div>
+          </button>
+          <button class="bset-card" type="button" data-open-stage="bset-17" data-bset-cat="gastronomia" data-reveal aria-label="Abrir Mini Branding Set 17: MENADITOS ARTESANAL">
+            <div class="bset-frame">
+              <span class="bset-num">17</span>
+              <img class="bset-img" src="/hola/img/branding/mockup-17-sm.webp" srcset="/hola/img/branding/mockup-17-sm.webp 640w, /hola/img/branding/mockup-17.webp 1280w" sizes="(min-width:980px) 30vw, (min-width:700px) 46vw, 92vw" width="640" height="480" alt="Mini Branding Set fotorrealista para MENADITOS ARTESANAL" loading="lazy" decoding="async">
+              <span class="bset-logo-pill" style="background:#123682"><img src="/hola/img/branding/logo-17.webp" width="96" height="56" alt="Logotipo MENADITOS ARTESANAL" loading="lazy" decoding="async"></span>
+            </div>
+            <div class="bset-body">
+              <span class="bset-kicker">17 · MARCA DE HELADOS Y BOLIS ARTESANALES</span>
+              <h4 class="bset-title">MENADITOS ARTESANAL</h4>
+              <p class="bset-desc">Empaques flow-pack de 3 sabores + tarrina térmica y carrito heladero · Delantal azul hielo + gorra de heladero y hielera portátil · Tarjetas y stickers.</p>
+              <span class="bset-cta">Abrir Mini Branding Set <span aria-hidden="true">→</span></span>
+            </div>
+          </button>
+          <button class="bset-card" type="button" data-open-stage="bset-18" data-bset-cat="gastronomia" data-reveal aria-label="Abrir Mini Branding Set 18: MARI'S MAGICAL DECOR">
+            <div class="bset-frame">
+              <span class="bset-num">18</span>
+              <img class="bset-img" src="/hola/img/branding/mockup-18-sm.webp" srcset="/hola/img/branding/mockup-18-sm.webp 640w, /hola/img/branding/mockup-18.webp 1280w" sizes="(min-width:980px) 30vw, (min-width:700px) 46vw, 92vw" width="640" height="480" alt="Mini Branding Set fotorrealista para MARI'S MAGICAL DECOR" loading="lazy" decoding="async">
+              <span class="bset-logo-pill" style="background:#FFF8F5"><img src="/hola/img/branding/logo-18.webp" width="96" height="56" alt="Logotipo MARI'S MAGICAL DECOR" loading="lazy" decoding="async"></span>
+            </div>
+            <div class="bset-body">
+              <span class="bset-kicker">18 · DECORACIONES PARA FIESTAS Y EVENTOS</span>
+              <h4 class="bset-title">MARI'S MAGICAL DECOR</h4>
+              <p class="bset-desc">Carpeta de propuesta de montaje de evento + etiqueta colgante para recuerdos · Polo 'production staff' con mariposa bordada + cinturón de montaje · Tarjetas y stickers.</p>
+              <span class="bset-cta">Abrir Mini Branding Set <span aria-hidden="true">→</span></span>
+            </div>
+          </button>
+          <button class="bset-card" type="button" data-open-stage="bset-19" data-bset-cat="construccion" data-reveal aria-label="Abrir Mini Branding Set 19: NEW ERA REAL ESTATE">
+            <div class="bset-frame">
+              <span class="bset-num">19</span>
+              <img class="bset-img" src="/hola/img/branding/mockup-19-sm.webp" srcset="/hola/img/branding/mockup-19-sm.webp 640w, /hola/img/branding/mockup-19.webp 1280w" sizes="(min-width:980px) 30vw, (min-width:700px) 46vw, 92vw" width="640" height="480" alt="Mini Branding Set fotorrealista para NEW ERA REAL ESTATE" loading="lazy" decoding="async">
+              <span class="bset-logo-pill" style="background:#F7F5F0"><img src="/hola/img/branding/logo-19.webp" width="96" height="56" alt="Logotipo NEW ERA REAL ESTATE" loading="lazy" decoding="async"></span>
+            </div>
+            <div class="bset-body">
+              <span class="bset-kicker">19 · BROKERAJE E INMOBILIARIA (REAL ESTATE)</span>
+              <h4 class="bset-title">NEW ERA REAL ESTATE</h4>
+              <p class="bset-desc">Poste inmobiliario 'for sale / sold' + carpeta de entrega de llaves · Blazer ejecutivo con pin dorado 'new era' + portafolio de cierre · Tarjetas y stickers.</p>
+              <span class="bset-cta">Abrir Mini Branding Set <span aria-hidden="true">→</span></span>
+            </div>
+          </button>
+          <button class="bset-card" type="button" data-open-stage="bset-20" data-bset-cat="motor" data-reveal aria-label="Abrir Mini Branding Set 20: RIDE CRANK">
+            <div class="bset-frame">
+              <span class="bset-num">20</span>
+              <img class="bset-img" src="/hola/img/branding/mockup-20-sm.webp" srcset="/hola/img/branding/mockup-20-sm.webp 640w, /hola/img/branding/mockup-20.webp 1280w" sizes="(min-width:980px) 30vw, (min-width:700px) 46vw, 92vw" width="640" height="480" alt="Mini Branding Set fotorrealista para RIDE CRANK" loading="lazy" decoding="async">
+              <span class="bset-logo-pill" style="background:#0D1014"><img src="/hola/img/branding/logo-20.webp" width="96" height="56" alt="Logotipo RIDE CRANK" loading="lazy" decoding="async"></span>
+            </div>
+            <div class="bset-body">
+              <span class="bset-kicker">20 · ROPA DEPORTIVA TÉCNICA PARA CICLISTAS</span>
+              <h4 class="bset-title">RIDE CRANK</h4>
+              <p class="bset-desc">Maillot de ciclismo pro-fit + etiqueta técnica colgante UV50+ y bidón · Conjunto maillot + culotte con tirantes e impresión en silicona · Tarjetas y stickers.</p>
+              <span class="bset-cta">Abrir Mini Branding Set <span aria-hidden="true">→</span></span>
+            </div>
+          </button>
+          <button class="bset-card" type="button" data-open-stage="bset-21" data-bset-cat="servicios" data-reveal aria-label="Abrir Mini Branding Set 21: IGLESIA SENDAS DE LUZ">
+            <div class="bset-frame">
+              <span class="bset-num">21</span>
+              <img class="bset-img" src="/hola/img/branding/mockup-21-sm.webp" srcset="/hola/img/branding/mockup-21-sm.webp 640w, /hola/img/branding/mockup-21.webp 1280w" sizes="(min-width:980px) 30vw, (min-width:700px) 46vw, 92vw" width="640" height="480" alt="Mini Branding Set fotorrealista para IGLESIA SENDAS DE LUZ" loading="lazy" decoding="async">
+              <span class="bset-logo-pill" style="background:#FFFFFF"><img src="/hola/img/branding/logo-21.webp" width="96" height="56" alt="Logotipo IGLESIA SENDAS DE LUZ" loading="lazy" decoding="async"></span>
+            </div>
+            <div class="bset-body">
+              <span class="bset-kicker">21 · IGLESIA BAUTISTA Y COMUNIDAD DE FE</span>
+              <h4 class="bset-title">IGLESIA SENDAS DE LUZ</h4>
+              <p class="bset-desc">Tarjeta de bienvenida 'nuevos visitantes' + sobre de diezmos y ofrendas · Polo de servidores y ujieres + credencial con lanyard 'equipo de bienvenida' · Tarjetas y stickers.</p>
+              <span class="bset-cta">Abrir Mini Branding Set <span aria-hidden="true">→</span></span>
+            </div>
+          </button>
+          <button class="bset-card" type="button" data-open-stage="bset-22" data-bset-cat="moda" data-reveal aria-label="Abrir Mini Branding Set 22: SOZ · SOZA JEWERLY">
+            <div class="bset-frame">
+              <span class="bset-num">22</span>
+              <img class="bset-img" src="/hola/img/branding/mockup-22-sm.webp" srcset="/hola/img/branding/mockup-22-sm.webp 640w, /hola/img/branding/mockup-22.webp 1280w" sizes="(min-width:980px) 30vw, (min-width:700px) 46vw, 92vw" width="640" height="480" alt="Mini Branding Set fotorrealista para SOZ · SOZA JEWERLY" loading="lazy" decoding="async">
+              <span class="bset-logo-pill" style="background:#0E0D0B"><img src="/hola/img/branding/logo-22.webp" width="96" height="56" alt="Logotipo SOZ · SOZA JEWERLY" loading="lazy" decoding="async"></span>
+            </div>
+            <div class="bset-body">
+              <span class="bset-kicker">22 · JOYERÍA FINA Y DISEÑO DE AUTOR</span>
+              <h4 class="bset-title">SOZ · SOZA JEWERLY</h4>
+              <p class="bset-desc">Bolsa boutique con cordón de seda + paño de pulido y tarjeta de aretes · Chaqueta de atelier beige con monograma 'SOZ' en hilo de oro · Tarjetas y stickers.</p>
+              <span class="bset-cta">Abrir Mini Branding Set <span aria-hidden="true">→</span></span>
+            </div>
+          </button>
+          <button class="bset-card" type="button" data-open-stage="bset-23" data-bset-cat="gastronomia" data-reveal aria-label="Abrir Mini Branding Set 23: MEXICAN FOOD TAQUERÍA">
+            <div class="bset-frame">
+              <span class="bset-num">23</span>
+              <img class="bset-img" src="/hola/img/branding/mockup-23-sm.webp" srcset="/hola/img/branding/mockup-23-sm.webp 640w, /hola/img/branding/mockup-23.webp 1280w" sizes="(min-width:980px) 30vw, (min-width:700px) 46vw, 92vw" width="640" height="480" alt="Mini Branding Set fotorrealista para MEXICAN FOOD TAQUERÍA" loading="lazy" decoding="async">
+              <span class="bset-logo-pill" style="background:#FFF6E5"><img src="/hola/img/branding/logo-23.webp" width="96" height="56" alt="Logotipo MEXICAN FOOD TAQUERÍA" loading="lazy" decoding="async"></span>
+            </div>
+            <div class="bset-body">
+              <span class="bset-kicker">23 · TAQUERÍA MEXICANA Y COCINA DE AUTOR</span>
+              <h4 class="bset-title">MEXICAN FOOD TAQUERÍA</h4>
+              <p class="bset-desc">Papel encerado con patrón para canasta + 3 botellas de salsa de la casa · Mandil negro de taquero 'con todo' + gorra bordada · Tarjetas y stickers.</p>
+              <span class="bset-cta">Abrir Mini Branding Set <span aria-hidden="true">→</span></span>
+            </div>
+          </button>
+          <button class="bset-card" type="button" data-open-stage="bset-24" data-bset-cat="gastronomia" data-reveal aria-label="Abrir Mini Branding Set 24: CABARET TAÍNO">
+            <div class="bset-frame">
+              <span class="bset-num">24</span>
+              <img class="bset-img" src="/hola/img/branding/mockup-24-sm.webp" srcset="/hola/img/branding/mockup-24-sm.webp 640w, /hola/img/branding/mockup-24.webp 1280w" sizes="(min-width:980px) 30vw, (min-width:700px) 46vw, 92vw" width="640" height="480" alt="Mini Branding Set fotorrealista para CABARET TAÍNO" loading="lazy" decoding="async">
+              <span class="bset-logo-pill" style="background:#FAF3E8"><img src="/hola/img/branding/logo-24.webp" width="96" height="56" alt="Logotipo CABARET TAÍNO" loading="lazy" decoding="async"></span>
+            </div>
+            <div class="bset-body">
+              <span class="bset-kicker">24 · RESTAURANTE CARIBEÑO Y CABARET SHOW</span>
+              <h4 class="bset-title">CABARET TAÍNO</h4>
+              <p class="bset-desc">Porta-menú de cena y coctelería + posavasos y brazalete VIP de reserva · Chaleco de mixólogo y capitán de meseros con bordado dorado · Tarjetas y stickers.</p>
+              <span class="bset-cta">Abrir Mini Branding Set <span aria-hidden="true">→</span></span>
+            </div>
+          </button>
+          <button class="bset-card" type="button" data-open-stage="bset-25" data-bset-cat="motor" data-reveal aria-label="Abrir Mini Branding Set 25: THE KINGDOM AUTO DEALERSHIP">
+            <div class="bset-frame">
+              <span class="bset-num">25</span>
+              <img class="bset-img" src="/hola/img/branding/mockup-25-sm.webp" srcset="/hola/img/branding/mockup-25-sm.webp 640w, /hola/img/branding/mockup-25.webp 1280w" sizes="(min-width:980px) 30vw, (min-width:700px) 46vw, 92vw" width="640" height="480" alt="Mini Branding Set fotorrealista para THE KINGDOM AUTO DEALERSHIP" loading="lazy" decoding="async">
+              <span class="bset-logo-pill" style="background:#0D1320"><img src="/hola/img/branding/logo-25.webp" width="96" height="56" alt="Logotipo THE KINGDOM AUTO DEALERSHIP" loading="lazy" decoding="async"></span>
+            </div>
+            <div class="bset-body">
+              <span class="bset-kicker">25 · DEALER DE AUTOS Y FINANCIAMIENTO</span>
+              <h4 class="bset-title">THE KINGDOM AUTO DEALERSHIP</h4>
+              <p class="bset-desc">Placa metálica de exhibición + colgante de espejo retrovisor y llavero · Polo ejecutivo de ventas 'the kingdom' + carpeta de entrega de título · Tarjetas y stickers.</p>
+              <span class="bset-cta">Abrir Mini Branding Set <span aria-hidden="true">→</span></span>
+            </div>
+          </button>
+          <button class="bset-card" type="button" data-open-stage="bset-26" data-bset-cat="moda" data-reveal aria-label="Abrir Mini Branding Set 26: THE LENS ACADEMY">
+            <div class="bset-frame">
+              <span class="bset-num">26</span>
+              <img class="bset-img" src="/hola/img/branding/mockup-26-sm.webp" srcset="/hola/img/branding/mockup-26-sm.webp 640w, /hola/img/branding/mockup-26.webp 1280w" sizes="(min-width:980px) 30vw, (min-width:700px) 46vw, 92vw" width="640" height="480" alt="Mini Branding Set fotorrealista para THE LENS ACADEMY" loading="lazy" decoding="async">
+              <span class="bset-logo-pill" style="background:#F7F7F5"><img src="/hola/img/branding/logo-26.webp" width="96" height="56" alt="Logotipo THE LENS ACADEMY" loading="lazy" decoding="async"></span>
+            </div>
+            <div class="bset-body">
+              <span class="bset-kicker">26 · ACADEMIA DE FOTOGRAFÍA E ILUMINACIÓN</span>
+              <h4 class="bset-title">THE LENS ACADEMY</h4>
+              <p class="bset-desc">Credencial 'all-access studio pass' + guía de bolsillo de triángulo de exposición · Hoodie técnico de crew + gorra 'shoot raw' con bordado · Tarjetas y stickers.</p>
+              <span class="bset-cta">Abrir Mini Branding Set <span aria-hidden="true">→</span></span>
+            </div>
+          </button>
+          <button class="bset-card" type="button" data-open-stage="bset-27" data-bset-cat="servicios" data-reveal aria-label="Abrir Mini Branding Set 27: &lt;/&gt; TWOIT SOLUTIONS">
+            <div class="bset-frame">
+              <span class="bset-num">27</span>
+              <img class="bset-img" src="/hola/img/branding/mockup-27-sm.webp" srcset="/hola/img/branding/mockup-27-sm.webp 640w, /hola/img/branding/mockup-27.webp 1280w" sizes="(min-width:980px) 30vw, (min-width:700px) 46vw, 92vw" width="640" height="480" alt="Mini Branding Set fotorrealista para &lt;/&gt; TWOIT SOLUTIONS" loading="lazy" decoding="async">
+              <span class="bset-logo-pill" style="background:#110E20"><img src="/hola/img/branding/logo-27.webp" width="96" height="56" alt="Logotipo &lt;/&gt; TWOIT SOLUTIONS" loading="lazy" decoding="async"></span>
+            </div>
+            <div class="bset-body">
+              <span class="bset-kicker">27 · AGENCIA DE MARKETING DIGITAL Y DESARROLLO</span>
+              <h4 class="bset-title">&lt;/&gt; TWOIT SOLUTIONS</h4>
+              <p class="bset-desc">Reporte ejecutivo de campañas (ROAS +340%) + tarjeta NFC y stickers de laptop · Hoodie minimalista '&lt;/&gt; twoit' + taza térmica de agencia · Tarjetas y stickers.</p>
+              <span class="bset-cta">Abrir Mini Branding Set <span aria-hidden="true">→</span></span>
+            </div>
+          </button>
+          <button class="bset-card" type="button" data-open-stage="bset-28" data-bset-cat="construccion" data-reveal aria-label="Abrir Mini Branding Set 28: TZEL · PROPERTY RADAR">
+            <div class="bset-frame">
+              <span class="bset-num">28</span>
+              <img class="bset-img" src="/hola/img/branding/mockup-28-sm.webp" srcset="/hola/img/branding/mockup-28-sm.webp 640w, /hola/img/branding/mockup-28.webp 1280w" sizes="(min-width:980px) 30vw, (min-width:700px) 46vw, 92vw" width="640" height="480" alt="Mini Branding Set fotorrealista para TZEL · PROPERTY RADAR" loading="lazy" decoding="async">
+              <span class="bset-logo-pill" style="background:#F8FAFC"><img src="/hola/img/branding/logo-28.webp" width="96" height="56" alt="Logotipo TZEL · PROPERTY RADAR" loading="lazy" decoding="async"></span>
+            </div>
+            <div class="bset-body">
+              <span class="bset-kicker">28 · NUESTRO SOFTWARE DE ENCONTRAR LAS CASAS (PROPTECH)</span>
+              <h4 class="bset-title">TZEL · PROPERTY RADAR</h4>
+              <p class="bset-desc">Interfaz móvil de radar de propiedades + colgante de puerta 'compramos tu casa' · Polo de inversionista en campo + gorra con rayo 'TZEL' · Tarjetas y stickers.</p>
+              <span class="bset-cta">Abrir Mini Branding Set <span aria-hidden="true">→</span></span>
+            </div>
+          </button>
+          <button class="bset-card" type="button" data-open-stage="bset-29" data-bset-cat="motor" data-reveal aria-label="Abrir Mini Branding Set 29: UNIVERSITY BICYCLE CENTER">
+            <div class="bset-frame">
+              <span class="bset-num">29</span>
+              <img class="bset-img" src="/hola/img/branding/mockup-29-sm.webp" srcset="/hola/img/branding/mockup-29-sm.webp 640w, /hola/img/branding/mockup-29.webp 1280w" sizes="(min-width:980px) 30vw, (min-width:700px) 46vw, 92vw" width="640" height="480" alt="Mini Branding Set fotorrealista para UNIVERSITY BICYCLE CENTER" loading="lazy" decoding="async">
+              <span class="bset-logo-pill" style="background:#141A21"><img src="/hola/img/branding/logo-29.webp" width="96" height="56" alt="Logotipo UNIVERSITY BICYCLE CENTER" loading="lazy" decoding="async"></span>
+            </div>
+            <div class="bset-body">
+              <span class="bset-kicker">29 · TIENDA DE BICICLETAS, PIEZAS Y TALLER (DESDE 1972)</span>
+              <h4 class="bset-title">UNIVERSITY BICYCLE CENTER</h4>
+              <p class="bset-desc">Etiqueta colgante de manubrio 'tune-up checklist' + sticker de cuadro · Delantal de mecánico en lona pesada con bolsillos de llaves allen · Tarjetas y stickers.</p>
+              <span class="bset-cta">Abrir Mini Branding Set <span aria-hidden="true">→</span></span>
+            </div>
+          </button>
+          <button class="bset-card" type="button" data-open-stage="bset-30" data-bset-cat="construccion" data-reveal aria-label="Abrir Mini Branding Set 30: UPLIMITS CONSTRUCTION">
+            <div class="bset-frame">
+              <span class="bset-num">30</span>
+              <img class="bset-img" src="/hola/img/branding/mockup-30-sm.webp" srcset="/hola/img/branding/mockup-30-sm.webp 640w, /hola/img/branding/mockup-30.webp 1280w" sizes="(min-width:980px) 30vw, (min-width:700px) 46vw, 92vw" width="640" height="480" alt="Mini Branding Set fotorrealista para UPLIMITS CONSTRUCTION" loading="lazy" decoding="async">
+              <span class="bset-logo-pill" style="background:#F5F6F8"><img src="/hola/img/branding/logo-30.webp" width="96" height="56" alt="Logotipo UPLIMITS CONSTRUCTION" loading="lazy" decoding="async"></span>
+            </div>
+            <div class="bset-body">
+              <span class="bset-kicker">30 · CONSTRUCTORA Y CONTRATISTA GENERAL</span>
+              <h4 class="bset-title">UPLIMITS CONSTRUCTION</h4>
+              <p class="bset-desc">Carpeta de planos aprobados + casco blanco de ingeniería y cinta métrica · Chaqueta soft-shell impermeable de supervisor + polo de obra · Tarjetas y stickers.</p>
+              <span class="bset-cta">Abrir Mini Branding Set <span aria-hidden="true">→</span></span>
+            </div>
+          </button>
+          <button class="bset-card" type="button" data-open-stage="bset-31" data-bset-cat="construccion" data-reveal aria-label="Abrir Mini Branding Set 31: VENEGA'S MATTRESS">
+            <div class="bset-frame">
+              <span class="bset-num">31</span>
+              <img class="bset-img" src="/hola/img/branding/mockup-31-sm.webp" srcset="/hola/img/branding/mockup-31-sm.webp 640w, /hola/img/branding/mockup-31.webp 1280w" sizes="(min-width:980px) 30vw, (min-width:700px) 46vw, 92vw" width="640" height="480" alt="Mini Branding Set fotorrealista para VENEGA'S MATTRESS" loading="lazy" decoding="async">
+              <span class="bset-logo-pill" style="background:#0E1938"><img src="/hola/img/branding/logo-31.webp" width="96" height="56" alt="Logotipo VENEGA'S MATTRESS" loading="lazy" decoding="async"></span>
+            </div>
+            <div class="bset-body">
+              <span class="bset-kicker">31 · MARCA DE COLCHONES Y DESCANSO ORTOPÉDICO</span>
+              <h4 class="bset-title">VENEGA'S MATTRESS</h4>
+              <p class="bset-desc">Banda esquinera de colchón (corner sash) + muestrario de firmeza y garantía 10 años · Polo de asesor de descanso + etiqueta de ley textil cosida · Tarjetas y stickers.</p>
+              <span class="bset-cta">Abrir Mini Branding Set <span aria-hidden="true">→</span></span>
+            </div>
+          </button>
+          <button class="bset-card" type="button" data-open-stage="bset-32" data-bset-cat="moda" data-reveal aria-label="Abrir Mini Branding Set 32: YESCA STREETWEAR">
+            <div class="bset-frame">
+              <span class="bset-num">32</span>
+              <img class="bset-img" src="/hola/img/branding/mockup-32-sm.webp" srcset="/hola/img/branding/mockup-32-sm.webp 640w, /hola/img/branding/mockup-32.webp 1280w" sizes="(min-width:980px) 30vw, (min-width:700px) 46vw, 92vw" width="640" height="480" alt="Mini Branding Set fotorrealista para YESCA STREETWEAR" loading="lazy" decoding="async">
+              <span class="bset-logo-pill" style="background:#F2EFE9"><img src="/hola/img/branding/logo-32.webp" width="96" height="56" alt="Logotipo YESCA STREETWEAR" loading="lazy" decoding="async"></span>
+            </div>
+            <div class="bset-body">
+              <span class="bset-kicker">32 · MARCA DE ROPA URBANA Y STREETWEAR</span>
+              <h4 class="bset-title">YESCA STREETWEAR</h4>
+              <p class="bset-desc">Hangtag de cartón grueso con ojal + etiqueta tejida de cuello y bolsa frosted · Hoodie boxy 450GSM con gráfico espalda + beanie bordado · Tarjetas y stickers.</p>
+              <span class="bset-cta">Abrir Mini Branding Set <span aria-hidden="true">→</span></span>
+            </div>
+          </button>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -1050,6 +1511,53 @@ body.modal-open .fab{transform:translateY(160%)!important}
     }
   };
 
+  /* 32 Mini Branding Sets Stage Registration */
+  [
+    ["01","01 · QUIROPRÁCTICA Y DIAGNÓSTICO ESPINAL","+1ST DIAGNOSTICS","Sistema de identidad física y visual para +1ST DIAGNOSTICS (Chiropractic & Spinal Care). Incluye tarjetas de presentación frente y reverso, scrubs clínicos bordados + gafete doctor, carpeta de rayos x + ficha de evaluación vertebral (c1–l5), stickers troquelados y señalética exterior. Paleta oficial: Cobalt Spine (#0018A8) · Vitality Green (#00A624) · Clinical Navy (#0B162C) · Sterile Ice (#F4F7FB)."],
+    ["02","02 · CONSTRUCCIÓN Y OBRA CIVIL PESADA","ABB CONSTRUCTION","Sistema de identidad física y visual para ABB CONSTRUCTION (Heavy Civil & Structural Construction). Incluye tarjetas de presentación frente y reverso, polo de obra + chaleco reflectivo ansi clase 2, casco de seguridad + tabla de obra y perímetro de valla, stickers troquelados y señalética exterior. Paleta oficial: Caterpillar Gold (#FFB800) · Asphalt Black (#141518) · Steel I-Beam (#2C2D30) · Concrete Dust (#F4F1EA)."],
+    ["03","03 · PARQUE DE MOUNTAIN BIKE Y SENDEROS","ALAFIA RIVER PARK","Sistema de identidad física y visual para ALAFIA RIVER PARK (Mountain Bike Trail Park). Incluye tarjetas de presentación frente y reverso, jersey técnico de ciclismo + parche tejido de guardaparques, placa dorsal mtb #042 + tótem de dificultad de senderos, stickers troquelados y señalética exterior. Paleta oficial: Pine Forest (#1B3022) · River Rapids (#3E6B89) · Red Clay Trail (#C87D46) · Limestone Bluff (#F3EFE6)."],
+    ["04","04 · FOTÓGRAFA EDITORIAL Y DE BODAS","BF PHOTOGRAPHY","Sistema de identidad física y visual para BF PHOTOGRAPHY (Editorial & Wedding Photography). Incluye tarjetas de presentación frente y reverso, tote bag de lona cruda + correa de cámara en cuero, caja de lino fine-art + memoria usb grabada y prints 5×7, stickers troquelados y señalética exterior. Paleta oficial: Silver Gelatin (#141414) · Cotton Rag (#F6F3EC) · Warm Champagne (#C5AE91) · Raw Linen (#8C7355)."],
+    ["05","05 · ALTA JOYERÍA Y DIAMANTES","CLOVER JEWERLY","Sistema de identidad física y visual para CLOVER JEWERLY (Fine Gold & Diamond Boutique). Incluye tarjetas de presentación frente y reverso, blazer de salón con pin dorado en solapa + guantes de joyero, estuche de anillo en terciopelo + certificado de autenticidad 18k, stickers troquelados y señalética exterior. Paleta oficial: Obsidian Velvet (#0A0A0D) · 18K Royal Gold (#D4AF37) · Champagne Pavé (#F3E5AB) · Clover Emerald (#163828)."],
+    ["06","06 · FLORISTERÍA DE AUTOR Y ARTE BOTÁNICO","DAVID FLOWERS","Sistema de identidad física y visual para DAVID FLOWERS (Bespoke Floral Studio & Botanicals). Incluye tarjetas de presentación frente y reverso, delantal de florista en lona verde bosque y cuero, envoltorio kraft con sello de lacre + tarjeta de dedicatoria y cuidado, stickers troquelados y señalética exterior. Paleta oficial: Velvet Rose (#D9384A) · Eucalyptus Stem (#2E473B) · Petal Cream (#FAF6F0) · Keepsake Raffia (#D9A05B)."],
+    ["07","07 · REMODELACIÓN RESIDENCIAL Y CONSTRUCCIÓN","D HOMES","Sistema de identidad física y visual para D HOMES (Remodeling & Custom Construction). Incluye tarjetas de presentación frente y reverso, polo ejecutivo negro con bordado dorado + gorra de supervisor, letrero exterior de jardín 'remodeling by d homes' + caja de llaves, stickers troquelados y señalética exterior. Paleta oficial: Brushed Brass (#F2D078) · Architectural Slate (#121316) · Warm Oak (#C89D42) · Carrara Marble (#EAE6DF)."],
+    ["08","08 · ACADEMIA DIGITAL Y FORMACIÓN ONLINE","DIGITAL GARDEN ACADEMIA","Sistema de identidad física y visual para DIGITAL GARDEN ACADEMIA (EdTech & Digital Business Academy). Incluye tarjetas de presentación frente y reverso, hoodie universitario premium + lanyard de mentor vip, diploma de certificación con sello dorado + credencial de estudiante, stickers troquelados y señalética exterior. Paleta oficial: Midnight Academy (#0B0E11) · Laurel Gold (#D4AF37) · Botanical Growth (#194D3B) · Enlightenment (#F4E09D)."],
+    ["09","09 · DETAILING DE AUTOS Y CERÁMICO 9H","EDUARD'S DETAILING","Sistema de identidad física y visual para EDUARD'S DETAILING (Ceramic Coating & Auto Detailing). Incluye tarjetas de presentación frente y reverso, polo microfibra anti-rayones (sin botones metálicos), botellas pulverizadoras ceramic 9h + colgante aromatizante de espejo, stickers troquelados y señalética exterior. Paleta oficial: Nitro Electric Blue (#0077FF) · Hydrophobic Cyan (#00D4FF) · Carbon Gloss (#0A0E14) · Chrome Mirror (#E2E8F0)."],
+    ["10","10 · AGENCIA DE MODA Y PRODUCCIÓN DE PASARELA","FANTASTIC FASHION SHOW","Sistema de identidad física y visual para FANTASTIC FASHION SHOW (Runway Production & Modeling Agency). Incluye tarjetas de presentación frente y reverso, camiseta oversize 'backstage crew' + tote bag de casting, pase de acceso backstage vip + comp-card de modelo con medidas, stickers troquelados y señalética exterior. Paleta oficial: Runway Blackout (#0D0D0F) · Vogue Silk (#FAF9F6) · Nude Couture (#D5C3AA) · Champagne Spotlight (#B89768)."],
+    ["11","11 · INSTALACIÓN DE CERCAS Y PORTONES","JIMAGUAS FENCE","Sistema de identidad física y visual para JIMAGUAS FENCE (Perimeter Fencing & Automated Gates). Incluye tarjetas de presentación frente y reverso, camisa de trabajo manga larga + gorra trucker bordada, placa metálica remachada para reja + hoja de cotización por pie lineal, stickers troquelados y señalética exterior. Paleta oficial: Cardinal Red (#E1251B) · Wrought Iron (#131417) · Galvanized Steel (#D4D7DC) · Chain-Link Aluminum (#8A909A)."],
+    ["12","12 · ESTUDIO CREATIVO Y SOFTWARE A LA MEDIDA (MI NEGOCIO)","DAME LA LETRA","Sistema de identidad física y visual para DAME LA LETRA (Creative Studio & Bespoke ARM Software). Incluye tarjetas de presentación frente y reverso, hoodie pesado del estudio '#0e0a14' + gorra con monograma 'dl', tarjeta nfc con realidad aumentada + dosier de arquitectura de software arm, stickers troquelados y señalética exterior. Paleta oficial: Tinta Nocturna (#0E0A14) · Amarillo Letra (#FFCC29) · Violeta Estudio (#6A4888) · Papel Editorial (#F3EEE3)."],
+    ["13","13 · NOTARÍA, INMIGRACIÓN Y PREPARACIÓN DE TAXES","DLEUNAM SERVICES","Sistema de identidad física y visual para DLEUNAM SERVICES (Notary Public, Immigration & Tax Prep). Incluye tarjetas de presentación frente y reverso, camisa oxford ejecutiva bordada + portadocumentos en piel, carpeta de expediente legal (uscis / irs) + sello de relieve notarial, stickers troquelados y señalética exterior. Paleta oficial: Residency Green (#00A859) · Federal Blue (#0072BC) · Notary Navy (#0B1624) · Legal Bond Paper (#F8FAFC)."],
+    ["14","14 · TIENDA DE VÍVERES Y RESTAURANTE CUBANO","LATIN FOOD & BAKERY","Sistema de identidad física y visual para LATIN FOOD & BAKERY (Cuban Market, Bakery & Restaurant). Incluye tarjetas de presentación frente y reverso, delantal de panadero rayado + gorra de despacho, caja de pastelería 'pastelitos calientes' + vaso de colada cubana, stickers troquelados y señalética exterior. Paleta oficial: Guava Crimson (#E51937) · Malecón Cobalt (#0038A8) · Pan Cubano Cream (#FFF8E7) · Cafecito Espresso (#3B1E08)."],
+    ["15","15 · ESTUDIO FOTOGRÁFICO DE RETRATO Y MATERNIDAD","LORENA BLANCO PHOTOSTUDIO","Sistema de identidad física y visual para LORENA BLANCO PHOTOSTUDIO (Maternity, Newborn & Portrait Studio). Incluye tarjetas de presentación frente y reverso, blusa de estudio negra con bordado rosa + credencial, sobre porta-fotos con cinta de seda + tarjeta de regalo 'gift session', stickers troquelados y señalética exterior. Paleta oficial: Magenta Shutter (#E84A6F) · Velvet Lens (#181619) · Studio Cyclorama (#FBF9F7) · Blush Softbox (#F4B8C5)."],
+    ["16","16 · ESTUDIO DE EXTENSIONES DE PESTAÑAS (LASHES)","ML ESSENTIALS · ME","Sistema de identidad física y visual para ML ESSENTIALS · ME (Luxury Lash Studio & Beauty Bar). Incluye tarjetas de presentación frente y reverso, filipina estética anti-fluidos en negro mate con bordado nude, caja de pestañas (0.05cc d-curl) + frasco lash shampoo y cepillito spoolie, stickers troquelados y señalética exterior. Paleta oficial: Silk Nude (#EEDFD5) · Rose Gold Tweezers (#D4A393) · Mink Lash Black (#121214) · Alabaster Glow (#FBF6F3)."],
+    ["17","17 · MARCA DE HELADOS Y BOLIS ARTESANALES","MENADITOS ARTESANAL","Sistema de identidad física y visual para MENADITOS ARTESANAL (Artisanal Ice Cream & Gourmet Popsicles). Incluye tarjetas de presentación frente y reverso, delantal azul hielo + gorra de heladero y hielera portátil, empaques flow-pack de 3 sabores + tarrina térmica y carrito heladero, stickers troquelados y señalética exterior. Paleta oficial: Glacier Blue (#1E56C5) · Frozen Polar (#7FE3FF) · Tropical Mango (#FFD13B) · Strawberry Cream (#FF5E7E)."],
+    ["18","18 · DECORACIONES PARA FIESTAS Y EVENTOS","MARI'S MAGICAL DECOR","Sistema de identidad física y visual para MARI'S MAGICAL DECOR (Luxury Event Styling & Balloon Couture). Incluye tarjetas de presentación frente y reverso, polo 'production staff' con mariposa bordada + cinturón de montaje, carpeta de propuesta de montaje de evento + etiqueta colgante para recuerdos, stickers troquelados y señalética exterior. Paleta oficial: Butterfly Rose (#EC5A7C) · Peach Balloon (#F79489) · Champagne Shimmer (#F9E4C8) · Gala Plum (#1D1321)."],
+    ["19","19 · BROKERAJE E INMOBILIARIA (REAL ESTATE)","NEW ERA REAL ESTATE","Sistema de identidad física y visual para NEW ERA REAL ESTATE (Luxury Residential & Commercial Brokerage). Incluye tarjetas de presentación frente y reverso, blazer ejecutivo con pin dorado 'new era' + portafolio de cierre, poste inmobiliario 'for sale / sold' + carpeta de entrega de llaves, stickers troquelados y señalética exterior. Paleta oficial: Estate Gold (#C9A96E) · Skyline Onyx (#0F1014) · Penthouse Ivory (#F7F5F0) · Bridge Steel (#4A5262)."],
+    ["20","20 · ROPA DEPORTIVA TÉCNICA PARA CICLISTAS","RIDE CRANK","Sistema de identidad física y visual para RIDE CRANK (Pro Cycling Apparel & Aero Kit Brand). Incluye tarjetas de presentación frente y reverso, conjunto maillot + culotte con tirantes e impresión en silicona, maillot de ciclismo pro-fit + etiqueta técnica colgante uv50+ y bidón, stickers troquelados y señalética exterior. Paleta oficial: Maillot Yellow (#FFBA08) · Peloton Slate Blue (#3B5B76) · Carbon Frame (#0D1014) · Aero Mesh White (#F8FAFC)."],
+    ["21","21 · IGLESIA BAUTISTA Y COMUNIDAD DE FE","IGLESIA SENDAS DE LUZ","Sistema de identidad física y visual para IGLESIA SENDAS DE LUZ (Baptist Church & Community Ministry). Incluye tarjetas de presentación frente y reverso, polo de servidores y ujieres + credencial con lanyard 'equipo de bienvenida', tarjeta de bienvenida 'nuevos visitantes' + sobre de diezmos y ofrendas, stickers troquelados y señalética exterior. Paleta oficial: Celestial Blue (#0095D9) · Radiant Dove Gold (#FFD200) · Sanctuary Navy (#0B172A) · Grace White (#FFFFFF)."],
+    ["22","22 · JOYERÍA FINA Y DISEÑO DE AUTOR","SOZ · SOZA JEWERLY","Sistema de identidad física y visual para SOZ · SOZA JEWERLY (Minimalist Fine Jewelry & Gold Atelier). Incluye tarjetas de presentación frente y reverso, chaqueta de atelier beige con monograma 'soz' en hilo de oro, bolsa boutique con cordón de seda + paño de pulido y tarjeta de aretes, stickers troquelados y señalética exterior. Paleta oficial: Champagne Vermeil (#EAD292) · Smoky Quartz (#0E0D0B) ·  Florentine Gold (#C5A059) · Silk Pearl (#FAF7F0)."],
+    ["23","23 · TAQUERÍA MEXICANA Y COCINA DE AUTOR","MEXICAN FOOD TAQUERÍA","Sistema de identidad física y visual para MEXICAN FOOD TAQUERÍA (Authentic Street Tacos & Salsa Bar). Incluye tarjetas de presentación frente y reverso, mandil negro de taquero 'con todo' + gorra bordada, papel encerado con patrón para canasta + 3 botellas de salsa de la casa, stickers troquelados y señalética exterior. Paleta oficial: Salsa Roja Brava (#E6392E) · Talavera Turquoise (#18A5A7) · Maíz Dorado (#FFB703) · Cilantro & Lime (#2B9348)."],
+    ["24","24 · RESTAURANTE CARIBEÑO Y CABARET SHOW","CABARET TAÍNO","Sistema de identidad física y visual para CABARET TAÍNO (Caribbean Supper Club, Lounge & Live Show). Incluye tarjetas de presentación frente y reverso, chaleco de mixólogo y capitán de meseros con bordado dorado, porta-menú de cena y coctelería + posavasos y brazalete vip de reserva, stickers troquelados y señalética exterior. Paleta oficial: Taino Fire (#F25C22) · Cabaret Velvet (#C81D25) · Añejo Rum Gold (#D9A05B) · Midnight Tropics (#110B0A)."],
+    ["25","25 · DEALER DE AUTOS Y FINANCIAMIENTO","THE KINGDOM AUTO DEALERSHIP","Sistema de identidad física y visual para THE KINGDOM AUTO DEALERSHIP (Pre-Owned & Luxury Auto Dealership LLC). Incluye tarjetas de presentación frente y reverso, polo ejecutivo de ventas 'the kingdom' + carpeta de entrega de título, placa metálica de exhibición + colgante de espejo retrovisor y llavero, stickers troquelados y señalética exterior. Paleta oficial: Kingdom Royal Blue (#1B4988) · Crown Gold (#F5B82E) · Showroom Asphalt (#0A0E17) · Metallic Silver (#E2E8F0)."],
+    ["26","26 · ACADEMIA DE FOTOGRAFÍA E ILUMINACIÓN","THE LENS ACADEMY","Sistema de identidad física y visual para THE LENS ACADEMY (Photography & Cinematography School). Incluye tarjetas de presentación frente y reverso, hoodie técnico de crew + gorra 'shoot raw' con bordado, credencial 'all-access studio pass' + guía de bolsillo de triángulo de exposición, stickers troquelados y señalética exterior. Paleta oficial: Anodized Barrel (#121214) · Red Ring L-Series (#E63946) · 5600K Daylight (#F7F7F5) · 18% Middle Gray (#77777E)."],
+    ["27","27 · AGENCIA DE MARKETING DIGITAL Y DESARROLLO","</> TWOIT SOLUTIONS","Sistema de identidad física y visual para </> TWOIT SOLUTIONS (Digital Marketing, Dev & Growth Agency). Incluye tarjetas de presentación frente y reverso, hoodie minimalista '</> twoit' + taza térmica de agencia, reporte ejecutivo de campañas (roas +340%) + tarjeta nfc y stickers de laptop, stickers troquelados y señalética exterior. Paleta oficial: Hyper Violet (#7C4DFF) · Lavender Syntax (#B388FF) · Terminal Dark (#0D0B18) · Conversion Cyan (#00E5FF)."],
+    ["28","28 · NUESTRO SOFTWARE DE ENCONTRAR LAS CASAS (PROPTECH)","TZEL · PROPERTY RADAR","Sistema de identidad física y visual para TZEL · PROPERTY RADAR (Distressed Property & Off-Market Software). Incluye tarjetas de presentación frente y reverso, polo de inversionista en campo + gorra con rayo 'tzel', interfaz móvil de radar de propiedades + colgante de puerta 'compramos tu casa', stickers troquelados y señalética exterior. Paleta oficial: Radar Midnight (#070B12) · Equity Emerald (#10B981) · Lightning Strike (#FFDD00) · Parcel Grid White (#F8FAFC)."],
+    ["29","29 · TIENDA DE BICICLETAS, PIEZAS Y TALLER (DESDE 1972)","UNIVERSITY BICYCLE CENTER","Sistema de identidad física y visual para UNIVERSITY BICYCLE CENTER (Heritage Bike Shop & Service Workshop · Est. 1972). Incluye tarjetas de presentación frente y reverso, delantal de mecánico en lona pesada con bolsillos de llaves allen, etiqueta colgante de manubrio 'tune-up checklist' + sticker de cuadro, stickers troquelados y señalética exterior. Paleta oficial: Varsity Blue (#2B5B84) · Cadence Yellow (#FFD100) · ParkTool Grease (#12161B) · Vintage Jersey (#F4F1EA)."],
+    ["30","30 · CONSTRUCTORA Y CONTRATISTA GENERAL","UPLIMITS CONSTRUCTION","Sistema de identidad física y visual para UPLIMITS CONSTRUCTION (Commercial & Residential General Contractors). Incluye tarjetas de presentación frente y reverso, chaqueta soft-shell impermeable de supervisor + polo de obra, carpeta de planos aprobados + casco blanco de ingeniería y cinta métrica, stickers troquelados y señalética exterior. Paleta oficial: High-Vis Orange (#FF6B00) · Structural Iron (#111316) · Brushed Aluminum (#8D949E) · Blueprint White (#F5F6F8)."],
+    ["31","31 · MARCA DE COLCHONES Y DESCANSO ORTOPÉDICO","VENEGA'S MATTRESS","Sistema de identidad física y visual para VENEGA'S MATTRESS (Orthopedic Mattresses & Sleep Showroom). Incluye tarjetas de presentación frente y reverso, polo de asesor de descanso + etiqueta de ley textil cosida, banda esquinera de colchón (corner sash) + muestrario de firmeza y garantía 10 años, stickers troquelados y señalética exterior. Paleta oficial: Cooling Gel Cyan (#28B5F5) · Deep REM Lavender (#8A4FFF) · Midnight Slumber (#0B132B) · Bamboo Cloud (#FFFFFF)."],
+    ["32","32 · MARCA DE ROPA URBANA Y STREETWEAR","YESCA STREETWEAR","Sistema de identidad física y visual para YESCA STREETWEAR (Contemporary Urban Apparel & Capsule Drops). Incluye tarjetas de presentación frente y reverso, hoodie boxy 450gsm con gráfico espalda + beanie bordado, hangtag de cartón grueso con ojal + etiqueta tejida de cuello y bolsa frosted, stickers troquelados y señalética exterior. Paleta oficial: Heavyweight Jet (#0D0D0F) · Raw Unbleached Bone (#F2EFE9) · Ignition Flame Red (#E62E2D) · Distressed Concrete (#71717A)."]
+  ].forEach(function(b){
+    STAGES['bset-'+b[0]]={
+      kicker:'Mini Branding Set · '+b[1],
+      title:b[2],
+      desc:b[3],
+      fx:'gold',
+      leadImg:{src:'/hola/img/branding/mockup-'+b[0]+'.webp',caption:'01 / Fotografía de Estudio · Mini Branding Set Fotorrealista (Toca la imagen para ampliar)'},
+      secondary:[
+        {type:'img',src:'/hola/img/branding/board-'+b[0]+'.webp',caption:'02 / Plancha Técnica de Identidad · Logotipo, Paleta HEX, Papelería, Uniforme y Señalética'}
+      ]
+    };
+  });
+
   var stage=d.getElementById('project-stage'), stFx=d.getElementById('st-fx'), stKicker=d.getElementById('st-kicker'),
       stTitle=d.getElementById('st-title'), stDesc=d.getElementById('st-desc'), stFxCtrl=d.getElementById('st-fx-ctrl'),
       stActions=d.getElementById('st-actions'), stShowcase=d.getElementById('st-showcase');
@@ -1185,6 +1693,14 @@ body.modal-open .fab{transform:translateY(160%)!important}
       var li=d.createElement('img');
       li.src=p.leadImg.src;li.alt=p.leadImg.caption||p.title;
       li.style.maxHeight='68svh';li.style.width='auto';li.style.margin='0 auto';
+      li.addEventListener('click',function(){
+        if(sheetModal&&shmImg){
+          shmImg.src=li.src;
+          shmTitle.textContent=p.leadImg.caption||p.title;
+          sheetModal.classList.add('open');
+          sheetModal.setAttribute('aria-hidden','false');
+        }
+      });
       lf.appendChild(li);
       if(p.leadImg.caption){
         var lcap=d.createElement('figcaption');
@@ -1258,6 +1774,14 @@ body.modal-open .fab{transform:translateY(160%)!important}
         }else{
           var si=d.createElement('img');
           si.src=item.src;si.alt=item.caption||'';si.loading='lazy';
+          si.addEventListener('click',function(){
+            if(sheetModal&&shmImg){
+              shmImg.src=si.src;
+              shmTitle.textContent=item.caption||p.title;
+              sheetModal.classList.add('open');
+              sheetModal.setAttribute('aria-hidden','false');
+            }
+          });
           fig.appendChild(si);
         }
         if(item.caption){
@@ -1372,7 +1896,7 @@ body.modal-open .fab{transform:translateY(160%)!important}
     });
   });
 
-  /* 6. Architectural Sheets Filter & High-Res Lightbox */
+  /* 6. Architectural Sheets Filter, 32 Mini Branding Sets Filter & High-Res Lightbox */
   var sfBtns=d.querySelectorAll('[data-sheet-filter]'), sheets=d.querySelectorAll('.sheet');
   sfBtns.forEach(function(b){
     b.addEventListener('click',function(){
@@ -1384,6 +1908,18 @@ body.modal-open .fab{transform:translateY(160%)!important}
         else if(cat==='destacados')s.hidden=!s.hasAttribute('data-sheet-feat');
         else if(cat==='mayor')s.hidden=!s.hasAttribute('data-sheet-mayor');
         else s.hidden=(s.getAttribute('data-sheet-cat')!==cat);
+      });
+    });
+  });
+
+  var bfBtns=d.querySelectorAll('[data-bset-filter]'), bsets=d.querySelectorAll('.bset-card');
+  bfBtns.forEach(function(b){
+    b.addEventListener('click',function(){
+      var cat=b.getAttribute('data-bset-filter');
+      bfBtns.forEach(function(x){x.classList.remove('active')});
+      b.classList.add('active');
+      bsets.forEach(function(c){
+        c.hidden=(cat!=='all'&&c.getAttribute('data-bset-cat')!==cat);
       });
     });
   });
@@ -1402,8 +1938,10 @@ body.modal-open .fab{transform:translateY(160%)!important}
   function closeSheet(){
     sheetModal.classList.remove('open');
     sheetModal.setAttribute('aria-hidden','true');
-    d.body.style.overflow='';
-    d.body.classList.remove('modal-open');
+    if(!stage.classList.contains('open')&&(!arPortal||!arPortal.classList.contains('open'))){
+      d.body.style.overflow='';
+      d.body.classList.remove('modal-open');
+    }
   }
   d.querySelectorAll('[data-close-sheet]').forEach(function(b){b.addEventListener('click',closeSheet)});
 
@@ -1580,7 +2118,7 @@ body.modal-open .fab{transform:translateY(160%)!important}
     });
   });
 
-  d.addEventListener('keydown',function(e){if(e.key==='Escape'){closeStage();closeSheet();closeArPortal();}});
+  d.addEventListener('keydown',function(e){if(e.key==='Escape'){if(sheetModal&&sheetModal.classList.contains('open')){closeSheet();return;}closeStage();closeArPortal();}});
 
   if(window.location.search.indexOf('ar=mayor')!==-1||window.location.hash==='#ar-mayor'){
     openArPortal('mayor');
@@ -1589,7 +2127,7 @@ body.modal-open .fab{transform:translateY(160%)!important}
   }
 
   /* Legacy hash redirect when visiting home with a chapter anchor */
-  var hMap={'#cap-diseno':'/branding','#p-elys':'/branding#p-elys','#p-newera':'/branding#p-newera','#p-labonita':'/branding#p-labonita','#cap-codigo':'/web','#p-lucky':'/web#p-lucky','#p-dp':'/web#p-dp','#p-trilion':'/web#p-trilion','#p-primestone':'/web#p-primestone','#cap-planos':'/planos','#visor-3d':'/planos#visor-3d','#pliegos':'/planos#pliegos','#tu-software':'/software','#cap-software':'/software#cap-software','#cap-videos':'/videos','#realizacion-video':'/videos#realizacion-video'};
+  var hMap={'#cap-diseno':'/branding','#p-elys':'/branding#p-elys','#p-newera':'/branding#p-newera','#p-labonita':'/branding#p-labonita','#mini-branding-sets':'/branding#mini-branding-sets','#cap-codigo':'/web','#p-lucky':'/web#p-lucky','#p-dp':'/web#p-dp','#p-trilion':'/web#p-trilion','#p-primestone':'/web#p-primestone','#cap-planos':'/planos','#visor-3d':'/planos#visor-3d','#pliegos':'/planos#pliegos','#tu-software':'/software','#cap-software':'/software#cap-software','#cap-videos':'/videos','#realizacion-video':'/videos#realizacion-video'};
   if(window.location.hash&&hMap[window.location.hash]&&!d.querySelector(window.location.hash)){
     window.location.replace(hMap[window.location.hash]);
   }

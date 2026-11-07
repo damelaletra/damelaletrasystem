@@ -81,8 +81,8 @@ const CHAPTER_PAGES = [
   {
     slug: 'branding',
     title: 'Branding & Dirección de Arte · Capítulo 01 — Dame la Letra',
-    desc: 'Identidad visual, construcción de marca desde cero, universo gráfico, empaque y dirección creativa en Louisville, KY. Casos: Ely’s Charcuterie, New Era Real Estate y La Bonita Jewelry.',
-    jumps: '<div class="sub-jumps"><b>En este capítulo:</b> <a href="#p-elys">01 · Ely’s Charcuterie</a> <a href="#p-newera">02 · New Era Real Estate</a> <a href="#p-labonita">03 · La Bonita Jewelry</a></div>',
+    desc: 'Identidad visual, construcción de marca desde cero, universo gráfico, empaque y 32 Mini Branding Sets fotorrealistas en Louisville, KY. Casos: Ely’s Charcuterie, New Era Real Estate, La Bonita Jewelry y archivo de 32 sistemas.',
+    jumps: '<div class="sub-jumps"><b>En este capítulo:</b> <a href="#p-elys">01 · Ely’s Charcuterie</a> <a href="#p-newera">02 · New Era Real Estate</a> <a href="#p-labonita">03 · La Bonita Jewelry</a> <a href="#mini-branding-sets">04 · 32 Mini Branding Sets</a></div>',
     body: B_CAP_DISENO,
     contactNum: '02',
     nextHref: '/web',
