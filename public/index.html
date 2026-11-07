@@ -189,13 +189,15 @@ body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:100;op
 .logo-rail-meta b{color:var(--letra);font-weight:400}
 .logo-rail-btn{padding:6px 12px;border:1px solid var(--line);background:transparent;color:var(--letra);font:400 .72rem/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:border-color .2s,background-color .2s,color .2s}
 .logo-rail-btn:hover{border-color:var(--letra);background:var(--letra);color:var(--ink)}
-.logo-rail-rows{display:flex;flex-direction:column;gap:20px;cursor:pointer;touch-action:pan-y}
+.logo-rail-rows{display:flex;flex-direction:column;gap:20px;padding-bottom:14px;cursor:pointer;touch-action:pan-y}
 .logo-rail-track-wrap{display:flex;width:max-content}
 .logo-rail-track{display:flex;flex:none;align-items:center;gap:clamp(38px,5.5vw,76px);padding-right:clamp(38px,5.5vw,76px);animation:marquee 42s linear infinite;will-change:transform}
 .logo-rail-track.rev{animation-direction:reverse;animation-duration:46s}
 .logo-rail.paused .logo-rail-track{animation-play-state:paused!important}
-.logo-item{flex:none;display:inline-flex;align-items:center;justify-content:center;opacity:.92;transition:opacity .2s,transform .2s}
-.logo-item:hover{opacity:1;transform:translateY(-2px)}
+.logo-item{position:relative;flex:none;display:inline-flex;align-items:center;justify-content:center;padding:6px 10px;border:1px solid transparent;opacity:.92;cursor:pointer;transition:opacity .2s,transform .2s,border-color .2s,background-color .2s}
+.logo-item:hover,.logo-item:focus-visible{opacity:1;transform:translateY(-3px);border-color:rgba(255,204,41,.55);background:rgba(23,17,34,.85)}
+.logo-item[data-logo-tip]::after{content:attr(data-logo-tip);position:absolute;left:50%;bottom:-14px;transform:translateX(-50%);padding:2px 6px;background:var(--letra);color:var(--ink);font:700 .56rem/1.1 var(--mono);letter-spacing:.06em;text-transform:uppercase;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .18s;z-index:5}
+.logo-item[data-logo-tip]:hover::after,.logo-item[data-logo-tip]:focus-visible::after{opacity:1}
 .logo-item img{height:42px;width:auto;max-width:154px;object-fit:contain;filter:drop-shadow(0 2px 10px rgba(0,0,0,.45))}
 
 /* ---------- services (Lo que hacemos) ---------- */
@@ -212,6 +214,12 @@ body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:100;op
 .svc-d{grid-column:2;margin-top:12px;max-width:46ch;color:var(--mute);font-size:1rem;transition:color .3s}
 .svc-proof{grid-column:2;margin-top:12px;font:400 .78rem/1.5 var(--mono);color:var(--mute)}
 .svc-proof a{color:var(--letra);text-underline-offset:.25em}
+.svc-thumbs{grid-column:2;margin-top:14px;display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.svc-thumb{position:relative;display:inline-flex;align-items:center;gap:7px;padding:3px 9px 3px 3px;border:1px solid rgba(243,238,227,.22);background:rgba(14,10,20,.72);color:var(--paper);font:400 .68rem/1.1 var(--mono);letter-spacing:.04em;text-decoration:none;cursor:pointer;transition:transform .22s var(--ease),border-color .22s,background-color .22s,box-shadow .22s}
+.svc-thumb img{width:42px;height:32px;object-fit:cover;border:1px solid rgba(243,238,227,.16);background:var(--ink2);display:block;flex:none}
+.svc-thumb span{white-space:nowrap}
+.svc-thumb:hover{border-color:var(--letra);background:var(--ink);color:var(--letra);transform:translate(-2px,-2px);box-shadow:3px 3px 0 var(--letra)}
+.svc-thumb.more-pill{padding:7px 10px;border-style:dashed;color:var(--letra)}
 .svc-go-wrap{grid-column:2;margin-top:14px;display:flex;flex-wrap:wrap;align-items:center;gap:10px}
 .svc-go-btn{display:inline-flex;align-items:center;gap:.55em;padding:8px 14px;border:1px solid var(--letra);background:rgba(14,10,20,.55);color:var(--letra);font:400 .76rem/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;text-decoration:none;transition:transform .2s var(--ease),background-color .2s,color .2s,box-shadow .2s}
 .svc-go-btn .arr{transition:transform .22s var(--ease)}
@@ -400,8 +408,12 @@ body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:100;op
 .stage-gold{position:absolute;width:5px;height:5px;border-radius:50%;background:var(--letra);box-shadow:0 0 12px var(--letra);animation:goldPulse var(--gdur,3.4s) ease-in-out infinite alternate}
 @keyframes goldPulse{from{opacity:.12;transform:scale(.6) translateY(0)}to{opacity:.85;transform:scale(1.3) translateY(-20px)}}
 
-.stage-bar{position:sticky;top:0;z-index:5;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 0;border-bottom:1px solid var(--line);background:rgba(14,10,20,.82);backdrop-filter:blur(8px)}
+.stage-bar{position:sticky;top:0;z-index:5;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 16px;padding:14px 0;border-bottom:1px solid var(--line);background:rgba(14,10,20,.82);backdrop-filter:blur(8px)}
 .stage-kicker{font:400 .78rem/1.3 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--letra)}
+.stage-bar-right{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.stage-nav-btn{padding:8px 12px;border:1px solid var(--line);background:rgba(23,17,34,.85);color:var(--paper);font:400 .74rem/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:border-color .2s,background-color .2s,color .2s}
+.stage-nav-btn:hover{border-color:var(--letra);background:var(--letra);color:var(--ink)}
+.stage-counter{padding:0 6px;font:400 .74rem/1 var(--mono);color:var(--letra);letter-spacing:.08em}
 .stage-close{padding:8px 16px;border:1px solid var(--letra);background:var(--ink);color:var(--letra);font:400 .8rem/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:background-color .2s,color .2s}
 .stage-close:hover{background:var(--letra);color:var(--ink)}
 .stage-body{position:relative;z-index:2;display:grid;gap:32px;margin-top:clamp(24px,4vw,48px);align-items:start}
@@ -409,7 +421,7 @@ body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:100;op
 .stage-desc{max-width:46ch;color:var(--mute);font-size:1.05rem;margin-bottom:22px}
 .stage-fx-btn{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border:1px solid var(--letra);background:rgba(106,72,136,.28);color:var(--letra);font:400 .74rem/1 var(--mono);letter-spacing:.09em;text-transform:uppercase;cursor:pointer;margin-bottom:24px}
 .stage-fx-btn:hover{background:var(--letra);color:var(--ink)}
-.stage-actions{display:flex;flex-wrap:wrap;gap:14px}
+.stage-actions{display:flex;flex-direction:column;align-items:flex-start;gap:12px}
 .stage-showcase{display:grid;gap:22px}
 .stage-main-video{border:1px solid var(--line);background:#07050a;box-shadow:10px 10px 0 var(--violeta)}
 .stage-main-video video{width:100%;max-height:70svh;object-fit:contain;margin:0 auto}
@@ -529,11 +541,12 @@ body.modal-open .fab{transform:translateY(160%)!important}
   .founder{grid-column:1;grid-row:2;order:0}
   .hero-cta{grid-column:2;grid-row:1/3}
   .svc-item{grid-template-columns:5rem minmax(0,1.35fr) minmax(0,1fr);align-items:end;padding:30px 0 34px}
-  .svc-n{grid-row:1/4;align-self:start;padding-top:.4em}
-  .svc-t{grid-row:1/4;align-self:center}
-  .svc-d,.svc-proof,.svc-go-wrap{grid-column:3}
+  .svc-n{grid-row:1/5;align-self:start;padding-top:.4em}
+  .svc-t{grid-row:1/5;align-self:center}
+  .svc-d,.svc-proof,.svc-thumbs,.svc-go-wrap{grid-column:3}
   .svc-proof{grid-row:2}
-  .svc-go-wrap{grid-row:3}
+  .svc-thumbs{grid-row:3}
+  .svc-go-wrap{grid-row:4}
   .svc-item:nth-child(even) .svc-t{padding-left:7%}
   .svc-item:hover .svc-t,.svc-item.is-active .svc-t{color:var(--letra);transform:translateX(14px)}
   .proj{grid-template-columns:repeat(12,minmax(0,1fr));gap:0 36px;align-items:center}
@@ -635,7 +648,7 @@ body.modal-open .fab{transform:translateY(160%)!important}
 <!-- FAST TOUCH/CLICK-PAUSABLE DOUBLE CLIENT LOGO MARQUEE (2 FILAS EN DIRECCIONES OPUESTAS · SIN REPETIR LOGOS) -->
 <section class="logo-rail" id="marcas" aria-label="Clientes y logos creados">
   <div class="logo-rail-head">
-    <p class="logo-rail-meta"><b>Clientes y/o logos creados</b> / Toca o mantén presionado para detener</p>
+    <p class="logo-rail-meta"><b>Clientes y/o logos creados</b> / Toca cualquier logo para abrir su Mini Branding Set o caso</p>
     <button class="logo-rail-btn" type="button" data-marquee-btn aria-pressed="false">Detener</button>
   </div>
   <div class="logo-rail-rows" data-marquee>
@@ -759,6 +772,13 @@ body.modal-open .fab{transform:translateY(160%)!important}
           <h3 class="svc-t"><a class="svc-link" href="/branding">Branding <span class="amp">&amp;</span> Dirección de Arte</a></h3>
           <p class="svc-d">Identidad visual, construcción de marca desde cero, universo gráfico, empaque y dirección creativa para diferenciar negocios reales.</p>
           <p class="svc-proof">Explorar en <a href="/branding#p-elys">Ely’s Charcuterie</a> · <a href="/branding#p-newera">New Era Real Estate</a> · <a href="/branding#p-labonita">La Bonita Jewelry</a> · <a href="/branding#mini-branding-sets">32 Mini Branding Sets</a></p>
+          <div class="svc-thumbs" aria-label="Vista previa de proyectos de Branding">
+            <button class="svc-thumb" type="button" data-open-stage="elys"><img src="/hola/img/elys-bag-480.webp" width="42" height="32" alt="" loading="lazy"><span>Ely’s</span></button>
+            <button class="svc-thumb" type="button" data-open-stage="bset-01"><img src="/hola/img/branding/mockup-01-sm.webp" width="42" height="32" alt="" loading="lazy"><span>+1ST #01</span></button>
+            <button class="svc-thumb" type="button" data-open-stage="bset-05"><img src="/hola/img/branding/mockup-05-sm.webp" width="42" height="32" alt="" loading="lazy"><span>Clover #05</span></button>
+            <button class="svc-thumb" type="button" data-open-stage="bset-24"><img src="/hola/img/branding/mockup-24-sm.webp" width="42" height="32" alt="" loading="lazy"><span>Taíno #24</span></button>
+            <a class="svc-thumb more-pill" href="/branding#mini-branding-sets"><span>+32 Sets →</span></a>
+          </div>
           <div class="svc-go-wrap"><a class="svc-go-btn" href="/branding">Entrar al Capítulo 01 · Branding <span class="arr" aria-hidden="true">→</span></a></div>
         </li>
         <li class="svc-item" data-reveal data-href="/web">
@@ -766,6 +786,12 @@ body.modal-open .fab{transform:translateY(160%)!important}
           <h3 class="svc-t"><a class="svc-link" href="/web">Web, E-commerce <span class="amp">&amp;</span> Código</a></h3>
           <p class="svc-d">Sitios web interactivos, tiendas online a medida, experiencias 3D de producto y plataformas digitales de alto rendimiento.</p>
           <p class="svc-proof">Explorar en <a href="/web#p-lucky">Lucky Shaker</a> · <a href="/web#p-dp">DPhotography Studios</a> · <a href="/web#p-trilion">Tri-Lion Academy</a> · <a href="/web#p-primestone">Prime Stone Builders</a></p>
+          <div class="svc-thumbs" aria-label="Vista previa de proyectos Web">
+            <button class="svc-thumb" type="button" data-open-stage="lucky"><img src="/hola/img/lucky-can-480.webp" width="42" height="32" alt="" loading="lazy"><span>Lucky Shaker</span></button>
+            <button class="svc-thumb" type="button" data-open-stage="dp"><img src="/hola/img/dp-d-640.webp" width="42" height="32" alt="" loading="lazy"><span>DPhotography</span></button>
+            <button class="svc-thumb" type="button" data-open-stage="trilion"><img src="/hola/img/trilion-d-640.webp" width="42" height="32" alt="" loading="lazy"><span>Tri-Lion</span></button>
+            <button class="svc-thumb" type="button" data-open-stage="primestone"><img src="/hola/media/primestone-desk-poster.jpg" width="42" height="32" alt="" loading="lazy"><span>Prime Stone</span></button>
+          </div>
           <div class="svc-go-wrap"><a class="svc-go-btn" href="/web">Entrar al Capítulo 02 · Web &amp; Código <span class="arr" aria-hidden="true">→</span></a></div>
         </li>
         <li class="svc-item" data-reveal data-href="/planos">
@@ -773,6 +799,12 @@ body.modal-open .fab{transform:translateY(160%)!important}
           <h3 class="svc-t"><a class="svc-link" href="/planos">Planos <span class="amp">&amp;</span> Arquitectura 3D</a></h3>
           <p class="svc-d">Láminas arquitectónicas, ingeniería MEP/HVAC, detalles estructurales bajo código IRC y modelos 3D interactivos en tiempo real.</p>
           <p class="svc-proof">Explorar en <a href="/planos#visor-3d">Proyecto del Alcalde 3D</a> · <a href="/planos#pliegos">20 Pliegos Técnicos (IRC / MEP / Ciudad)</a></p>
+          <div class="svc-thumbs" aria-label="Vista previa de Planos y Modelos 3D">
+            <button class="svc-thumb" type="button" data-open-stage="mychief"><img src="/hola/img/mayor-3d-vec.webp" width="42" height="32" alt="" loading="lazy"><span>Visor 3D</span></button>
+            <a class="svc-thumb" href="/planos#pliegos"><img src="/hola/img/plan-mayor-a1-720.webp" width="42" height="32" alt="" loading="lazy"><span>A-1 Ciudad</span></a>
+            <a class="svc-thumb" href="/planos#pliegos"><img src="/hola/img/plan-elev-2story-720.webp" width="42" height="32" alt="" loading="lazy"><span>Fachadas</span></a>
+            <a class="svc-thumb" href="/planos#pliegos"><img src="/hola/img/plan-deck-3d-720.webp" width="42" height="32" alt="" loading="lazy"><span>Isometría 3D</span></a>
+          </div>
           <div class="svc-go-wrap"><a class="svc-go-btn" href="/planos">Entrar al Capítulo 03 · Planos &amp; 3D <span class="arr" aria-hidden="true">→</span></a></div>
         </li>
         <li class="svc-item" data-reveal data-href="/software">
@@ -780,6 +812,12 @@ body.modal-open .fab{transform:translateY(160%)!important}
           <h3 class="svc-t"><a class="svc-link" href="/software">Software <span class="amp">&amp;</span> Automatización</a></h3>
           <p class="svc-d">Tu propio software empresarial con tu marca y en tu dominio ($0 por usuario, sin contratos de permanencia), más plataformas SaaS, suites de IA omnicanal y radares inmobiliarios.</p>
           <p class="svc-proof">Explorar en <a href="/software#tu-software">Tu Software · ARM (Demo 6 Industrias)</a> · <a href="/software#cap-software">ZHomes</a> · <a href="/software#cap-software">New Era ARM</a> · <a href="/software#cap-software">My Chief CAD</a> · <a href="/software#cap-software">Tzel</a></p>
+          <div class="svc-thumbs" aria-label="Vista previa de Sistemas de Software">
+            <button class="svc-thumb" type="button" data-open-stage="zhomes"><img src="/hola/img/zhomes-mob-1.webp" width="42" height="32" alt="" loading="lazy"><span>ZHomes App</span></button>
+            <button class="svc-thumb" type="button" data-open-stage="software"><img src="/hola/media/newera-demo-poster.jpg" width="42" height="32" alt="" loading="lazy"><span>New Era ARM</span></button>
+            <button class="svc-thumb" type="button" data-open-stage="tzel"><img src="/hola/img/tzel-card.webp" width="42" height="32" alt="" loading="lazy"><span>TZEL OS</span></button>
+            <a class="svc-thumb more-pill" href="/software#tu-software"><span>Demo 6 Giros →</span></a>
+          </div>
           <div class="svc-go-wrap"><a class="svc-go-btn" href="/software">Entrar al Capítulo 04 · Tu Software &amp; Sistemas <span class="arr" aria-hidden="true">→</span></a></div>
         </li>
         <li class="svc-item" data-reveal data-href="/videos">
@@ -787,6 +825,12 @@ body.modal-open .fab{transform:translateY(160%)!important}
           <h3 class="svc-t"><a class="svc-link" href="/videos">Realización de Video <span class="amp">&amp;</span> Reels</a></h3>
           <p class="svc-d">Art films en 3D, piezas verticales con sonido, collage editorial en movimiento y dirección en set pensada para detener el scroll.</p>
           <p class="svc-proof">Explorar en <a href="/videos#realizacion-video">Reels &amp; Art Films con Sonido (4 Piezas)</a></p>
+          <div class="svc-thumbs" aria-label="Vista previa de Videos y Reels">
+            <button class="svc-thumb" type="button" data-open-stage="reel-luxury"><img src="/hola/media/labonita-film-poster.jpg" width="42" height="32" alt="" loading="lazy"><span>Art Film 3D</span></button>
+            <button class="svc-thumb" type="button" data-open-stage="reel-agents"><img src="/hola/media/vid-agents-poster.jpg" width="42" height="32" alt="" loading="lazy"><span>Collage</span></button>
+            <button class="svc-thumb" type="button" data-open-stage="reel-sellers"><img src="/hola/media/vid-sellers-poster.jpg" width="42" height="32" alt="" loading="lazy"><span>Cinético</span></button>
+            <button class="svc-thumb" type="button" data-open-stage="reel-shoot"><img src="/hola/media/vid-shoot-poster.jpg" width="42" height="32" alt="" loading="lazy"><span>En Set</span></button>
+          </div>
           <div class="svc-go-wrap"><a class="svc-go-btn" href="/videos">Entrar al Capítulo 05 · Videos &amp; Reels <span class="arr" aria-hidden="true">→</span></a></div>
         </li>
       </ol>
@@ -883,7 +927,12 @@ body.modal-open .fab{transform:translateY(160%)!important}
   <div class="stage-inner">
     <div class="stage-bar">
       <span class="stage-kicker" id="st-kicker">Proyecto</span>
-      <button class="stage-close" type="button" data-close-stage>Cerrar [Esc]</button>
+      <div class="stage-bar-right">
+        <button class="stage-nav-btn" type="button" id="st-prev" aria-label="Proyecto anterior">← Anterior</button>
+        <span class="stage-counter" id="st-counter" aria-live="polite"></span>
+        <button class="stage-nav-btn" type="button" id="st-next" aria-label="Siguiente proyecto">Siguiente →</button>
+        <button class="stage-close" type="button" data-close-stage>Cerrar [Esc]</button>
+      </div>
     </div>
     <div class="stage-body">
       <div class="stage-info">
@@ -981,7 +1030,7 @@ body.modal-open .fab{transform:translateY(160%)!important}
       it.addEventListener('pointerenter',function(){setActiveSvc(it)},{passive:true});
       it.addEventListener('focusin',function(){setActiveSvc(it)});
       it.addEventListener('click',function(e){
-        if(e.target&&e.target.closest&&e.target.closest('a'))return;
+        if(e.target&&e.target.closest&&e.target.closest('a,button,[data-open-stage]'))return;
         var href=it.getAttribute('data-href');
         if(href)window.location.href=href;
       });
@@ -1272,10 +1321,118 @@ body.modal-open .fab{transform:translateY(160%)!important}
     };
   });
 
+  /* 360° Cross-Links Between Physical Branding, Web Platforms & Software Systems */
+  STAGES.elys.related=[{label:'Explorar 32 Mini Branding Sets →',stage:'bset-14'}];
+  STAGES.newera.related=[{label:'Ver su Mini Branding Set Físico (#19) →',stage:'bset-19'},{label:'Ver su Software de IA (Suite ARM) →',stage:'software'}];
+  STAGES.software.related=[{label:'Ver su Mini Branding Set Físico (#19) →',stage:'bset-19'},{label:'Ver su Plataforma Web & Patrón SVG →',stage:'newera'}];
+  STAGES.tzel.related=[{label:'Ver su Mini Branding Set Físico (#28) →',stage:'bset-28'}];
+  STAGES.mychief.related=[{label:'Ver 20 Pliegos Técnicos en Capítulo 03 →',href:'/planos#pliegos'}];
+  STAGES['bset-12'].related=[{label:'Probar Simulador de Tu Software · ARM →',href:'/software#tu-software'}];
+  STAGES['bset-19'].related=[{label:'Ver su Sitio Web & Patrón SVG en Vivo →',stage:'newera'},{label:'Ver su Software de IA (Suite ARM) →',stage:'software'}];
+  STAGES['bset-28'].related=[{label:'Ver el Software TZEL Acquisition OS en Vivo →',stage:'tzel'}];
+
+  /* Interactive Marquee Logos -> Direct Stage Openers */
+  var LOGO_STAGE_MAP={
+    'elys':['elys','Charcutería · Abrir caso'],
+    'new-era':['bset-19','Real Estate · Branding Set #19'],
+    'primestone':['primestone','Constructora · Abrir showcase'],
+    'tla':['trilion','Academia · Abrir web'],
+    'lucky-shaker':['lucky','Cócteles · Abrir e-commerce'],
+    'dphotography':['dp','Fotografía · Abrir cine & web'],
+    'la-bonita':['labonita','Joyería 14K · Abrir universo'],
+    'mle':['bset-16','Lashes · Branding Set #16'],
+    'luis':['bset-02','Construcción · Branding Set #02'],
+    'balloons-decor':['bset-18','Eventos · Branding Set #18'],
+    'berta':['bset-04','Fotografía · Branding Set #04'],
+    'consoliday':['bset-13','Servicios · Branding Set #13'],
+    'david-flowers':['bset-06','Floristería · Branding Set #06'],
+    'flor-de-cuba':['bset-14','Restaurante · Branding Set #14'],
+    'lay-logo':['bset-01','Clínica · Branding Set #01'],
+    'lay-fuentes':['bset-26','Academia Foto · Branding Set #26'],
+    'dhm-taxes':['bset-13','Taxes & Notaría · Branding Set #13'],
+    'dnj':['bset-07','Remodelación · Branding Set #07'],
+    'lorena':['bset-15','Estudio Foto · Branding Set #15'],
+    'renew-water':['bset-30','Contratista · Branding Set #30'],
+    'fantastico':['bset-17','Heladería · Branding Set #17'],
+    'ubc':['bset-29','Bicicletas 1972 · Branding Set #29'],
+    'usaclimax':['bset-03','MTB Park · Branding Set #03'],
+    'ride-crank':['bset-20','Ciclismo · Branding Set #20'],
+    'lush-hydration':['bset-01','Salud · Branding Set #01'],
+    'parra-4d':['bset-30','Constructora · Branding Set #30'],
+    'babi-fernandez':['bset-04','Fotógrafa · Branding Set #04'],
+    'dany-plumbing':['bset-11','Cercas & Obra · Branding Set #11'],
+    'fantastic-fashion':['bset-10','Agencia Moda · Branding Set #10'],
+    'yes-marcita':['bset-32','Streetwear · Branding Set #32'],
+    'kingdom-dealer':['bset-25','Auto Dealer · Branding Set #25'],
+    'venegas':['bset-31','Colchones · Branding Set #31'],
+    'rc-studio80':['bset-24','Cabaret Show · Branding Set #24'],
+    'rey-autosales':['bset-25','Auto Sales · Branding Set #25'],
+    'senda-de-luz':['bset-21','Iglesia · Branding Set #21'],
+    'sergio-estrada':['bset-08','Academia Digital · Branding Set #08'],
+    'tineda':['bset-23','Taquería · Branding Set #23'],
+    'twoit':['bset-27','Marketing & Dev · Branding Set #27'],
+    'zhomes':['zhomes','App Inmobiliaria · Abrir SaaS'],
+    'barba':['mychief','Arquitectura 3D · Abrir visor'],
+    'tzel':['bset-28','PropTech · Branding Set #28'],
+    'clover-jewelry':['bset-05','Alta Joyería · Branding Set #05'],
+    'edward':['bset-09','Auto Detailing · Branding Set #09'],
+    'pool-extended':['bset-22','Diseño & Joyería · Branding Set #22']
+  };
+  d.querySelectorAll('#marcas .logo-item').forEach(function(item){
+    var im=item.querySelector('img');
+    if(!im)return;
+    var m=(im.getAttribute('src')||'').match(/\/logos\/([^.\/]+)\.webp/);
+    var cfg=m&&LOGO_STAGE_MAP[m[1]];
+    if(!cfg)return;
+    item.setAttribute('data-logo-tip',cfg[1]);
+    item.setAttribute('role','button');
+    if(!item.closest('[aria-hidden="true"]'))item.setAttribute('tabindex','0');
+    item.addEventListener('click',function(e){
+      e.stopPropagation();
+      openStage(cfg[0]);
+    });
+    item.addEventListener('keydown',function(e){
+      if(e.key==='Enter'||e.key===' '){e.preventDefault();e.stopPropagation();openStage(cfg[0]);}
+    });
+  });
+
   var stage=d.getElementById('project-stage'), stFx=d.getElementById('st-fx'), stKicker=d.getElementById('st-kicker'),
       stTitle=d.getElementById('st-title'), stDesc=d.getElementById('st-desc'), stFxCtrl=d.getElementById('st-fx-ctrl'),
-      stActions=d.getElementById('st-actions'), stShowcase=d.getElementById('st-showcase');
+      stActions=d.getElementById('st-actions'), stShowcase=d.getElementById('st-showcase'),
+      stPrev=d.getElementById('st-prev'), stNext=d.getElementById('st-next'), stCounter=d.getElementById('st-counter'),
+      currentStageId=null;
   var neweraCache=null;
+
+  var ALL_BSET_IDS=[];
+  for(var bi=1;bi<=32;bi++)ALL_BSET_IDS.push('bset-'+(bi<10?'0'+bi:bi));
+  var MAIN_STAGE_IDS=['elys','newera','labonita','lucky','dp','trilion','primestone','zhomes','software','mychief','tzel','reel-luxury','reel-agents','reel-sellers','reel-shoot'];
+
+  function getStageSeq(id){
+    if(String(id).indexOf('bset-')===0){
+      var visCards=Array.prototype.slice.call(d.querySelectorAll('.bset-card:not([hidden])')).map(function(c){return c.getAttribute('data-open-stage')}).filter(Boolean);
+      if(visCards.length&&visCards.indexOf(id)!==-1)return visCards;
+      return ALL_BSET_IDS;
+    }
+    var pageCards=[];
+    d.querySelectorAll('.proj [data-open-stage], .more-card[data-open-stage], .film-item[data-open-stage]').forEach(function(el){
+      var sid=el.getAttribute('data-open-stage');
+      if(sid&&pageCards.indexOf(sid)===-1)pageCards.push(sid);
+    });
+    if(pageCards.length&&pageCards.indexOf(id)!==-1)return pageCards;
+    return MAIN_STAGE_IDS;
+  }
+
+  function stepStage(dir){
+    if(!currentStageId)return;
+    var seq=getStageSeq(currentStageId);
+    if(!seq.length)return;
+    var idx=seq.indexOf(currentStageId);
+    var nextIdx=(idx+dir+seq.length)%seq.length;
+    openStage(seq[nextIdx]);
+    if(stage)stage.scrollTo({top:0,behavior:'smooth'});
+  }
+  if(stPrev)stPrev.addEventListener('click',function(){stepStage(-1)});
+  if(stNext)stNext.addEventListener('click',function(){stepStage(1)});
 
   /* Perimeter slots keep floating elements around the edges so they never collide with title/copy */
   var PERIMETER=[
@@ -1360,10 +1517,16 @@ body.modal-open .fab{transform:translateY(160%)!important}
   function openStage(id){
     var p=STAGES[id];
     if(!p)return;
+    currentStageId=id;
     stKicker.textContent=p.kicker;
     stTitle.textContent=p.title;
     stDesc.textContent=p.desc;
     renderStageFx(p.fx);
+
+    var seq=getStageSeq(id), sIdx=seq.indexOf(id);
+    if(stCounter){
+      stCounter.textContent=(sIdx>=0?((sIdx+1<10?'0':'')+(sIdx+1)+' / '+(seq.length<10?'0':'')+seq.length):'');
+    }
 
     stFxCtrl.innerHTML='';
     if(p.fxBtn){
@@ -1395,10 +1558,49 @@ body.modal-open .fab{transform:translateY(160%)!important}
       stActions.appendChild(a);
     }
     var wa=d.createElement('a');
-    wa.className='btn btn-ghost';
-    wa.href='https://wa.me/15026587853?text=Hola%20Miguel%2C%20vi%20la%20tarjeta%20digital%20de%20Dame%20la%20Letra%20y%20me%20gustar%C3%ADa%20conversar%20sobre%20un%20proyecto.';wa.target='_blank';wa.rel='noopener';
-    wa.textContent='Conversar por WhatsApp →';
+    wa.className=(!p.url&&!p.arModel)?'btn btn-primary':'btn btn-ghost';
+    var waMsg='Hola Miguel, estoy viendo "'+p.title+'" ('+p.kicker+') en damelaletra.com y me gustaría conversar sobre un proyecto así para mi negocio.';
+    wa.href='https://wa.me/15026587853?text='+encodeURIComponent(waMsg);
+    wa.target='_blank';wa.rel='noopener';
+    wa.textContent='Cotizar un proyecto así por WhatsApp →';
     stActions.appendChild(wa);
+
+    if(p.related&&p.related.length){
+      p.related.forEach(function(rel){
+        if(rel.stage){
+          var rb=d.createElement('button');
+          rb.type='button';
+          rb.className='btn btn-ghost';
+          rb.style.borderColor='var(--letra)';
+          rb.textContent=rel.label;
+          rb.addEventListener('click',function(){openStage(rel.stage);if(stage)stage.scrollTo({top:0,behavior:'smooth'});});
+          stActions.appendChild(rb);
+        }else if(rel.href){
+          var ra=d.createElement('a');
+          ra.className='btn btn-ghost';
+          ra.style.borderColor='var(--letra)';
+          ra.href=rel.href;
+          ra.textContent=rel.label;
+          stActions.appendChild(ra);
+        }
+      });
+    }
+
+    var cp=d.createElement('button');
+    cp.type='button';
+    cp.className='btn btn-ghost';
+    cp.textContent='Copiar enlace directo ↗';
+    cp.addEventListener('click',function(){
+      var sharePath=String(id).indexOf('bset-')===0?('/branding#'+id):(window.location.pathname+'#'+id);
+      var fullUrl='https://www.damelaletra.com'+sharePath;
+      if(navigator.clipboard){navigator.clipboard.writeText(fullUrl).then(function(){say('Enlace copiado: '+p.title)},function(){say(fullUrl)});}
+      else{say(fullUrl)}
+    });
+    stActions.appendChild(cp);
+
+    if(window.history&&window.history.replaceState){
+      try{window.history.replaceState(null,'','#'+id)}catch(e){}
+    }
 
     stShowcase.innerHTML='';
     if(p.leadImg){
@@ -1516,6 +1718,7 @@ body.modal-open .fab{transform:translateY(160%)!important}
 
   function closeStage(){
     if(!stage.classList.contains('open'))return;
+    currentStageId=null;
     stage.classList.remove('open');
     stage.setAttribute('aria-hidden','true');
     stShowcase.querySelectorAll('video').forEach(function(v){v.pause();v.removeAttribute('src');v.load()});
@@ -1523,6 +1726,9 @@ body.modal-open .fab{transform:translateY(160%)!important}
     stFx.innerHTML='';
     d.body.style.overflow='';
     d.body.classList.remove('modal-open');
+    if(window.history&&window.history.replaceState&&window.location.hash&&STAGES[window.location.hash.slice(1)]){
+      try{window.history.replaceState(null,'',window.location.pathname+window.location.search)}catch(e){}
+    }
   }
 
   d.querySelectorAll('[data-open-stage]').forEach(function(b){
@@ -1832,12 +2038,23 @@ body.modal-open .fab{transform:translateY(160%)!important}
     });
   });
 
-  d.addEventListener('keydown',function(e){if(e.key==='Escape'){if(sheetModal&&sheetModal.classList.contains('open')){closeSheet();return;}closeStage();closeArPortal();}});
+  d.addEventListener('keydown',function(e){
+    if(e.key==='Escape'){if(sheetModal&&sheetModal.classList.contains('open')){closeSheet();return;}closeStage();closeArPortal();return;}
+    if(stage&&stage.classList.contains('open')&&(!sheetModal||!sheetModal.classList.contains('open'))){
+      if(e.key==='ArrowLeft'){e.preventDefault();stepStage(-1);}
+      else if(e.key==='ArrowRight'){e.preventDefault();stepStage(1);}
+    }
+  });
 
   if(window.location.search.indexOf('ar=mayor')!==-1||window.location.hash==='#ar-mayor'){
     openArPortal('mayor');
   }else if(window.location.search.indexOf('ar=1')!==-1||window.location.hash==='#ar'){
     openArPortal();
+  }else if(window.location.hash){
+    var initStageKey=window.location.hash.replace(/^#(stage-)?/,'');
+    if(STAGES[initStageKey]){
+      openStage(initStageKey);
+    }
   }
 
   /* Legacy hash redirect when visiting home with a chapter anchor */
