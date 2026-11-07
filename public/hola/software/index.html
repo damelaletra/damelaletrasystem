@@ -1,0 +1,1587 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Tu Software · ARM a la Medida & Sistemas Propios · Capítulo 04 — Dame la Letra</title>
+<meta name="description" content="Construimos el sistema operativo de tu empresa con tu marca, en tu dominio y bajo tu control ($0 por usuario, sin contratos de permanencia). Explora el simulador interactivo y los 4 sistemas en producción: ZHomes, New Era ARM, My Chief CAD y Tzel.">
+<link rel="canonical" href="https://www.damelaletra.com/software">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#0e0a14">
+<meta name="color-scheme" content="dark">
+<meta name="format-detection" content="telephone=no">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Dame la Letra">
+<meta property="og:locale" content="es_US">
+<meta property="og:url" content="https://www.damelaletra.com/software">
+<meta property="og:title" content="Tu Software · ARM a la Medida & Sistemas Propios · Capítulo 04 — Dame la Letra">
+<meta property="og:description" content="Construimos el sistema operativo de tu empresa con tu marca, en tu dominio y bajo tu control ($0 por usuario, sin contratos de permanencia). Explora el simulador interactivo y los 4 sistemas en producción: ZHomes, New Era ARM, My Chief CAD y Tzel.">
+<meta property="og:image" content="https://www.damelaletra.com/hola/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Dame la Letra — No hacemos más de lo mismo.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Dame la Letra — No hacemos más de lo mismo.">
+<meta name="twitter:description" content="Estudio creativo independiente. Fundado por Miguel Sosa.">
+<meta name="twitter:image" content="https://www.damelaletra.com/hola/og.jpg">
+
+<link rel="icon" href="/hola/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/hola/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/hola/apple-touch-icon.png">
+<link rel="manifest" href="/hola/site.webmanifest">
+
+<link rel="preload" href="/hola/fonts/anton.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/hola/fonts/courierprime-400.woff2" as="font" type="font/woff2" crossorigin>
+
+<script>document.documentElement.classList.add('js')</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "name": "Dame la Letra",
+  "legalName": "Dame la Letra LLC",
+  "description": "Estudio creativo independiente: estrategia, branding, realización de video, desarrollo web, e-commerce y arquitectura 3D.",
+  "url": "https://www.damelaletra.com",
+  "logo": "https://www.damelaletra.com/hola/icon-512.png",
+  "image": "https://www.damelaletra.com/hola/og.jpg",
+  "areaServed": "US",
+  "address": { "@type": "PostalAddress", "addressLocality": "Louisville", "addressRegion": "KY", "addressCountry": "US" },
+  "makesOffer": {
+    "@type": "Offer",
+    "itemOffered": {
+      "@type": "Service",
+      "name": "Software a la medida (ARM)",
+      "description": "Sistemas operativos empresariales y software personalizado con tu marca, en tu dominio, $0 por usuario y sin contratos de permanencia.",
+      "areaServed": ["Louisville, KY", "US"]
+    }
+  },
+  "founder": { "@type": "Person", "name": "Miguel Sosa" },
+  "sameAs": ["https://www.instagram.com/damelaletra_ky/"]
+}
+</script>
+
+<style>
+@font-face{font-family:"Anton";src:url(/hola/fonts/anton.woff2) format("woff2");font-display:swap}
+@font-face{font-family:"Courier Prime";src:url(/hola/fonts/courierprime-400.woff2) format("woff2");font-display:swap}
+@font-face{font-family:"Cloister";src:url(/hola/fonts/cloister.woff2) format("woff2");font-display:swap}
+
+:root{
+  --ink:#0e0a14;
+  --ink2:#171122;
+  --paper:#f3eee3;
+  --letra:#ffcc29;
+  --violeta:#6a4888;
+  --violeta-hi:#8459ab;
+  --violeta-deep:#3d2552;
+  --fuego:#ff5b1f;
+  --mute:rgba(243,238,227,.72);
+  --line:rgba(243,238,227,.17);
+  --pad:clamp(20px,5.2vw,64px);
+  --display:"Anton","Impact","Haettenschweiler","Arial Narrow Bold",sans-serif;
+  --mono:"Courier Prime",ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace;
+  --sans:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --ease:cubic-bezier(.2,.75,.15,1);
+}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%;background:var(--ink);scroll-behavior:smooth}
+body{margin:0;background:var(--ink);color:var(--paper);font:400 1.0625rem/1.55 var(--sans);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+@supports (overflow:clip){html,body{overflow-x:clip}}
+img,svg,video{display:block;max-width:100%}
+[hidden]{display:none!important}
+a{color:inherit}
+p{margin:0}
+button{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--letra);outline-offset:3px}
+.sr-only{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+/* film grain — static, cheap */
+body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:100;opacity:.065;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+/* ---------- shared ---------- */
+.sec{position:relative;padding:clamp(80px,13vw,164px) var(--pad)}
+.wrap{max-width:1320px;margin:0 auto;position:relative}
+.label{display:flex;flex-wrap:wrap;align-items:center;gap:8px .85em;margin:0 0 24px;font:400 .8rem/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--letra)}
+.label b{display:inline-grid;place-items:center;width:2.5em;height:2.5em;border:1px solid currentColor;border-radius:50%;font-weight:400;letter-spacing:0}
+.label i{flex-basis:100%;padding-left:calc(2.5em + .85em);font-style:normal;letter-spacing:.04em;text-transform:none;color:var(--mute)}
+@media (min-width:700px){.label i{flex-basis:auto;padding-left:0}}
+.h2{margin:0;max-width:15ch;font:400 clamp(2.4rem,10vw,6.4rem)/.93 var(--display);text-transform:uppercase;letter-spacing:-.003em}
+.h2 em{font-style:normal;color:var(--letra)}
+.amp{font-family:"Cloister",Georgia,serif;text-transform:none;color:var(--letra);font-size:1.02em;line-height:0;padding:0 .03em;font-weight:400}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.65em;min-height:58px;padding:0 24px;border:2px solid transparent;border-radius:0;
+  font:400 1.18rem/1 var(--display);letter-spacing:.035em;text-transform:uppercase;text-decoration:none;cursor:pointer;-webkit-tap-highlight-color:transparent;
+  transition:transform .18s var(--ease),box-shadow .18s var(--ease),background-color .2s,color .2s}
+.btn svg{width:1.2em;height:1.2em;flex:none;fill:currentColor}
+.btn .arr{transition:transform .25s var(--ease)}
+.btn:hover .arr{transform:translateX(5px)}
+.btn-primary{background:var(--letra);color:var(--ink);box-shadow:6px 6px 0 var(--violeta)}
+.btn-primary:hover{transform:translate(-2px,-2px);box-shadow:8px 8px 0 var(--violeta)}
+.btn-primary:active{transform:translate(4px,4px);box-shadow:0 0 0 var(--violeta)}
+.btn-ghost{color:var(--paper);border-color:rgba(243,238,227,.85);background:rgba(14,10,20,.45)}
+.btn-ghost:hover{background:var(--paper);color:var(--ink)}
+.btn-ink{background:var(--ink);color:var(--letra);box-shadow:6px 6px 0 var(--violeta)}
+.btn-ink:hover{transform:translate(-2px,-2px);box-shadow:8px 8px 0 var(--violeta)}
+.btn-ink:active{transform:translate(4px,4px);box-shadow:0 0 0 var(--violeta)}
+.btn-line{color:var(--ink);border-color:var(--ink);background:transparent}
+.btn-line:hover{background:var(--ink);color:var(--letra)}
+
+/* ---------- header + hero ---------- */
+.hero{position:relative;overflow:hidden;padding:0 var(--pad) clamp(56px,8vw,96px);isolation:isolate;
+  background:
+    radial-gradient(ellipse 90% 70% at 78% 22%,rgba(106,72,136,.38),transparent 65%),
+    radial-gradient(ellipse 70% 60% at 12% 85%,rgba(61,37,82,.42),transparent 65%),
+    var(--ink)}
+.hero::before{content:"";position:absolute;inset:-20%;z-index:-2;transform:rotate(-7deg);pointer-events:none;opacity:.055;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='560' height='88'%3E%3Cg fill='%23f3eee3' font-family='Courier New,Courier,monospace' font-size='24' font-weight='700'%3E%3Ctext x='0' y='32'%3Edame la letra. dame la letra.%3C/text%3E%3Ctext x='-140' y='76'%3Edame la letra. dame la letra. dame la%3C/text%3E%3C/g%3E%3C/svg%3E")}
+.top{position:relative;z-index:3;width:100%;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:20px 0 0;max-width:1320px;margin:0 auto}
+.brand{display:block}
+.brand img{height:24px;width:auto}
+.top-meta{display:flex;align-items:center;gap:.6em;font:400 .74rem/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--mute);white-space:nowrap}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--letra);animation:pulse 2.6s ease-out infinite}
+.hero-glyph{position:absolute;z-index:-1;right:-30vw;top:64px;height:min(88%,940px);width:auto;fill:var(--violeta);opacity:.82;animation:drift 11s ease-in-out infinite alternate;transform-origin:60% 40%}
+.hero-in{max-width:1320px;margin:0 auto;position:relative}
+.kicker{margin:clamp(26px,5.5vh,72px) 0 12px;font:400 .95rem/1 var(--mono);color:var(--letra)}
+.kicker span{display:inline-block;animation:blink 1.1s steps(1) infinite;margin-left:2px}
+.hero-title{margin:0;font:400 clamp(3.1rem,min(16.6vw,15.5vh),11.4rem)/.97 var(--display);text-transform:uppercase;letter-spacing:-.004em}
+.ln{display:block;overflow:hidden;padding-top:.12em;margin-top:-.12em;white-space:nowrap}
+.ln>span{display:inline-block;animation:rise .85s var(--ease) both}
+.ln:nth-child(2)>span{animation-delay:.08s}
+.ln:nth-child(3)>span{animation-delay:.16s}
+.ln-2{display:flex;align-items:center;gap:.16em}
+.badge{flex:none;width:1.02em;height:1.02em;animation:pop .7s .55s var(--ease) both}
+.badge svg{width:100%;height:100%;overflow:visible}
+.badge .ring{transform-origin:60px 60px;animation:spin 22s linear infinite}
+.badge text{font:400 10.4px var(--mono);letter-spacing:.17em;fill:var(--paper);text-transform:uppercase}
+.strike{position:relative}
+.strike::after{content:"";position:absolute;left:-.03em;right:-.05em;top:47%;height:.12em;background:var(--violeta-hi);transform:rotate(-3.2deg) scaleX(0);transform-origin:0 50%;animation:strike .55s 1s cubic-bezier(.75,0,.2,1) forwards}
+.hero-grid{display:grid;gap:22px;margin-top:clamp(18px,3.4vh,40px)}
+.hero-copy{max-width:32ch;font-size:clamp(1.02rem,1.25vw,1.3rem);line-height:1.48}
+.hero-copy strong{color:var(--letra);font-weight:600}
+.founder{order:3;padding-top:14px;border-top:1px solid var(--line);max-width:38ch;font:400 .76rem/1.55 var(--mono);letter-spacing:.07em;text-transform:uppercase;color:var(--mute)}
+.founder b{color:var(--paper);font-weight:400}
+.hero-cta{display:grid;gap:14px;max-width:440px}
+.hero-cta .row{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center}
+.hero-cta .row .btn{padding:0 14px;font-size:1.04rem;white-space:nowrap}
+.link-down{white-space:nowrap;display:inline-flex;align-items:center;gap:.4em;min-height:48px;padding:0 4px;font:400 .82rem/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;text-decoration:underline;text-underline-offset:.35em;text-decoration-thickness:1px}
+
+/* editorial chapter jump strip inside hero */
+.hero-chapters{display:flex;flex-wrap:wrap;gap:10px 28px;margin-top:clamp(28px,4.5vh,48px);padding-top:18px;border-top:1px solid var(--line)}
+.hchap{display:inline-flex;align-items:baseline;gap:.55em;text-decoration:none;font:400 1.05rem/1.1 var(--display);letter-spacing:.03em;text-transform:uppercase;color:var(--paper);transition:color .2s}
+.hchap span{font:400 .74rem/1 var(--mono);color:var(--letra);letter-spacing:.08em}
+.hchap:hover{color:var(--letra)}
+
+/* ---------- marquee bands ---------- */
+.band-wrap{overflow:visible;padding:26px 0;margin:0;position:relative;z-index:4}
+.band{display:flex;width:max-content;margin-left:-2vw;padding:14px 0;transform:rotate(-2.4deg);transform-origin:50vw 50%;background:var(--letra);color:var(--ink);font:400 clamp(1.5rem,5.4vw,3rem)/1 var(--display);text-transform:uppercase;letter-spacing:.01em;white-space:nowrap}
+.band.alt{background:var(--violeta);color:var(--paper);transform:rotate(1.8deg);transform-origin:50vw 50%}
+.band-track{display:flex;flex:none;animation:marquee 26s linear infinite}
+.band.alt .band-track{animation-direction:reverse;animation-duration:30s}
+.band-track span{display:inline-flex;align-items:center;gap:.5em;padding-right:.5em}
+.star{display:inline-block;width:.62em;height:.62em;background:currentColor;clip-path:polygon(50% 0,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%)}
+
+/* ---------- fast touch/click-pausable double logo marquee ---------- */
+.logo-rail{position:relative;padding:28px 0 26px;border-bottom:1px solid var(--line);background:var(--ink);overflow:hidden;user-select:none;-webkit-user-select:none}
+.logo-rail-head{max-width:1320px;margin:0 auto 18px;padding:0 var(--pad);display:flex;align-items:center;justify-content:space-between;gap:12px}
+.logo-rail-meta{font:400 .76rem/1.3 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--mute)}
+.logo-rail-meta b{color:var(--letra);font-weight:400}
+.logo-rail-btn{padding:6px 12px;border:1px solid var(--line);background:transparent;color:var(--letra);font:400 .72rem/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:border-color .2s,background-color .2s,color .2s}
+.logo-rail-btn:hover{border-color:var(--letra);background:var(--letra);color:var(--ink)}
+.logo-rail-rows{display:flex;flex-direction:column;gap:20px;cursor:pointer;touch-action:pan-y}
+.logo-rail-track-wrap{display:flex;width:max-content}
+.logo-rail-track{display:flex;flex:none;align-items:center;gap:clamp(38px,5.5vw,76px);padding-right:clamp(38px,5.5vw,76px);animation:marquee 42s linear infinite;will-change:transform}
+.logo-rail-track.rev{animation-direction:reverse;animation-duration:46s}
+.logo-rail.paused .logo-rail-track{animation-play-state:paused!important}
+.logo-item{flex:none;display:inline-flex;align-items:center;justify-content:center;opacity:.92;transition:opacity .2s,transform .2s}
+.logo-item:hover{opacity:1;transform:translateY(-2px)}
+.logo-item img{height:42px;width:auto;max-width:154px;object-fit:contain;filter:drop-shadow(0 2px 10px rgba(0,0,0,.45))}
+
+/* ---------- services (Lo que hacemos) ---------- */
+.svc{list-style:none;margin:clamp(44px,7vw,88px) 0 0;padding:0;border-top:1px solid var(--line)}
+.svc-item{position:relative;display:grid;grid-template-columns:2.6em 1fr;column-gap:12px;padding:24px 0 28px;border-bottom:1px solid var(--line);isolation:isolate;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.svc-item::before{content:"";position:absolute;inset:0 calc(var(--pad)*-1);z-index:-1;background:var(--violeta);transform:scaleY(0);transform-origin:50% 100%;transition:transform .42s var(--ease)}
+.svc-item:hover::before,.svc-item.is-active::before{transform:scaleY(1)}
+.svc-item:hover .svc-t,.svc-item.is-active .svc-t{color:var(--letra);transform:translateX(10px)}
+.svc-item:hover .svc-d,.svc-item.is-active .svc-d{color:var(--paper)}
+.svc-item:hover .amp,.svc-item.is-active .amp{color:var(--paper)}
+.svc-n{padding-top:.55em;font:400 .82rem/1 var(--mono);color:var(--letra)}
+.svc-t{margin:0;font:400 clamp(2.15rem,10.6vw,5.6rem)/.9 var(--display);text-transform:uppercase;transition:transform .42s var(--ease),color .3s}
+.svc-link{color:inherit;text-decoration:none;display:inline}
+.svc-d{grid-column:2;margin-top:12px;max-width:46ch;color:var(--mute);font-size:1rem;transition:color .3s}
+.svc-proof{grid-column:2;margin-top:12px;font:400 .78rem/1.5 var(--mono);color:var(--mute)}
+.svc-proof a{color:var(--letra);text-underline-offset:.25em}
+.svc-go-wrap{grid-column:2;margin-top:14px;display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.svc-go-btn{display:inline-flex;align-items:center;gap:.55em;padding:8px 14px;border:1px solid var(--letra);background:rgba(14,10,20,.55);color:var(--letra);font:400 .76rem/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;text-decoration:none;transition:transform .2s var(--ease),background-color .2s,color .2s,box-shadow .2s}
+.svc-go-btn .arr{transition:transform .22s var(--ease)}
+.svc-item:hover .svc-go-btn,.svc-item.is-active .svc-go-btn{background:var(--letra);color:var(--ink);box-shadow:4px 4px 0 var(--ink);transform:translate(-1px,-1px)}
+.svc-item:hover .svc-go-btn .arr,.svc-item.is-active .svc-go-btn .arr{transform:translateX(4px)}
+
+/* ---------- subpage editorial header & chapter pager ---------- */
+.sub-hdr{position:relative;overflow:hidden;padding:0 var(--pad) clamp(24px,3.5vw,38px);isolation:isolate;border-bottom:1px solid var(--line);
+  background:
+    radial-gradient(ellipse 85% 90% at 82% 15%,rgba(106,72,136,.36),transparent 65%),
+    radial-gradient(ellipse 65% 70% at 10% 90%,rgba(61,37,82,.38),transparent 65%),
+    var(--ink)}
+.sub-hdr::before{content:"";position:absolute;inset:-20%;z-index:-2;transform:rotate(-7deg);pointer-events:none;opacity:.045;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='560' height='88'%3E%3Cg fill='%23f3eee3' font-family='Courier New,Courier,monospace' font-size='24' font-weight='700'%3E%3Ctext x='0' y='32'%3Edame la letra. dame la letra.%3C/text%3E%3Ctext x='-140' y='76'%3Edame la letra. dame la letra. dame la%3C/text%3E%3C/g%3E%3C/svg%3E")}
+.sub-glyph{position:absolute;z-index:-1;right:-14vw;top:-30px;height:360px;width:auto;fill:var(--violeta);opacity:.42;pointer-events:none}
+.sub-hdr .top{flex-wrap:wrap;gap:12px 16px}
+.sub-brand-row{display:flex;align-items:center;justify-content:space-between;gap:12px 16px;width:100%}
+.sub-hdr .top-right{width:100%;justify-content:space-between}
+@media (min-width:720px){
+  .sub-brand-row{width:auto;justify-content:flex-start}
+  .sub-hdr .top-right{width:auto;justify-content:flex-end}
+}
+.sub-back{display:inline-flex;align-items:center;gap:.45em;padding:7px 13px;border:1px solid var(--letra);background:rgba(255,204,41,.1);color:var(--letra);font:400 .74rem/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;text-decoration:none;white-space:nowrap;transition:background-color .2s,color .2s,transform .2s}
+.sub-back:hover{background:var(--letra);color:var(--ink);transform:translateY(-1px)}
+.sub-chapters{max-width:1320px;margin:clamp(18px,2.6vw,26px) auto 0;padding-top:16px;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;align-items:center;gap:10px 24px}
+.sub-chapters .hchap.is-current{color:var(--letra);border-bottom:2px solid var(--letra);padding-bottom:3px}
+.sub-jumps{max-width:1320px;margin:12px auto 0;padding-top:12px;border-top:1px dashed rgba(243,238,227,.14);display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px;font:400 .75rem/1.3 var(--mono);color:var(--mute)}
+.sub-jumps b{color:var(--letra);font-weight:400;text-transform:uppercase;letter-spacing:.08em}
+.sub-jumps a{color:var(--paper);text-decoration:underline;text-underline-offset:.28em;text-decoration-color:rgba(255,204,41,.5);transition:color .2s}
+.sub-jumps a:hover{color:var(--letra);text-decoration-color:var(--letra)}
+.chap-pager{padding:clamp(48px,7vw,88px) var(--pad);border-top:1px solid var(--line);background:linear-gradient(180deg,rgba(23,17,34,.6),var(--ink))}
+.chap-pager-in{max-width:1320px;margin:0 auto;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px}
+.chap-pager-meta{font:400 .76rem/1.4 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--mute);margin-bottom:6px}
+.chap-pager-title{font:400 clamp(1.7rem,4.8vw,2.8rem)/.95 var(--display);text-transform:uppercase;color:var(--paper);margin:0}
+.chap-pager-title em{font-style:normal;color:var(--letra)}
+.chap-pager-btns{display:flex;flex-wrap:wrap;gap:12px}
+
+/* ---------- portfolio chapters & v1 overlapping project compositions ---------- */
+.sec-sub{margin-top:18px;max-width:44ch;color:var(--mute)}
+.proj{position:relative;display:grid;gap:22px;margin-top:clamp(92px,13vw,156px)}
+.proj-media{position:relative;display:block;padding:0 0 18% 0;text-decoration:none;border:0;background:none;text-align:left;cursor:pointer;width:100%;-webkit-tap-highlight-color:transparent}
+.proj-num{position:absolute;z-index:3;left:-.04em;top:-.52em;font:400 clamp(5.2rem,24vw,11.5rem)/1 var(--display);color:transparent;-webkit-text-stroke:1.5px var(--letra);pointer-events:none}
+.m-main{position:relative;z-index:1;width:64%;height:auto;aspect-ratio:9/16;object-fit:cover;object-position:top;margin-left:10%;border:1px solid var(--line);background:var(--ink2);box-shadow:0 34px 70px rgba(0,0,0,.6)}
+.m-sub{position:absolute;z-index:2;right:0;bottom:0;width:58%;height:auto;border:1px solid rgba(14,10,20,.7);background:var(--ink2);transform:rotate(2.6deg);box-shadow:8px 8px 0 var(--letra)}
+.m-sub.tall{width:38%;right:2%}
+.proj:nth-of-type(even) .m-main{margin-left:auto;margin-right:4%}
+.proj:nth-of-type(even) .m-sub{right:auto;left:0;transform:rotate(-2.6deg);box-shadow:-8px 8px 0 var(--violeta-hi)}
+.proj:nth-of-type(even) .proj-num{left:auto;right:-.02em}
+.proj-meta{display:flex;flex-wrap:wrap;gap:.3em .6em;font:400 .78rem/1.4 var(--mono);letter-spacing:.09em;text-transform:uppercase;color:var(--letra)}
+.proj-meta span+span::before{content:"/";margin-right:.6em;color:var(--mute)}
+.proj-t{margin:10px 0 14px;font:400 clamp(2.6rem,12vw,6.2rem)/.88 var(--display);text-transform:uppercase}
+.proj-d{max-width:44ch;margin-bottom:22px;color:var(--mute)}
+.proj-links{display:flex;flex-wrap:wrap;align-items:center;gap:14px 28px}
+.proj-link{display:inline-flex;flex-wrap:wrap;align-items:baseline;gap:.2em .7em;padding:6px 0;border:0;border-bottom:2px solid var(--letra);background:none;color:var(--paper);font:400 1.1rem/1.2 var(--display);letter-spacing:.04em;text-transform:uppercase;text-decoration:none;cursor:pointer}
+.proj-link small{font:400 .76rem/1 var(--mono);letter-spacing:0;text-transform:none;color:var(--mute)}
+.proj-link:hover{color:var(--letra)}
+.proj-link.ext{border-bottom-color:rgba(243,238,227,.35);font-size:.98rem}
+.proj-link.ext:hover{border-bottom-color:var(--letra)}
+
+/* ---------- Realización de Videos (Asymmetric Editorial Filmstrip) ---------- */
+.films-block{margin-top:clamp(96px,14vw,160px);padding-top:clamp(48px,7vw,88px);border-top:1px solid var(--line)}
+.films-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px 16px;margin-top:clamp(36px,6vw,64px)}
+.film-item{position:relative;display:block;border:0;background:none;padding:0;text-align:left;cursor:pointer;color:inherit;-webkit-tap-highlight-color:transparent}
+.film-item:nth-child(even){margin-top:28px}
+.film-frame{position:relative;aspect-ratio:9/16;border:1px solid var(--line);background:var(--ink2);box-shadow:6px 6px 0 var(--violeta-deep);overflow:hidden;transition:transform .4s var(--ease),box-shadow .4s var(--ease)}
+.film-item:hover .film-frame{transform:translate(-3px,-3px);box-shadow:9px 9px 0 var(--letra)}
+.film-frame video{width:100%;height:100%;object-fit:cover}
+.film-idx{display:block;margin-top:12px;font:400 .74rem/1.3 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--letra)}
+.film-name{display:block;margin-top:4px;font:400 clamp(1.35rem,4.8vw,2rem)/.95 var(--display);text-transform:uppercase}
+.film-sub{display:block;margin-top:4px;font:400 .74rem/1.4 var(--mono);color:var(--mute)}
+
+/* ---------- More Systems & Software (ZHomes, Barba CRM, My Chief, Tri-Lion) ---------- */
+.more{margin-top:clamp(80px,12vw,148px);padding-top:28px;border-top:1px solid var(--line)}
+.more-list{list-style:none;margin:24px 0 0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:24px 18px}
+.more-card{display:block;text-decoration:none;border:0;background:none;padding:0;text-align:left;cursor:pointer;color:inherit}
+.more-card img,.more-card video{width:100%;height:auto;aspect-ratio:4/5;object-fit:cover;object-position:top;border:1px solid var(--line);background:var(--ink2);margin-bottom:12px;box-shadow:6px 6px 0 var(--violeta-deep);transition:transform .4s var(--ease),box-shadow .4s var(--ease)}
+.more-card:hover img,.more-card:hover video{transform:translateY(-5px) rotate(-1deg);box-shadow:8px 8px 0 var(--letra)}
+.more-t{display:block;font:400 clamp(1.4rem,4.5vw,2rem)/1 var(--display);text-transform:uppercase}
+.more-d{display:block;margin-top:6px;font:400 .74rem/1.45 var(--mono);color:var(--mute)}
+
+/* ---------- Chapter 03: Planos & Arquitectura 3D (Editorial Drafting Table) ---------- */
+.arch-sec{background:
+  linear-gradient(rgba(243,238,227,.035) 1px,transparent 1px),
+  linear-gradient(90deg,rgba(243,238,227,.035) 1px,transparent 1px),
+  var(--ink2);
+  background-size:36px 36px;border-top:1px solid var(--line)}
+.arch-stage-wrap{margin-top:clamp(36px,6vw,64px);border:1px solid var(--line);background:var(--ink);box-shadow:10px 10px 0 var(--violeta)}
+.arch-bar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;padding:14px 18px;border-bottom:1px solid var(--line)}
+.arch-tabs,.arch-cams{display:flex;flex-wrap:wrap;gap:8px}
+.arch-cams[hidden]{display:none!important}
+.arch-btn{padding:7px 14px;border:1px solid var(--line);background:transparent;color:var(--mute);font:400 .74rem/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:background-color .2s,color .2s,border-color .2s}
+.arch-btn.active,.arch-btn:hover{border-color:var(--letra);background:var(--letra);color:var(--ink)}
+.arch-canvas{position:relative;width:100%;height:clamp(380px,58vw,560px);background:radial-gradient(circle at 50% 45%,#28193b 0%,#0e0a14 75%)}
+.arch-canvas model-viewer,.arch-canvas iframe{width:100%;height:100%;border:0;display:block;--poster-color:transparent}
+.arch-caption{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;padding:10px 18px;border-top:1px solid var(--line);font:400 .74rem/1.4 var(--mono);color:var(--mute);letter-spacing:.06em;text-transform:uppercase}
+.arch-caption b{color:var(--letra);font-weight:400}
+
+.sheets-head{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:16px;margin-top:clamp(64px,10vw,112px);padding-top:28px;border-top:1px solid var(--line)}
+.sheet-filters{display:flex;flex-wrap:wrap;gap:8px;margin:20px 0 28px}
+.sheets-grid{display:grid;grid-template-columns:1fr;gap:28px}
+.sheet{position:relative;display:block;border:0;background:none;padding:0;text-align:left;cursor:pointer;color:inherit}
+.sheet[hidden]{display:none!important}
+.sheet-paper{background:#f7f4ec;padding:10px;border:1px solid var(--line);box-shadow:8px 8px 0 var(--violeta-deep);transition:transform .35s var(--ease),box-shadow .35s var(--ease)}
+.sheet:nth-child(even) .sheet-paper{transform:rotate(-1.1deg)}
+.sheet:nth-child(odd) .sheet-paper{transform:rotate(.9deg)}
+.sheet:hover .sheet-paper{transform:rotate(0deg) translateY(-4px);box-shadow:10px 10px 0 var(--letra)}
+.sheet-paper img{width:100%;height:auto;aspect-ratio:16/12;object-fit:contain;background:#fff;display:block}
+.sheet-meta{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-top:14px}
+.sheet-title{font:400 clamp(1.35rem,4.2vw,1.85rem)/1 var(--display);text-transform:uppercase}
+.sheet-cat{font:400 .74rem/1 var(--mono);color:var(--letra);letter-spacing:.08em;text-transform:uppercase;white-space:nowrap}
+
+/* ---------- Section 04: Detrás de las ideas (v1 Editorial Paper + Miguel Sosa Cutout) ---------- */
+.founder-sec{background:var(--paper);color:var(--ink);overflow:hidden;isolation:isolate}
+.founder-sec .label{color:var(--violeta-deep)}
+.founder-sec .label i{color:rgba(14,10,20,.65)}
+.founder-grid{display:grid;grid-template-columns:minmax(0,1fr) clamp(126px,36vw,168px);gap:26px 14px;align-items:center;margin-top:8px}
+.founder-head{grid-column:1;grid-row:1;min-width:0}
+.founder-name{margin:0;font:400 clamp(3rem,13.2vw,5.2rem)/.92 "Cloister",Georgia,serif;letter-spacing:0}
+.founder-name span{color:var(--violeta);display:block}
+.founder-role{margin:12px 0 0;font:400 .72rem/1.35 var(--mono);letter-spacing:.1em;text-transform:uppercase}
+.founder-role::before{content:"";display:inline-block;width:20px;height:2px;background:var(--violeta);vertical-align:middle;margin-right:8px}
+.founder-figure{grid-column:2;grid-row:1;position:relative;margin:8px 6px 0 auto;max-width:168px;width:100%}
+.founder-figure::before{content:"";position:absolute;right:-6px;bottom:0;width:82%;height:78%;background:var(--violeta);box-shadow:-7px -7px 0 var(--letra);z-index:-1;transform:rotate(2deg)}
+.founder-figure img{width:100%;height:auto;display:block;filter:contrast(1.04) drop-shadow(0 12px 22px rgba(14,10,20,.26));border-bottom:3px solid var(--ink)}
+.founder-body{grid-column:1/-1;grid-row:2}
+.founder-lead{max-width:20ch;font:400 clamp(1.75rem,6.8vw,3.3rem)/1.02 var(--display);text-transform:uppercase;margin:0}
+.founder-lead mark{background:linear-gradient(transparent 58%,var(--letra) 58%);color:inherit;padding:0 .05em}
+.founder-txt{max-width:46ch;font-size:1.06rem;margin-top:18px}
+.facts{margin:22px 0 0;display:grid;border-top:1px solid rgba(14,10,20,.2)}
+.facts div{display:grid;grid-template-columns:8.5em 1fr;gap:12px;padding:14px 0;border-bottom:1px solid rgba(14,10,20,.2)}
+.facts dt{font:400 .76rem/1.6 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--violeta-deep)}
+.facts dd{margin:0;font-weight:500}
+
+/* ---------- Section 05: Hablemos / Contact ---------- */
+.contact{background:var(--letra);color:var(--ink);overflow:hidden;isolation:isolate}
+.contact .label{color:var(--ink)}
+.type-bg{position:absolute;z-index:-1;inset:-30%;transform:rotate(-9deg);pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='560' height='88'%3E%3Cg fill='%23000' fill-opacity='.06' font-family='Courier New,Courier,monospace' font-size='26' font-weight='700'%3E%3Ctext x='0' y='32'%3Edame la letra. dame la letra.%3C/text%3E%3Ctext x='-140' y='76'%3Edame la letra. dame la letra. dame la%3C/text%3E%3C/g%3E%3C/svg%3E")}
+.contact-t{margin:0;font:400 clamp(3.1rem,14.5vw,9.8rem)/.88 var(--display);text-transform:uppercase}
+.contact-t span{display:block}
+.contact-t .sub-line{font-size:.46em;line-height:1.06;margin:.1em 0;letter-spacing:.04em}
+.contact-copy{margin:24px 0 32px;max-width:32ch;font-size:clamp(1.12rem,1.5vw,1.4rem);line-height:1.45}
+.contact-cta{display:grid;gap:14px;max-width:460px}
+.contact-qr{display:none}
+.contact-tools{display:flex;flex-wrap:wrap;gap:6px 22px;margin-top:28px}
+.tool{display:inline-flex;align-items:center;min-height:44px;padding:0;border:0;background:none;color:var(--ink);font:400 .82rem/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;text-decoration:underline;text-underline-offset:.35em;cursor:pointer}
+.contact :focus-visible{outline-color:var(--ink)}
+.foot{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px;padding:28px var(--pad) calc(96px + env(safe-area-inset-bottom));font:400 .74rem/1.5 var(--mono);letter-spacing:.06em;color:var(--mute)}
+.foot img{height:18px;width:auto}
+
+/* ---------- Bespoke Interactive Project Stage (Drawer) ---------- */
+.stage{position:fixed;inset:0;z-index:120;background:rgba(10,7,15,.92);backdrop-filter:blur(12px);overflow-y:auto;overflow-x:hidden;opacity:0;pointer-events:none;transition:opacity .32s var(--ease)}
+.stage.open{opacity:1;pointer-events:auto}
+.stage-inner{position:relative;min-height:100svh;max-width:1320px;margin:0 auto;padding:24px var(--pad) 72px;display:flex;flex-direction:column;justify-content:space-between;isolation:isolate}
+.stage-fx{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+/* Lucky Shaker depth-of-field floating fruits around the perimeter (never over center text) */
+.stage-fruit{position:absolute;height:auto;pointer-events:none;animation:fruitFloat var(--dur,9s) ease-in-out infinite alternate;will-change:transform}
+@keyframes fruitFloat{from{transform:translate3d(0,0,0) rotate(var(--r0,-14deg))}to{transform:translate3d(var(--dx,16px),var(--dy,-26px),0) rotate(var(--r1,20deg))}}
+/* New Era full-screen architectural SVG with golden sparks */
+.stage-newera-svg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.32}
+.stage-newera-svg path.base{stroke:rgba(218,184,120,.24);stroke-width:14;fill:none}
+.stage-newera-svg path.spark{stroke:var(--letra);stroke-width:26;fill:none;stroke-linecap:round;stroke-dasharray:280 2600;animation:sparkFlow var(--sdur,4s) linear infinite;filter:drop-shadow(0 0 12px var(--letra))}
+@keyframes sparkFlow{from{stroke-dashoffset:2880}to{stroke-dashoffset:0}}
+/* Ely's floating vector roses */
+.stage-rose{position:absolute;width:clamp(80px,14vw,140px);height:auto;opacity:.22;animation:fruitFloat var(--dur,12s) ease-in-out infinite alternate}
+/* La Bonita subtle gold dust */
+.stage-gold{position:absolute;width:5px;height:5px;border-radius:50%;background:var(--letra);box-shadow:0 0 12px var(--letra);animation:goldPulse var(--gdur,3.4s) ease-in-out infinite alternate}
+@keyframes goldPulse{from{opacity:.12;transform:scale(.6) translateY(0)}to{opacity:.85;transform:scale(1.3) translateY(-20px)}}
+
+.stage-bar{position:sticky;top:0;z-index:5;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 0;border-bottom:1px solid var(--line);background:rgba(14,10,20,.82);backdrop-filter:blur(8px)}
+.stage-kicker{font:400 .78rem/1.3 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--letra)}
+.stage-close{padding:8px 16px;border:1px solid var(--letra);background:var(--ink);color:var(--letra);font:400 .8rem/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:background-color .2s,color .2s}
+.stage-close:hover{background:var(--letra);color:var(--ink)}
+.stage-body{position:relative;z-index:2;display:grid;gap:32px;margin-top:clamp(24px,4vw,48px);align-items:start}
+.stage-title{margin:0 0 14px;font:400 clamp(2.4rem,9vw,5.4rem)/.9 var(--display);text-transform:uppercase}
+.stage-desc{max-width:46ch;color:var(--mute);font-size:1.05rem;margin-bottom:22px}
+.stage-fx-btn{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border:1px solid var(--letra);background:rgba(106,72,136,.28);color:var(--letra);font:400 .74rem/1 var(--mono);letter-spacing:.09em;text-transform:uppercase;cursor:pointer;margin-bottom:24px}
+.stage-fx-btn:hover{background:var(--letra);color:var(--ink)}
+.stage-actions{display:flex;flex-wrap:wrap;gap:14px}
+.stage-showcase{display:grid;gap:22px}
+.stage-main-video{border:1px solid var(--line);background:#07050a;box-shadow:10px 10px 0 var(--violeta)}
+.stage-main-video video{width:100%;max-height:70svh;object-fit:contain;margin:0 auto}
+.stage-iframe-wrap{position:relative;width:100%;height:clamp(420px,65svh,640px);border:1px solid var(--letra);background:#0f1319;box-shadow:10px 10px 0 var(--violeta)}
+.stage-iframe-wrap iframe{width:100%;height:100%;border:0;display:block}
+.stage-sec-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px}
+.stage-sec-grid.mob-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.stage-sec-item{margin:0}
+.stage-sec-item img,.stage-sec-item video{width:100%;height:auto;border:1px solid var(--line);background:var(--ink2);box-shadow:6px 6px 0 var(--ink)}
+.stage-sec-item figcaption{margin-top:8px;font:400 .72rem/1.3 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--letra)}
+.tzel-console{border:1px solid rgba(16,185,129,.45);background:#070b14;padding:18px;box-shadow:10px 10px 0 var(--ink);font:400 .78rem/1.55 var(--mono);color:#cbd5e1}
+.tzel-head{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;padding-bottom:12px;margin-bottom:14px;border-bottom:1px solid rgba(255,255,255,.1)}
+.tzel-badge{display:inline-flex;align-items:center;gap:8px;color:#10b981;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+.tzel-badge::before{content:"";width:8px;height:8px;border-radius:50%;background:#10b981;box-shadow:0 0 10px #10b981}
+.tzel-run{padding:6px 12px;border:1px solid #10b981;background:rgba(16,185,129,.14);color:#10b981;font:700 .72rem/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;cursor:pointer}
+.tzel-run:hover{background:#10b981;color:#070b14}
+.tzel-log{margin:0;padding:0;list-style:none;display:grid;gap:8px}
+.tzel-log li{padding:8px 10px;background:rgba(15,23,42,.85);border-left:2px solid #10b981}
+.tzel-log b{color:var(--letra);font-weight:400}
+
+/* ---------- High-Res Blueprint Lightbox ---------- */
+.sheet-modal{position:fixed;inset:0;z-index:130;background:rgba(10,7,15,.95);display:flex;flex-direction:column;opacity:0;pointer-events:none;transition:opacity .25s}
+.sheet-modal.open{opacity:1;pointer-events:auto}
+.sheet-modal-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px var(--pad);border-bottom:1px solid var(--line)}
+.sheet-modal-title{font:400 .8rem/1.3 var(--mono);color:var(--letra);letter-spacing:.08em;text-transform:uppercase}
+.sheet-modal-body{flex:1;overflow:auto;display:grid;place-items:center;padding:20px}
+.sheet-modal-body img{max-width:100%;max-height:84svh;width:auto;height:auto;background:#fff;padding:10px;box-shadow:10px 10px 0 var(--letra)}
+
+/* ---------- floating WhatsApp ---------- */
+.fab{position:fixed;z-index:60;right:16px;bottom:calc(16px + env(safe-area-inset-bottom));display:inline-flex;align-items:center;gap:9px;height:54px;padding:0 20px 0 16px;background:var(--letra);color:var(--ink);text-decoration:none;font:400 1.05rem/1 var(--display);letter-spacing:.04em;text-transform:uppercase;box-shadow:4px 4px 0 var(--ink),0 14px 34px rgba(0,0,0,.4);transition:transform .45s var(--ease)}
+.fab svg{width:22px;height:22px;fill:currentColor}
+.js .fab{transform:translateY(160%)}
+.js .fab.show{transform:none}
+body.modal-open .fab{transform:translateY(160%)!important}
+
+.toast{position:fixed;z-index:160;left:50%;bottom:calc(84px + env(safe-area-inset-bottom));transform:translate(-50%,20px);opacity:0;padding:12px 18px;background:var(--paper);color:var(--ink);font:400 .85rem/1 var(--mono);transition:.3s var(--ease);pointer-events:none}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+
+/* ---------- AMAZON-STYLE 3D ROOM AR ("VER EN TU ESPACIO / VIEW IN YOUR ROOM") ---------- */
+.top-right{display:flex;align-items:center;gap:10px}
+.ar-pill{display:inline-flex;align-items:center;gap:6px;padding:7px 12px;border:1px solid var(--letra);background:rgba(106,72,136,.32);color:var(--letra);font:400 .72rem/1 var(--mono);letter-spacing:.09em;text-transform:uppercase;cursor:pointer;box-shadow:3px 3px 0 var(--violeta);transition:transform .2s var(--ease),background-color .2s,color .2s}
+.ar-pill:hover{background:var(--letra);color:var(--ink);transform:translate(-1px,-1px)}
+.ar-pill i{font-style:normal;display:inline-block;animation:spin 8s linear infinite}
+.btn-ar{width:100%;min-height:52px;padding:0 18px;border:1px solid var(--letra);background:linear-gradient(135deg,rgba(106,72,136,.52),rgba(25,18,35,.88));color:var(--paper);font:400 .98rem/1 var(--display);letter-spacing:.05em;text-transform:uppercase;box-shadow:5px 5px 0 var(--letra);backdrop-filter:blur(10px)}
+.btn-ar b{color:var(--letra);font-weight:400}
+.btn-ar:hover{background:var(--letra);color:var(--ink);box-shadow:6px 6px 0 var(--violeta)}
+.btn-ar:hover b{color:var(--ink)}
+
+#ar-portal{position:fixed;inset:0;z-index:155;display:flex;align-items:flex-start;justify-content:center;padding:clamp(10px,2.5vw,28px);background:rgba(10,7,16,.92);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);opacity:0;pointer-events:none;transition:opacity .3s var(--ease);overflow-y:auto}
+#ar-portal.open{opacity:1;pointer-events:auto}
+.ar-portal-card{max-width:980px;width:100%;margin:auto;border:1px solid var(--letra);background:rgba(18,12,28,.96);box-shadow:10px 10px 0 var(--violeta),0 30px 80px rgba(0,0,0,.82);text-align:left;overflow:hidden}
+.ar-portal-top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 18px;border-bottom:1px solid var(--line);background:rgba(12,8,18,.9)}
+.ar-portal-kicker{display:inline-flex;align-items:center;gap:8px;font:400 .7rem/1.2 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--letra);margin:0}
+.ar-live-dot{flex:none;width:8px;height:8px;border-radius:50%;background:#30e87a;box-shadow:0 0 10px #30e87a;animation:pulse 2s infinite}
+.ar-portal-grid{display:grid;grid-template-columns:1fr;gap:0}
+.ar-mv-stage{position:relative;height:clamp(260px,38svh,460px);background:radial-gradient(circle at 50% 42%,rgba(106,72,136,.38),rgba(8,6,13,.98) 76%);border-bottom:1px solid var(--line)}
+.ar-mv-stage model-viewer{width:100%;height:100%;display:block;--poster-color:transparent}
+.ar-mv-tabs{position:absolute;top:10px;left:10px;right:10px;z-index:3;display:flex;flex-wrap:wrap;gap:6px;pointer-events:none}
+.ar-mv-tab{pointer-events:auto;padding:6px 10px;border:1px solid rgba(243,238,227,.28);background:rgba(14,10,20,.82);backdrop-filter:blur(8px);color:var(--paper);font:400 .64rem/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;cursor:pointer;transition:.2s}
+.ar-mv-tab.active,.ar-mv-tab:hover{border-color:var(--letra);background:var(--letra);color:var(--ink);font-weight:700}
+.ar-mv-orbits{position:absolute;bottom:10px;left:10px;right:10px;z-index:3;display:flex;align-items:center;justify-content:space-between;gap:6px;pointer-events:none}
+.ar-mv-orbit-group{display:flex;flex-wrap:wrap;gap:6px;pointer-events:auto}
+.ar-mv-orbit{padding:5px 9px;border:1px solid rgba(243,238,227,.24);background:rgba(14,10,20,.82);color:var(--paper);font:400 .62rem/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;cursor:pointer}
+.ar-mv-orbit:hover{border-color:var(--letra);color:var(--letra)}
+.ar-mv-badge{display:none;padding:5px 9px;background:rgba(14,10,20,.82);border:1px solid rgba(255,204,41,.35);color:var(--letra);font:400 .6rem/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;pointer-events:none;white-space:nowrap}
+.ar-portal-info{padding:clamp(16px,2.8vw,28px);display:flex;flex-direction:column;justify-content:space-between;gap:12px}
+.ar-portal-title{font:400 clamp(1.75rem,5.6vw,2.75rem)/.94 var(--display);text-transform:uppercase;margin:0}
+.ar-portal-title em{font-style:normal;color:var(--letra)}
+.ar-portal-copy{color:var(--mute);font-size:.9rem;line-height:1.45;margin:0}
+.ar-steps{list-style:none;padding:10px 0;margin:0;display:grid;gap:7px;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.ar-steps li{display:flex;align-items:baseline;gap:10px;font-size:.84rem;color:var(--paper)}
+.ar-steps b{font:400 .68rem/1 var(--mono);color:var(--letra);letter-spacing:.08em;text-transform:uppercase;flex:none}
+.ar-portal-actions{display:grid;gap:8px}
+.ar-slot-btn{position:absolute;left:50%;bottom:14px;transform:translateX(-50%);z-index:4;padding:10px 18px;background:var(--letra);color:var(--ink);border:1px solid var(--ink);box-shadow:4px 4px 0 var(--violeta);font:400 .88rem/1 var(--display);letter-spacing:.05em;text-transform:uppercase;cursor:pointer;white-space:nowrap}
+@media (min-width:860px){
+  #ar-portal{align-items:center}
+  .ar-portal-grid{grid-template-columns:1.25fr 1fr}
+  .ar-mv-stage{height:500px;border-bottom:0;border-right:1px solid var(--line)}
+  .ar-mv-badge{display:inline-block}
+}
+
+/* ---------- reveal ---------- */
+.js [data-reveal]{opacity:0;transform:translateY(34px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
+.js [data-reveal].in{opacity:1;transform:none}
+.js .proj .m-main{opacity:0;translate:0 40px;transition:opacity 1s var(--ease),translate 1.1s var(--ease)}
+.js .proj .m-sub{opacity:0;translate:0 70px;scale:.92;transition:opacity 1s .2s var(--ease),translate 1.2s .2s var(--ease),scale 1.2s .2s var(--ease)}
+.js .proj.in .m-main,.js .proj.in .m-sub{opacity:1;translate:0 0;scale:1}
+
+/* ---------- keyframes ---------- */
+@keyframes rise{from{transform:translateY(108%)}to{transform:none}}
+@keyframes pop{from{transform:scale(0) rotate(-90deg)}to{transform:none}}
+@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+@keyframes strike{to{transform:rotate(-3.2deg) scaleX(1)}}
+@keyframes drift{from{transform:rotate(-4deg) translateY(0)}to{transform:rotate(2deg) translateY(-18px)}}
+@keyframes marquee{0%{transform:translate3d(0,0,0)}100%{transform:translate3d(-100%,0,0)}}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(255,204,41,.7)}70%,100%{box-shadow:0 0 0 9px rgba(255,204,41,0)}}
+@keyframes blink{50%{opacity:0}}
+
+@media (max-width:359px){.btn{font-size:1.02rem;padding:0 14px;gap:.5em}.hero-cta .row .btn{font-size:.96rem;padding:0 10px}.link-down{font-size:.74rem}}
+@media (min-width:700px){
+  .hero-glyph{right:-12vw}
+  .films-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:24px}
+  .more-list{grid-template-columns:repeat(4,minmax(0,1fr));gap:24px}
+  .sheets-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:32px}
+  .contact-cta{grid-template-columns:1fr 1fr;max-width:720px}
+  .contact-cta .btn:first-child{grid-column:1/-1}
+}
+@media (min-width:980px){
+  .brand img{height:30px}
+  .hero{min-height:100vh;min-height:100svh;display:flex;flex-direction:column}
+  .hero-in{flex:1;display:flex;flex-direction:column;justify-content:center;width:100%}
+  .hero-glyph{right:-4vw;top:40px;height:96%}
+  .hero-grid{grid-template-columns:minmax(0,1fr) minmax(0,440px);align-items:end;gap:18px 48px}
+  .hero-copy{grid-column:1;grid-row:1}
+  .founder{grid-column:1;grid-row:2;order:0}
+  .hero-cta{grid-column:2;grid-row:1/3}
+  .svc-item{grid-template-columns:5rem minmax(0,1.35fr) minmax(0,1fr);align-items:end;padding:30px 0 34px}
+  .svc-n{grid-row:1/4;align-self:start;padding-top:.4em}
+  .svc-t{grid-row:1/4;align-self:center}
+  .svc-d,.svc-proof,.svc-go-wrap{grid-column:3}
+  .svc-proof{grid-row:2}
+  .svc-go-wrap{grid-row:3}
+  .svc-item:nth-child(even) .svc-t{padding-left:7%}
+  .svc-item:hover .svc-t,.svc-item.is-active .svc-t{color:var(--letra);transform:translateX(14px)}
+  .proj{grid-template-columns:repeat(12,minmax(0,1fr));gap:0 36px;align-items:center}
+  .proj-media{grid-column:1/8}
+  .proj-body{grid-column:8/13}
+  .proj:nth-of-type(even) .proj-media{grid-column:6/13;grid-row:1}
+  .proj:nth-of-type(even) .proj-body{grid-column:1/6;grid-row:1}
+  .m-main{width:54%}
+  .proj-num{font-size:12rem}
+  .sheets-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:36px}
+  .founder-grid{grid-template-columns:1.15fr .85fr;gap:0 64px;align-items:end;margin-top:0}
+  .founder-head{grid-column:1/-1;grid-row:1}
+  .founder-name{margin:6px 0 0;font-size:clamp(3.7rem,17.5vw,11.5rem);line-height:.96}
+  .founder-name span{display:inline}
+  .founder-role{margin:14px 0 clamp(32px,5vw,56px);font-size:.84rem;line-height:1.4;letter-spacing:.12em}
+  .founder-role::before{width:28px;margin-right:12px}
+  .founder-body{grid-column:1;grid-row:2}
+  .founder-figure{grid-column:2;grid-row:2;margin:12px auto 0;max-width:380px}
+  .founder-figure::before{right:-10px;box-shadow:-10px -10px 0 var(--letra)}
+  .founder-figure img{border-bottom:4px solid var(--ink);filter:contrast(1.04) drop-shadow(0 18px 32px rgba(14,10,20,.28))}
+  .stage-body{grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);gap:48px}
+  .foot{padding-bottom:32px}
+  .contact .wrap{display:grid;grid-template-columns:minmax(0,1fr) 300px;column-gap:64px}
+  .contact .wrap>*{grid-column:1}
+  .contact .wrap>.contact-qr{display:block;grid-column:2;grid-row:2/6;align-self:end;margin:0;font:400 .76rem/1.5 var(--mono);letter-spacing:.06em;text-transform:uppercase}
+  .contact-qr img{width:100%;height:auto;background:#fff;box-shadow:8px 8px 0 var(--ink);margin-bottom:16px}
+}
+
+.ts-sec{min-height:900px;background:var(--ink)}.ts-demo{min-height:580px}
+</style>
+</head>
+<body>
+
+<header class="sub-hdr" id="inicio">
+  <svg class="sub-glyph" viewBox="0 269 630 711" aria-hidden="true" focusable="false"><path d="M494 269V271H479Q449 271 410 286Q376 300 353 327Q322 377 319 435Q318 440 318 445Q318 450 318 455Q318 462 318.5 473.5Q319 485 320 501Q323 517 325.5 540.0Q328 563 330 593Q333 610 333 637V654Q332 655 332 658V664Q310 814 190 897V894Q190 893 191 892V888Q191 887 192 886V885Q226 838 246 799Q269 754 285 701V639Q285 632 284.5 627.0Q284 622 284 616Q284 610 283.5 602.5Q283 595 282 581Q281 570 280.5 561.0Q280 552 280 545Q277 524 277 476Q277 463 278.0 449.5Q279 436 280 423Q284 407 286 389Q289 376 291.0 367.0Q293 358 295 352L357 282L353 277Q352 278 351 278Q351 278 350 279Q343 283 339 283Q313 293 300.0 298.5Q287 304 279 304Q271 305 265.5 305.5Q260 306 258 306H254Q252 306 252 305H246Q243 305 242 302L136 273H129Q127 274 121 274L106 277Q64 285 32 318Q0 350 0 391V395L2 399H4Q7 399 10 396H11Q12 396 13 395H14Q19 388 23.5 383.5Q28 379 30 375Q34 371 34 370Q34 368 36 366L47 355H49Q54 355 55 354H74Q77 355 80 355H84Q90 357 93 357L108 360Q115 360 123 365Q128 366 131.5 368.0Q135 370 143 370H145Q146 371 148 371H157Q158 372 160 372H165Q179 372 183 371Q195 370 201 368L228 359Q234 357 240.5 354.5Q247 352 254 348Q176 426 176 527V537Q176 540 177.0 545.0Q178 550 179 551V556Q179 559 180 560V563L157 565Q121 568 106 575Q82 585 68 608L74 606L85 608Q87 608 91.5 608.5Q96 609 102 610Q121 613 122 614Q140 620 167 640Q188 657 188 676V691H181Q180 691 172 689H161Q159 689 158 688H150Q133 689 122 694Q107 700 101 709Q105 709 111.0 710.5Q117 712 120 713Q126 715 130.5 717.0Q135 719 138 720Q151 725 169 740Q173 745 175.5 749.0Q178 753 180 755Q184 759 183.5 759.5Q183 760 187 771Q187 773 189 783Q189 787 190 789V794Q190 796 189.5 800.5Q189 805 188 812Q188 814 187.0 819.0Q186 824 183 830Q181 838 180.0 840.0Q179 842 177 847Q173 855 169 862L74 957L89 965Q102 958 120.5 951.0Q139 944 164 936Q218 919 246 916Q257 914 266.0 913.5Q275 913 280 912Q291 911 300.0 910.5Q309 910 314 910H324Q326 911 333 911H343Q345 912 353 912Q459 927 512 980L630 868L610 854Q610 855 608.5 856.5Q607 858 607 859Q606 860 600 868L596 872Q595 873 594.5 874.0Q594 875 593 876Q591 877 590 877Q589 877 589 877L583 881Q580 881 576.0 879.5Q572 878 572 876H570L555 864Q550 860 545.5 857.0Q541 854 539 852Q533 851 527 847Q522 845 519.0 844.5Q516 844 514 843Q506 841 500.0 839.0Q494 837 490 835Q466 829 448.0 827.0Q430 825 409 825Q403 825 394.0 825.5Q385 826 374 827Q338 834 310.5 840.5Q283 847 264 852L347 775Q386 739 405 687Q426 630 424 579L415 368Q424 307 496 302Q500 300 502.0 298.0Q504 296 506 295Q512 289 514 284Q512 277 505 276Q505 274 501.5 273.5Q498 273 494 269Z"/></svg>
+  <div class="top">
+    <div class="sub-brand-row">
+      <a class="sub-back" href="/"><span aria-hidden="true">←</span> Volver a Inicio</a>
+      <a class="brand" href="/"><img src="/hola/img/dame-la-letra-logo.png" width="1102" height="161" alt="Dame la Letra"></a>
+    </div>
+    <div class="top-right">
+      <button class="ar-pill" type="button" data-toggle-ar aria-label="Ver en tu espacio en Realidad Aumentada"><i>✦</i> Ver en tu espacio (AR)</button>
+      <p class="top-meta"><span class="dot" aria-hidden="true"></span>Louisville, KY</p>
+    </div>
+  </div>
+  <nav class="sub-chapters" aria-label="Capítulos del portafolio">
+    <a class="hchap" href="/"><span>00 /</span> Inicio</a>
+    <a class="hchap" href="/branding"><span>01 /</span> Branding</a>
+    <a class="hchap" href="/web"><span>02 /</span> Web &amp; Código</a>
+    <a class="hchap" href="/planos"><span>03 /</span> Planos 3D</a>
+    <a class="hchap is-current" href="/software" aria-current="page"><span>04 /</span> Tu Software · ARM</a>
+    <a class="hchap" href="/videos"><span>05 /</span> Videos &amp; Reels</a>
+  </nav>
+  <div class="sub-jumps"><b>En este capítulo:</b> <a href="#tu-software">Tu Software · ARM a la Medida (Simulador 6 Industrias)</a> <a href="#cap-software">4 Sistemas en Producción (ZHomes · New Era · My Chief CAD · Tzel)</a></div>
+</header>
+
+<main>
+  <section class="sec ts-sec" id="tu-software" aria-labelledby="ts-main-title" lang="es" style="padding-top:clamp(44px,6vw,84px)"><svg hidden aria-hidden="true" style="display:none"><defs><g id="ts-i-wa"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></g><g id="ts-i-no"><path d="M18 6 6 18M6 6l12 12"/></g><g id="ts-i-yes"><path d="M20 6 9 17l-5-5"/></g><g id="ts-i-arr"><path d="M5 12h14M13 6l6 6-6 6"/></g></defs></svg></section>
+
+  <!-- =================================================================
+       CAPÍTULO 04 — SOFTWARE PROPIO, SAAS & PLATAFORMAS EN LÍNEA
+       ================================================================= -->
+  <section class="sec" id="cap-software" aria-labelledby="software-title" style="border-top:1px solid var(--line)">
+    <div class="wrap">
+      <p class="label" data-reveal><b>04</b> Capítulo 04 · Software Propio, SaaS &amp; Sistemas <i>/ Herramientas creadas para operar y escalar.</i></p>
+      <h2 class="h2" id="software-title" data-reveal>Sistemas que <em>operan negocios.</em></h2>
+      <p class="sec-sub" data-reveal>Aplicaciones móviles, suites omnicanal de IA inmobiliaria, visores arquitectónicos 3D en tiempo real y sistemas de inteligencia de adquisiciones.</p>
+
+      <div class="more" id="mas-sistemas" style="margin-top:clamp(36px,6vw,64px);padding-top:0;border-top:0" data-reveal>
+        <ul class="more-list">
+          <li>
+            <button class="more-card" type="button" data-open-stage="zhomes">
+              <img src="/hola/img/zhomes-mob-1.webp" width="600" height="1298" alt="ZHomes App en Vista Mobile" loading="lazy" decoding="async">
+              <span class="more-t">ZHomes</span>
+              <span class="more-d">App inmobiliaria · Capturas en vista mobile +</span>
+            </button>
+          </li>
+          <li>
+            <button class="more-card" type="button" data-open-stage="software">
+              <video muted loop playsinline preload="none" poster="/hola/media/newera-demo-poster.jpg" data-loop-src="/hola/media/newera-demo-loop.mp4" width="480" height="854"></video>
+              <span class="more-t">New Era · ARM</span>
+              <span class="more-d">Suite omnicanal de IA inmobiliaria +</span>
+            </button>
+          </li>
+          <li>
+            <button class="more-card" type="button" data-open-stage="mychief">
+              <img src="/hola/img/mayor-3d-vec.webp" width="1200" height="776" alt="My Chief CAD — Plano para Ciudad en 3D" loading="lazy" decoding="async" style="background:#f2f5f8;object-fit:cover;object-position:center">
+              <span class="more-t">My Chief CAD</span>
+              <span class="more-d">Visor 3D interactivo · Plano para Ciudad +</span>
+            </button>
+          </li>
+          <li>
+            <button class="more-card" type="button" data-open-stage="tzel">
+              <img src="/hola/img/tzel-card.webp" width="900" height="562" alt="Tzel Acquisition OS — tzel.vercel.app" loading="lazy" decoding="async" style="object-position:center">
+              <span class="more-t">Tzel</span>
+              <span class="more-d">Acquisition OS · Mapa de subastas &amp; GIS +</span>
+            </button>
+            <a class="proj-link ext" href="https://tzel.vercel.app/" target="_blank" rel="noopener" style="margin-top:8px;font-size:.86rem">tzel.vercel.app <small>↗</small></a>
+          </li>
+        </ul>
+      </div>
+      <p style="margin-top:28px" data-reveal><a class="proj-link" href="#tu-software">↑ Volver arriba al simulador de Tu software · ARM</a></p>
+    </div>
+  </section>
+
+  <section class="chap-pager" aria-label="Navegación entre capítulos">
+    <div class="chap-pager-in">
+      <div>
+        <p class="chap-pager-meta">Explorar más disciplinas de Dame la Letra</p>
+        <h3 class="chap-pager-title">Siguiente capítulo: <em>05 · Realización de Video &amp; Reels</em></h3>
+      </div>
+      <div class="chap-pager-btns">
+        <a class="btn btn-ghost" href="/">← Volver a Inicio</a>
+        <a class="btn btn-primary" href="/videos">
+          Ir a Capítulo 05 · Videos
+          <svg class="arr" viewBox="0 0 24 24" aria-hidden="true"><path d="M13.2 5.3 19.9 12l-6.7 6.7-1.4-1.4 4.3-4.3H4v-2h12.1l-4.3-4.3z"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <div class="band-wrap" aria-hidden="true">
+    <div class="band alt"><div class="band-track"><span>Diseño <i class="star"></i> Negocio <i class="star"></i> Código <i class="star"></i> Arquitectura <i class="star"></i></span><span>Diseño <i class="star"></i> Negocio <i class="star"></i> Código <i class="star"></i> Arquitectura <i class="star"></i></span></div><div class="band-track"><span>Diseño <i class="star"></i> Negocio <i class="star"></i> Código <i class="star"></i> Arquitectura <i class="star"></i></span><span>Diseño <i class="star"></i> Negocio <i class="star"></i> Código <i class="star"></i> Arquitectura <i class="star"></i></span></div></div>
+  </div>
+
+  <!-- =================================================================
+       SECCIÓN 07 — HABLEMOS / CONTACTO
+       ================================================================= -->
+  <section class="sec contact" id="contacto" aria-labelledby="contact-title">
+    <div class="type-bg" aria-hidden="true"></div>
+    <div class="wrap">
+      <p class="label"><b>05</b> Hablemos</p>
+      <h2 class="contact-t" id="contact-title" lang="en">
+        <span>Good ideas</span>
+        <span class="sub-line">start with a</span>
+        <span>good conversation.</span>
+      </h2>
+      <p class="contact-copy">¿Tienes un proyecto, una idea o simplemente quieres explorar posibilidades? Hablemos.</p>
+      <div class="contact-cta">
+        <a class="btn btn-ink" href="https://wa.me/15026587853?text=Hola%20Miguel%2C%20vi%20la%20tarjeta%20digital%20de%20Dame%20la%20Letra%20y%20me%20gustar%C3%ADa%20conversar%20sobre%20un%20proyecto." target="_blank" rel="noopener" lang="en" data-track="wa-contact">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+          Let’s talk on WhatsApp
+          <svg class="arr" viewBox="0 0 24 24" aria-hidden="true"><path d="M13.2 5.3 19.9 12l-6.7 6.7-1.4-1.4 4.3-4.3H4v-2h12.1l-4.3-4.3z"/></svg>
+        </a>
+        <a class="btn btn-line" href="https://www.instagram.com/damelaletra_ky/" target="_blank" rel="noopener" lang="en" data-track="ig-contact">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.0301.084c-1.2768.0602-2.1487.264-2.911.5634-.7888.3075-1.4575.72-2.1228 1.3877-.6652.6677-1.075 1.3368-1.3802 2.127-.2954.7638-.4956 1.6365-.552 2.914-.0564 1.2775-.0689 1.6882-.0626 4.947.0062 3.2586.0206 3.6671.0825 4.9473.061 1.2765.264 2.1482.5635 2.9107.308.7889.72 1.4573 1.388 2.1228.6679.6655 1.3365 1.0743 2.1285 1.38.7632.295 1.6361.4961 2.9134.552 1.2773.056 1.6884.069 4.9462.0627 3.2578-.0062 3.668-.0207 4.9478-.0814 1.28-.0607 2.147-.2652 2.9098-.5633.7889-.3086 1.4578-.72 2.1228-1.3881.665-.6682 1.0745-1.3378 1.3795-2.1284.2957-.7632.4966-1.636.552-2.9124.056-1.2809.0692-1.6898.063-4.948-.0063-3.2583-.021-3.6668-.0817-4.9465-.0607-1.2797-.264-2.1487-.5633-2.9117-.3084-.7889-.72-1.4568-1.3876-2.1228C21.2982 1.33 20.628.9208 19.8378.6165 19.074.321 18.2017.1197 16.9244.0645 15.6471.0093 15.236-.005 11.977.0014 8.718.0076 8.31.0215 7.0301.0839m.1402 21.6932c-1.17-.0509-1.8053-.2453-2.2287-.408-.5606-.216-.96-.4771-1.3819-.895-.422-.4178-.6811-.8186-.9-1.378-.1644-.4234-.3624-1.058-.4171-2.228-.0595-1.2645-.072-1.6442-.079-4.848-.007-3.2037.0053-3.583.0607-4.848.05-1.169.2456-1.805.408-2.2282.216-.5613.4762-.96.895-1.3816.4188-.4217.8184-.6814 1.3783-.9003.423-.1651 1.0575-.3614 2.227-.4171 1.2655-.06 1.6447-.072 4.848-.079 3.2033-.007 3.5835.005 4.8495.0608 1.169.0508 1.8053.2445 2.228.408.5608.216.96.4754 1.3816.895.4217.4194.6816.8176.9005 1.3787.1653.4217.3617 1.056.4169 2.2263.0602 1.2655.0739 1.645.0796 4.848.0058 3.203-.0055 3.5834-.061 4.848-.051 1.17-.245 1.8055-.408 2.2294-.216.5604-.4763.96-.8954 1.3814-.419.4215-.8181.6811-1.3783.9-.4224.1649-1.0577.3617-2.2262.4174-1.2656.0595-1.6448.072-4.8493.079-3.2045.007-3.5825-.006-4.848-.0608M16.953 5.5864A1.44 1.44 0 1 0 18.39 4.144a1.44 1.44 0 0 0-1.437 1.4424M5.8385 12.012c.0067 3.4032 2.7706 6.1557 6.173 6.1493 3.4026-.0065 6.157-2.7701 6.1506-6.1733-.0065-3.4032-2.771-6.1565-6.174-6.1498-3.403.0067-6.156 2.771-6.1496 6.1738M8 12.0077a4 4 0 1 1 4.008 3.9921A3.9996 3.9996 0 0 1 8 12.0077"/></svg>
+          Follow us on Instagram
+        </a>
+        <a class="btn btn-line" href="/hola/miguel-sosa-dame-la-letra.vcf" data-track="vcard-contact">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm0 2c-4.4 0-8 2.2-8 5v1h11.1a6 6 0 0 1-.1-1c0-1.7.7-3.3 1.8-4.4A13 13 0 0 0 12 14Zm7 0v3h-3v2h3v3h2v-3h3v-2h-3v-3z"/></svg>
+          Guardar contacto
+        </a>
+      </div>
+      <figure class="contact-qr"><img src="/hola/qr/dame-la-letra-qr.svg" width="300" height="300" alt="Código QR hacia damelaletra.com" loading="lazy"><figcaption>¿Estás en una computadora? Escanea para llevarte esta tarjeta en el teléfono.</figcaption></figure>
+      <div class="contact-tools">
+        <button class="tool" type="button" data-toggle-ar>✦ Ver web flotando en AR</button>
+        <button class="tool" type="button" data-share-ar>Compartir enlace en AR</button>
+        <button class="tool" type="button" data-share>Compartir esta tarjeta</button>
+        <a class="tool" href="/qr">Mostrar código QR</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <img src="/hola/img/dame-la-letra-logo.png" width="1102" height="161" alt="Dame la Letra" loading="lazy">
+  <p>© 2026 Dame la Letra LLC · Louisville, Kentucky</p>
+</footer>
+
+<a class="fab" href="https://wa.me/15026587853?text=Hola%20Miguel%2C%20vi%20la%20tarjeta%20digital%20de%20Dame%20la%20Letra%20y%20me%20gustar%C3%ADa%20conversar%20sobre%20un%20proyecto." target="_blank" rel="noopener" aria-label="Hablemos por WhatsApp" data-track="wa-fab">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>Hablemos
+</a>
+
+<!-- BESPOKE INTERACTIVE PROJECT STAGE -->
+<div class="stage" id="project-stage" role="dialog" aria-modal="true" aria-labelledby="st-title" aria-hidden="true">
+  <div class="stage-fx" id="st-fx" aria-hidden="true"></div>
+  <div class="stage-inner">
+    <div class="stage-bar">
+      <span class="stage-kicker" id="st-kicker">Proyecto</span>
+      <button class="stage-close" type="button" data-close-stage>Cerrar [Esc]</button>
+    </div>
+    <div class="stage-body">
+      <div class="stage-info">
+        <h3 class="stage-title" id="st-title">Título</h3>
+        <p class="stage-desc" id="st-desc"></p>
+        <div id="st-fx-ctrl"></div>
+        <div class="stage-actions" id="st-actions"></div>
+      </div>
+      <div class="stage-showcase" id="st-showcase"></div>
+    </div>
+  </div>
+</div>
+
+<!-- HIGH-RES SHEET LIGHTBOX -->
+<div class="sheet-modal" id="sheet-modal" role="dialog" aria-modal="true" aria-labelledby="shm-title" aria-hidden="true">
+  <div class="sheet-modal-bar">
+    <span class="sheet-modal-title" id="shm-title">Pliego Técnico</span>
+    <button class="stage-close" type="button" data-close-sheet>Cerrar</button>
+  </div>
+  <div class="sheet-modal-body" data-close-sheet>
+    <img id="shm-img" src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" alt="Pliego Técnico en Alta Resolución">
+  </div>
+</div>
+
+<div class="toast" role="status" aria-live="polite"></div>
+
+<!-- AMAZON-STYLE "VER EN TU ESPACIO / VIEW IN YOUR ROOM" 3D AR MODAL -->
+<div id="ar-portal" role="dialog" aria-modal="true" aria-labelledby="arp-title" aria-hidden="true">
+  <div class="ar-portal-card">
+    <div class="ar-portal-top">
+      <p class="ar-portal-kicker"><i class="ar-live-dot"></i> <span>Realidad Aumentada Espacial · Ver en tu habitación (Estilo Amazon)</span></p>
+      <button class="stage-close" type="button" data-close-ar-portal>Cerrar [Esc]</button>
+    </div>
+    <div class="ar-portal-grid">
+      <div class="ar-mv-stage" id="ar-mv-wrap">
+        <div class="ar-mv-tabs" role="tablist" aria-label="Objeto 3D para colocar en tu espacio">
+          <button class="ar-mv-tab active" type="button" data-ar-key="web" data-ar-model="/hola/3d/dame-la-letra-web-ar.glb" data-ar-usdz="/hola/3d/dame-la-letra-web-ar.usdz#callToAction=Hablar%20con%20Miguel&amp;checkoutTitle=Dame%20la%20Letra&amp;checkoutSubtitle=Estudio%20Creativo%20%C2%B7%20Louisville%20KY" data-ar-badge="3D · Web Flotando en el Aire" data-ar-title="Coloca esta web &lt;em&gt;en tu habitación.&lt;/em&gt;" data-ar-copy="Igual que cuando pruebas un mueble de Amazon en tu sala: apunta la cámara de tu teléfono al piso o a una mesa para colocar la instalación 3D de &lt;strong&gt;Dame la Letra&lt;/strong&gt; flotando en tu espacio real y camina alrededor de cada capítulo.">01 / La Web Flotando 3D</button>
+          <button class="ar-mv-tab" type="button" data-ar-key="mayor" data-ar-model="/hola/3d/proyecto-alcalde-ar.glb" data-ar-usdz="/hola/3d/proyecto-alcalde-ar.usdz#callToAction=Hablar%20con%20Miguel&amp;checkoutTitle=Plano%20para%20Ciudad&amp;checkoutSubtitle=City%20of%20Lynnview%20Monument%20%C2%B7%203D%20AR" data-ar-badge="3D · Plano para Ciudad (Monumento)" data-ar-title="Plano para Ciudad &lt;em&gt;en tu espacio.&lt;/em&gt;" data-ar-copy="Apunta la cámara de tu teléfono al piso o a tu escritorio para colocar en Realidad Aumentada la maqueta arquitectónica 3D del &lt;strong&gt;Monumento y Plaza Cívica de la Ciudad de Lynnview&lt;/strong&gt; (monolito en piedra natural, placa histórica en bronce, muros curvos grabados y 3 astas con banderas).">02 / Plano para Ciudad 3D</button>
+          <button class="ar-mv-tab" type="button" data-ar-key="casa" data-ar-model="/hola/3d/casa-1607.glb" data-ar-usdz="" data-ar-badge="3D · Residencia 2 Niveles" data-ar-title="Residencia 2 Niveles &lt;em&gt;en tu espacio.&lt;/em&gt;" data-ar-copy="Inspecciona la volumetría 3D de la residencia de dos niveles y colócala sobre tu mesa o piso con la cámara AR.">03 / Casa 2 Niveles</button>
+          <button class="ar-mv-tab" type="button" data-ar-key="porche" data-ar-model="/hola/3d/porche-7107.glb" data-ar-usdz="" data-ar-badge="3D · Porche Estructural" data-ar-title="Porche Estructural &lt;em&gt;en tu espacio.&lt;/em&gt;" data-ar-copy="Explora la estructura y cubierta 3D del porche en Realidad Aumentada a escala desde tu teléfono.">04 / Porche 3D</button>
+        </div>
+        <div class="ar-mv-orbits">
+          <div class="ar-mv-orbit-group">
+            <button class="ar-mv-orbit" type="button" data-ar-orbit="0deg 78deg 105%">Frente</button>
+            <button class="ar-mv-orbit" type="button" data-ar-orbit="32deg 74deg 105%">360° Isométrica</button>
+            <button class="ar-mv-orbit" type="button" data-ar-orbit="180deg 78deg 105%">Reverso</button>
+          </div>
+          <span class="ar-mv-badge" id="ar-mv-badge">3D · Web Flotando en el Aire</span>
+        </div>
+      </div>
+      <div class="ar-portal-info">
+        <div>
+          <h3 class="ar-portal-title" id="arp-title">Coloca esta web <em>en tu habitación.</em></h3>
+          <p class="ar-portal-copy" id="arp-copy" style="margin-top:10px">Igual que cuando pruebas un mueble de Amazon en tu sala: apunta la cámara de tu teléfono al piso o a una mesa para colocar la instalación 3D de <strong>Dame la Letra</strong> flotando en tu espacio real y camina alrededor de cada capítulo.</p>
+        </div>
+        <ul class="ar-steps">
+          <li><b>Paso 01</b><span>Toca <strong>«Colocar en tu espacio (Cámara AR)»</strong> desde tu iPhone o Android.</span></li>
+          <li><b>Paso 02</b><span>Apunta al piso o mesa para anclar la base 3D y ver las pantallas flotando en el aire.</span></li>
+          <li><b>Paso 03</b><span>Acércate a leer cada proyecto, rodéala 360° o pellizca para ajustar su escala.</span></li>
+        </ul>
+        <div class="ar-portal-actions">
+          <button class="btn btn-primary" type="button" data-launch-native-ar style="width:100%">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 3 7v10l9 5 9-5V7l-9-5Zm0 2.3L18.8 8 12 11.7 5.2 8 12 4.3ZM5 9.8l6 3.3v6.5l-6-3.3V9.8Zm8 9.8v-6.5l6-3.3v6.5l-6 3.3Z"/></svg>
+            ✦ Colocar en tu espacio (Cámara AR)
+          </button>
+          <a id="ios-quicklook-fallback" rel="ar" href="/hola/3d/dame-la-letra-web-ar.usdz#callToAction=Hablar%20con%20Miguel&amp;checkoutTitle=Dame%20la%20Letra&amp;checkoutSubtitle=Estudio%20Creativo%20%C2%B7%20Louisville%20KY" style="display:none"><img src="/hola/img/dame-la-letra-logo.png" alt="Dame la Letra AR"></a>
+          <button class="btn btn-ghost" type="button" data-close-ar-portal style="width:100%">Seguir viendo la tarjeta normal</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var d=document;
+
+  /* 1. Reveal on scroll (always active on PC & Mobile) */
+  var els=d.querySelectorAll('[data-reveal]');
+  if(!('IntersectionObserver' in window)){els.forEach(function(e){e.classList.add('in')});}
+  else{
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}})},{rootMargin:'0px 0px -8% 0px',threshold:.05});
+    els.forEach(function(e){io.observe(e)});
+  }
+
+  /* 1b. "Lo que hacemos" (.svc-item) purple rectangle highlight on scroll & touch (like video preview activation) */
+  var svcItems=Array.prototype.slice.call(d.querySelectorAll('.svc-item'));
+  if(svcItems.length){
+    var setActiveSvc=function(target){
+      svcItems.forEach(function(it){it.classList.toggle('is-active',it===target)});
+    };
+    svcItems.forEach(function(it){
+      it.addEventListener('pointerdown',function(){setActiveSvc(it)},{passive:true});
+      it.addEventListener('touchstart',function(){setActiveSvc(it)},{passive:true});
+      it.addEventListener('pointerenter',function(){setActiveSvc(it)},{passive:true});
+      it.addEventListener('focusin',function(){setActiveSvc(it)});
+      it.addEventListener('click',function(e){
+        if(e.target&&e.target.closest&&e.target.closest('a'))return;
+        var href=it.getAttribute('data-href');
+        if(href)window.location.href=href;
+      });
+    });
+    var svcTick=false;
+    var updateSvcOnScroll=function(){
+      svcTick=false;
+      var vh=window.innerHeight||d.documentElement.clientHeight;
+      var focusY=vh*0.42;
+      var best=null, bestDist=Infinity;
+      for(var i=0;i<svcItems.length;i++){
+        var r=svcItems[i].getBoundingClientRect();
+        if(r.bottom<vh*0.12||r.top>vh*0.88)continue;
+        var mid=(r.top+r.bottom)*0.5;
+        var dist=Math.abs(mid-focusY);
+        if(dist<bestDist){bestDist=dist;best=svcItems[i];}
+      }
+      if(best)setActiveSvc(best);
+    };
+    window.addEventListener('scroll',function(){
+      if(!svcTick){svcTick=true;window.requestAnimationFrame(updateSvcOnScroll);}
+    },{passive:true});
+    updateSvcOnScroll();
+  }
+
+  /* 2. Lazy-load & play/pause inline loop videos */
+  var loopVids=d.querySelectorAll('video[data-loop-src]');
+  if('IntersectionObserver' in window){
+    var vio=new IntersectionObserver(function(es){
+      es.forEach(function(entry){
+        var v=entry.target;
+        if(entry.isIntersecting){
+          if(!v.getAttribute('src')){v.setAttribute('src',v.getAttribute('data-loop-src'));v.load();}
+          var p=v.play();if(p&&p.catch)p.catch(function(){});
+        }else{
+          if(!v.paused)v.pause();
+        }
+      });
+    },{rootMargin:'200px 0px'});
+    loopVids.forEach(function(v){vio.observe(v)});
+  }
+
+  /* 3. Fast Touch/Click-Pausable Logo Marquee */
+  var rail=d.getElementById('marcas'), mBtn=d.querySelector('[data-marquee-btn]'), mArea=d.querySelector('[data-marquee]');
+  var lockedPause=false;
+  function setMarqueePaused(p){
+    if(!rail)return;
+    rail.classList.toggle('paused',p);
+    if(mBtn){mBtn.setAttribute('aria-pressed',String(p));mBtn.textContent=p?'Reanudar':'Detener';}
+  }
+  if(mBtn){
+    mBtn.addEventListener('click',function(){lockedPause=!rail.classList.contains('paused');setMarqueePaused(lockedPause);});
+  }
+  if(mArea){
+    mArea.addEventListener('pointerdown',function(){setMarqueePaused(true)});
+    mArea.addEventListener('pointerup',function(){if(!lockedPause)setMarqueePaused(false)});
+    mArea.addEventListener('pointercancel',function(){if(!lockedPause)setMarqueePaused(false)});
+    mArea.addEventListener('click',function(){lockedPause=!lockedPause;setMarqueePaused(lockedPause)});
+  }
+
+  /* 4. Bespoke Project Stage & Perimeter Depth-of-Field FX */
+  var STAGES={
+    lucky:{
+      kicker:'01 / E-Commerce · Latas & Barra Móvil · Cinemática 60fps',
+      title:'Lucky Shaker',
+      desc:'Tienda Shopify y dirección creativa para cócteles artesanales en lata y servicio de barra móvil. Rodamos secuencias reales a 60fps para mobile y desktop, y programamos los ingredientes flotando con profundidad de campo.',
+      fx:'fruits',
+      fxBtn:'Agitar ingredientes en escena',
+      mainVideo:{src:'/hola/media/lucky.mp4',poster:'/hola/media/lucky-poster.jpg',muted:true},
+      secondary:[
+        {type:'video',src:'/hola/media/lucky-desk.mp4',poster:'/hola/media/lucky-desk-poster.jpg',caption:'Secuencia Desktop 16:9 a 60fps'},
+        {type:'img',src:'/hola/img/lucky-can-820.webp',caption:'Presentación en Lata · Piña Colada & Frutas Reales'}
+      ],
+      url:'https://luckyshakersupply.com/',
+      urlLabel:'Visitar luckyshakersupply.com ↗'
+    },
+    newera:{
+      kicker:'02 / Plataforma Inmobiliaria · Patrón SVG · Suite IA',
+      title:'New Era Real Estate',
+      desc:'Correduría inmobiliaria bilingüe en Kentucky. Arriba puedes ver su plataforma web en vista mobile y desktop con el patrón geométrico hexagonal en SVG haciendo destellos dorados en vivo, y al final su suite de automatización omnicanal con IA (ARM).',
+      fx:'newera',
+      fxBtn:'Lanzar destellos en el patrón SVG',
+      leadImg:{src:'/hola/img/newera-m-820.webp',caption:'01 / Sitio Web Oficial en Vista Mobile · neweraky.com'},
+      secondary:[
+        {type:'img',src:'/hola/img/newera-d-1100.webp',caption:'02 / Plataforma Web Desktop & Mapa de Propiedades'},
+        {type:'video',src:'/hola/media/newera-demo.mp4',poster:'/hola/media/newera-demo-poster.jpg',caption:'03 / Software de IA Omnicanal · Suite ARM'}
+      ],
+      url:'https://www.neweraky.com/',
+      urlLabel:'Visitar neweraky.com ↗'
+    },
+    elys:{
+      kicker:'01 / Branding · Packaging · Sitio Web & Reel',
+      title:'Ely’s Charcuterie',
+      desc:'Sistema de identidad completo para un atelier de charcutería en Louisville: logotipo, isotipo de rosa en burgundy y dorado, bolsa boutique y grazing cups, reel de revelación y sitio web bilingüe con pedidos por WhatsApp.',
+      fx:'roses',
+      fxBtn:'Animar emblemas de rosa',
+      mainVideo:{src:'/hola/media/elys.mp4',poster:'/hola/media/elys-poster.jpg',muted:true},
+      secondary:[
+        {type:'img',src:'/hola/img/elys-bag-820.webp',caption:'Bolsa Boutique & Grazing Cups con Logo en Oro'},
+        {type:'img',src:'/hola/img/elys-m-820.webp',caption:'Catálogo Web Mobile'}
+      ],
+      url:'https://charcuterieelys-byte.github.io/website/',
+      urlLabel:'Visitar sitio web de Ely’s ↗'
+    },
+    dp:{
+      kicker:'02 / Plataforma Web · Promo Film · Fotografía de Lujo',
+      title:'DPhotography Studios',
+      desc:'Plataforma digital y pieza audiovisual de lanzamiento para estudio de fotografía de bodas, quinceañeras y cine en Louisville, Kentucky.',
+      fx:'gold',
+      mainVideo:{src:'/hola/media/dp.mp4',poster:'/hola/media/dp-poster.jpg',muted:false},
+      secondary:[
+        {type:'img',src:'/hola/img/dp-d-1100.webp',caption:'Sitio Web Oficial · dphotographystudios.com'}
+      ],
+      url:'https://www.dphotographystudios.com/',
+      urlLabel:'Visitar dphotographystudios.com ↗'
+    },
+    trilion:{
+      kicker:'03 / Plataforma Web · Educación, Deporte & Liderazgo',
+      title:'Tri-Lion Academy',
+      desc:'Diseño y desarrollo web para academia de liderazgo, formación deportiva y programas educativos: arquitectura de inscripción clara, experiencia mobile-first y narrativa visual de alto impacto.',
+      fx:'gold',
+      leadImg:{src:'/hola/img/trilion-m-820.webp',caption:'01 / Sitio Web en Vista Mobile · trilionacademy.com'},
+      secondary:[
+        {type:'img',src:'/hola/img/trilion-d-1100.webp',caption:'02 / Plataforma Web en Vista Desktop'}
+      ],
+      url:'https://trilionacademy.com/',
+      urlLabel:'Visitar trilionacademy.com ↗'
+    },
+    labonita:{
+      kicker:'03 / Dirección de Arte · Art Film 3D · Shopify Oro 10K y 14K',
+      title:'La Bonita Jewelry',
+      desc:'Dirección de arte y tienda Shopify a medida: escultura clásica en mármol, films de campaña Reimagined, catálogo filtrado por quilataje y calculadora de compra de oro con cotización diaria en tiempo real.',
+      fx:'gold',
+      fxBtn:'Activar destellos 14K',
+      mainVideo:{src:'/hola/media/labonita-reimagined.mp4',poster:'/hola/media/labonita-reimagined-poster.jpg',muted:false},
+      secondary:[
+        {type:'video',src:'/hola/media/labonita-reveal.mp4',poster:'/hola/media/labonita-reveal-poster.jpg',caption:'Reel de Revelación · Universo Visual'},
+        {type:'img',src:'/hola/img/labonita-d-1100.webp',caption:'Tienda Shopify & Calculadora de Oro'}
+      ],
+      url:'https://www.labonitajewelry.com/',
+      urlLabel:'Visitar labonitajewelry.com ↗'
+    },
+    primestone:{
+      kicker:'04 / Arquitectura Digital · Interfaz Espacial',
+      title:'Prime Stone Builders',
+      desc:'Showcase audiovisual de diseño web y visualización arquitectónica en formato panorámico Desktop (16:9) y versión vertical Mobile (9:16).',
+      fx:'gold',
+      mainVideo:{src:'/hola/media/primestone-desk.mp4',poster:'/hola/media/primestone-desk-poster.jpg',muted:true},
+      secondary:[
+        {type:'video',src:'/hola/media/primestone.mp4',poster:'/hola/media/primestone-poster.jpg',caption:'Versión Vertical Mobile (9:16)'}
+      ]
+    },
+    zhomes:{
+      kicker:'SaaS Inmobiliario · Nueva Aplicación en Vista Mobile',
+      title:'ZHomes App',
+      desc:'La nueva aplicación inmobiliaria de ZHomes diseñada con navegación móvil tipo Liquid Glass: buscador de propiedades, ZHomes Match interactivo, calculadora de hipotecas en tiempo real, analítica de mercado y directorio de agentes exclusivos.',
+      fx:'gold',
+      gridClass:'mob-grid',
+      secondary:[
+        {type:'img',src:'/hola/img/zhomes-mob-1.webp',caption:'01 / Inicio, Buscador & ZHomes Match'},
+        {type:'img',src:'/hola/img/zhomes-mob-3.webp',caption:'02 / Calculadora de Hipotecas en Vivo'},
+        {type:'img',src:'/hola/img/zhomes-mob-2.webp',caption:'03 / Analítica de Mercado & Filtros'},
+        {type:'img',src:'/hola/img/zhomes-mob-4.webp',caption:'04 / Directorio de Agentes Exclusivos'}
+      ],
+      url:'https://zhomesapp.com/',
+      urlLabel:'Visitar zhomesapp.com ↗'
+    },
+    software:{
+      kicker:'Software de Automatización Omnicanal · IA Inmobiliaria',
+      title:'New Era · Suite ARM',
+      desc:'Suite de inteligencia artificial y automatización omnicanal desarrollada para New Era Real Estate: atención y calificación de leads en tiempo real, seguimiento automatizado multi-canal, agendamiento inteligente y sincronización con el inventario de propiedades.',
+      fx:'newera',
+      fxBtn:'Lanzar destellos en el patrón SVG',
+      mainVideo:{src:'/hola/media/newera-demo.mp4',poster:'/hola/media/newera-demo-poster.jpg',muted:false},
+      secondary:[
+        {type:'video',src:'/hola/media/newera-arm-desk.mp4',poster:'/hola/media/newera-arm-desk-poster.jpg',caption:'01 / Demo Operativo Completo · Flujo Omnicanal IA (16:9)'},
+        {type:'img',src:'/hola/img/newera-d-1100.webp',caption:'02 / Plataforma Web & Ecosistema New Era Real Estate'}
+      ],
+      url:'https://www.neweraky.com/',
+      urlLabel:'Visitar neweraky.com ↗'
+    },
+    mychief:{
+      kicker:'Motor CAD & BIM · Vista 3D Interactiva en Vivo',
+      title:'My Chief CAD · Plano para Ciudad',
+      desc:'Propuesta arquitectónica y estructural 3D interactiva para el Monumento y Plaza Cívica de la Ciudad de Lynnview. Gira el modelo 360°, alterna entre luz diurna PBR, iluminación LED nocturna de 12V, vista vectorial CAD, modo Rayos-X de cimentaciones (-36"/-60") o colócalo en tu espacio con Realidad Aumentada.',
+      fx:'gold',
+      arModel:'mayor',
+      arLabel:'✦ Ver Plano para Ciudad en tu espacio (AR)',
+      iframe:'/hola/mayor-viewer/index.html',
+      secondary:[
+        {type:'img',src:'/hola/img/plan-mayor-a1-1800.webp',caption:'A-1 · Planta General, Emplazamiento y Geometría Radial'},
+        {type:'img',src:'/hola/img/plan-mayor-s1-1800.webp',caption:'S-1 · Planta de Cimentación y Zapatas (-36" / -60")'},
+        {type:'img',src:'/hola/img/plan-mayor-l1-1800.webp',caption:'L-1 · Ingeniería de Iluminación LED 12V & Paisajismo'}
+      ]
+    },
+    tzel:{
+      kicker:'Inteligencia Inmobiliaria · Pre-Foreclosure, GIS & Subastas',
+      title:'Tzel · Acquisition OS v2.0',
+      desc:'Plataforma web y motor automatizado de inteligencia inmobiliaria en Jefferson County (tzel.vercel.app): mapa interactivo con temperatura de equity, filtros de presupuesto y spread ARV, calendario de subastas (Master Commissioner / Lis Pendens), cruce GIS de LOJIC y alertas por Telegram.',
+      fx:'newera',
+      leadImg:{src:'/hola/img/tzel-desk.webp',caption:'01 / TZEL Acquisition OS v2.0 · Mapa de Subastas, Filtros & Equity Spread (tzel.vercel.app)'},
+      tzelConsole:true,
+      secondary:[
+        {type:'img',src:'/hola/img/tzel-mob-1.webp',caption:'02 / Vista Mobile · Filtros Operativos & Próximas Subastas'},
+        {type:'img',src:'/hola/img/tzel-mob-2.webp',caption:'03 / Tarjetas de Propiedades, Deuda Estimada & Valor PVA'}
+      ],
+      url:'https://tzel.vercel.app/',
+      urlLabel:'Visitar tzel.vercel.app ↗'
+    },
+    'reel-luxury':{
+      kicker:'Film 01 / Dirección de Arte & 3D',
+      title:'La Bonita · Luxury Art Film',
+      desc:'Pieza audiovisual combinando escultura clásica en mármol e iluminación cinematográfica de joyería.',
+      fx:'gold',
+      mainVideo:{src:'/hola/media/labonita-film.mp4',poster:'/hola/media/labonita-film-poster.jpg',muted:false},
+      secondary:[]
+    },
+    'reel-agents':{
+      kicker:'Film 02 / Animación Editorial & Collage',
+      title:'Top Agents · ZHomes',
+      desc:'Dirección y motion graphics estilo collage con textura de papel y recorte editorial.',
+      fx:'gold',
+      mainVideo:{src:'/hola/media/vid-agents.mp4',poster:'/hola/media/vid-agents-poster.jpg',muted:false},
+      secondary:[]
+    },
+    'reel-sellers':{
+      kicker:'Film 03 / Tipografía Cinética & Ritmo',
+      title:'Top Sellers · ZHomes',
+      desc:'Pieza vertical de alto contraste con edición rítmica y gráficos en movimiento.',
+      fx:'gold',
+      mainVideo:{src:'/hola/media/vid-sellers.mp4',poster:'/hola/media/vid-sellers-poster.jpg',muted:false},
+      secondary:[]
+    },
+    'reel-shoot':{
+      kicker:'Film 04 / Dirección en Set',
+      title:'Sesión Editorial',
+      desc:'Dirección de retrato en estudio con transición de blanco y negro a color.',
+      fx:'gold',
+      mainVideo:{src:'/hola/media/vid-shoot.mp4',poster:'/hola/media/vid-shoot-poster.jpg',muted:false},
+      secondary:[]
+    }
+  };
+
+  var stage=d.getElementById('project-stage'), stFx=d.getElementById('st-fx'), stKicker=d.getElementById('st-kicker'),
+      stTitle=d.getElementById('st-title'), stDesc=d.getElementById('st-desc'), stFxCtrl=d.getElementById('st-fx-ctrl'),
+      stActions=d.getElementById('st-actions'), stShowcase=d.getElementById('st-showcase');
+  var neweraCache=null;
+
+  /* Perimeter slots keep floating elements around the edges so they never collide with title/copy */
+  var PERIMETER=[
+    {l:'2%',t:'6%',w:88,b:1.5,o:.55},{l:'86%',t:'8%',w:74,b:0,o:.78},{l:'90%',t:'36%',w:62,b:.8,o:.65},
+    {l:'3%',t:'68%',w:70,b:0,o:.72},{l:'84%',t:'72%',w:94,b:2,o:.5},{l:'62%',t:'4%',w:54,b:0,o:.7},
+    {l:'48%',t:'86%',w:68,b:1,o:.6},{l:'14%',t:'88%',w:80,b:1.5,o:.52},{l:'74%',t:'48%',w:58,b:0,o:.68}
+  ];
+
+  function renderStageFx(kind){
+    stFx.innerHTML='';
+    if(kind==='fruits'){
+      var fruits=['lime-wheel','lemon-wheel','orange-wheel','mint','cherry','lime-half','grapefruit-half','apple-slice','ice'];
+      PERIMETER.forEach(function(slot,i){
+        var im=d.createElement('img');
+        im.className='stage-fruit';
+        im.src='/hola/fx/'+fruits[i%fruits.length]+'.webp';
+        im.alt='';
+        im.style.left=slot.l;
+        im.style.top=slot.t;
+        im.style.width=slot.w+'px';
+        im.style.opacity=String(slot.o);
+        if(slot.b)im.style.filter='blur('+slot.b+'px) drop-shadow(0 14px 24px rgba(0,0,0,.6))';
+        else im.style.filter='drop-shadow(0 14px 24px rgba(0,0,0,.6))';
+        im.style.setProperty('--dx',((i%2?1:-1)*(14+i*4))+'px');
+        im.style.setProperty('--dy',((i%3?1:-1)*(18+i*5))+'px');
+        im.style.setProperty('--r0',(-20+i*9)+'deg');
+        im.style.setProperty('--r1',(16+i*11)+'deg');
+        im.style.setProperty('--dur',(5.5+(i%4)*1.3)+'s');
+        stFx.appendChild(im);
+      });
+    }else if(kind==='roses'){
+      PERIMETER.slice(0,6).forEach(function(slot,r){
+        var rm=d.createElement('img');
+        rm.className='stage-rose';
+        rm.src='/hola/fx/'+(r%2?'rosa-dorado.svg':'rosa-burgundy.svg');
+        rm.alt='';
+        rm.style.left=slot.l;
+        rm.style.top=slot.t;
+        rm.style.setProperty('--dur',(7+(r%3)*2)+'s');
+        stFx.appendChild(rm);
+      });
+    }else if(kind==='gold'){
+      for(var g=0;g<20;g++){
+        var gd=d.createElement('span');
+        gd.className='stage-gold';
+        gd.style.left=(4+(g*17)%92)+'%';
+        gd.style.top=(6+(g*23)%88)+'%';
+        gd.style.setProperty('--gdur',(2.4+(g%5)*0.6)+'s');
+        stFx.appendChild(gd);
+      }
+    }else if(kind==='newera'){
+      var drawLines=function(data){
+        var svgNS='http://www.w3.org/2000/svg';
+        var svg=d.createElementNS(svgNS,'svg');
+        svg.setAttribute('viewBox',(data&&data.v)||'0 0 18737 9495');
+        svg.setAttribute('preserveAspectRatio','xMidYMid slice');
+        svg.setAttribute('class','stage-newera-svg');
+        var paths=Array.isArray(data)?data:(data.d||[]);
+        paths.forEach(function(pd,idx){
+          var p=d.createElementNS(svgNS,'path');
+          p.setAttribute('d',pd);
+          p.setAttribute('class','base');
+          svg.appendChild(p);
+          if(idx%4===0){
+            var sp=d.createElementNS(svgNS,'path');
+            sp.setAttribute('d',pd);
+            sp.setAttribute('class','spark');
+            sp.style.setProperty('--sdur',(2.8+(idx%7)*0.5)+'s');
+            svg.appendChild(sp);
+          }
+        });
+        stFx.innerHTML='';
+        stFx.appendChild(svg);
+      };
+      if(neweraCache){drawLines(neweraCache);}
+      else{
+        fetch('/hola/fx/newera-lines.json').then(function(r){return r.json()}).then(function(j){neweraCache=j;drawLines(j)}).catch(function(){});
+      }
+    }
+  }
+
+  function openStage(id){
+    var p=STAGES[id];
+    if(!p)return;
+    stKicker.textContent=p.kicker;
+    stTitle.textContent=p.title;
+    stDesc.textContent=p.desc;
+    renderStageFx(p.fx);
+
+    stFxCtrl.innerHTML='';
+    if(p.fxBtn){
+      var fb=d.createElement('button');
+      fb.type='button';
+      fb.className='stage-fx-btn';
+      fb.textContent=p.fxBtn+' +';
+      fb.addEventListener('click',function(){renderStageFx(p.fx)});
+      stFxCtrl.appendChild(fb);
+    }
+
+    stActions.innerHTML='';
+    if(p.arModel){
+      var arb=d.createElement('button');
+      arb.type='button';
+      arb.className='btn btn-primary';
+      arb.textContent=p.arLabel||'✦ Ver en tu espacio (AR)';
+      arb.addEventListener('click',function(){
+        closeStage();
+        openArPortal(p.arModel);
+      });
+      stActions.appendChild(arb);
+    }
+    if(p.url){
+      var a=d.createElement('a');
+      a.className='btn btn-primary';
+      a.href=p.url;a.target='_blank';a.rel='noopener';
+      a.textContent=p.urlLabel||'Visitar sitio web ↗';
+      stActions.appendChild(a);
+    }
+    var wa=d.createElement('a');
+    wa.className='btn btn-ghost';
+    wa.href='https://wa.me/15026587853?text=Hola%20Miguel%2C%20vi%20la%20tarjeta%20digital%20de%20Dame%20la%20Letra%20y%20me%20gustar%C3%ADa%20conversar%20sobre%20un%20proyecto.';wa.target='_blank';wa.rel='noopener';
+    wa.textContent='Conversar por WhatsApp →';
+    stActions.appendChild(wa);
+
+    stShowcase.innerHTML='';
+    if(p.leadImg){
+      var lf=d.createElement('figure');
+      lf.className='stage-sec-item';
+      var li=d.createElement('img');
+      li.src=p.leadImg.src;li.alt=p.leadImg.caption||p.title;
+      li.style.maxHeight='68svh';li.style.width='auto';li.style.margin='0 auto';
+      lf.appendChild(li);
+      if(p.leadImg.caption){
+        var lcap=d.createElement('figcaption');
+        lcap.textContent=p.leadImg.caption;
+        lf.appendChild(lcap);
+      }
+      stShowcase.appendChild(lf);
+    }
+    if(p.iframe){
+      var ifw=d.createElement('div');
+      ifw.className='stage-iframe-wrap';
+      var ifr=d.createElement('iframe');
+      ifr.src=p.iframe;
+      ifr.title=p.title;
+      ifr.setAttribute('loading','eager');
+      ifr.setAttribute('allow','fullscreen');
+      ifw.appendChild(ifr);
+      stShowcase.appendChild(ifw);
+    }
+    if(p.tzelConsole){
+      var tc=d.createElement('div');
+      tc.className='tzel-console';
+      tc.innerHTML='<div class="tzel-head"><span class="tzel-badge">TZEL RADAR · CRON 07:00 AM ACTIVO</span><button type="button" class="tzel-run" data-tzel-run>Simular escaneo en vivo</button></div><ul class="tzel-log" id="tzel-log-list"><li><b>[07:00:01]</b> Conectando con Jefferson County PVA &amp; Master Commissioner dockets...</li><li><b>[07:00:03]</b> LOJIC GIS Layer: 4,820 parcelas verificadas (zonificación R-4 / R-5A y sin riesgo de inundación).</li><li><b>[07:00:05]</b> Spark MLS Engine: ARV calculado en radio de 0.5 mi (spread promedio: <b>+38.4% ARV</b>).</li><li><b>[07:00:08]</b> <b>12 Leads Distress</b> de alta prioridad consolidados y enviados al canal de Telegram.</li></ul>';
+      stShowcase.appendChild(tc);
+      var runBtn=tc.querySelector('[data-tzel-run]'), logList=tc.querySelector('#tzel-log-list');
+      if(runBtn&&logList){
+        runBtn.addEventListener('click',function(){
+          var steps=[
+            '<b>[SCAN]</b> Consultando nuevos registros de Lis Pendens y morosidad fiscal en Louisville...',
+            '<b>[GIS]</b> Cruzando polígono parcelario #0482-19 en LOJIC GIS · Lote de 7,400 sqft validado.',
+            '<b>[ARV]</b> Spark MLS Comps: Valor tasado PVA $142,000 vs. ARV estimado $248,500 (+$106,500 spread).',
+            '<b>[OK]</b> Alerta prioritaria despachada vía Telegram Bot con ficha técnica completa.'
+          ];
+          logList.innerHTML='';
+          steps.forEach(function(txt,idx){
+            setTimeout(function(){
+              var li=d.createElement('li');
+              li.innerHTML=txt;
+              logList.appendChild(li);
+            },idx*320);
+          });
+        });
+      }
+    }
+    if(p.mainVideo){
+      var vw=d.createElement('div');
+      vw.className='stage-main-video';
+      var vid=d.createElement('video');
+      vid.src=p.mainVideo.src;
+      if(p.mainVideo.poster)vid.poster=p.mainVideo.poster;
+      vid.controls=true;vid.playsInline=true;vid.loop=true;
+      vid.muted=Boolean(p.mainVideo.muted);
+      vw.appendChild(vid);
+      stShowcase.appendChild(vw);
+      setTimeout(function(){var pr=vid.play();if(pr&&pr.catch)pr.catch(function(){vid.muted=true;vid.play().catch(function(){})})},80);
+    }
+
+    if(p.secondary&&p.secondary.length){
+      var sg=d.createElement('div');
+      sg.className='stage-sec-grid'+(p.gridClass?' '+p.gridClass:'');
+      p.secondary.forEach(function(item){
+        var fig=d.createElement('figure');
+        fig.className='stage-sec-item';
+        if(item.type==='video'){
+          var sv=d.createElement('video');
+          sv.src=item.src;
+          if(item.poster)sv.poster=item.poster;
+          sv.controls=true;sv.muted=true;sv.loop=true;sv.playsInline=true;
+          fig.appendChild(sv);
+          sv.play().catch(function(){});
+        }else{
+          var si=d.createElement('img');
+          si.src=item.src;si.alt=item.caption||'';si.loading='lazy';
+          fig.appendChild(si);
+        }
+        if(item.caption){
+          var cap=d.createElement('figcaption');
+          cap.textContent=item.caption;
+          fig.appendChild(cap);
+        }
+        sg.appendChild(fig);
+      });
+      stShowcase.appendChild(sg);
+    }
+
+    stage.classList.add('open');
+    stage.setAttribute('aria-hidden','false');
+    d.body.style.overflow='hidden';
+    d.body.classList.add('modal-open');
+  }
+
+  function closeStage(){
+    if(!stage.classList.contains('open'))return;
+    stage.classList.remove('open');
+    stage.setAttribute('aria-hidden','true');
+    stShowcase.querySelectorAll('video').forEach(function(v){v.pause();v.removeAttribute('src');v.load()});
+    stShowcase.innerHTML='';
+    stFx.innerHTML='';
+    d.body.style.overflow='';
+    d.body.classList.remove('modal-open');
+  }
+
+  d.querySelectorAll('[data-open-stage]').forEach(function(b){
+    b.addEventListener('click',function(){openStage(b.getAttribute('data-open-stage'))});
+  });
+  d.querySelectorAll('[data-close-stage]').forEach(function(b){
+    b.addEventListener('click',closeStage);
+  });
+
+  /* 5. Interactive 3D Viewer (Proyecto del Alcalde Default + .GLB/.USDZ Models) */
+  var glbStage=d.getElementById('glb-stage'), glbLabel=d.getElementById('glb-current-label'),
+      mayorFrame=d.getElementById('mayor-inline-frame'),
+      camsGlb=d.getElementById('arch-cams-glb'), camsMayor=d.getElementById('arch-cams-mayor'),
+      mvLoaded=false, mvEl=null, mvLibCbs=[];
+
+  function loadModelViewerLib(cb){
+    if(window.customElements&&window.customElements.get('model-viewer')){if(cb)cb();return;}
+    if(cb)mvLibCbs.push(cb);
+    if(d.getElementById('mv-lib-script'))return;
+    var s=d.createElement('script');
+    s.id='mv-lib-script';
+    s.type='module';
+    s.src='/hola/vendor/model-viewer.min.js';
+    s.onload=function(){
+      var list=mvLibCbs.slice();mvLibCbs=[];
+      list.forEach(function(fn){try{fn()}catch(e){}});
+    };
+    d.head.appendChild(s);
+  }
+
+  function ensureModelViewer(cb){
+    if(mvLoaded&&mvEl){if(cb)cb(mvEl);return;}
+    loadModelViewerLib(function(){
+      if(!mvEl){
+        mvEl=d.createElement('model-viewer');
+        mvEl.setAttribute('src','/hola/3d/dame-la-letra-web-ar.glb');
+        mvEl.setAttribute('ios-src','/hola/3d/dame-la-letra-web-ar.usdz#callToAction=Hablar%20con%20Miguel&checkoutTitle=Dame%20la%20Letra&checkoutSubtitle=Estudio%20Creativo%20%C2%B7%20Louisville%20KY');
+        mvEl.setAttribute('alt','Modelo 3D interactivo de Dame la Letra');
+        mvEl.setAttribute('ar','');
+        mvEl.setAttribute('ar-modes','webxr scene-viewer quick-look');
+        mvEl.setAttribute('ar-scale','auto');
+        mvEl.setAttribute('ar-placement','floor');
+        mvEl.setAttribute('camera-controls','');
+        mvEl.setAttribute('auto-rotate','');
+        mvEl.setAttribute('shadow-intensity','1');
+        mvEl.setAttribute('exposure','1.05');
+        mvEl.setAttribute('touch-action','pan-y');
+        glbStage.appendChild(mvEl);
+      }
+      mvLoaded=true;
+      if(cb)cb(mvEl);
+    });
+  }
+
+  var archTabs=d.querySelectorAll('.arch-tabs .arch-btn');
+  archTabs.forEach(function(tab){
+    tab.addEventListener('click',function(){
+      archTabs.forEach(function(t){t.classList.remove('active')});
+      tab.classList.add('active');
+      if(glbLabel)glbLabel.textContent=tab.getAttribute('data-glb-label')||'';
+      if(tab.hasAttribute('data-iframe')){
+        if(mvEl)mvEl.style.display='none';
+        if(mayorFrame)mayorFrame.style.display='block';
+        if(camsGlb)camsGlb.hidden=true;
+        if(camsMayor)camsMayor.hidden=false;
+      }else if(tab.hasAttribute('data-glb')){
+        if(mayorFrame)mayorFrame.style.display='none';
+        if(camsMayor)camsMayor.hidden=true;
+        if(camsGlb)camsGlb.hidden=false;
+        var glbSrc=tab.getAttribute('data-glb');
+        var usdzSrc=tab.getAttribute('data-usdz')||'';
+        ensureModelViewer(function(mv){
+          mv.style.display='block';
+          mv.setAttribute('src',glbSrc);
+          if(usdzSrc)mv.setAttribute('ios-src',usdzSrc);
+          else mv.removeAttribute('ios-src');
+        });
+      }
+    });
+  });
+
+  d.querySelectorAll('[data-orbit]').forEach(function(cam){
+    cam.addEventListener('click',function(){
+      ensureModelViewer(function(mv){mv.setAttribute('camera-orbit',cam.getAttribute('data-orbit'))});
+    });
+  });
+
+  /* 6. Architectural Sheets Filter & High-Res Lightbox */
+  var sfBtns=d.querySelectorAll('[data-sheet-filter]'), sheets=d.querySelectorAll('.sheet');
+  sfBtns.forEach(function(b){
+    b.addEventListener('click',function(){
+      var cat=b.getAttribute('data-sheet-filter');
+      sfBtns.forEach(function(x){x.classList.remove('active')});
+      b.classList.add('active');
+      sheets.forEach(function(s){
+        if(cat==='all')s.hidden=false;
+        else if(cat==='destacados')s.hidden=!s.hasAttribute('data-sheet-feat');
+        else if(cat==='mayor')s.hidden=!s.hasAttribute('data-sheet-mayor');
+        else s.hidden=(s.getAttribute('data-sheet-cat')!==cat);
+      });
+    });
+  });
+
+  var sheetModal=d.getElementById('sheet-modal'), shmImg=d.getElementById('shm-img'), shmTitle=d.getElementById('shm-title');
+  sheets.forEach(function(s){
+    s.addEventListener('click',function(){
+      shmImg.src=s.getAttribute('data-sheet-full');
+      shmTitle.textContent=s.getAttribute('data-sheet-title')||'Pliego Técnico';
+      sheetModal.classList.add('open');
+      sheetModal.setAttribute('aria-hidden','false');
+      d.body.style.overflow='hidden';
+      d.body.classList.add('modal-open');
+    });
+  });
+  function closeSheet(){
+    sheetModal.classList.remove('open');
+    sheetModal.setAttribute('aria-hidden','true');
+    d.body.style.overflow='';
+    d.body.classList.remove('modal-open');
+  }
+  d.querySelectorAll('[data-close-sheet]').forEach(function(b){b.addEventListener('click',closeSheet)});
+
+  /* 7. Floating WhatsApp FAB & Share Toast */
+  var fab=d.querySelector('.fab'), cta=d.getElementById('hero-cta'), contact=d.getElementById('contacto');
+  if('IntersectionObserver' in window&&fab&&contact){
+    var vis={hero:Boolean(cta),contact:false};
+    var io2=new IntersectionObserver(function(es){es.forEach(function(e){vis[e.target===cta?'hero':'contact']=e.isIntersecting});fab.classList.toggle('show',!vis.hero&&!vis.contact)});
+    if(cta)io2.observe(cta);
+    io2.observe(contact);
+  } else if(fab){fab.classList.add('show')}
+
+  var toast=d.querySelector('.toast'),tt;
+  function say(m){toast.textContent=m;toast.classList.add('on');clearTimeout(tt);tt=setTimeout(function(){toast.classList.remove('on')},2600)}
+  d.querySelectorAll('[data-share]').forEach(function(b){b.addEventListener('click',function(){
+    var data={title:'Dame la Letra',text:'Dame la Letra — estudio creativo independiente. Fundado por Miguel Sosa.',url:'https://www.damelaletra.com'};
+    if(navigator.share){navigator.share(data).catch(function(){});return;}
+    if(navigator.clipboard){navigator.clipboard.writeText(data.url).then(function(){say('Enlace copiado')},function(){say(data.url)});}
+    else{say(data.url)}
+  })});
+  d.querySelectorAll('[data-share-ar]').forEach(function(b){b.addEventListener('click',function(){
+    var data={title:'Dame la Letra · Ver en tu habitación (AR)',text:'Coloca la web 3D de Dame la Letra flotando en tu habitación con Realidad Aumentada.',url:'https://www.damelaletra.com/?ar=1'};
+    if(navigator.share){navigator.share(data).catch(function(){});return;}
+    if(navigator.clipboard){navigator.clipboard.writeText(data.url).then(function(){say('Enlace AR copiado')},function(){say(data.url)});}
+    else{say(data.url)}
+  })});
+
+  /* 8. Amazon-Style 3D Room AR ("Ver en tu espacio / View in Your Room") */
+  var arPortal=d.getElementById('ar-portal'),
+      arMvWrap=d.getElementById('ar-mv-wrap'),
+      arMvBadge=d.getElementById('ar-mv-badge'),
+      arpTitle=d.getElementById('arp-title'),
+      arpCopy=d.getElementById('arp-copy'),
+      iosFallback=d.getElementById('ios-quicklook-fallback'),
+      arModelTabs=d.querySelectorAll('[data-ar-model]'),
+      arMvEl=null;
+
+  function ensureArPortalViewer(cb){
+    if(arMvEl){if(cb)cb(arMvEl);return;}
+    loadModelViewerLib(function(){
+      if(!arMvEl&&arMvWrap){
+        var activeTab=d.querySelector('[data-ar-model].active')||arModelTabs[0];
+        var initGlb=(activeTab&&activeTab.getAttribute('data-ar-model'))||'/hola/3d/dame-la-letra-web-ar.glb';
+        var initUsdz=(activeTab&&activeTab.getAttribute('data-ar-usdz'))||'/hola/3d/dame-la-letra-web-ar.usdz#callToAction=Hablar%20con%20Miguel&checkoutTitle=Dame%20la%20Letra&checkoutSubtitle=Estudio%20Creativo%20%C2%B7%20Louisville%20KY';
+        arMvEl=d.createElement('model-viewer');
+        arMvEl.id='ar-web-mv';
+        arMvEl.setAttribute('src',initGlb);
+        if(initUsdz)arMvEl.setAttribute('ios-src',initUsdz);
+        arMvEl.setAttribute('alt','Modelo 3D interactivo de Dame la Letra para colocar en tu espacio con Realidad Aumentada');
+        arMvEl.setAttribute('ar','');
+        arMvEl.setAttribute('ar-modes','webxr scene-viewer quick-look');
+        arMvEl.setAttribute('ar-scale','auto');
+        arMvEl.setAttribute('ar-placement','floor');
+        arMvEl.setAttribute('camera-controls','');
+        arMvEl.setAttribute('auto-rotate','');
+        arMvEl.setAttribute('rotation-per-second','16deg');
+        arMvEl.setAttribute('camera-orbit','0deg 78deg 105%');
+        arMvEl.setAttribute('shadow-intensity','1');
+        arMvEl.setAttribute('exposure','1.08');
+        arMvEl.setAttribute('touch-action','pan-y');
+        var slotBtn=d.createElement('button');
+        slotBtn.setAttribute('slot','ar-button');
+        slotBtn.className='ar-slot-btn';
+        slotBtn.type='button';
+        slotBtn.textContent='✦ Colocar en tu piso o mesa (Cámara AR)';
+        arMvEl.appendChild(slotBtn);
+        arMvWrap.appendChild(arMvEl);
+      }
+      if(cb)cb(arMvEl);
+    });
+  }
+
+  function applyArTab(tab){
+    if(!tab)return;
+    arModelTabs.forEach(function(t){t.classList.remove('active')});
+    tab.classList.add('active');
+    var glb=tab.getAttribute('data-ar-model');
+    var usdz=tab.getAttribute('data-ar-usdz')||'';
+    var badge=tab.getAttribute('data-ar-badge')||'';
+    var titleHtml=tab.getAttribute('data-ar-title')||'';
+    var copyHtml=tab.getAttribute('data-ar-copy')||'';
+    if(arMvBadge&&badge)arMvBadge.textContent=badge;
+    if(arpTitle&&titleHtml)arpTitle.innerHTML=titleHtml;
+    if(arpCopy&&copyHtml)arpCopy.innerHTML=copyHtml;
+    if(iosFallback&&usdz)iosFallback.setAttribute('href',usdz);
+    ensureArPortalViewer(function(mv){
+      mv.setAttribute('src',glb);
+      if(usdz)mv.setAttribute('ios-src',usdz);
+      else mv.removeAttribute('ios-src');
+    });
+  }
+
+  function selectArKey(key){
+    if(!key)return;
+    var target=d.querySelector('[data-ar-model][data-ar-key="'+key+'"]');
+    if(target)applyArTab(target);
+  }
+
+  function openArPortal(modelKey){
+    if(!arPortal)return;
+    if(typeof modelKey==='string'&&modelKey){
+      selectArKey(modelKey);
+    }
+    arPortal.classList.add('open');
+    arPortal.setAttribute('aria-hidden','false');
+    d.body.style.overflow='hidden';
+    d.body.classList.add('modal-open');
+    ensureArPortalViewer();
+  }
+
+  function closeArPortal(){
+    if(!arPortal||!arPortal.classList.contains('open'))return;
+    arPortal.classList.remove('open');
+    arPortal.setAttribute('aria-hidden','true');
+    d.body.style.overflow='';
+    d.body.classList.remove('modal-open');
+  }
+
+  function triggerNativeRoomAr(){
+    ensureArPortalViewer(function(mv){
+      var isIOS=/iPad|iPhone|iPod/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+      if(mv&&typeof mv.activateAR==='function'){
+        try{
+          var p=mv.activateAR();
+          if(p&&p.catch){
+            p.catch(function(){
+              if(isIOS&&iosFallback){iosFallback.click();return;}
+              say('Abre esta página en tu iPhone o Android para colocar el 3D en tu habitación');
+            });
+          }
+          return;
+        }catch(err){}
+      }
+      if(isIOS&&iosFallback){iosFallback.click();return;}
+      say('Escanea el QR con tu iPhone o Android para colocar el modelo 3D en tu espacio');
+    });
+  }
+
+  d.querySelectorAll('[data-toggle-ar]').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var inArch=btn.closest('#visor-3d');
+      if(inArch){
+        var curArch=inArch.querySelector('.arch-tabs .arch-btn.active');
+        var k=curArch&&curArch.getAttribute('data-ar-key');
+        openArPortal(k||'mayor');
+        return;
+      }
+      openArPortal();
+    });
+  });
+  d.querySelectorAll('[data-open-ar-model]').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      openArPortal(btn.getAttribute('data-open-ar-model'));
+    });
+  });
+  d.querySelectorAll('[data-close-ar-portal]').forEach(function(btn){
+    btn.addEventListener('click',closeArPortal);
+  });
+  d.querySelectorAll('[data-launch-native-ar]').forEach(function(btn){
+    btn.addEventListener('click',triggerNativeRoomAr);
+  });
+
+  arModelTabs.forEach(function(tab){
+    tab.addEventListener('click',function(){
+      applyArTab(tab);
+    });
+  });
+
+  d.querySelectorAll('[data-ar-orbit]').forEach(function(ob){
+    ob.addEventListener('click',function(){
+      ensureArPortalViewer(function(mv){
+        mv.setAttribute('camera-orbit',ob.getAttribute('data-ar-orbit'));
+      });
+    });
+  });
+
+  d.addEventListener('keydown',function(e){if(e.key==='Escape'){closeStage();closeSheet();closeArPortal();}});
+
+  if(window.location.search.indexOf('ar=mayor')!==-1||window.location.hash==='#ar-mayor'){
+    openArPortal('mayor');
+  }else if(window.location.search.indexOf('ar=1')!==-1||window.location.hash==='#ar'){
+    openArPortal();
+  }
+
+  /* Legacy hash redirect when visiting home with a chapter anchor */
+  var hMap={'#cap-diseno':'/branding','#p-elys':'/branding#p-elys','#p-newera':'/branding#p-newera','#p-labonita':'/branding#p-labonita','#cap-codigo':'/web','#p-lucky':'/web#p-lucky','#p-dp':'/web#p-dp','#p-trilion':'/web#p-trilion','#p-primestone':'/web#p-primestone','#cap-planos':'/planos','#visor-3d':'/planos#visor-3d','#pliegos':'/planos#pliegos','#tu-software':'/software','#cap-software':'/software#cap-software','#cap-videos':'/videos','#realizacion-video':'/videos#realizacion-video'};
+  if(window.location.hash&&hMap[window.location.hash]&&!d.querySelector(window.location.hash)){
+    window.location.replace(hMap[window.location.hash]);
+  }
+
+/* [[TS_JS_START]] */
+var tsSec=d.getElementById('tu-software');if(tsSec){var lzD=function(s){var o='',i=0,c,v,l,k,st;while(i<s.length){c=s.charCodeAt(i++);if(c>=256&&c<2048){v=(c-256)*1792+(s.charCodeAt(i++)-256);l=(v&63)+5;k=(v>>6)+1;st=o.length-k;for(var j=0;j<l;j++)o+=o.charAt(st+j);}else o+=s.charAt(i-1);}return o;},P=JSON.parse(lzD(`[".ts-sec{--b:1px solid var(--line);--bg:rgba(14,10,20,.58);border-top:āցbĀׄbottomĀچackground:radial-gradient(ellipse 80% 45% at 50% 18%,Ąǀ61,37,82,.38),transparent 70%),ăҁink);overflow:hidden}.ts-top-row,.ts-barĀ˃-rightĀрtabs-wrapĀрpaināЄmod-headā݄toā́alert-boxĀрsigĀτasstāۅwaāڄdemo-foot{display:flex;flexĄр:wrap;align-items:center;justify-content:space-between;gap:10pxĈЇ{marginč܃2āƊ .labelā͂:0Ā߀lang-switchćӁealsĀ́tep-nĀ΅d emĀрquotesćӀĀӀcovċŃe-btāڂide-ă߀ĉ؄riggeČԁtabČ܄suĀρkpi-āԁtbl tąƁbadgeāҁiniă̈́čŀĂăĀЀreseąƁmsg-tagĀτsrcĀτĂ˃ĎЄĀрown-notăׁcmp captioāҁcmp tbodyąʃcase-inđЁĀЀarćՁĀЀmods liĀԁlose-meta{font:400 .74rem/1.3ğ˂mono);letter-spacing:.06em;text-ěɀform:uppercaseďًĕ҄inline-ĕـĠՁĠΐĝӄ2)Ăօbtn{min-height:36px;min-width:44px;padding:0 12păф0ăʇ0;coloĄʃmute);cursor:pointerĄň.is-activđ̂Ĕւ[aria-checked=\\"true\\"]Đˇ.pri{ćӌletra)Ą׈ĥڀfont-wćف70ěʁhero-těބ;maxĈЂ14chāڀďрclamp(2.7rem,10.5vw,6.8rem)/.92Đʂčڂ)ďԙĄǁĞŃh3 emēʀ-style:normalĆڈćсĂȅěŃleadĤătop:18pxĆކ60Ćނ-size:Ć߁1.02ćĀ.2vw,1.2rem);Ĕƀđ݂1.55ĐōĄрarm-defĄǈ6ēĆ10px 14ēǄ-left:2ĺŋĎ܁ķׇgba(23,17,34,.75)ćƇ6ĎŇč̀/1.45ĝӈĆˇpaperĆ̈ Ċہĵ؃ b{Čҍēψ4ēςctaİـĴ˗ĲҀ4čрĉ݄26ı߂İπĂʜ8ċƃĂ·0pxĒѓăŀ span+span::before{ĸ˃\\"·\\"Ă؃Ŀ΀ąفĐّblockĐׇēف64px,10vw,140pxĖۂ3ĝĐ8ĝď1rem,7.8vw,4.6Ĝ߂4ĜߨstepĻځown-griıڅsĀҀČ΄grid;grid-template-columns:1frďāĜҁĈʄ32px;lisğمneĬӅĄӄĄ҄carĄ҅{āЃ2ĚڅıЛ;box-shadow:6px 6px 0ĉׂvioleta-deepđ̂ńЀĵϋď̀ą݄4px 10Ąԅř̌ĮǍĔڇtep-Ŀ߅ĭ߄14ąЀ8pxĐ؋1.5rem,4Ħ؀Ħր/.98Đ֬-ċׁownĀ͂faq-aĠ؈ĸځīͅ.96remĪԋ2Ăކ emģƔİއāڀŐāěć28ī؆ğ܀Čǆdashed ĪӁ55,204,41,.45īח6Čځœ܂lisśЅĘҁĦՃėĔĘ҂ė͂ĂԆŌ҄ase-qŌΆ92ĮۢăԃĳӁĴȢĄڇŔϒőׅĸɋĩőŗǀwrap{position:relativeĮʈ8İՂdemoāҎz-index:1ŏЀēт58Đˆų׋radiusĈ݂ġל0 4ľ؀20px -Āπ#000Ųċ;ĶƍdirecĆȀĩ؁ľǆ9ďˊsansĘՂvariant-numeric:tabular-nums;--ts-acc:#e2a03fĊĄ.is-genericœȇ#18191eā߆7c828dāߏ Ÿ҇ĀߏsidđҁāďasstĄ͉31419ĺӁarįՄŊՁ6ĖЅƁݗƄ҉9Ľ͂aĘ́Ń̉Ź̎ŸʃŢՆĞʁdotŅ҅Ŧ҇gap:ņ܃dots i{Ŀǂ0px;ĩŃĕ҅Ĕރ50%Ĕݍfuego)ēǄĴӀăɆ:nth-child(2)Ţؓāב3ā׈#30e87aĐ֔ćȂāه4b505āقomaiŶɂžǂindŸЄŽӊŻ؃ċ͐čڒđӆĊڂ7ČքmainēʄľϋŃĕbgĝāŹ܂5ĞɁũՃĭДŏׅ260pxĢΌĽրĀ؄Ƙǁis;whiteżрe:nowrapĆن svgēԃ2ēԆ2pĤفĵρstrokeąłĠ΁);fillāƇąӃŠāovĊĄ5ňДļˍļʎāƆ1ŉڔĔ͏cov{ďقā݇ĚĂă׏91,31,.12ă׉āفă׀ſŀƆՖĈ׃3ĔɌ8Ŗʢă׆Ƈ֏Ƈǔă܈Ę؀Ƈ٬ċԏƇ֚Ġۋ563ăۂ#f3f4f6ĭˁodyŤşminmax(0,1fr)Ėہŀۈţ̂ideųʎĽǌİĀ2ſƇŊ؆Ĵ˥45)ĲΌbrand-boxĴ٥ĹɇēʯbgŉɄőЀ3őЊĠڂąֆmarkģ˂34ģ˅ĀπĬŌĄčģ׃ƗЌĐ̈placeĈ։Ĭ΄1.0ĬρŨ̋ħلĆɆnamŅցƮπtitlđ̅ů܁ƛ؊Ũȇ8ŨȀƋܒăρưۃƲˈƶƊƵˑƲՂąŊĞ͍ůފĮրƮ׌2emą̀indŧىņ݇ĵ҄-x:autoŤǄĘق4ĻтĿʂ{ĳمĝĆƭΈƏɀĦ̆ĕߙŵȑ:5ƙπŪԂĽƃśˁħ͎ąԂĺ͇5ĺ͆5ĺ͏currentColorĺ̓1.8ăχƲ҅Ķȏę̃ĹݐĀǂ.06Ơ̔ăԌć΀ŀӏāրōǅ{ǒϋĜЂĎܣŁ̊48,232,122ŽԑāǇŁ̈́#5ef097Ď؏ĆąĎۘillĎψĂǊ:hovŕ҂Ā؅Ď̇ŚҌƾڡŕπĵٞĳƆČ̇3œ΀ĶđǞсǦۃŬˍ łքĸť35ǫ؅ġقăքģύƯπĆԄmaxē҃āۃňׇēӍơކĆƋƈ߅ǱچŉϩŝœtabŉɁselectŉʈšҎąψĠԐđޏtab.is-dim{opacity:.5Ɯ݂ageĬځ1łՅ8įɇyčυǷЈǸ݀ǹՂkpƖفtableǹȅǷ̂ĦۃŅ͇ńٕĕɉĄƏǵˊŎƉƎЁƪՇ.76ƌʂŮĔƖمǿƃăӋķكmodłςƿքă؀6Ņ·.2Ɛĉĭےkpiƽˤrepeat(auto-fit,řق130pxř݀)Ƈ׆Ć֑kpiĠڅ2Ā؅-vńՊƟņ6ċ؇1.2ć߂ōЃǖǘăʀ.is-hiǕ֛Ę̃āڄwarnā܈űĂĚɒĖЂ{ĦȐbōŁcmpƏՄ0%ĞŃcollapse:Ā̃ōŁşЀ:lefĦ؂ȄхĀ΀dċ؄9px 11ĮьŻڋ43,238,227,.08ćǂfamilyĖރċڀŖֆ78Ŗ֖ąȁǁȍƛقdgŚυƎƞ5ĝ؆3pxǈ̀ġۉƮϊćԍƂ͊Ŝهadge.okĽ̇Ńʍ4Ńˋņʝ35ăЇĔŀƄϗŎǄ#ff8559ƋŖāڂ4ăЈgoldăАƋԄ5ƋՏƎؠħځƝ܃ńŇǍ܇6ŐΔǹϙąۇƍيǛ߃Ő̍ąŃČ̂Ƒְĉ؄čʂƳׄtrack{ĈǂĖɱĪІ7ơۍăلfillă؃ĤˁŻޓŇڀǋԁĥހ .4sČ̂easĞքĂށ.overƳ͍ƙ؆ȷ։ƒł-missingǧ؄2œȀĳŇȊڈƇǍđۋƟԭŋقſć5rŹĂąފ stronžڂćσȊ؊ƾʏĬғƕ݂ŉ܁Ǜ݇ƕēǤցǨЁĂȄŧ׆9Ǆӆ54pxưԉĚȂưɉ.4Ŷۍdasharray:420Ā؇offset:0ē̇āƌ .9ē؍ĆĂ.drawŵ΂Ă݇42ĽӁǓ΀ũ؞ťە72Ɲ݁Ħ̃0ǐݏɎŉchipsŪ͊Ƣ͕ƻƁāڀȘڛǓӃɄюĬˋũƇ4px 9ǩߜƲƊƌȑĚȂīߎchipİݙƦۍǠӆųޕǾڅ8Ķ܊ğɆǎ͊Ŝ҉ōɊĆٓ.is-usedūӅƷāchat-logū֌ħ̈́ūۊǲߟŞȆxĊބɝՄmsg-user{ŌāselfĂ؀-endǕƆ88%ƍߓČքą܀2px Ā̃đ̍țڈīۛ2īۃĖрotąڌstartą܆94ą܅ů݅ąݓĆƃēƦ9ĆϠșъ4żӁćĂŽՀraftń܂Ȗ߇ňߤ0ȖڂɥĂȧȑůۉǓȇ2px ƾˀņƝōȇ8Ǟ֔msgƙ׀onħ٠ňՇȒǃtypinćɌƒ݈ĖۛĤɀĢޕŨ҂ă׀ǿք6ĻŅǴٍǿԐĎڂanimağƀblink 1s infinitǆ́wa-phone{ėޅ3ȘրŴ̆ŋʇautoƞԄȡʍʏрąՉ2Ğ݊#0b141aŔӐʆ́Ɓۈĸ̂ȐӇf2c34ŚӃe9edefĚȈ4remŽψ6Žςă΁ smallǎ͎įҁ6ɚʂǽ܏#8696aĂ؄msgľц4pxĬۣɉ΀ķم23Ĭڃwa-bubĎȆ8ĦǆĕȀſنĕȇĉǇŽ݅ĊɃċ·202c33ż̂ĪЊĄ׆.ownı֒ĐЈ05c4bČфimǚ֋ɑՇƜ׈6ǍՁČَĜł3,237,239,.65Ľˈɞˀȴ΅ʙ߀ưݒʥ׊Ȣޛmobŋہȕ҇Ř܀ě߇Ƶ̆ɲǗʅˉʀޝȲ݂Ǩ̑ɐՓǿݓ-toastȼڅabsolute;ǱڀĦ΀Ǡł4pxş́ăȀĀ̀late(-50%,12px);ŉǃů؅ČڋŔƗĈט7ȝЕć҂-eventsčށťΆą̂ .2sʳȁform .2sɄ݄ŤƂĉօ.onŐτ1Ĉؕ0Ē؁own-icoǻȃ8ǻȆŷߖĈтǺƛƉێưɒĄڂ svŷׁʣ݃ǚڇąӆĀπǩ̮cmpƬƁɳϋɰݭ8Ƣ݁ɰݑĶԐʭǐʬ݂mpƭև1ȩˀƐņǚȋverticalĦǂtopɫӈķ܀ŒŐĄבead thȿӈʲݞfaq details[open] summaryƼˎĄЄă܃ɧ˅1.1ĥŪųߏăЅdɈωƵđāь3āщǜ̃śȗƨĂcmpĝـœޏďǊmiddlı΄ę׋ʔ܈ŗ˃ă͂.noƓώāɈyesčДasȩʠ˒Ԟƅăġȃǀԧ8ɳ͔ģވƖɎā̅mods{ɾĝŏĎʤߌăĉ lǙυɉʋȖڥĔ˂Ȟ׎ă݀faqĨޒņ߈āӃĞڃƸ̃Ɣ׏faqğׄĉߋȶɛđסɿʈŉӈȄԁʙČʿـ3.6ʿـ65ʙǀǣͅňѰĈɆ::-webkit-Ċɂȸ݀eėɅčŇā܅afterʴΆ+\\"ǩˇ˜ށǩȔėƆĭΔăӍ−\\"āڃ-aĕՄ0 0 ʛɀ˄Љė΁losǷăʸȖčڄāƁ32px,6vw,64pxǓ˄ˉ؝lineaŕЅ135deg˿Ђľ̈̀ȅ2)ŀʈś߁0ŀ̆Ċւ@media (ĈȆ99px){ķɈďԍcmȈɁĻ˄Āх˭ӂŁތũԉŢЅĶŅʉنɶӀʉٕāۅĿׂďֈŒކˏقņԉŝɀĦԆɣ؏ȀˉĻ݇ˌӋattr(data-colǉԏű̂ȎĂŞԉĞٕȞόŗӉ4px}ďݎ5ď݅ŰĐʍɅǄшĩπĬֆʭȖɫ߀ăǀopenʚӅīՇąцǅĄ700ąуː̅ʴ؆ːϋȒ֘3ȒσɬɁť܅ĂƝ2ĂƋĆǎ96ĆǄʱɀƷǆmin(720px,82vhǥЂodyĄȒ2ʮ؀Ąň 34ƌ׃ʦلȼπĚ։ėԅĄˀľ؄ɴ͌ɛĄŊّȓƆvisiblĢ́ďӀĂ׌ǂڄĈՆĤǄČӡĎ֌Čӄprefers-reduced-moʽ͂ducečŅ̞݂a̚ӂǱ݃Ȱ؄ŲȃƩ߄Ż؆none!importantƨֆĀ܉}}","<div class=\\"wrap\\">Ā׈̦Ņ\\" ģЀreveal><pā˄ɬڀ\\"><spanā́ts-en=\\"Your software · Custom ARM\\">TuĀއARM a la medida</span> <i lang=\\"en\\">/ Ăވ.</i></pĆЌ̛؆\\" role=\\"group\\" Ƀ߀Ćр=\\"Idioma de la sección / SĔՁĄЀuage\\"><buttonă֌btn ɗڄ\\" type=\\"āՁċƃāԂ=\\"esĄփpressɈՆ>ES</āށăܗăҞnăҍfalsăӀNăӅ/divĀɃh2ăۇ̗Ӂ\\" iąրġŁȿ؁ĒԉĄ΄htmlđ܁&lt;em&gt;YOUR&lt;/Āҁ SOFTWARE. ā˕BRANDāȗCOMPANY.\\"><em>TU</em>ăˆĀهMARCAĀ։EMPRESA.</h2ę·̞ȆĈƒć݀We build the system your business needs ƴՀing from a conversĠ΀ about how you actually work. WithĂނrand, onĀҁ˅˂ and underĀځcontrol. No perǪĀ licensesāԀno lock-ināԁacts.\\">Construimos el sistema que tu negocio necesita a partir de unć҅ĝʀsobre cómo trabajas de verdad. Con tu marca, eĀЀdominio y bajo tućʅSinĆށcias por usuarāԀsćƄtoăӀpermanāӀ.ĥĀĐ؈̤ƂĘڠb&gt;ĪЅĖҀĀ׀ — ARM:đ܇that managesĀۀ˲Ɓonshipčρdaily operĀ܁ ofēۉ,Ĕ߀t aţՀ youęހb>ĮɌb>ĄփďȊadministra lasĄ؀ciones y laĄЁĎ܀dĐ؇, hecho aĎЀăӀċʁİˊ̭ǂĶ؋aā˄btn btn-primaryĩӆwa href=\\"https://wa.me/15026587853?text=Hola%20Miguel%2C%20quiero%20mi%20diagn%C3%B3stico%20gratis.āހ%20ćՂ%20es%3A%20\\" target=\\"_blank\\" rĶ̀noopenerĆǄrackĈҁwa-ă܀oă׀ľπvg viewBox=\\"ŷЀ4 24ıǃƯԁĴՅ<useĈڃ#ts-i-wa\\"/></svgŁɏBookĒ߁free Ąтis\\">AgendĎ܀Āـóąˀ Ĉ݁ŁƂąրĎƃarr\\"ĆȨpath d=\\"M13.2 5.3 19.9 12l-6.7 6.7-1.4-1.4 4.3-4.3H4v-2h12.1l-ĀւzĈĆ/aē̏ghostēʆsmsĊЃsms:+ĒއbodyĒ޿Ēސđ׋smsđػċӅ20 2H4a2 2 0 0 0-2 2v18l4-4h1Āۆ 2-2Vāψ-2Zm0 14H5.2L4 17.2V4h16v12ZĔјI Ş́ SMS\\">Prefiero SMSēу/aňŃģʊ͊߀ĮъœɈGarantíĴہpropiedadŚԖļӁŚŁĵӂĘ˄āْataā׀s datoęޅā֌$0 per user\\">$0ķӇāݕNĿ؄\\">Sinĸ·Ċ̄ĊȏƁˀĭ͋h3Ŋ؈3ęنĹ΅IT ALL STARTS WITH AŐцCONVERSATION.Őچ\\">TODO EMPIEZA CON UNAŏـāۃCIÓN.ŐȀ</h3ĿƊleadąȆŏ˃don't sell ų݃s. We sit down wōƂ,ŌǁstandŎփŐنruns end to endō݁find where time, money, or inforŲŁ gets lost.ū΂ł́comes straight out ofŃǀ.\\">No vendemosōŀplantilla. Nos sentamosŉҀigo, entā׃ōހfuncionİŀŐσde punŐρĀˀy enŋ܁mos dónde se pierde tiempo, dinero oćՃción. Eń݅sale de ahíłӁolğˈteps\\"><liĀڋĞ˄Āۊ-ŬˇĐр01 · Cŝކ\\">Ā׈ciónę݃h4Ă܌Ĳ͇ē΃listen tođՁŏʄ\\">Escuchĉހtuŋׅ</h4Ė֊͖ʁěݐă҈ţ߃work today: who does what,ė́which toolsĕށināƀ ƒ؀ŮׇFreeĝ݊Ć҆ŠЉhoy: quién hace qué, con qué herramientasĒ߀Āـordenů݁GĺɁğ݂p></liĐҺ2 · Bottleneck mƍՀĀـMapƅɀcuellţӁbotellīĄđƢspotġǂitĠʁstuck\\">DetecĝفěńĊ׀đȟăτĐքăӀĔ׉ă߆:ď߁lives in ExcelŵЀWhatsAppĦπonly in someone's head.\\">Te mosġ͋Ćˀė݈: loť΀vive eăلeăم o solo en la cabezčĀalguienĢʁđŽ3 ·ĭć\\">ĀրTuĦσĐΧBůŀfoſтtradeŽ׆do parĉсficioĐǤEvery module solves oneĲӁose exact ǣЀs. Nothing extra, no fillerƂ؀ada módulo resuelve unıۀesosı؀os. NadaƁրa, nada eĚ̀rellenoč׆/olŅЌǁՁŨ̀ıɈǂцıςĈˈ“I never know if a job madeĽˁ until it's finished.”\\">“Nunca sé si gané plata enļɀobra hastŻ݁se termina.”Ĕ؄Ą݋pay aƎ݃ĐـečހagentĭȀhalfčہemĆԂǌ݀itąˁPagoĄҀƊσŒڀcadaĂЁeſ܁mitad ni lo abreą˖spend all day chaʤӀȁ̀ĳހġ҆ĄցMe paso el día pidienėȀpeleƏӁāمĐԂuƸ܈΂ƉėڋReal āǁƝہŎƄɒ׀s. EachĘрbecame aęЂ.\\">Frases realĕցdueñİ΁ŉӂ. ĘՀuna seƙӀirtióĐ܁ęЂė̂ƯƆŜےƯƃȾ؀anchoƃ΄ŝըTOUCH IT. THIS IS HOWƮȊƬބƮчLOOKSįɀÓCALO. ASÍ SE VEƭԂƮ܅ŝ٧DemoŅ́fiǀԀƝ҂. Pick an industry, ǃށ ȎЂ a ͑փCRMę݀īˀǆփŇفaskƝӀassistanśɀĄȀcoūۀosĄ́cios. Eligƨ߁Ąʂia, cambia entre unăހgenérico y tǌڅ, y pregúntale al aĲ؀nteƛ͐ΗʄǓƎdemoĒČpǌҌConsola ȓЀǊ΀ĺ؀š΀tĽˁă̎barĀّ͎ހĻՏdotǌ˄ƅیi>Ǔ׀ĀʉŸ؇ĂԈŽ܁ćمom-pilǚ́ƊȪrect x=\\"3\\" y=\\"11\\" ǱȀ=\\"18\\" ǨŁĀރrx=\\"2ƈ׀ƌ̅7 11V7a5 5Ɗ܀1 10 0v4ƊŋĆ̇txt\\">app.robledocŁҁęˀ.comſ݄ƀȗГ˃čȏcovĊІcov˯ƁƊʑOŒ߄covered:\\">Ā؀Ƴʀcubierta:ĎЄ˖Ӏă͈num\\">100%</āƁĆ؄ǤϽlėЀǣӿǣӿǣӿǣӊĊΊ΃݆Ċ΅radioĊӐCompararħډvsřՀħۂċ̑ͿŃćώĄɇĄă΀ʅćʂĈلmodĐʀİցĳ֋Gıх\\">ą݇čėąԴĐ΁ąӋcǔˀąҋǽǈǿՉǲԑĠΑody\\"><asideţƈideď΋S͂րoǡπĸ˄ y canaīրă̋΄ȃĢ܆Ā׆Ĥύ΀ʅāٌĀ؁>RCġĒā͂eƭπăȒnameăȌĀ؁>Rīށ ŭ҂ī߀ĴޓͼӄĂ،ĀׁďǍāŀŴ̃ƵƇǫǀŴҁƵъďԇŷڌ΀Ʉă݋Iŋł (6 examples)\\">ĀۂiaĀ܀jemplos)ċےȤɃćކĀֆęʂlistĐށĭ҉ă؃ŰπĆځĜՍͩąĜ׎Ąǃwaĝ܁ǝĿǝęText itũԇƚ݁ríbeleŨ׈ĎۄĞ߄ĝӀĮƍđˁȤɌͫكĀߒȓʇodĀփč˂tabč܂čˈMŧӀsĺۀƉ̂čԅǎߑtȟڀăڈĀ׃ăۅpanĕـtabʨ̀=\\"0ăȋĦԌasĔ̈ɇ̀ĂԃĆшAŜփĆӋĆǊ̌ׄĀ߂ěލΠąĄ̋Ā؂>ăۇ ģڧΟ܃Ź̎dsȔтūƀDrafts messagesǅȀ approvŸۀLee tǗ΃. Redacta borradores. Tú apruebas.Ĥىĝ؍̒Յĝؖā̈Ćڊset chat\\">ReiniciaȚ݀ƿІň̘͘܀ăۋĀ؂āڔɉȁŚʇĀօēˁive=\\"politĢՀĖƂĞނĉՓɠ҇ĉזā΄toggē܀ĄȀexpandŊɐĊ؀AsȂՂǕւ(AŹ܃)ǮׁŶӄŷӀǏق(Ėτ)ċڅŷǏƎ߁ĩޏƁ̓ · Zero tīƀnputs · Tap any ĈڃſΔ · CeroĂņoca cualȀπ botǑׅŭوfootŴ܄ŭݠĒӏˏȅſǋĀ؃ĩʂstatuŤńē˓őʜǱڶ'S YOURSǓˈOR REALǓϋS TUYOǐفDE VERDADƓćąϊɤƃŖڀrticlİˈр̃Őҏ˓ۂĿߔŁהȗڈ2 2 2 7l10 5 10-5-10-5Ȋ݀Ā΁v5Ā߅v-5l-10 5ȋȇǃِо݀Œѕő߆ǂَм݀ĂȐlogo,ɅЃlorsĀЂnameǶڂteamƜąclients seǔԂcompany, not ourɆƀTuăɂtusăȁes,ǵрombre. Tus empleados yăƂes vɃ܁empresǆЁla nuestrȶЂ/Đۂđȿđȣciră؀x=\\"12\\" cƓπ2\\" r=\\"9ƒϊ3 12h18M12 3a14 14ƒׂ0 ĀٍĀ݀8Ē̵șАĒϜĠԆǣڃɘ݃Ȍۀeb addrɈڀǈ؀Ťˁġڀcode&gt;app.yourĒς.comĢʀāǃ.\\">VǣʂtuȠفa ʈԀción,śҀŦӂ <codeĭրtuĒʂĭ́ĀۀĒƿĒƱҵ݃ĒǊ5ƤӃ8\\" ryƦсĒЈ4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5M4 12āȕĒ޶ata &amp; accountsȫȇƺӀs cuȂ̀Ħ̣Hosting,Āـbase,Ƿφand AI stayɭŉēɀ'sħхǞ̀providersĒفtlyȋ݂no ˫݁men.\\">Servidor, basşȀĆ݀Ą΅ e IA quedan aĨĂɝւĔڃ Pagaăڃo alĄӀeeăǀsinƿρʛĀriosĖǿĹϼ6 21v-2a4 ĥ݂-4-4H5ĀӇ 4vƻ́Īɇ8.5Ęƃ7ĪɂƻˁɈވ8v6M17 11h6ĕݰȾܙĕǡAdd 5, 50ȋ݀100 peopleȣτteamĔƁǰ؁ǲՁʁ܄seȏĀǳǀ.ɠŀregaĂށ oĂ܂rsonasŝ܁equipoʄ́Ē܀ǲߑunĺԿĒͽ4 2H6ɘċĀԆ 2 2h12ɘΊ8ɣЁĂӉv6h6M9 15l2 2 4-ǎɇđܥɎۅʎԅɏɂʈœĒףɈƀgn a one-pagƆۀiȃ؂reement staʘȀʇ׆belongsĔǄĻڃȒȄtieƂހɋ΀Ǻ׀irmȠ܀un acuerdȑ܁ntĔҀʓ݂páginȊсdiȲˀeʇˇǼفĨƇȓ׀te atĔѿĔѼ4Ħڀ7M4 10V3Šڀ1v-9M12 8V3ɭՀ1v-5M20 12V3M1 14ēӀ8hĥс6ĥтĔ܆9.4 15a1.65 ĀȀĖс.33 1.82l.06.0Ęă1 1-2.83 2.83l-.06-.06Ăȋ-1.82-ẮĀ܊ 1.51V21Ăۆ4 0v-.09AĄ֋9 19.4ă̐.3ĄсąэĀȀląВ .33ĂˀąЍ.51-1H3Ăم 0-4hąΏ4.6 9ą͌ăɃĉ܅ĂՅąψąΏć҂Hăƌ 1ąрVąχ4 0v.0āҎČπćًăˀ-.3ĉۅąωĐͅĐ̏ĒуV9c.26.6.77 1.02ăڂHĐ̇ 0 4h-.09c-.74.02-1.25.44Ćހ 1ŷͱÖ́Ҁal maintenance\\">Manteniɓހo opɨɀlĪģIʭۀ want uĨʀkeep evolvˢ؀t,Ȳҁmonth toĀ́. ĂĂĽЀleaveźŀ takeȰāĪʀ: codeŕʁȕۂŘӂŒȀi ƔЀesȳށigīȀmejorándolo, eƮڀ a mes. Si unȬրdecides irte, te llevas todo: códɲрśރśڂīɋƒƁĊьnotƢیȁ܂ng costs (hŝƃƴсĀ΀AI) deȴЀon usageĈ؁re paidś݄ toĵ݀ŜۃŞϗWe explainȻсclearly duringʪڏƸހɻ܀sĽʂɻ̓ēՂ(sşքmensajería, IAĆڃenǃπusˈƀeŋ߀nŞܐŠהTe losĆրicĐۀenȼӀʯޅȵȇƟ߿ǻ́ENERICȁŀVƠǈȳވƠ̊CRM GENÉRICOāހȳזƼՋͮ؂\\"><Л̀āĊƌӀׁͦƳيċހđׁrison: renĕۀȳމvs. ownđՄownɬ̅alǾ̇ȊȂȬ́ăπa: ƳӀlarȲیfrǑƀa serɅˁĐɂƇʀòՅă݂vo</ćʂ><̲Ԁ><tr><th scoǂˀcoǱƌDimensʇǁĀςón</thĂěȋؗĂɝȈϘth></tr></ćƃbodyć͌˖ɆƁ΅ɺЁpay\\">CómŨтąʂdǅˏMonthlyđƀŰ܄. GrowĐ؄Ʃπħہyou morŭ̀Rentaġ̀ualūԆŲׁ. Crecer teʛŁmás caroǛۅtdą͓It's˷ˀĨӀ asset. Ŷֆ.ǵǀŞātivē̃ģ҄ŷ׉ĄƉČЀċݝWho owns itǍԀʒ߂eċޘOwned byİƀvendorĝфitŦǂ. Stop payĞ̀Ƶ؁ lose iɐ܂ lać̃˺ҁeɪǀĝŁĺ؀de˸݂pagar, loʩԂǨІČԕYoursŀƉ̂Ђ˲ۀƬˀƹցyĽˋ,ȑ̂yƭʃČѰHow farʖʀoɼ܀Hɷ܀ʏӁllegaČۗUɻՀtheƽׂ says “yes”. ʆȀʄԂlseăЀ toʑˁ.ăڄŰ܂ǀĂűԁ“sí”. Lo demás va aāނČȞThe full cycle:ɳā, execute, document, billČށpay ouđ݀Todɸʀciclo: cotizar, ejecutarĂ̅ar, cobrar yĒˁč۴it speaksĦ̓hablčҘĭ҃Ȉۀs: Leads, D՛̀ Closed WoĔҀĀߔĘƢʙɁ vocӴفy: jobs, crews, closings, pre-ȅցăڀpolicieǒރĂ̄io:ʎƀs, cuadrillĀπierǓ؀Ăҁrob̊Ȃ, pólizȆ݇ČԘ>Ȟ҅ċѕVirtual numbers or rigid boş݁Números vāЁes oĀ߀ rígidƯƀċ΢eam'ʇ݁ƸՆcentralized. AĩƂǻ̀ņ߄Ƒˁı̀ĂŅı̃Ƣ؀Ă҆ado. Y tú le escribťπȂɅėްAIɿ΅Ț߈con IAĘǟrepli̟րat can hallucinatĽڂspuestasņۃaŭȁpueden invğ΀čȟȝچčǀİفЎɀȝ߅ĤȁwaitsʳօĘۃȞӌʗւ, rȞڌ y tȞۏĤҬ's designedĤփse diseñĤژȥǀdapĔȂʟԄůނ͖Մ˅́āрasĆπŜɅİأŚ؄ĂҀăӀ˜ׇ,͂Й˴̃ęՂĂ؄są΃ a˛҉, despuéŃ΀Ăփ͂ˁigĿΏ/ŘƂ/ŨȀȏݿ˥ڏE ALREADY BUILTʤрŰƅLIKEʥĀůފYA LO HICIMOů܂ASÍůԗ΃ǄȐ͒caɹĀȽӁƅوϕăȳΎidentialƽׄor · Louisville, KYˏɅctora rāށcialāӌżӀċ܀ŃՀĄٌq\\" θۀ=\\"Վى̣υˈ׿ˈ״ĆׅȺʓϋтɝȿĂӁɝɖWhat w͡ځtƎ߀Ć΃ȮƂyóȭۉ˕͉ύ˄˕ˏEstimator by measurǌȀsǸ˂BOMū݀timadorūȀ͌ށs y materialesˎϑCrewĂՃscheduɓрCŇ݄ɾ̀lendǥفĂϏHourly payrollű̀job\\">Nóminǡȁhor݂͞obraĂӑAͪ̀˓ӂvs. budget\\">Gastoķׁvs. presuĻɀąɒCĜقī́ħրtǘˀatuƋ݂ǛƁŀЀfirmĖрāЁ˔؆ǒ֘Ģԯal estate brokerage · 25+˞́s\\">BĀ܁je inmobilǾ׀ ·ƀŀde 25˟܂sĢп˦ʿ˦ʾĢڿĢڿĢڿĢڙƈƁŜԁ,ƎσĊʀǁ߀ǪсớāƁoāƂeĚ֑˪ɀāȀšы in˫ƀinʞہŠΊĎӇıق˔րbandejġʒCriІۀ deadlinesĞށҘڀs\\">Plazos crític̸ځāāaĩȒFlyerĂтećˇʜ؁kƔҀā̂cΦŀƋЂĆމġܿġܝζۀѧ́ offiǘˀOficinąȀāǂ΀݂ĢˆaġԿ̂ӱĢƀcalculǑ΁splits by hanń݂֧̃ y sacandoĂփa manoĢӿĢӿĢӿĢӝēƀƋЂ pipeline\\">PĀ΂ė߀Ɖ߀Ġـě̑DƗт vaulĽłcompliance ˉҀ̟˂Bóved˵́ā܂Ğقā̄ŀΓmҺҀonňʄďԁă܀ĻՁŹʄǌہisΚŃā҂ĢЀƐڂónņؒt-risk d͵؀ĥƃAĤ΁Ĝςtǜ߁riesgņՂġيǫǦFor privacy, wͩʄhowƬȃnamƙʁPā҄idaγ׀̿ŅǣӁųہɫۂǢɿŲˌFREQUENTLY ASKEDŲǆQUESTIONŲǋPREGUNTASűހFRECUENTESŲɖfaqĬрЗ΁><ЗɂƆՍlong͜ŁitǾ׀?\\">¿Cuántoׂͩ toma?</ĂςĎҊЙʀȄȌtǱ΂ɩۀ͎ȀͲɁͱ܄ǵć We ַہlyƄׁŘӂhęƂƖւhurtĀقsŎƁȱ˂͐ɀtηڀsǊǀƘɀuǉр fasǉւǶԀϟۀĤԂalȯЀǴǉ LoąƂ eɿĀezƆҁǶʀ̪Ձƚʁmás t̬߀len͢ӀȲ΀Ũ߁etapas,͊ցquĄȀu̯ĀápidǷڄĎ݃ďʝmuchďʄcostďʇcƟ߀ďũWe givʉ΀ an͍ӂưс Ъ݀Č߀Ȅ͉, once weſƁĐހyɑȀedĐ́ś߀chargɂԀɑҍƹՁe dȁہl nƳ׀Ɠ݆Ďˈβ΂ƺՀĺ׀ab΄Ȁquéϓۄ͓ۀǇˁmosş׉ǢȅčǦĸՀdo ťƁŎˀȜʀčʀQué pagoōρmesčΩOnlǣȁinfraƏǁureͬȇɊǂʇՁȗȓ, registereϡȊȕևǓ΂ȗږ. MȨӅğفus is oȩׂȢՀoloěπȕЀʸӀdondͭтʾ܇ȖՔ,Ȕݒ yȖӐΑ؀mȭӈcon nosotros esȮǄĐ߮happens if IȮ؁toȬځđʆsa si mǴǀˀހrđѩYȯύưʄϣ́ǯفĮʀȰĄͅ؀Ȱȃ TēŀareϰڔTȮ֊elǱф˭րȮ݂laʊ܄ĝŀhayϬ˚ČģDǮԀ͌ʇ sendǆɄ on it͞ĀČЀE͉І manĝ܀ēڀs΁ӀČةNo. Fǉ˃ʵՂČƁąƅΈ̀prepaňƀǋ܀;ɻځsŐ׀ĖрćĀm у܁Ćހing. IТσȊЀons always͕ŀfoķڀƔ΀Ѓہȷ͂logge΋܀No. AʘӁŌ̂, eĉʇΊˀąՁǎׇ;ɫׁʀŁĐ΀Ǐǂ. Las űƅą׃es siĞЀ pideēրąЀ̿ՀyʕۃĦсradɁքđϢCan I talkɊҀyĪ҃ű̆đǀPuedǶ݂rˤӀmiĥքŰćĞȪ˹ƃcančҀhowƺρ, aČ΂ʎĀaũքis goį΀άʀtǢԄĠȃrıʀ˼߁\\">Sí. Le͡ۀuΪƀǐӀvʹɁ΋сunȈ̈́oĀЀŬ΀, y te respĮЀcЍր˾҃ČبI already have a CRM,ňځthis stillǘӀČ߀Ya tenƟπāсsirve igualČӮDɍʁŗ߈ we revieň҂ɝڂ,ĀфmigratͱʂĀ؃connecŖԀSí. EɊƋ vŇńconservar,ĀҀĂڀrĘӀĀ߀ecǯځĵګif my͸Ԅ isn't ɕہ͖ۀċρĵـi̽Іno aparecƛހ͘ςċکTăтŲрs six̱݄ϗ҉iǯՅǨׁscratchИņr specificǮ؄ǩɂăрm˞ԁ seis̴Մ.έφǲ҅ desde cerΫυΎ؃ČъǨݖ҄܀΍ıELL UΌցYOU WORKǨއTHE DIAGNOSΎǁFREə͌UÉNTANOS CÓMO TRABAJAǩ؂ELĂˁÓSTICO ES GRATIŸˈ΍ڏƟ΃ҡ׍ŘލǴ݅ӁҀ no obligĀҀĪˁŋՀƮʂɫہ map ofŚ͇ǿȄφхĝօē͂wouldθʁȾ͂UзƊˉācompromiso. SalкˀcoΞӁapГπŧހχɎϪԃğ́ĔƃιځolveríЪԚЪȿЪȿЪȿЪȿ͍ǷMœ߁ uŔŀ͍ʍnoƲ̉ЩݿЩݿЩݿЩݿЩݿЩݿЩݿЩݦ͡΀us viaЪĂēߊЪʐǑۉًń\\">+1 (502) 658-7853ȔɌ · Español / Englishφ֋",{"̶ۃcion":"̕׈21h18M5 21V8l7-5 7 5v13M9ˇ׀6h6vˆڀ","ȴсtateĂψm3 10 9-7 9 7v10ċۄ1-2 2H5ĀӇ-2V10ċՁĄׅ9 22V12h6v10ăڂmortgagă؀ΰЄ2ΰЂ5ΰφĔ܀ΰυ4ΰϓ2 10h20M6 15hˡ܀","segurosĉى12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10ĀȀćƊm9 ̴Ƃ˥͂ăЀƎ߂ăҊ4Ģڀ3aʽفˁۃ4l1.6 1.6Āۆ1.4 0l3.77-3.77a6 6ċۂ7.94 7.94l-6.91 6.91a2.12 ĀȀā́3-3l6.91āʀĂȅā߀Ằl-3.76 3.76ćπ","ךׁorđ΁čՄ1čՂ3ξŇ5čՈ̘ۂolygonϹĂ=\\"16 8 20 8 23 11Āɀ6Āƅ̪܁͇̄5̄ͅ1̄فr=\\"2.5āьāƂāҒ"}ěˌ{ҡށ":ώ݀Āہón|ͱӇ","Ƣł":"Ͳ؏","mark":"RC","ʃ́":"͖̖","accent":"١ӂ","pā߁ȱݳ|ȶĤ iȶņĞڀǇ̀":[["eȪԃ",Ȭ΂dΦށobra|Job ȭȄ"],["ɱυ","ȩޅ|ȫȀāɀrentabilidad","ʞӀĀ҂ȨԄăȀProfiĀ߁tyắƛ׃",ȦςƝˁƋ̀|ȧŃs & SȦ؃"]],"ƕلćҀc1","query","¿ɛӀv҃ŀċۀWhitfield?|ɝʀƝʁĀلċӀƆɀ?","Va al 64%. Gastado $9,120 de $14,305. La ĉф AĎ܃˿Ɓdʏׁ miércoŲŀFalta instalar guttϾԀMargen proyectado: 27%.|AtĄՁSpentĄӃofĄӅCrew AđʃsĄɃWednesday. GăӁ remainƞʀProj׻ʀ ȇނă܀","Ċщ|ĊňďŁ2ČӇQuéČ́está perȆƃlata?|Wорjob iђ؀ingė݁?","Delgado (roof). Vas $74ȟŁenciϘʂȺ̆Āހ3 roиƀРՀ de membrana yɃ܀oȋƀadiƼ́й݁Ď݂Č܄bajóȴՀ2% a 8%.|ąǋĄ߀overȿڂ du̧Հ3Ą̂Ąɂeąƀқ́ȳĀǙ̀traʐ܀ čـMČ؀ droppƃՃ22% to 8č΅Ąԃ+ ABC Supplyą̈́jobĀ܈Ďȁ3","ừ","FelicҪ߁Héɠ؀porėσr Park HiĆƁt̖ւǰ߀|Congratulate Hϋׁforĕ˂ingĂȇ˥΀","ăӁ, graҪ܀a ti yʊցčƄĄ։Ɛˀck deĂ܇dos díaą΂Ǎɀƣ̓quedó feliz y esƬĂ de suɵۂo. ¡GĄׁ,ʐӂ!|ćā, thanΓрͲǆrewć݊thąȉeck two dayĈӂǉʀȇʃĦрrilledǊׂaʨ݃ volu˹рҿ̀ĄĂaft. TĄރ,ʙҀ!","Đǁ4ĸĀĺȂMuevˁـĒ݈al viernes|MoveĆ̀ēȇto Friday","VoyХ̀́ڀĂӊdel juevesĂކ y avisar a Marvin (ĬŅB). ¿Cƽہo?|I willă΀ĄٌęހThursdaǣЀąˁӅƂtifyăυrewăʀăɂ?ļ̀veĂڂĊā5Ņŀnfig","CК݂lĪ݀en mínimƌŀȾ΁ a 15%|Change minimumĬ҂āʁ to 15%","ǧȀelҹІɪ؀ueȽ߀mbiar estoζԀ̋ɀāш. ¿ąƀĂρvisĄڀąςӇ׀de 1ħ؀15%?|ǱԀanĂІtɗˀn cĆɁthiμʃreāь. ćԂlow-ćЈčɀ1ħȁ15%?şրtĨс15ŁŀwhatsappŁĀй̀","6:52","¿cȆӁfactuǽ́esta semana?|hȈԄidȴ΀illǀāweek?ďŀƜځĂ߅EĂ̅: $31,400ăЃdȨց3ʽ΁. CobrĿɀ$18,900. PenԭĀe: $12,500 (Ļӄ, 2ºǿӀ).|TĄكăԅbĠՂcross 3˃̀. ColغЁăՋngăӒnd draw).ć߀Ċކ3","ɦЀděǄ?|ǯ̃ě؆Ċč3ĿΆvaĿśļׄӥ܁ 8%. ¿Q̢΂İǀtalҍӁgastos?ĸɄił΂ĽΆ. CջӁěۃ8%. WǺ؀h̚߀ɱʀbreakdownĆ؁Ĉيsí|yeŚ́ćև4","ŅŖ($426) y 0.5ĵفdeœۆB ($314)̙̂ dejѳрelѧˀm̜р hoy.|ńƒăЂandăҁayӟ΀ħ܁ă̈́AddeҢ΀ϜƂilyՉ܃."]]}Ƈ܉ůąɌȀEĀڀ|ĀφŮވBluegrass Key RealtyŮޅBKŮދbā׃keΚԀŮ׈4fb3a5Ůׅɽڳ|ʂ˺ůĊɲς","BĀ́ unificada|Unified InboxēπdealroćـDeal Room|Ā̈́Ŭ܂ɐكŬ݀ɑʌ|ɓֈ SĀ؀Ăŀɓс","Paně؀lɔȂ|ʏȁ ĀۀŮюrŮшQué le fũҀǾсRamírezǗӁiǴӀǰ؀?|ȩ̓the Ramirez ؑ΁ȱ׀Ǩʀlose?","ŬЀn 2 cosasȒрreƋހРہspԟ̂(venǣˁ2Ĝ̀)Đ΁ʛ́delҷƁdĥڀ lͰ̄3ȳǂsclosureŲɀcartğ؀˭ȇónũځviēـ.|2 ձĀ ؚ҂:ąłȊڀąہ (due iąʀaysĞӁsellerʡօ on ͺĀ3 ofĄ݈P˴Ɇ is valiƄĀĒȄ 4417ŕۀcrestƁׁ2Ţ͑CarŝՂsuɫʃen LakǷĀšډāԁon herāʄȄԃŋˀrla, ¡făπdadɹ̂̅؀ăʀde 902ĂǄ! Fuѧ׀proceso largo y loȣւ˫ʂmucha paciȡځ OrgullosȢفtenerʐցelΔ̓|ąƂcĆޅԊԁnȊ߄Ą߉It wŨĀɜۀąʁűׁyouʁ߀leȌ̀ǣހgreat patiencĎӀouĘɀȇʀyou oǻ΁Μ̀ŠɃrŰ͇Recuérdѯςėʄquĝ˃suƎтRemiŀĂēقŤ́ɜӀذԃƏ̈́,"Hola Sr. Mҝۀ,˺хǦ̀de İՏĠفrecordșՀƛ܀oloąƊĝďSą΁DĘ̈́ deėȊ Dr. ¿Deseɜׂe reenviȊȀel enlace?|Hi MĆ׆reaců߀ouŗʂĆؐďڀquick rĊڀəۀʉԁȮπħƀȃՁğƑthećǎforćȏReȶӀlink?","ŴǁđˁűшPasaĂƆa IĪʄű́Ā߅toāĂĂƂűʁpasaĄՐƟ΀ɨ݀Ă߆ yŭہicűЀġځMŰߔăƎĄوɱсŰއĂ݄Ű֊ĨӊŰ؈Avísame ŎڂƉ߄ŃӀplazoȃ̀3|ʋʀ āсaysȼ҃ɠ׀ʲɃϴЁ3űƆʐԃű͜¿˖ɁizoɊ̀ʳӂ prן؀iv́łʵƁde 3 aĆςűĂğπanɠۀĄʃűǌUpdaĻـĆˁʓȂĘ݁3 toć܂ŰɂĈրŰǖ8:10Űǅs̨ۃĮہŰ΂eɪĀŰˁany̬ׄ do weĩفŰӀɬˁŞ܉ăЂ11̬ƅ$3.4M enƌڂnƦЁ2ŧˋmesė݀do.|11̰݆ĂˁiĂ˃źޅ2 aגƀof last΍ւŤވ8:11","¿algúnʝ؁ʝׅ?|anyʟ΂t risŷ݋ĂɂUno:ĚǊņ߀ŊƆŊŊĝπ se ha subi̓ǁŌɂ. AŇހ:ě̈́|OneăэĝφexpirӠՁňˁĝۀŉɂisęˀupload̰Հgentăͅĉ؏eїʄģł|̲ʀĀ΀ĉˌ2","BɕԂĵ́āπ: \\ķځŀނ¿Ɉׂȝ܃ҧ̀Ċ̈́dĪǆ? VĊۉ.\\" ¿Lo envío?|ш߀įʀă؅iăփhǉʅĨ΅œǆǉс DœƇ.\\" Seɐ̀ŸΉć݂dale|Ĳ̀iĨՁĉƋEnviƢ߀Ąف.|SeɶԁĀҁŲ݁Ƕ߅ŲۅMĀׂ / PrésӴۀ|Ā؆LƇՁųψCʔ܀land Homeāˆų҂CHųҋcāڄlɩĂų׋7aa2f7ų׆erԖށ̃ǂersiӰۀdo col̆Ձͬсŏ݁culʔڀel DTI en hojas sueltas.|WΙހe hours˕ʆystubĘց˔هDTI ʥҀose spreadsheetsŴߋprecal","PĀ̀ĻހĿрPre-QuĀՂĿƀű׀ovedŶՀˈԎ|ˊ܄VaulđԁˍӃ","ˍӇpďς|Loan Ā݃ǤɃǏȁŷ͂Āфϝہderwriting|UĀІ āЀŝπŶɎmŶɛVillalobosŵׂiŮԄĜ߀theāˆ filŵրLesĂ҂1Ďǃ recǆǁ(últř̀30ŵʇų̈́regaloŘ́da. W-2, taxĈ́2 años, IDǈ̀tƦǀԒځԪހǞ݁n verƄρos.|MĆ΂1 recΑ܀ą̂(Ĵ؀30Ŵ܇ɚ́gift ܋؁Ąրs, 2-yearĄށ, IDɦށbankϯʀ̣ςarվԀƈҀ.Ē݅Ċх|Ċ܆Ē܅mŵׇ҆хa Paolş΁ČŁunĆك|ȧˀāǁŜۀonećلďȅŧ̓āЀрڀexpeƯ݁įԀAndrés ya tiene˝̂doǩр W-2Čݏ. ŏ܀nođуel Đ܁ĄքŃуđƗĵӁŜՀlo a Ę߇.|HiĆуσƁilɘ΂Andres haą׀ģׁĎċč܄ WŦیՈ΀Ē҅đߑ to submΙˁąшŦˉm3ŦˌƳ؀ĢׁːƁĞǇĈˊǘ΅āʆloaԷ׀āЇǘ؊ăӇ#LN-408 (ĐЃēǂĂ݅)ǧ̀ƀ׀ύσčƊŨƓĄހăЈes &ăЎŜԀăҁğ΀ċŋŨՋĂǅċց4Ȏ͈ŝƂĈƃŝЂaƘӀŝǂ˖ĀanyąڀsƞځŜۈ,"Hay 8ĂІίځs: 3 en CɭȀtoΏƁė́ǐ݆ ($890,000 total) y 2ā߀ĲʆŮȄfiōʀmes.|8ă؁ċ́ă݀ăڊǓ̈́ăӍand 2 iăՂƑہŰ˂ćր-enħـĸ܄ņ؅ũ͕7:3ũ͉ąƃċĂenemoũʉāȈũЅš؊ăȂ3ċǇǼπěƂGutiérrezď߂ eǰԅ֠ځ10:00 AM.|3ĉޅǹЁGutŬƀzėāĄހsǯ΄tĂƅŕو7:3ũɀyŋǃĠŌǗΆTIľŀĀ߆ćߌ1","38% ($7,200 ingreso / $1,150 deudas). CŊĂnĔށFHA yՠƁϭȁl 95%.|Ă؉comeĂׇbt)ĉŀy qŌ܀yą؀FHAēɀĂفϟʂ95%ś؂ɏƄśׅAgǉԁʂрāŀ|Insur˝рāĀyśӈOhio Valley āЅGroupśׅOVś׋ohiovā݀insśӌc07ad6śӅSeĸ׀ŴЀnΨ̃ʊĀdarnoˑ݃ porƞހִʀnoṽִŇ݁en otroΟʄ|PέӂŴʂĸɀouɨ̀noticƈҀecause renewalsʹցinϨԀϪҀе߃ś݌oąހ","PĆ̂Ǖ؀Ȗ؁|CȑՁĄփȾڃĆτȾځĀ҄|RĄӂřނtΧ̀rř܀Āς|Multi-Carrier QuoteɃȁreclamȿڀRĀ΂|ClaimŚʏsŚʌċڈčۂǾňȲԁĊ̈́ċ݂ǾƆ,"Źπn 3ď܄ě߁próxř߀7řހ: Familia Mendoza (Auto 2 vehículos, $218/mes), ComerΈڀEl Sol (BOP, $410āɀ ƢŁos Pineda (HoϛԀ$145āɀ.|3πǄĆՃʹɂnext 7Śр:ąǄą׀yą΁Ąރo),ĄӃComąɃĄއo)śǁąČmeĄ߃o).đۘsŚדlaǝɁċĆƾ͊s laĐɄƈƀlڬ܀ǃЇĂƃǟ܂ǃ؄irڮρđłŜ˃ďƊ, suĐނȝˀuto (ďԆ)Ɩԅ6Ƌ؁ Ęہƍۃ3 aĨҀadſŀy poſՁ́Ɓeǘ́oberturǄހ$204/meĂʁCardinal.Ǝـrevisăʀhoyǃȁď݈Ŝ͂2-veh̀͝ĆˀĒрϾۀewƙɀ6Ǝ΁֣ˀhɃˁ3 cĞځƁ̓nбӁԩ̀ƸրtąЂӆۂąЅRǝρ֏ŀǂƊsśڈMͤǀƠʀġӀ de ToƭՀcomoŨ̈́|MarՈρāŃlaimǉ؀˶ȁdśʄȑҁizɁ́ăǃ#CL-209 (ParabrisčЀdefensa — J.ăɂ, $1,840ś݀\\"En ajusͅ߀a \\"AąȂ\\"śݏuƷׁąԁĄƄWindshɛˀ& bumperĄőŜҀ\\"In adjustm͹ƀ toĄ̀Ĉˁ\\"ŜوĉƂĂՁČԁŜ؋̶Ӏmi retenǵǃe añoƆΆyāƁǴ؁ͮπhis year?","TuĂɆacumulջʁĂӁѩƁl 91% (412ĭЄĠˁdƘ؁452).|˝ǀyear-to-ĊـĄ̅isĂΆĪӃĘǀed̓ۃĂрǲՁtera Ņˆ|ŅׇBookŚؕ9:04Ś؄asĆ̄nu̖ՀǄĎnewą˅ǃٔăǂ2ĶׅĂ݁. 14Ħȃ, 6Ƞҁĳ̀3؈ˀida. PrimН҅sumada: $4,890.|23Ą׈Ă݀Ăڃhİ߀3 lifeȡ΃ąրׁ̓miumĂԄś؈9:05ś؄ĠǌśԅğՇĈ֍5","ElĜ܁ƻ߀yǃсóǭʀʉՂŉـĚՁ. LiɲπarΈڂrģل.|Theěςerǂ̄ĄـĂɁĂ݂te. R̃ɀto markĤބŚ܄ʦ҄Śޅҫπ̶ˁelčہ|ƵǀĀ܁ŎǀŚ܅Derby City Air & Plumbƶ҈DʙČderbycityairŚٌ5ec2e8ŚمLos técnῈllamүՀla֠΁nƒʃ̐Ƃrӆȃ؎ރĹـbr͙ȁdan pɈڃs.|Techs caɌހeΐ݂ askƪȃӌĂأׂon-sitƜԀƓρgetזӁŚ؊־ԀĊՀÓĀ́ͷǂbajo|Work OrderƆςapaȘހspachǚԀmapa|Map DispatchāЀɐ݂ʨĀ,"FĀуǶˀreɇρs|Parʘ܀BillingƸ΁laąƁPĀ̀ɝف̓؆|͉؇PlaƶŐhśڈD˰ހȤˀKevin ahorś̀׀рsĀقլӀ now?","ĀցāۀɼۂndӦɀĊۀ #1047ǕՀ110 Bardstown Rd (Ǵ׀ğ؀caېրor). YađĀó $248 en ٘ǀ. Su ǉނď̀r݂֭a 12 minutos.|ąŁʪ݄ȌЀrderĄۂatĄۑĄхɚڄĄҁoĄҀe. Next stop isĄńes awayȪЁđтGPS|GPSđ͉hŚŒʆň elĜȃжЁċƀ0ć܃Ƶ΁еކƵӀȠ̖́Ȁr׊Ճāۃḕȝɂa. DawsonȝʀɽǀȝȂģݔąˀӶρoąЄČԁya vąրcaminȬ̀Ć̃aproximadamć؀Ć܅ƴˀMrsĄ݅ĄΕletǏƀyouʼՁТ́chĄԂiȭƀŲʀʁȂĉǆţɁĉͅƳƊhŗˈAȝˀĘԈ52 a Rafael|AsҷрβӁĔ݃52 toāɂŖ݅ĂԀʊ߁ĂՆ(FuĊāϨ܀ĸ́— 814 Shelby St) aĒŅăŁ M.΄ހviǸ݀Ȫ΀teléfonoŖޏaąޒ(Water heĀʀleakĄЍtoČ́ĄͅͱՀushјʂhis ܞހŖ߉Ąƀ1052ČɁƳՎʀ܇ŪӁʀԐŦ˃HoĔۀvas $2ĿӁn 5 óıւΰπetŕЀ($62āƀĮ߄ y $2,2Āفmaהׁobra). ы݀΃ȀdĲրħс|Todayʣ́rŬ˂Ąɀʀł5ĄŃedČǁĄʃpartƅ܀ăހlabĦՀAll cĦلĦԃŘ׀ja ӬȀa|Dɯ݀RͿ҂Ř͕11:1ŎހŘ΃Ł̀Ş΂emerƢςČɀŘфĀ܃ǸǀlͰ΀ayŏ؊ăɃ4ĉހasĘۂdas. U͡ҀłւŘŀálvuʆ́Č܃ģӀlmacén.|4ĈځĒցed. OneеɀĲĀn a͘ЀacӔ́valveŭƁwarehouseŗ؉11:16ĈڇviΓɀȫ͂n anualǞՁǈԇĉɄanāȀāӀĂǀs leftŢƕĄŃ18ăۄŋ܅ΈƁs 142ԥӅenĄކ.|Ăă˓ΆūăƄր142ą͈meёЀŘт˸ӇŘ҅TĀلőՀgística|Fr˸р & LogisticŘۉFđ܀İҀā҂ŘԅFŘԌfallscityfāӁŘ،9bd36aŘ؆iquidƃЁȎƀЗ܀ʎƀŧȀdiésɹ܀ȿށchoferŘЀǇ׃nosλ׀ΈǀϡƂ.|SettlȎڀer-milŗˀدʁuĂۀd˷ˁъсʄہdrθՀonǈ؂sΎހsϧăŘߋcarg˱ہĀ̀|Loads BoardƱՁĆǀȋсĀ΂Ѿπȏʅă߀s & DOT DocŚҁlĉځřłĊ̂ȨǃăăĂȂ ĈˀǲЁʅĆsśƊaɄ҂sʅʃInvoƼ܀řƎtřƎ˳݁ĈՀ a Nash̤ƀř͆theĀۅ loadřډʀׁga #3381 (̦Ӆ →Ăą, tarifaǎ܂) v͐ڀ Yasĩԁɴǀcamióśցē߀la I-65 S a 28ĔҁĬȁτʁΌـ˞р.ďŀĄכƏՀĄՃi΀؂Ąփin TruckĄҁonĄ΂,Ą͂׸ȃӾ߃. Onمˀƌ݂gasĄҁē߂ĀπďڀtƳٓĄ̓ŴӀʁցtȆހpԕԂĈʂˣށ˦؍Ă˃onāՀonݎ̀ąكiĘŀā˂, hoy cuͲ݀ăˉseguиրăԃڒ͂obͼրǔƃnɀ؇DOT. ˤۂǐʁģ܄ĐǇyҟ̀ʕ΀alȁӀĨٍ.|ąڄĻрƅ߀ąځ΁̀cuǶހć܍ď݁zeroğƀissu֋̀˩̄ȧۀažŀcҿЀfđȇɎĂresҨɂąҎʆ˃tƲ܎ĝ΄ĖρƲրČǂdaƲׁĝĀāƁĘڀĆՀƲ҆ƐڂĂՊęŔĘ܃ăڀEăڃĝހPODƒۀntoҚĀsś؂Ɓ؄ónȎՐą݊ĄΜas DćƃčׁĄ̀ttach˳ςqueuо߃ iĩրśډĉςĜ҅śۈAΒρķ΁sʊʀǊւl médicđՀǞ߃ĵтhɹրǘҁɅـOT̎׀cal card?","A Reynaldo G. (CĘʄ8)ă׋cerʂǁdoĄǆ en 11Ǐ͂ğڃy ErnőсȸՁʭفĜȁц҂6 meses.|ĄԈėʄ8)ĆہĆьćυiĄ́ǍՀĄ̓andĄτȸҀalidĚ߀6+ŏ܁ŴހEȳքs DOT|DOT FileƑǁŞʑ4:2ȑΆń܀debǪ͂ĺ܂˪ۇoĀ؃ owe uȉċĂۃ$18,6ŪӁ9ėكs. 2ȸՁnĊڃɇт ($3,92Ĥـ ApexŐ˅).|Ă׃ũł9ĖŃĂۀģ܀verɅ˃ĂքȶҁĂ׊Şω4:2ȑހĈ߂Ӗ܀la nѢہņĆ˂āŏˁ?|ΐȀiȕ̈́ėׂsŇĄȠځĊĎ1","NeĮ׀Ŋ˂r: $9,41ĳ҂ 4ĄƇҌфdescoƭƀ$2,68̸ɀŕˁ.|NetĄΆĂڄĊׂ4ąՂsϿтŔƂngĂՃinŔ߀şԀ},[[́ǀacts˃΂s","TaskȂˁporŎނName","Email","Stage","AmouƋ܂̵؅Aϣ݁","m.wĀك@ί҂Ş؂~:Wı׀$19,850Ằ˒߃ǫȁ","c.rĀցĂȌɨĂı׀$298,00ĂρɁȆFile","p.vĀׄĂӌNewẰ45Ă̈́ǯރAuto","f.mĀԁĄך,616ĂˁѼ΄ (BOM)|ĀԃĀӂ","$7,405āՂƅׅ͒Ȁ LabȑӀ$6,9ąʂPreci̢ǀȕɋriceċՊ˿тǍ΃|Est̸ڃ","27%","is-hiĆɈőπnt.|Q˱ހCosto|Coʬ߂Viny͍݄Dutch lap","28 sq","$4,76ĄӁHouse wrāǀ˾σ|Ā́sāҀ6ĈށJ-channƝЀ40 pz","$38Ăс͌݁ 6\\" aluӧр|Ā׌uğȀ86 Ŗـ$1,30ƖށDownspouęހ6ăʂ288āĀClav͛ނjȍՃNails &Ч܀enũӁ1 loăǀ21ąˁ̄ĄďȀ","Lun–Mié|Mon–WĒӀJ̮΀|̫ʃ","V̱Ղ̰ق],["<bҎą A — SČ̀</b><br><޵ˀ>̈́͂· 4</ĀՁ",ğĆ(ā܁)Ā؉͘Ă)","Disponible|AvailablʁρĄ҈C — Remodۤ̀לĀĄ؇Darío · 3Ą׆Okolona KitchenĀՆTrimĀ҆Finalĥӊ—͟΃ /͠ƃ(en ݛڀ|i˥ހgresĆ݀ęт27%|͑ނęŁgold",64,0đӀ͖ȈăЀ1Ɂ߀/Ā̀940 (ʵͅ|̙׆ăӆ8ă҄8%","warn",100,1ğ߀͇ъ— $6,8ăҁ5,100Ăԅ31ĂՄ31%","ok",75ĆƁĊărčȁ — $22̨Հ/ $15,75ĂՆ22Ĉڅ2ĂՄ0ĂՁ#","CláusulaǷŀmátiѹŁprot˖؂AutomatedĀ؂قρlausĒՁ01ăހdera podridaڵȄdʹƀretirŭӁĤтѨɀbrará a $85ҤڂjĄπOSB.|Rotted wood˾Ҁنρ upƮŀĂЀrem˾؀̱ЃtĂՁer OSB ʟЀņց02ĪĀҪԃʤσs: 40% anticӨـĀрl͜Ӆăׁ, 20%ƄҀչԂfȡƀ|PǬՁҮՄĂفde޺̀Ă؁ĆĂƶӂϜπ20%Ắ walkthrougˇق03",݄ۚǩǂĵ΄ de 5ʗԀˌсscriЭՂΓǏ.|5ʔځwritteǇʁma܊Ā warrantyőՁĂʐąȀ˩Ɇ˨Ӊʾމ|ʼĈķ؁ěˀ],["TaϠف|AppraisĸȀEn 9ĂƁIĀ̀ayŊˁFinanciʂĂ|Ā҂ȁЀEn 1ȷȁ|IĀ΁ā܃Cɫʀ|Č҄En 24ā҄24ā҅ʮ݃oʯ˄","Auditorčʀ։ӄ|SϨҁāĀ͋ւdo|Sױ΀Ąʁ̚ґʴ̖̀ӄʑɁĴԀ̮݁Νԁҋق30. Monto $31ɼρcubƄۀ͝ـde Ŏ҃.|Vū̀ĔĂҐ݀30.ĂĆoŘԀā׃ offer.","~ok:OKĉƁ̄ȇ̋؅|˾ǌ̦փ̤ԝʭ̠̅ݕĄـwarn:ѿс˴сŎς۵ʂ|Properŋƀŏȁ|Ŏ̲҃݁ón|Gross","̡̲̀ƀeť҄Čр|˜Ҁ Neďё̣ފŚ߆,"3% ($8,940)","70/ʃ݀$395","<b>$5,863</b>","؈͉comm-ceټсϕʁăހ̝̇ŏр1Ŝҁ,"2.5% ($10,375)","80/Ŷہă߅7,905ă߂~ok:PaƔɀPaiƺ΁ěŁűˁmͻ׀ȪԁěւōҀ1ŘȈV˳Ӂ|Āˁă݀.4Mēȁí˾ـom.̺Ԅ|Avg. Dǀ΀ʕĂ","34ā׀ˬفʚф|AʗāĀڀsŜӀĜփla",18,18,52,͌Ƅ],["Luis",84,28,4ĀߊElena",150,10,60,"#ffcc29Š߃co",216,34,36ĂǉSofía",282,22,48āŉDavid",348,40,30āŉIʍɂȹłČȄIʋ̀Ũׁ2ŧ΂DʎȀā҃čنDebŞĂ1ŧ̂DTIʐށĎˈScoreϦǁanche|Credit / Downėŀ2 · 5%īʕRequisiɩ߀quiӭӁěːW-2","ːف|2ɋʀsĕтVːƄ|Ā΁eĕفTax returns (10Ĝ́ĂͨP˥ׂ","Ə҂|ƍǂĥɄĨʁ1˔΅Ēˁˉ΋|B˄ɉĄ݀Ɲˀ|2ƙ҂ĄߚIDĲхİρāؚĵׄˋف|Gˆͅ","׃߀da|Sǳ؀ć΄΁ׄ|;ςć΁tapa|ƈу˸ЅLoansƶǀĠ݈],["1. A֋ҀĹۀĀрĀҀƺ̃orƀ߁$210Kƀр2ķȁĬ݁ưҀʸރ|Ā҃˪ˁ,"RoҌπ($265K), Vȵˀ($34Ăׂ60ƇɅ5.ʹۅʮԀ","ʱԅ($29ĂπChen͵ڀĀрDaviąՀ8Ă݂ʻ˂Č́ąҁϣځą́ęӀsponsable|OƟ˂Fecha límite|DuĊƁÚ˛΋ƥǅˊц|L˖ׁ30-daԄӀ˩сāʆ˔؀ˌЀƭހŐ҄IŐ΄Ēӎ˞̓Ēł˙Ї","˓ƂĂ܃3Ă܄3Ă܅Ė̞̃قrbωځئԀo (VOE)|VĀځā҃Ӟς EmploşՁāπĕŀ˒ӀƑԀMañana|TomorrowĖׁndoΥǁʳ́ɦЄſƀĐɁ)əĀۙځ iʲބ٫ـāςˁŀ)","́ـOɒЀrȞ߁țǁƟۃo|L̃߁DΓŁ|DыπĆŀima|Pɧȁʘ܆ónʘڃƃȃAutoĿڂʒ݆ (SUV 2022 + Sedán 2020)|āˀicě߀āƀSUV +āĀ SedanĜӂ8/ƟҀġЀEʕ΃|IʏփĄуʣ߀ĉـĄׂ3108 Preston HwyܣހʕσA $320KĶ̀3ăсEn 4ĪȂIĀ΀Īˁă΂Vida|Lifă̓TérȿӀ20Ŭс· $50ĝĀ|20-Year TermĀۆ","$54ăڃ8ăڅ8ăڇƣ́ƣԃʹۄʽځƕˀūՂ|E̲΁ĸېʡ݊Ŧʀʡф.) ·ʬĂƜՀċ߀ċ܂Č܃ʳՁ · UrĲǁʮځĀԄĥɂʳĉ","BOP ·ʮǂ","ĂҁĂȂă̩Laura BenítezĘրɳބ· $152ăЀ1ůт1ů΂,"~gold:1͗˂· Reցނ|1͖т· Re-shopƨЁrupoɛڅ","Flota|Fleet · $89ćˁ28ăځ28ăڄok:īԃ· EnǾǃǎك·ȂՀrackŖځʭЅ|ˆ؂ť߀ėӂ|CʧۂĠɀducƢʀĀ̀tibƾʀʊЈŏلĠ߃ƣσʩт MutualĘӂ100/300/100 + Full GlaŪĀ$5ė܀~ok:ʬƁ (MejorҲ߀ón|Best match)ćǋ NȫĀăΈĂ݅ĕۂĨƀidg˲ځ˝ӄą̌RoadsidƾρĝɃ211Ă΂ŉҀĄτˡԁņ߀IncՔ߀e|Ā̓Ńڀnto|ǎނĜ֏ʪ̀14","M. Navarro","DañȏƁgranizȿȀtecho|Hail roof damďƁ$9,4ċˁ:Ǔ߁ado|Ā́Ŏʂ#CL-198","R. JenkiŇʀɛ݀de aguɜɁocina|ưق wɘ˄ŭǀ,1ű΀ŰӄoŰӅ#ƶȀِǂ|AʇӁ","Tipo|TypeĪրɞπʉڀĉґ1047","ɷԌǛׁaȩۂA/C|A/C RepairɿԄHƆʃCɗلħ߀48|ĀՂedĀԂă݄8","940 Baxter AveŀˀʆӒ","ɠلăۂEəƂ|OɕفăɄ9","412 Lyndon Ln","Termostato|ThĀσ΢܂os DăĀ:En ruta|En rouĂޅƳǀ1805 BrownsboroĊǁDrenaje principalĆЀ draǖʀMateo Să̈́Ć̐5̂ʀ319 Taylor BlvdƋ΁presorċԀrŊ׃čʇĬ܀Sʉԃ|ʅӀuĬȀ95,45,"#30e87aāބ(đЀĢЀ210,115,ʠ؆Čւā̀8ā̀320,65Ž݅Ċ݄āˀ9āˀſ̀ă܀˾ǄĈہ(ċʀĦ́Concepto|IǷ߁ǟ͇Totŋ҂Cʍ؃Ĝ̀rranحɀual 45/5 MFD|Dual runʓۅĀ߄","1Ťـĕށǧ܇Ҫ؈y reݾˀzo|Dѯ˄ &ɡ̈ɫހ","1.5 hȈƁŤف<b>Ć̀İڂ—Ƒ߂248ĀՀņކɜ׊ƍŃPlan Mɛ΁Ľ؀2Ƒ։ɟލɣЃ|Ā߀sͰ̀ϴ̀Ķ܀ė܀ƴъƉ؃recϫāe|RĀ΀ing Revenuī΀2,69ĳуıƀRuta|Laśـɒ΁ / Ȟ́ɏ߃/ȱӁȁҀrifa|RϢفħ֎3384şۀȨ߆IndianapoliŏڀȚԂ· #1ǈӀ$89Ĭ߃Ȯń|ȪƄăǄ7","Cincinnati →ѵ͆īĀȠӂăƀ8ƒ̀8ĳׁʑЁdaʐւĂޅ79ĆƋAtlantaɃۅĂځ4ļӁ9Ă܁ok:ɘۂda|ɘȁƄ݃ċπċƂ","CDL Class A","MȩƄȢŀMȥցľɀɅĄĔ˂ɯցǇʆėǂą̓R.Ġԁ)ƨۆOK · 14ŦՀĀ҃8ĀхĂ΃čփVĂ΁2ĂΌ22ĂΈ6Ă΍ȭӈȭ̀Ăϋ9ūυǍڄȱׂŢЃȮĆăЉċԋEsquema|Pay ModȂˀBrutoƺ҄DȜ߀|FuĀ߀ƺҀ̙Ɓl|WeeklyƺԀ],[ĐلR.Śɀ%ɴǁrga|28%΢πinehaulń؁640","-$7ĘĀĤȀ,850Ĥʄċۅ","$0.68 /ɣɁ|mȗ́$2,9Ňɀ-$Ă؁ĂЁ28ĂЅċ݆ȏЁą̆7ą̌2,8άЀ-$6ăǀĂہ19Ăۅɯ݁ɱąsĘǃsœӍAtraso|AgƛЃȰԉ","ġȀȱـĐՄ3ũȂ3ǘӆMidwestɖɃ Co.","ĝπ8,4łۀ~ok:1Ə؂1ƏֆBlueLine ĆԁƩˀț߁27ā߃Ű؉],[ȩǿȩǿȩǿȩǶĉрȩɿȩɿȩɞĆˀȧݿȧݿȧݿȧݲęɊȜٿȜٿȜٿȜٿȜٯČƀȚͿȚͿȚͿȚͿȚͿȚͿȚͺĐ߀ȚϿȚϿȚϿć҂ȗٿȗٿȗٿȗٿȗ٭ċրȓ޿ȓ޿ȓ޽ēŁȔĿȔĿȔēĘ߃ȔƿȔƿȔƞĦ݂ȔȿȔȿȔȉŉՁȑ߿ȑ߿ȑ߿ȑ߿ȑ߿ȑߠčրȆǿȆǿȆǿȆǿȆǿȆǿĎ؀ȃٿȃٿȃٿȃٿȃٰċـȁͿȁͿȁͿȁͿȁͿȁ͹Ě̃ǽۿǽۿǽۿǽۄ],[ǠݿǠݿǠ݁ŏڂǟտǟտǟնćɁǟ׿ǟ׿ǟץĚۃǐοǐοǐοǐΐĈ̀ǍȿǍȿǍȿǍȐĈɀǋſǋſǋř],"֓ۀ","НՁend","[֛ۆ]","undefiŝˁ.ۮށ ڇڀ td:nth-child(2)","˻ŀbeƿɁܰ͌cmp-ico nܰЮ filֈƁne֚Ѐrokׁ߯ğŀColorĀۄ-գȄ.2ֆ֐noܙڌѱـta-cŅր۫̇Ĉۙ3)ĈΗyeޣʄĈϿĈϙܺ߀ĈόĄրĈЍ۱Ɔđ܄ջӀ]ĉуts-ǥۀĀ߄֭ԂāȇĀցs","ts_laѸ؁ustǘǀ՝̈͠˃ӤрjƮـҒƀѩՁ ՎуŨЄƨʃсօřӁϩց|ϥ܈","SinΖԃ|Unͻ׃āځȬǀIŌՀnsʲ̀߶ɍadȾʀĊ˅ߣڌodߘĄܭՉߢ΀ߖ߂Ă΀h4Ɲԅāϊߕ݀ā́փƁă׌kpiڟǃāőݎߏkpi-lăȃߚБkpi-vāǆĄӓځՀܓЕtbƤҀ܋܅ĂހthĀ˂܅ٌĀځdāƄĀˁڮՎĔր߁ɁappĀтom-txtĀЁ߅φĀԁcov-ǡ́ts-٧׀-;߀Āӆn̡ށĀӄtagĀҁind-liƮ؀֮؁btăł߲܃ĀхӁȀĀҁߨӅĀӆߜĀąʂߚւāņߠހĂ؃ߗڈĈՆ߉ۀ","(prefers-reduced-motiܟȁduce)",ߚ܂δ܁ȩˀܟق","--ts-acc","#7c828dЁɁ.āʂcrmǹłےւCRM Cloud","A܂ҀeՑӁبɂ|Ren˹ƀ܌ԂĦҁٳ؁· ެӅϾсٵҁ·לƁďȇindČӂ is-ћǁĜԀݦՔĘˁ֥؃>","آɁ","İπseΧ݁",ߢفŗāăɄ͈ބĄҀtabĄ΂d̎ۀkeydŴԁArrowRΓςĀЀLeǶɀ.āބḗƾւĤچĝтĤߚDסˀՋ̂؊Ӏcarro Ϝˀcasa:ۥՔ׻Ә|FromΆڀjobsi݌ƀhŏԀ؁ۀhome:۫Њחł؂ƞīӃīЙUϔˁla APIϳށƞށٹ؄B׬ԃ|PowǮ݀ܛ҂ϲՀiڐׇā҃ API.Č܂iniĔɂRepetir|RepļԀĎЁτ݀īюwa-toī̀ħׂׯޅĘ́͏Ą̣ՂĸɁlíneaƈ׀ۭքč̈ۨۂ|OnƀĀ· RċӂuƷǀ۬׉ęȁằĬ҇wa-msǏрĨقub ĸ΃ĴЗwa΁ɀķӑģ͂-ҙւķ߀trongć؀ste݂Ѐn٤Ԁnϵ̀ЌـisĀۀ؎ǀnotӝۅḖĂΈЄۀπ́tu݃́ư܀sհ݁ɽ؀ܜŀ, eڎ߆ʂƀԱ߁bretaĄʂparηօ݊Ą޽ĀůۀĂՂם͆ę݀Ѡ̀notebookēՂpain-barċԄ<ų݀P֦݀Ǩʀt֒Ђ|Bottleneck found:Ĉʀb> “","”ň܅֢ևObra: Cas֐Ά — 1824 BrookĒրAve.|Job:āۣ̆͂ceā֑ŏрȄԀ+֘݃ · ȤĀȅу· ȟ܁āǂ · 12 esquinܒӀ· pitch 6/12|Ăذcorƻ܀ĂՇķ܃۵҂ӪȀ΢ρԘʀĀ߁ҮӁێǁfoǳІ֨ԆݜŁaɠŀabrӐȁ֩ɉāʂʊȁopeϊހĂׇ֯ŉȓԅɐт֗ψs (Lun–Vie)ɑ̓ȵŀSȒ΂ (Mon–Fri)ȯـā߆ĸڀas|3җ҃ܧǀžցՕ܇— Roof͏ɍջڂ· 5͊цϰڂTear-offĀՅRoofɰށque:ϲʃ+դʃ|ConflictĀލėςե؄(Movida)աۄJobĀ؀edǋӀibre|Op͎ހts-ԅ܀-boxĄцćއϤ҃ a֔܀հ݀ ֈʄ.ąІ՜ʂŨȃϸۀwժ܀ЅĀ͛̓ħǁb> ","SugerϪՀ:֌Œ֋օ΢مar?|SuggesŒсұՀ֏ΐΠɈĹņ ȳԁ"Ă܄ćƀir͘ˀĄ҇mċۀ֓χĀ݆Ĉǁ֓Ȅ~ok:߃ՀċՀƽրĂևȼрϳԀҢֆċ΄ؗ˃d ·āلϙń׮ۀ׈ۈPִǆvsׂˁۯӂen vivo|Live Bְ݁vs. ۱؂SpƐӁȓЁ֌ˆׁ֑: |L։͊:ĻۀڥӋar؜σĀݎŃ؂Ľׅڧސar؅فĂВfill","Ι߀","ثӆƇۀ:","%ȖπشۆŴғķЃۍώ2ۍσĆ˂ĸ΁ɮуԒ߁ћ́֍τ|ָƀierȾĀћȂ֊؀Ěǃֹυ $2,184 ·ԁȁDepot $612 · LڗƁϥςtors $1,040Ż݋į݄digital —ĕӁ͵ۆɟʂ)|Dāʂİ҄—āΆĤ߀ā҃ǿބˇˁ܂āȨ؁Ġǀ· hace 2Ԅˁǻăoā҄ъƃ· 2h agoĞ߁sigħ΂Ť݁Ŋ݁č΄display:ںȂ>M.ąօŌ҄ŞߙĆЀ capʕԁĆ؅ąڀȮ΁āŁĆʇƈȋاшĆӂsvg\\"Ȭ̈́sig-pathبύ20 60Ƣ̓Ѕ̀=\\ą΁بЊ2 44 C28 12, 42߹΀58 26 C70 14, 78 46, 96 30 C114Āـ128 45, 148 22 C164 10, 182 40, 208 1׾؁ŷЀɈĀrȹ̆ɲ܃ťԁłʈ#ćچؖՉ,ք߆ŕۃ˛ɀniela OrtizխƃˍɁ¿TodavíסǂdΌЄŴ܃ԧˁkes Point?|IԥƃĀׄ КӀ٭ʂaΎσ?ΰچJames HollowĮȀLuisǊׁAϗǃisрƀݬ·Ԅڃʦցtagram","@mުҀl.hȫ݁InfӱӁĆȀŉʀrۘ߂Fern Creek|ā̀լ̂3-bed iāǇ֏܆omnicō߀֐ʍOmniɻЂ֐ւČ܅ůłel֖؃—ϲ߀ڸہݬӆ͜ȁ’܉ǋ— noā̃ݯ̓ƈ̄ƢƂ","ĀЀĀۂbl","ޭ؉ĨЀʥʀCʁτުуĀ߀̍܋Mڙہ|هւ",ɀނą݁ĂɄƤև","ƣـƤ׃ݙԀɌ́/bݚ˅āƇ","ؚ݀ķȀrgba(79,179,165,.14ǃ܀Ĩц>",")ħ͟“ĸσķՉ-top:6px;٦ɇletra);font:400 .74rem āāmono)\\">MLS #KY-8841 ·ēц — 3 hab · 2 bȘӃ289,900 · ԽфaԽȀĀ҃rܜҁͰրՀڀMLSĀրͰ߂FichΚ̃ā΁ѓŁdaͲ̈́ϧفsăā֦چխڎ—Ҿф֡׃·ՒŅāאʥՉāֆŌքs: ɠʁsŋ؀֪ȈХɋ֪ט֪փЦĆ","CálculoΣޅo +۽׆֫ӇΤ̅ăˀ math +܀ڋĮ݂ɣƄ",ҵփa ·еЁؔہcesoɸŀśـ· payout֔ӃǎՁĂŁr (ǩǁ)ā׃ĀԄ΀ӆҚ؃aĈׇҾĆֲ߁maѱ؁ć׆P˺уǬق MaҜـֳ܁,ׂАّ֌Ʋő420 92Ŗ֌100%;ؼρ:84px;backgڐҀ:ġƀ14,10,20,.5);bќр-radius:8px;padלԀ8pxāłĞ߂b)ŃŋProdعЁƚ҂ف܄ŜǁyĀ̈́ǤŃ42قćĀ߁ُ׀3Ǧ߅Āـ/><ƮĀĂ؉8ǨΆ#f3eeeā߀ont-Ӝ́ܕ߀uӱɀPrime,monospaceāσsize=\\"1ټȀext-anchor=\\"middǜŅtextƾІšۊŔ܂ܴԄŔ܊ĪƍăƁLאЂʖсĹӂ҆ƀߚ΂șƄ: 27 × $129 = $3,483|Per-אɁ۴݃ƸՀdoƥŀpayќ߆Ă̏ƥ݇řΙҶބڐʂp˂فtípic׿Ёerɢڀҵуdưׂa typДǀmarkϿـat p˄ǂŚЉŦ݃խȄ,ա˅SӁ܀یȁ:Շ΄ԳЌ|ͳڂntā͂Դڐ","FHA /Ԙڌ|ĀڇԖۅƽ؀Ϟف ɹ̀-ȥۃ(DTI 38% — Zona saludǨԀ≤ 43%)|Debt-to-ɼā Ratiā݈Healthy zonāۃƹ̊>38%ĊӉżϕĖ̄ģӆlinear-graȮ΀(90deg,Ƚӂ 0 60%,Ȼт 60% 8ĀӁ5b1f 80% 100%)ſփħډ38ħلĨɀĦ؃ĀՀ3px solid #fffſܓհ٘ľ߆đʆձ҉ —ՌƇˡق4 / 6ʷ؃os|Āӈĕπճ˅ՍՊԺ݄hipotecƪـ(ՃΎ)փ߅āۄ(Հ׉)ɿހąԃłހ2׍܀ȊȆĀԄĻՂɦ׀ćτ($245KȴՀ, Ɍ܀ʧ΀($3΍҃ʬ݂ɑӀ5ʡ݃3.Օ̌ĂߌļـtelΊՇ52Ă̓$28ăǃջ׊ՙވջד,"4ƳĄĀ͂eڃ؆,Ԩ҆š΂ԞǎөʅĂւ)ŢׂԚˍƶԄӧ܃)ġۀӶ̄ҕځ: 91%ţ݀ԋɀӴȂĀـơށԫ߇Semáfoʀ́ԧӈ(30 / 15 /Ԥڂ)΂σ Traffic Lȶ׀āЉayą̀ԮȉmӉĀor mԮɀԕ͆ —˹ǀĉ݋ԯ֐ —ĉ؋˻ʂԈσŒƄć׀guܙǃćڀԱʁ abiertosƺۀ Ա؁ Trac̍ҁԉӂĘŁԈ݄Ɍ΂ԎΏ|ԋĎɧЁ8ɇŀӬЅ,ӠӘ׿Ɓía (6)ʋҁ’s ӡˆ (6)",͍݀2","ҷЈ̃͡ҽǅ|ҹ̌Ӂ߄̰҇ӣލ — 4Ӭۅeȩڂƴ̀Ӥ܇ā΁ӫƀȊї460 175ŘИautoŗώŖߊřև#0f1722ŗ֋Mapƚ׀gȻׅśȀ255,Āǃ.08)ȼĎݱȁne x1=\\"0\\" y1=\\"45\\" x2=\\"4ƞ׀yĀ΀ڗցā֎1ڜӀā׋Āـā؈1ŗŀāڀ0ā؃8āׅ7ā׋2Ă؁ā׈29āؖ3āāā؈3ąɆā؂/gڳƈ5 45 L210 115 L320 ĂӀċ݄ɿĂċϐĀփdasharraڴ̀ ɊΌ/><gŢտ\\"11šڂڥׇŦ΁ڥրŨȂ=\\"7ŨǈĈـƪ̃ӾƐʀրӷɆ—Ӳ̳̍ȃǰ׀ġ̅āؕΔρӐЈ|Ӵ˅ӍтԀܕ͌щԁ͇ʁ̂ȵЃҼυ,ҰŅ͗ۄ͛׀blݛāɯ؁ǰ؅ʄ΂ɬŃұׇ,͙΀1͖ϋ͖҅҄ђ1ɭ߀ҳ؆V̘؀ćрs CDL, ͕х ʘ̀́σāĀ͖ǆ &ҔɂףƆΆ̀ޏȀ",ҵΖǻ҇ҵփǻƂҵ݌ҵГ (Ѷƃʍʇѹɇ)Ҷ׃Receivabϝҁā݂كրѸɌ)ٶ݊٫ى؇ʋȤ΀̋ڈ؎݉׽ׅ֠֌ՄыӮňΏωғǇĔ͆ͬɆȽ؀usĀ̀ɨԁchip-ǎ݀ǵʂsgݲɀɳ؄āǁƵڂypśтi></i>ĀʉĂ̅bot iȦΆsɧՁȐрé un׻Ɂ\\̲ׅ\\"̞ڀؖ߀Wonݖǀܳҁmás info݅ɂ.|FܣԀĂ̎އ΃Ă̄furthҝڀfʈŀĂ߄ȱЁȥʂvos ni acظ܀ՍƂކ́ąˀȬ͂.|IƆЃȫҀȧЄȲւ݂ЀcضŀݯʀƇӀȒ݀ն׀ȭށȻăĊ΁ҾφɋƀĀςҢԃȹ߃Ǟڃƈߋsg-srcǢ΂ušǁȹ΅· |SourcɅفrąہƷրĂǂɡ́BORRADORǈӁƶƁo|DRAFTĀրݠـtԐԅĂʄsrcħҀ˽āݠʀ݌ăݕʆԸӂұ׀ݘȃۓІݗ߅es.ǈ׃ċЀݠׂݝ̓staسȂĊрۓ܂Ԃրƭ؂th֓߁ąւݟՂčǆtn priưǆԑ׃ưǄ&ݢʀ׿҆·ՊۄڮӁi׿ہ·ưɄ bԇπǋԃ48,232,122,.ʘ̀#5ef097Ąو","Editar|EтƂnɗχǗŀب׀s eāπ־ՅĆ˂InɉΆɖ̂ޢʃ̈ЀݩԉŜ܁כȀr|DiscķՁĀ׃doĀ؃ĥ̀line-ׂ̪زƇןƀخՈes|AdmiْՀͫ؀Ֆʀ. ڟʂaƚЀdo.ԍւro:ƌ߀ciۗـČā ·ӕ̀7:48.|DԚށحځaȉـd. Log: requestčɄ ·ӑ҂Ăŀǟācelar|Ā́","AΐށcĀ܁daĥʀse hiciero԰πbios.łȀĀӀnceledޜʁĄـs۪̀ׯހotҼӁdarŭŀCRM|StandardɑɀBĢ܀AݳЄde Ū׀ݹԁforğۂchipĤłĲԂʒόĥցʍُĤȄȖҋ0ĤہToca cualܤȀՙلԳ݀b՚҄ě΀ݹՈȣԂ.|Tap ӧЀrompt abĞ׀o ̍׀theɫЁӷՄ.ʣĈsʣĈnʣčāȈʣׂʁυ CRM","ɦ؁ʦЎlangĂ̇ʤ܂ŰˀφԀċ݀Hi ܭՁ, I'd like my޲݊. My݋ޅiƛǁՆրĂǃޙłmiްڎ. Mi݉̈́eĂȁą݄wa]",݆Λā؇smĉހܵǑāЇmodeĉǇmo˭րŃ؅ĉԃߣŀĉԀʒӀoɅԁĀހexpanģفsmooȏрneaŏĂIntersŎсOӴЀŉЀ200px"]]`)),TS_ICONS=P[2],TS_DATA=P[3],S=P[4];var qa=function(s,r){return(r||tsSec).querySelectorAll(s)},ce=function(t,c,h){var e=d.createElement(t);if(c)e.className=c;if(h!=null)e.innerHTML=h;return e},on=function(e,ev,f){if(e)e.addEventListener(ev,f)};d.head.appendChild(ce(S[139],'',P[0]));tsSec.insertAdjacentHTML(S[140],P[1]);qa(S[141]).forEach(function(e){if(typeof io!==S[142])io.observe(e);else e.classList.add('in')});qa(S[143]).forEach(function(td){td.insertAdjacentHTML(S[144],S[145]);td.setAttribute(S[146],S[147]);});qa(S[148]).forEach(function(td){td.insertAdjacentHTML(S[144],S[149]);td.setAttribute(S[146],S[150]);});qa(S[151]).forEach(function(e){if(!e.hasAttribute(S[152]))e.setAttribute(S[152],e.textContent)});qa(S[153]).forEach(function(e){if(!e.hasAttribute(S[154]))e.setAttribute(S[154],e.innerHTML)});var tsLang=(navigator.language&&navigator.language.toLowerCase().indexOf('en')===0)?'en':'es';try{var sL=localStorage.getItem(S[155]);if(sL==='es'||sL==='en')tsLang=sL;}catch(e){}var tsMode=S[156],tsInd=S[157],mIdx=0,tsView=S[158],gOwn=false,intd=false,cAn=null,wTm=[],uCh={};var tsState={dMvd:false,mMgn:12,chatIdx:0,mlsSent:false,hStg:S[159],hApp:false,aDys:3,vStg:S[160],tSts:S[161],oTch:S[162],lSts:S[163]};var L=function(s){if(!s)return '';var p=String(s).split('|');return p[tsLang==='en'&&p[1]!==undefined?1:0];};var B=function(s,c){return S[164]+(c?' '+c:'')+'">'+L(s)+S[165];};var H=function(ti,sub,bCls){return S[166]+L(ti)+S[167]+(bCls?B(sub,bCls):S[168]+L(sub)+S[165])+S[169];};var K=function(arr){return S[170]+arr.map(function(k){return S[171]+L(k[0])+S[172]+(k[2]?' '+k[2]:'')+'">'+L(k[1])+S[173];}).join('')+S[169];};var T=function(th,rows){return S[174]+th.map(function(h){return '<th>'+L(h)+S[175];}).join('')+S[176]+rows.map(function(r){return '<tr>'+r.map(function(c){return '<td>'+(c[0]==='~'?B(c.slice(c.indexOf(':')+1),c.slice(1,c.indexOf(':'))):L(c))+S[177];}).join('')+S[178];}).join('')+S[179];};var domApp=d.getElementById(S[180]),dPT=d.getElementById(S[181]),dFT=d.getElementById(S[182]),covNum=d.getElementById(S[183]),bMk=d.getElementById(S[184]),bNm=d.getElementById(S[185]),bTg=d.getElementById(S[186]),indList=d.getElementById(S[187]),waBtn=d.getElementById(S[188]),modTabs=d.getElementById(S[189]),modStage=d.getElementById(S[190]),aTi=d.getElementById(S[191]),aCh=d.getElementById(S[192]),chatLog=d.getElementById(S[193]),aRs=d.getElementById(S[194]),mTog=d.getElementById(S[195]),dTs=d.getElementById(S[196]),tTm=null;function tsToast(msg){if(!dTs)return;dTs.textContent=L(msg);dTs.classList.add('on');clearTimeout(tTm);tTm=setTimeout(function(){dTs.classList.remove('on')},2500);}function pRed(){return window.matchMedia&&window.matchMedia(S[197]).matches;}function aCov(f,to){if(!covNum)return;if(cAn)cancelAnimationFrame(cAn);if(pRed()){covNum.textContent=to+'%';return;}var st=performance.now();function step(now){var p=Math.min(1,(now-st)/600);covNum.textContent=Math.round(f+(to-f)*p)+'%';if(p<1)cAn=requestAnimationFrame(step);}cAn=requestAnimationFrame(step);}function mkBtn(cls,txt,fn){var b=ce(S[198],cls);b.type=S[198];b.textContent=L(txt);on(b,S[199],fn);return b;}function rSide(){if(!indList)return;var cur=TS_DATA[tsInd];if(tsMode===S[200]){domApp.style.setProperty(S[201],S[202]);dPT.textContent=dFT.textContent=S[203];bMk.textContent='CRM';bNm.textContent=S[204];bTg.textContent=L(S[205]);}else{domApp.style.setProperty(S[201],cur.accent);dPT.textContent=dFT.textContent=cur.domain;bMk.textContent=cur.mark;bNm.textContent=cur.company;bTg.textContent=L(S[206]);}indList.innerHTML='';Object.keys(TS_DATA).forEach(function(k){var it=TS_DATA[k],b=ce(S[198],S[207]+(k===tsInd?S[208]:''),S[209]+(TS_ICONS[k]||'')+S[210]+L(it.label)+S[165]);b.type=S[198];b.setAttribute('role',S[211]);b.setAttribute(S[212],k===tsInd?'true':S[213]);on(b,S[199],function(){if(tsInd===k&&tsView===S[158])return;tsInd=k;mIdx=0;tsView=S[158];gOwn=false;uCh={};rAll(true);});indList.appendChild(b);});if(waBtn)waBtn.classList.toggle(S[214],tsView===S[215]);}function rTabs(){if(!modTabs)return;modTabs.innerHTML='';var cur=TS_DATA[tsInd],list=[];if(tsMode===S[200]){S[0].forEach(function(n,i){list.push({l:n,i:i,o:false});});cur.modules.forEach(function(m,i){list.push({l:L(m[1]),i:i,o:true});});}else{cur.modules.forEach(function(m,i){list.push({l:L(m[1]),i:i,o:false});});}list.forEach(function(t,i){var b=mkBtn(S[216]+(t.o?S[217]:''),t.l,function(){tsView=S[158];mIdx=t.i;gOwn=Boolean(t.o);rTabs();rMod();if(waBtn)waBtn.classList.remove(S[214]);});b.setAttribute('role','tab');var sel=(tsView===S[158])&&(tsMode===S[200]?(t.o?(gOwn&&t.i===mIdx):(!gOwn&&t.i===mIdx)):(t.i===mIdx));b.setAttribute(S[212],sel?'true':S[213]);b.tabIndex=sel?0:-1;on(b,S[218],function(e){if(e.key===S[219]||e.key===S[220]){e.preventDefault();var bs=qa(S[221],modTabs),nx=(i+(e.key===S[219]?1:-1)+bs.length)%bs.length;bs[nx].focus();bs[nx].click();}});modTabs.appendChild(b);});}function rWa(){wTm.forEach(clearTimeout);wTm=[];var cur=TS_DATA[tsInd];modStage.innerHTML='';var w=ce('div',S[222]),hd=ce('div',S[223],S[224]+L(S[225])+S[226]+L(S[227])+S[173]);hd.appendChild(mkBtn(S[228],S[229],rWa));w.appendChild(hd);var ph=ce('div',S[230],S[231]+cur.company+' · '+L(S[232])+S[233]+L(S[234])+S[235]+B('API','ok')+S[169]),mb=ce('div',S[236]);ph.appendChild(mb);w.appendChild(ph);modStage.appendChild(w);var dl=pRed()?0:220;cur.whatsapp.forEach(function(m,idx){wTm.push(setTimeout(function(){mb.appendChild(ce('div',S[237]+m[0],S[238]+L(m[2])+S[239]+m[1]+S[165]));},idx*dl));});}function rMod(){if(!modStage)return;if(tsView===S[215]){rWa();return;}var cur=TS_DATA[tsInd];modStage.innerHTML='';if(tsMode===S[200]){var tr=cur.modules[mIdx]?L(cur.modules[mIdx][1]):'';modStage.innerHTML=S[240]+L(S[241])+(tr?' ('+tr+')':'')+S[242]+L(S[243])+S[169]+T(S[1],S[117]);return;}modStage.appendChild(ce('div',S[244],S[245]+L(S[246])+S[247]+L(cur.pain)+S[248]+B(cur.modules[mIdx][1],'gold')));var mId=cur.modules[mIdx][0],box=ce('div');if(tsInd===S[157]){if(mId===S[249]){box.innerHTML=H(S[250],S[251])+K(S[118])+T(S[10],S[119]);var bg=mkBtn(S[228],S[252],function(){tsToast(S[253]);mIdx=3;rTabs();rMod();});bg.style.marginTop='12px';box.appendChild(bg);}else if(mId===S[254]){var mv=tsState.dMvd;box.innerHTML=H(S[255],S[256])+T(S[17],[S[18],[S[257],S[258],mv?B(S[259],'ok'):B(S[260],'warn'),mv?B(S[261],'gold'):S[262]],S[19]]);if(!mv){var al=ce('div',S[263],S[245]+L(S[264])+S[265]+L(S[266])+S[165]);al.appendChild(mkBtn(S[267],S[268],function(){tsState.dMvd=true;tsToast(S[269]);rMod();}));box.appendChild(al);}else{var ok=ce('p','',S[270]);ok.style.marginTop='12px';box.appendChild(ok);}}else if(mId===S[271]){box.innerHTML=H(S[272],L(S[273])+tsState.mMgn+'%')+S[120].map(function(b){return S[274]+L(b[0])+S[165]+B(b[1],b[2])+S[275]+(b[4]?S[276]:'')+S[277]+b[3]+S[278];}).join('')+S[279]+L(S[280])+S[281];}else{box.innerHTML=H(S[282],S[283],'ok')+T(S[24],S[121]);var sb=ce('div',S[284],S[285]+L(S[286])+S[287]);sb.appendChild(mkBtn(S[228],S[288],function(){var p=sb.querySelector(S[289]);if(p){p.classList.add('draw');setTimeout(function(){p.classList.remove('draw')},60);}}));box.appendChild(sb);}}else if(tsInd===S[290]){if(mId===S[291]){var cv=[{ch:S[292],w:S[293],ag:S[294],m:S[295]},{ch:S[296],w:S[297],ag:S[298],m:S[299]},{ch:S[300],w:S[301],ag:S[294],m:S[302]}];box.innerHTML=H(S[303],S[304],'ok');var tw=ce('div',S[305]),tb=ce(S[306],S[307],S[308]+L(S[309])+S[310]+L(S[311])+S[310]+L(S[312])+S[310]+L(S[313])+S[314]),tbd=ce(S[315]);cv.forEach(function(c,idx){var tr=ce('tr','','<td>'+B(c.ch)+S[316]+c.w+S[317]+L(c.m)+S[318]+c.ag+S[177]);tr.style.cursor=S[319];if(idx===tsState.chatIdx)tr.style.background=S[320];on(tr,S[199],function(){tsState.chatIdx=idx;rMod();});tbd.appendChild(tr);});tb.appendChild(tbd);tw.appendChild(tb);box.appendChild(tw);var ac=cv[tsState.chatIdx]||cv[0],cc=ce('div',S[284],S[321]+ac.w+' ('+ac.ch+S[322]+L(ac.m)+S[248]+(tsState.mlsSent?S[323]+L(S[324])+S[169]:'')+S[169]);cc.appendChild(mkBtn(S[228],S[325],function(){tsState.mlsSent=true;tsToast(S[326]);rMod();}));box.appendChild(cc);}else if(mId===S[327]){box.innerHTML=H(S[328],L(tsState.hStg)+' · '+L(S[329])+tsState.aDys+'d','gold')+K(S[122])+T(S[32],S[123]);}else if(mId===S[330]){box.innerHTML=H(S[331],S[332])+T(S[35],S[124]);var cl=box.querySelector(S[333]);if(cl){if(tsState.hApp)cl.innerHTML=B(S[334],'gold');else cl.appendChild(mkBtn(S[228],S[335],function(){tsState.hApp=true;tsToast(S[336]);rMod();}));}}else{box.innerHTML=H(S[337],S[338])+K(S[125])+S[339]+S[126].map(function(b){return S[340]+b[1]+S[341]+b[2]+S[342]+b[3]+S[343]+b[4]+S[344]+(b[1]+21)+S[345]+b[0]+S[346];}).join('')+S[347]+L(S[348])+S[349]+L(S[350])+S[351];}}else if(tsInd===S[352]){if(mId===S[353]){box.innerHTML=H(S[354],S[355],'ok')+K(S[127])+S[274]+L(S[356])+S[357];}else if(mId===S[358]){box.innerHTML=H(S[359],S[360])+T(S[52],S[128]);}else if(mId===S[361]){var u=tsState.vStg===S[362];box.innerHTML=H(S[363],S[364]+L(tsState.vStg),'gold')+T(S[59],[S[60],[S[365],(u?'':S[366])+S[367],u?S[368]:S[369]],[S[370],(u?B(S[371],'gold')+', ':'')+S[372],u?S[373]:S[374]],S[61],S[62]]);}else{box.innerHTML=H(S[375],S[376])+T(S[63],S[129]);}}else if(tsInd===S[377]){if(mId===S[378]){box.innerHTML=H(S[379],S[380],'ok')+T(S[68],S[130]);}else if(mId===S[381]){box.innerHTML=H(S[382],'')+T(S[72],S[131]);}else if(mId===S[383]){box.innerHTML=H(S[384],'')+T(S[77],S[132]);}else{var ap=tsState.tSts===S[385];box.innerHTML=H(S[386],'')+T(S[81],[[S[387],S[388],S[389],S[390],B(tsState.tSts,ap?'ok':'gold')],S[82],S[83]]);}}else if(tsInd===S[391]){if(mId===S[392]){var un=tsState.oTch.indexOf('Sin')===0;box.innerHTML=H(S[393],'')+T(S[84],[S[85],S[86],S[87],S[88],S[89],[S[394],S[395],S[396],'<b>'+L(tsState.oTch)+'</b>',B(un?S[162]:S[397],un?'warn':'ok')]]);}else if(mId==='mapa'){box.innerHTML=H(S[398],'')+S[399]+S[133].map(function(p){return S[400]+p[0]+S[401]+p[1]+S[402]+p[2]+S[344]+(p[0]+12)+S[341]+(p[1]+4)+'">'+p[3]+S[346];}).join('')+S[403];}else if(mId===S[404]){box.innerHTML=H(S[405],S[406],'ok')+T(S[94],S[134]);}else{box.innerHTML=H(S[407],'')+K(S[135]);}}else if(tsInd===S[408]){if(mId===S[409]){var dlv=tsState.lSts.indexOf(S[410])===0;box.innerHTML=H(S[411],'')+T(S[101],[[S[412],S[413],S[414],S[415],B(tsState.lSts,dlv?'ok':'gold')],S[102],S[103],S[104]]);}else if(mId===S[416]){box.innerHTML=H(S[417],'')+T(S[105],S[136]);}else if(mId===S[418]){box.innerHTML=H(S[419],'')+T(S[109],S[137]);}else{box.innerHTML=H(S[420],'')+T(S[113],S[138]);}}modStage.appendChild(box);}function exEf(eff){if(eff===S[421]){tsState.dMvd=true;mIdx=1;}else if(eff===S[422]){tsState.mMgn=15;mIdx=2;}else if(eff===S[423]){tsState.hStg=S[424];mIdx=1;}else if(eff===S[425]){tsState.aDys=5;mIdx=1;}else if(eff===S[426]){tsState.vStg=S[362];mIdx=2;}else if(eff===S[427]){tsState.tSts=S[385];mIdx=3;}else if(eff===S[428]){tsState.oTch=S[429];mIdx=0;}else if(eff===S[430]){tsState.lSts=S[431];mIdx=0;}tsView=S[158];rTabs();rMod();}function trCh(it,btnEl){if(!chatLog)return;uCh[it[0]]=true;if(btnEl)btnEl.classList.add(S[432]);qa(S[433]+it[0]+'"]',chatLog).forEach(function(p){p.remove()});var uB=ce('div',S[434]);uB.setAttribute(S[435],it[0]);uB.textContent=L(it[2]);chatLog.appendChild(uB);var ty=ce('div',S[436],S[437]);ty.setAttribute(S[435],it[0]);chatLog.appendChild(ty);chatLog.scrollTop=chatLog.scrollHeight;setTimeout(function(){if(ty.parentNode)ty.remove();var bB=ce('div');bB.setAttribute(S[435],it[0]);if(tsMode===S[200]){bB.className=S[438];bB.textContent=L(it[0]==='c1'?S[439]:S[440]);chatLog.appendChild(bB);chatLog.scrollTop=chatLog.scrollHeight;return;}var kd=it[1];bB.className=S[441]+(kd===S[442]?S[443]:'');if(kd===S[444]){bB.innerHTML=S[445]+L(it[3])+S[446]+L(S[447])+L(it[4])+S[165];}else if(kd===S[442]){var tg=ce('span',S[448]);tg.textContent=L(S[449]);bB.appendChild(tg);var bd=ce('div');bd.textContent='“'+L(it[3])+'”';bB.appendChild(bd);if(it[4]===S[450]){var cn=ce('span',S[451]);cn.textContent=L(S[452]);bB.appendChild(cn);}var ac=ce('div',S[453]);ac.appendChild(mkBtn(S[454],S[455],function(){tg.textContent=L(S[456]);tg.style.background=S[457];tg.style.color=S[458];ac.remove();}));ac.appendChild(mkBtn(S[459],S[460],function(){tsToast(S[461]);}));ac.appendChild(mkBtn(S[459],S[462],function(){tg.textContent=L(S[463]);bd.style.textDecoration=S[464];bB.style.opacity='.55';ac.remove();}));bB.appendChild(ac);}else{if(kd===S[465]){var ad=ce('span',S[448]);ad.textContent=L(S[466]);bB.appendChild(ad);}var aT=ce('div');aT.textContent=L(it[3]);bB.appendChild(aT);var cA=ce('div',S[453]);cA.appendChild(mkBtn(S[454],S[268],function(){aT.textContent=L(S[467]);cA.remove();if(it[4])exEf(it[4]);}));cA.appendChild(mkBtn(S[459],S[468],function(){aT.textContent=L(S[469]);cA.remove();}));bB.appendChild(cA);}chatLog.appendChild(bB);chatLog.scrollTop=chatLog.scrollHeight;},pRed()?150:600);}function rAsst(reset){var cur=TS_DATA[tsInd];if(aTi)aTi.textContent=tsMode===S[200]?L(S[470]):(L(S[471])+cur.company);if(!aCh)return;aCh.innerHTML='';cur.assistant.forEach(function(it){var c=mkBtn(S[472]+(uCh[it[0]]?S[473]:''),it[2],function(){trCh(it,c)});aCh.appendChild(c);});if(reset&&chatLog)chatLog.innerHTML=S[474]+L(S[475])+S[173];}function rAll(r){if(!intd)return;rSide();rTabs();rMod();rAsst(r);}function tsSetLang(l){tsLang=(l==='en')?'en':'es';try{localStorage.setItem(S[155],tsLang);}catch(e){}tsSec.setAttribute('lang',tsLang);qa(S[476]).forEach(function(el){el.textContent=el.getAttribute(tsLang==='en'?S[477]:S[152]);});qa(S[478]).forEach(function(el){el.innerHTML=el.getAttribute(tsLang==='en'?S[479]:S[154]);});qa(S[143]).forEach(function(td){td.setAttribute(S[146],tsLang==='en'?S[480]:S[147]);});qa(S[148]).forEach(function(td){td.setAttribute(S[146],tsLang==='en'?S[481]:S[150]);});qa(S[482]).forEach(function(b){var a=b.getAttribute(S[483])===tsLang;b.classList.toggle(S[214],a);b.setAttribute(S[484],a?'true':S[213]);});var msg=encodeURIComponent(tsLang==='en'?S[485]:S[486]);qa(S[487]).forEach(function(a){a.setAttribute('href',S[488]+msg);});qa(S[489]).forEach(function(a){a.setAttribute('href',S[490]+msg);});if(intd)rAll(true);}qa(S[482]).forEach(function(b){on(b,S[199],function(){tsSetLang(b.getAttribute(S[483]))});});function initDemo(){if(intd)return;intd=true;qa(S[491]).forEach(function(mb){on(mb,S[199],function(){var nx=mb.getAttribute(S[492]);if(nx===tsMode)return;var pv=tsMode===S[156]?100:25;tsMode=nx;domApp.classList.toggle(S[493],tsMode===S[200]);qa(S[491]).forEach(function(x){x.setAttribute(S[494],x.getAttribute(S[492])===tsMode?'true':S[213]);});aCov(pv,tsMode===S[156]?100:25);tsView=S[158];gOwn=false;rAll(true);});});on(waBtn,S[199],function(){tsView=(tsView===S[215])?S[158]:S[215];waBtn.classList.toggle(S[214],tsView===S[215]);rTabs();rMod();});on(aRs,S[199],function(){uCh={};rAsst(true);});on(mTog,S[199],function(){var op=domApp.classList.toggle(S[495]);mTog.setAttribute(S[496],op?'true':S[213]);if(op&&aCh)aCh.scrollIntoView({behavior:S[497],block:S[498]});});rAll(true);}if(tsLang==='en')tsSetLang('en');if(S[499] in window){var tsIo=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){initDemo();tsIo.disconnect();}});},{rootMargin:S[500]});tsIo.observe(tsSec);}else initDemo();}
+/* [[TS_JS_END]] */
+})();
+</script>
+</body>
+</html>

@@ -48,6 +48,15 @@
   "image": "https://www.damelaletra.com/hola/og.jpg",
   "areaServed": "US",
   "address": { "@type": "PostalAddress", "addressLocality": "Louisville", "addressRegion": "KY", "addressCountry": "US" },
+  "makesOffer": {
+    "@type": "Offer",
+    "itemOffered": {
+      "@type": "Service",
+      "name": "Software a la medida (ARM)",
+      "description": "Sistemas operativos empresariales y software personalizado con tu marca, en tu dominio, $0 por usuario y sin contratos de permanencia.",
+      "areaServed": ["Louisville, KY", "US"]
+    }
+  },
   "founder": { "@type": "Person", "name": "Miguel Sosa" },
   "sameAs": ["https://www.instagram.com/damelaletra_ky/"]
 }
@@ -80,6 +89,7 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%;background:var(--ink);s
 body{margin:0;background:var(--ink);color:var(--paper);font:400 1.0625rem/1.55 var(--sans);overflow-x:hidden;-webkit-font-smoothing:antialiased}
 @supports (overflow:clip){html,body{overflow-x:clip}}
 img,svg,video{display:block;max-width:100%}
+[hidden]{display:none!important}
 a{color:inherit}
 p{margin:0}
 button{font:inherit;color:inherit}
@@ -198,9 +208,46 @@ body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:100;op
 .svc-item:hover .amp,.svc-item.is-active .amp{color:var(--paper)}
 .svc-n{padding-top:.55em;font:400 .82rem/1 var(--mono);color:var(--letra)}
 .svc-t{margin:0;font:400 clamp(2.15rem,10.6vw,5.6rem)/.9 var(--display);text-transform:uppercase;transition:transform .42s var(--ease),color .3s}
+.svc-link{color:inherit;text-decoration:none;display:inline}
 .svc-d{grid-column:2;margin-top:12px;max-width:46ch;color:var(--mute);font-size:1rem;transition:color .3s}
 .svc-proof{grid-column:2;margin-top:12px;font:400 .78rem/1.5 var(--mono);color:var(--mute)}
 .svc-proof a{color:var(--letra);text-underline-offset:.25em}
+.svc-go-wrap{grid-column:2;margin-top:14px;display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.svc-go-btn{display:inline-flex;align-items:center;gap:.55em;padding:8px 14px;border:1px solid var(--letra);background:rgba(14,10,20,.55);color:var(--letra);font:400 .76rem/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;text-decoration:none;transition:transform .2s var(--ease),background-color .2s,color .2s,box-shadow .2s}
+.svc-go-btn .arr{transition:transform .22s var(--ease)}
+.svc-item:hover .svc-go-btn,.svc-item.is-active .svc-go-btn{background:var(--letra);color:var(--ink);box-shadow:4px 4px 0 var(--ink);transform:translate(-1px,-1px)}
+.svc-item:hover .svc-go-btn .arr,.svc-item.is-active .svc-go-btn .arr{transform:translateX(4px)}
+
+/* ---------- subpage editorial header & chapter pager ---------- */
+.sub-hdr{position:relative;overflow:hidden;padding:0 var(--pad) clamp(24px,3.5vw,38px);isolation:isolate;border-bottom:1px solid var(--line);
+  background:
+    radial-gradient(ellipse 85% 90% at 82% 15%,rgba(106,72,136,.36),transparent 65%),
+    radial-gradient(ellipse 65% 70% at 10% 90%,rgba(61,37,82,.38),transparent 65%),
+    var(--ink)}
+.sub-hdr::before{content:"";position:absolute;inset:-20%;z-index:-2;transform:rotate(-7deg);pointer-events:none;opacity:.045;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='560' height='88'%3E%3Cg fill='%23f3eee3' font-family='Courier New,Courier,monospace' font-size='24' font-weight='700'%3E%3Ctext x='0' y='32'%3Edame la letra. dame la letra.%3C/text%3E%3Ctext x='-140' y='76'%3Edame la letra. dame la letra. dame la%3C/text%3E%3C/g%3E%3C/svg%3E")}
+.sub-glyph{position:absolute;z-index:-1;right:-14vw;top:-30px;height:360px;width:auto;fill:var(--violeta);opacity:.42;pointer-events:none}
+.sub-hdr .top{flex-wrap:wrap;gap:12px 16px}
+.sub-brand-row{display:flex;align-items:center;justify-content:space-between;gap:12px 16px;width:100%}
+.sub-hdr .top-right{width:100%;justify-content:space-between}
+@media (min-width:720px){
+  .sub-brand-row{width:auto;justify-content:flex-start}
+  .sub-hdr .top-right{width:auto;justify-content:flex-end}
+}
+.sub-back{display:inline-flex;align-items:center;gap:.45em;padding:7px 13px;border:1px solid var(--letra);background:rgba(255,204,41,.1);color:var(--letra);font:400 .74rem/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;text-decoration:none;white-space:nowrap;transition:background-color .2s,color .2s,transform .2s}
+.sub-back:hover{background:var(--letra);color:var(--ink);transform:translateY(-1px)}
+.sub-chapters{max-width:1320px;margin:clamp(18px,2.6vw,26px) auto 0;padding-top:16px;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;align-items:center;gap:10px 24px}
+.sub-chapters .hchap.is-current{color:var(--letra);border-bottom:2px solid var(--letra);padding-bottom:3px}
+.sub-jumps{max-width:1320px;margin:12px auto 0;padding-top:12px;border-top:1px dashed rgba(243,238,227,.14);display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px;font:400 .75rem/1.3 var(--mono);color:var(--mute)}
+.sub-jumps b{color:var(--letra);font-weight:400;text-transform:uppercase;letter-spacing:.08em}
+.sub-jumps a{color:var(--paper);text-decoration:underline;text-underline-offset:.28em;text-decoration-color:rgba(255,204,41,.5);transition:color .2s}
+.sub-jumps a:hover{color:var(--letra);text-decoration-color:var(--letra)}
+.chap-pager{padding:clamp(48px,7vw,88px) var(--pad);border-top:1px solid var(--line);background:linear-gradient(180deg,rgba(23,17,34,.6),var(--ink))}
+.chap-pager-in{max-width:1320px;margin:0 auto;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px}
+.chap-pager-meta{font:400 .76rem/1.4 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--mute);margin-bottom:6px}
+.chap-pager-title{font:400 clamp(1.7rem,4.8vw,2.8rem)/.95 var(--display);text-transform:uppercase;color:var(--paper);margin:0}
+.chap-pager-title em{font-style:normal;color:var(--letra)}
+.chap-pager-btns{display:flex;flex-wrap:wrap;gap:12px}
 
 /* ---------- portfolio chapters & v1 overlapping project compositions ---------- */
 .sec-sub{margin-top:18px;max-width:44ch;color:var(--mute)}
@@ -461,8 +508,11 @@ body.modal-open .fab{transform:translateY(160%)!important}
   .founder{grid-column:1;grid-row:2;order:0}
   .hero-cta{grid-column:2;grid-row:1/3}
   .svc-item{grid-template-columns:5rem minmax(0,1.35fr) minmax(0,1fr);align-items:end;padding:30px 0 34px}
-  .svc-d,.svc-proof{grid-column:3}
+  .svc-n{grid-row:1/4;align-self:start;padding-top:.4em}
+  .svc-t{grid-row:1/4;align-self:center}
+  .svc-d,.svc-proof,.svc-go-wrap{grid-column:3}
   .svc-proof{grid-row:2}
+  .svc-go-wrap{grid-row:3}
   .svc-item:nth-child(even) .svc-t{padding-left:7%}
   .svc-item:hover .svc-t,.svc-item.is-active .svc-t{color:var(--letra);transform:translateX(14px)}
   .proj{grid-template-columns:repeat(12,minmax(0,1fr));gap:0 36px;align-items:center}
@@ -490,6 +540,8 @@ body.modal-open .fab{transform:translateY(160%)!important}
   .contact .wrap>.contact-qr{display:block;grid-column:2;grid-row:2/6;align-self:end;margin:0;font:400 .76rem/1.5 var(--mono);letter-spacing:.06em;text-transform:uppercase}
   .contact-qr img{width:100%;height:auto;background:#fff;box-shadow:8px 8px 0 var(--ink);margin-bottom:16px}
 }
+
+.ts-sec{min-height:900px;background:var(--ink)}.ts-demo{min-height:580px}
 </style>
 </head>
 <body>
@@ -497,7 +549,7 @@ body.modal-open .fab{transform:translateY(160%)!important}
 <header class="hero" id="inicio">
   <svg class="hero-glyph" viewBox="0 269 630 711" aria-hidden="true" focusable="false"><path d="M494 269V271H479Q449 271 410 286Q376 300 353 327Q322 377 319 435Q318 440 318 445Q318 450 318 455Q318 462 318.5 473.5Q319 485 320 501Q323 517 325.5 540.0Q328 563 330 593Q333 610 333 637V654Q332 655 332 658V664Q310 814 190 897V894Q190 893 191 892V888Q191 887 192 886V885Q226 838 246 799Q269 754 285 701V639Q285 632 284.5 627.0Q284 622 284 616Q284 610 283.5 602.5Q283 595 282 581Q281 570 280.5 561.0Q280 552 280 545Q277 524 277 476Q277 463 278.0 449.5Q279 436 280 423Q284 407 286 389Q289 376 291.0 367.0Q293 358 295 352L357 282L353 277Q352 278 351 278Q351 278 350 279Q343 283 339 283Q313 293 300.0 298.5Q287 304 279 304Q271 305 265.5 305.5Q260 306 258 306H254Q252 306 252 305H246Q243 305 242 302L136 273H129Q127 274 121 274L106 277Q64 285 32 318Q0 350 0 391V395L2 399H4Q7 399 10 396H11Q12 396 13 395H14Q19 388 23.5 383.5Q28 379 30 375Q34 371 34 370Q34 368 36 366L47 355H49Q54 355 55 354H74Q77 355 80 355H84Q90 357 93 357L108 360Q115 360 123 365Q128 366 131.5 368.0Q135 370 143 370H145Q146 371 148 371H157Q158 372 160 372H165Q179 372 183 371Q195 370 201 368L228 359Q234 357 240.5 354.5Q247 352 254 348Q176 426 176 527V537Q176 540 177.0 545.0Q178 550 179 551V556Q179 559 180 560V563L157 565Q121 568 106 575Q82 585 68 608L74 606L85 608Q87 608 91.5 608.5Q96 609 102 610Q121 613 122 614Q140 620 167 640Q188 657 188 676V691H181Q180 691 172 689H161Q159 689 158 688H150Q133 689 122 694Q107 700 101 709Q105 709 111.0 710.5Q117 712 120 713Q126 715 130.5 717.0Q135 719 138 720Q151 725 169 740Q173 745 175.5 749.0Q178 753 180 755Q184 759 183.5 759.5Q183 760 187 771Q187 773 189 783Q189 787 190 789V794Q190 796 189.5 800.5Q189 805 188 812Q188 814 187.0 819.0Q186 824 183 830Q181 838 180.0 840.0Q179 842 177 847Q173 855 169 862L74 957L89 965Q102 958 120.5 951.0Q139 944 164 936Q218 919 246 916Q257 914 266.0 913.5Q275 913 280 912Q291 911 300.0 910.5Q309 910 314 910H324Q326 911 333 911H343Q345 912 353 912Q459 927 512 980L630 868L610 854Q610 855 608.5 856.5Q607 858 607 859Q606 860 600 868L596 872Q595 873 594.5 874.0Q594 875 593 876Q591 877 590 877Q589 877 589 877L583 881Q580 881 576.0 879.5Q572 878 572 876H570L555 864Q550 860 545.5 857.0Q541 854 539 852Q533 851 527 847Q522 845 519.0 844.5Q516 844 514 843Q506 841 500.0 839.0Q494 837 490 835Q466 829 448.0 827.0Q430 825 409 825Q403 825 394.0 825.5Q385 826 374 827Q338 834 310.5 840.5Q283 847 264 852L347 775Q386 739 405 687Q426 630 424 579L415 368Q424 307 496 302Q500 300 502.0 298.0Q504 296 506 295Q512 289 514 284Q512 277 505 276Q505 274 501.5 273.5Q498 273 494 269Z"/></svg>
   <div class="top">
-    <a class="brand" href="#inicio"><img src="/hola/img/dame-la-letra-logo.png" width="1102" height="161" alt="Dame la Letra"></a>
+    <a class="brand" href="/"><img src="/hola/img/dame-la-letra-logo.png" width="1102" height="161" alt="Dame la Letra"></a>
     <div class="top-right">
       <button class="ar-pill" type="button" data-toggle-ar aria-label="Ver en tu espacio en Realidad Aumentada"><i>✦</i> Ver en tu espacio (AR)</button>
       <p class="top-meta"><span class="dot" aria-hidden="true"></span>Louisville, KY</p>
@@ -537,17 +589,17 @@ body.modal-open .fab{transform:translateY(160%)!important}
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm0 2c-4.4 0-8 2.2-8 5v1h11.1a6 6 0 0 1-.1-1c0-1.7.7-3.3 1.8-4.4A13 13 0 0 0 12 14Zm7 0v3h-3v2h3v3h2v-3h3v-2h-3v-3z"/></svg>
             Guardar contacto
           </a>
-          <a class="link-down" href="#cap-diseno">Ver trabajo <span aria-hidden="true">↓</span></a>
+          <a class="link-down" href="/software">Tu software, a tu medida <span aria-hidden="true">→</span></a>
         </div>
       </div>
     </div>
 
     <nav class="hero-chapters" aria-label="Capítulos del portafolio">
-      <a class="hchap" href="#cap-diseno"><span>01 /</span> Branding</a>
-      <a class="hchap" href="#cap-codigo"><span>02 /</span> Web</a>
-      <a class="hchap" href="#cap-planos"><span>03 /</span> Planos 3D</a>
-      <a class="hchap" href="#cap-software"><span>04 /</span> Software</a>
-      <a class="hchap" href="#cap-videos"><span>05 /</span> Videos</a>
+      <a class="hchap" href="/branding"><span>01 /</span> Branding</a>
+      <a class="hchap" href="/web"><span>02 /</span> Web &amp; Código</a>
+      <a class="hchap" href="/planos"><span>03 /</span> Planos 3D</a>
+      <a class="hchap" href="/software"><span>04 /</span> Tu Software · ARM</a>
+      <a class="hchap" href="/videos"><span>05 /</span> Videos &amp; Reels</a>
       <a class="hchap" href="#fundador"><span>06 /</span> Detrás de las ideas</a>
     </nav>
   </div>
@@ -672,449 +724,50 @@ body.modal-open .fab{transform:translateY(160%)!important}
 
 <main>
   <!-- =================================================================
-       LO QUE HACEMOS (v1 Editorial Discipline List)
+       LO QUE HACEMOS (v1 Editorial Discipline List — 5 Puertas Interactivas)
        ================================================================= -->
   <section class="sec" id="servicios" aria-labelledby="svc-title">
     <div class="wrap">
-      <p class="label" data-reveal><b>01</b> Lo que hacemos</p>
+      <p class="label" data-reveal><b>01</b> Lo que hacemos <i>/ Toca cualquier disciplina para entrar a su capítulo.</i></p>
       <h2 class="h2" id="svc-title" data-reveal>No solo hacemos que las cosas se vean bien. <em>Hacemos que las ideas funcionen.</em></h2>
 
       <ol class="svc">
-        <li class="svc-item" data-reveal>
+        <li class="svc-item" data-reveal data-href="/branding">
           <span class="svc-n">01</span>
-          <h3 class="svc-t">Branding <span class="amp">&amp;</span> Dirección de Arte</h3>
+          <h3 class="svc-t"><a class="svc-link" href="/branding">Branding <span class="amp">&amp;</span> Dirección de Arte</a></h3>
           <p class="svc-d">Identidad visual, construcción de marca desde cero, universo gráfico, empaque y dirección creativa para diferenciar negocios reales.</p>
-          <p class="svc-proof">Explorar en <a href="#p-elys">Ely’s Charcuterie</a> · <a href="#p-newera">New Era Real Estate</a> · <a href="#p-labonita">La Bonita Jewelry</a></p>
+          <p class="svc-proof">Explorar en <a href="/branding#p-elys">Ely’s Charcuterie</a> · <a href="/branding#p-newera">New Era Real Estate</a> · <a href="/branding#p-labonita">La Bonita Jewelry</a></p>
+          <div class="svc-go-wrap"><a class="svc-go-btn" href="/branding">Entrar al Capítulo 01 · Branding <span class="arr" aria-hidden="true">→</span></a></div>
         </li>
-        <li class="svc-item" data-reveal>
+        <li class="svc-item" data-reveal data-href="/web">
           <span class="svc-n">02</span>
-          <h3 class="svc-t">Web, E-commerce <span class="amp">&amp;</span> Código</h3>
+          <h3 class="svc-t"><a class="svc-link" href="/web">Web, E-commerce <span class="amp">&amp;</span> Código</a></h3>
           <p class="svc-d">Sitios web interactivos, tiendas online a medida, experiencias 3D de producto y plataformas digitales de alto rendimiento.</p>
-          <p class="svc-proof">Explorar en <a href="#p-lucky">Lucky Shaker</a> · <a href="#p-dp">DPhotography Studios</a> · <a href="#p-trilion">Tri-Lion Academy</a> · <a href="#p-primestone">Prime Stone Builders</a></p>
+          <p class="svc-proof">Explorar en <a href="/web#p-lucky">Lucky Shaker</a> · <a href="/web#p-dp">DPhotography Studios</a> · <a href="/web#p-trilion">Tri-Lion Academy</a> · <a href="/web#p-primestone">Prime Stone Builders</a></p>
+          <div class="svc-go-wrap"><a class="svc-go-btn" href="/web">Entrar al Capítulo 02 · Web &amp; Código <span class="arr" aria-hidden="true">→</span></a></div>
         </li>
-        <li class="svc-item" data-reveal>
+        <li class="svc-item" data-reveal data-href="/planos">
           <span class="svc-n">03</span>
-          <h3 class="svc-t">Planos <span class="amp">&amp;</span> Arquitectura 3D</h3>
+          <h3 class="svc-t"><a class="svc-link" href="/planos">Planos <span class="amp">&amp;</span> Arquitectura 3D</a></h3>
           <p class="svc-d">Láminas arquitectónicas, ingeniería MEP/HVAC, detalles estructurales bajo código IRC y modelos 3D interactivos en tiempo real.</p>
-          <p class="svc-proof">Explorar en <a href="#cap-planos">Proyecto del Alcalde 3D &amp; Pliegos Técnicos</a></p>
+          <p class="svc-proof">Explorar en <a href="/planos#visor-3d">Proyecto del Alcalde 3D</a> · <a href="/planos#pliegos">20 Pliegos Técnicos (IRC / MEP / Ciudad)</a></p>
+          <div class="svc-go-wrap"><a class="svc-go-btn" href="/planos">Entrar al Capítulo 03 · Planos &amp; 3D <span class="arr" aria-hidden="true">→</span></a></div>
         </li>
-        <li class="svc-item" data-reveal>
+        <li class="svc-item" data-reveal data-href="/software">
           <span class="svc-n">04</span>
-          <h3 class="svc-t">Software <span class="amp">&amp;</span> Automatización</h3>
-          <p class="svc-d">Sistemas internos, aplicaciones móviles, suites de IA omnicanal, visores CAD 3D y radares inmobiliarios para operar y escalar.</p>
-          <p class="svc-proof">Explorar en <a href="#cap-software">ZHomes</a> · <a href="#cap-software">New Era ARM</a> · <a href="#cap-software">My Chief CAD</a> · <a href="#cap-software">Tzel</a></p>
+          <h3 class="svc-t"><a class="svc-link" href="/software">Software <span class="amp">&amp;</span> Automatización</a></h3>
+          <p class="svc-d">Tu propio software empresarial con tu marca y en tu dominio ($0 por usuario, sin contratos de permanencia), más plataformas SaaS, suites de IA omnicanal y radares inmobiliarios.</p>
+          <p class="svc-proof">Explorar en <a href="/software#tu-software">Tu Software · ARM (Demo 6 Industrias)</a> · <a href="/software#cap-software">ZHomes</a> · <a href="/software#cap-software">New Era ARM</a> · <a href="/software#cap-software">My Chief CAD</a> · <a href="/software#cap-software">Tzel</a></p>
+          <div class="svc-go-wrap"><a class="svc-go-btn" href="/software">Entrar al Capítulo 04 · Tu Software &amp; Sistemas <span class="arr" aria-hidden="true">→</span></a></div>
         </li>
-        <li class="svc-item" data-reveal>
+        <li class="svc-item" data-reveal data-href="/videos">
           <span class="svc-n">05</span>
-          <h3 class="svc-t">Realización de Video <span class="amp">&amp;</span> Reels</h3>
+          <h3 class="svc-t"><a class="svc-link" href="/videos">Realización de Video <span class="amp">&amp;</span> Reels</a></h3>
           <p class="svc-d">Art films en 3D, piezas verticales con sonido, collage editorial en movimiento y dirección en set pensada para detener el scroll.</p>
-          <p class="svc-proof">Explorar en <a href="#cap-videos">Reels &amp; Art Films con Sonido</a></p>
+          <p class="svc-proof">Explorar en <a href="/videos#realizacion-video">Reels &amp; Art Films con Sonido (4 Piezas)</a></p>
+          <div class="svc-go-wrap"><a class="svc-go-btn" href="/videos">Entrar al Capítulo 05 · Videos &amp; Reels <span class="arr" aria-hidden="true">→</span></a></div>
         </li>
       </ol>
-    </div>
-  </section>
-
-  <!-- =================================================================
-       CAPÍTULO 01 — BRANDING, IDENTIDAD & DIRECCIÓN DE ARTE
-       ================================================================= -->
-  <section class="sec" id="cap-diseno" aria-labelledby="diseno-title" style="padding-top:clamp(32px,5vw,72px)">
-    <div class="wrap">
-      <p class="label" data-reveal><b>02</b> Capítulo 01 · Branding &amp; Dirección de Arte <i>/ Toca cualquier marca para abrir su universo interactivo.</i></p>
-      <h2 class="h2" id="diseno-title" data-reveal>Identidad, dirección de arte <span class="amp">&amp;</span> <em>movimiento.</em></h2>
-
-      <!-- 01. Ely's Charcuterie -->
-      <article class="proj" id="p-elys" data-reveal>
-        <button class="proj-media" type="button" data-open-stage="elys" aria-label="Explorar experiencia de Ely’s Charcuterie">
-          <span class="proj-num">01</span>
-          <video class="m-main" muted loop playsinline preload="none" poster="/hola/media/elys-poster.jpg" data-loop-src="/hola/media/elys-loop.mp4" width="480" height="854"></video>
-          <img class="m-sub tall" src="/hola/img/elys-bag-480.webp" srcset="/hola/img/elys-bag-480.webp 480w, /hola/img/elys-bag-820.webp 820w" sizes="(min-width:980px) 22vw, 38vw" width="480" height="853" alt="Bolsa boutique y grazing cups con logo Ely’s Charcuterie" loading="lazy" decoding="async">
-        </button>
-        <div class="proj-body">
-          <p class="proj-meta"><span>Branding</span><span>Identidad</span><span>Empaque &amp; Web</span></p>
-          <h3 class="proj-t">Ely’s Charcuterie</h3>
-          <p class="proj-d">Identidad completa para un atelier de charcutería en Louisville — logotipo, isotipo de rosa en burgundy y oro, bolsa boutique, grazing cups, reel de revelación de marca y catálogo digital con pedidos por WhatsApp.</p>
-          <div class="proj-links">
-            <button class="proj-link" type="button" data-open-stage="elys">Abrir experiencia <small>reel + rosas + empaque +</small></button>
-            <a class="proj-link ext" href="https://charcuterieelys-byte.github.io/website/" target="_blank" rel="noopener">Sitio en vivo <small>↗</small></a>
-          </div>
-        </div>
-      </article>
-
-      <!-- 02. New Era Real Estate (Branding, Identidad, Web Mobile & Suite IA) -->
-      <article class="proj" id="p-newera" data-reveal>
-        <button class="proj-media" type="button" data-open-stage="newera" aria-label="Explorar experiencia de marca y web de New Era Real Estate">
-          <span class="proj-num">02</span>
-          <video class="m-main" muted loop playsinline preload="none" poster="/hola/media/newera-poster.jpg" data-loop-src="/hola/media/newera-loop.mp4" width="480" height="854"></video>
-          <img class="m-sub tall" src="/hola/img/newera-m-480.webp" srcset="/hola/img/newera-m-480.webp 480w, /hola/img/newera-m-820.webp 820w" sizes="(min-width:980px) 22vw, 38vw" width="480" height="831" alt="Sitio web New Era Real Estate en vista mobile" loading="lazy" decoding="async">
-        </button>
-        <div class="proj-body">
-          <p class="proj-meta"><span>Branding</span><span>Patrón SVG Vivo</span><span>Web &amp; Suite IA</span></p>
-          <h3 class="proj-t">New Era Real Estate</h3>
-          <p class="proj-d">Creación de marca e identidad visual en carmesí y oro para correduría inmobiliaria en Kentucky: monograma geométrico, patrón arquitectónico hexagonal en SVG con destellos en vivo, plataforma web bilingüe y suite de IA (ARM).</p>
-          <div class="proj-links">
-            <button class="proj-link" type="button" data-open-stage="newera">Abrir experiencia <small>marca + web mobile + patrón SVG +</small></button>
-            <a class="proj-link ext" href="https://www.neweraky.com/" target="_blank" rel="noopener">neweraky.com <small>↗</small></a>
-          </div>
-        </div>
-      </article>
-
-      <!-- 03. La Bonita Jewelry — Dirección de Arte, Universo Visual & Tienda -->
-      <article class="proj" id="p-labonita" data-reveal>
-        <button class="proj-media" type="button" data-open-stage="labonita" aria-label="Explorar experiencia de La Bonita Jewelry">
-          <span class="proj-num">03</span>
-          <video class="m-main" muted loop playsinline preload="none" poster="/hola/media/labonita-reimagined-poster.jpg" data-loop-src="/hola/media/labonita-reimagined-loop.mp4" width="480" height="854"></video>
-          <img class="m-sub" src="/hola/img/labonita-d-640.webp" srcset="/hola/img/labonita-d-640.webp 640w, /hola/img/labonita-d-1100.webp 1100w" sizes="(min-width:980px) 34vw, 58vw" width="640" height="360" alt="La Bonita Jewelry dirección de arte y tienda" loading="lazy" decoding="async">
-        </button>
-        <div class="proj-body">
-          <p class="proj-meta"><span>Dirección de Arte</span><span>3D &amp; Motion</span><span>Shopify Oro 10K·14K</span></p>
-          <h3 class="proj-t">La Bonita · Universo Visual</h3>
-          <p class="proj-d">Fusión de escultura clásica en mármol y joyería de oro real de 10K y 14K: campaña audiovisual Reimagined, dirección de arte editorial y tienda Shopify a medida con calculadora de compra de oro en vivo.</p>
-          <div class="proj-links">
-            <button class="proj-link" type="button" data-open-stage="labonita">Abrir experiencia <small>art film + tienda + destellos 14K +</small></button>
-            <a class="proj-link ext" href="https://www.labonitajewelry.com/" target="_blank" rel="noopener">labonitajewelry.com <small>↗</small></a>
-          </div>
-        </div>
-      </article>
-    </div>
-  </section>
-
-  <!-- =================================================================
-       CAPÍTULO 02 — WEB, E-COMMERCE & PLATAFORMAS DIGITALES
-       ================================================================= -->
-  <section class="sec" id="cap-codigo" aria-labelledby="codigo-title" style="border-top:1px solid var(--line)">
-    <div class="wrap">
-      <p class="label" data-reveal><b>03</b> Capítulo 02 · Desarrollo Web &amp; E-Commerce <i>/ Experiencias reales en producción.</i></p>
-      <h2 class="h2" id="codigo-title" data-reveal>Pruebas, <em>no promesas.</em></h2>
-      <p class="sec-sub" data-reveal>Sitios interactivos, plataformas digitales y e-commerce a medida. Toca cualquier proyecto para explorar sus detalles y elementos interactivos en acción.</p>
-
-      <!-- 01. Lucky Shaker -->
-      <article class="proj" id="p-lucky" data-reveal>
-        <button class="proj-media" type="button" data-open-stage="lucky" aria-label="Explorar experiencia interactiva de Lucky Shaker">
-          <span class="proj-num">01</span>
-          <video class="m-main" muted loop playsinline preload="none" poster="/hola/media/lucky-poster.jpg" data-loop-src="/hola/media/lucky-loop.mp4" width="480" height="854"></video>
-          <img class="m-sub tall" src="/hola/img/lucky-can-480.webp" srcset="/hola/img/lucky-can-480.webp 480w, /hola/img/lucky-can-820.webp 820w" sizes="(min-width:980px) 22vw, 38vw" width="480" height="853" alt="Lata Piña Colada Lucky Shaker con frutas flotando" loading="lazy" decoding="async">
-        </button>
-        <div class="proj-body">
-          <p class="proj-meta"><span>E-commerce</span><span>3D de producto</span><span>Cinemática 60fps</span></p>
-          <h3 class="proj-t">Lucky Shaker</h3>
-          <p class="proj-d">Tienda Shopify para cócteles artesanales en lata y barra móvil, con secuencias reales a 60fps e ingredientes flotando con profundidad de campo en pantalla.</p>
-          <div class="proj-links">
-            <button class="proj-link" type="button" data-open-stage="lucky">Abrir experiencia <small>frutas flotando + video 60fps +</small></button>
-            <a class="proj-link ext" href="https://luckyshakersupply.com/" target="_blank" rel="noopener">luckyshakersupply.com <small>↗</small></a>
-          </div>
-        </div>
-      </article>
-
-      <!-- 02. DPhotography Studios -->
-      <article class="proj" id="p-dp" data-reveal>
-        <button class="proj-media" type="button" data-open-stage="dp" aria-label="Explorar experiencia web y audiovisual de DPhotography Studios">
-          <span class="proj-num">02</span>
-          <video class="m-main" muted loop playsinline preload="none" poster="/hola/media/dp-poster.jpg" data-loop-src="/hola/media/dp-loop.mp4" width="480" height="854"></video>
-          <img class="m-sub" src="/hola/img/dp-d-640.webp" srcset="/hola/img/dp-d-640.webp 640w, /hola/img/dp-d-1100.webp 1100w" sizes="(min-width:980px) 34vw, 58vw" width="640" height="400" alt="Plataforma web DPhotography Studios" loading="lazy" decoding="async">
-        </button>
-        <div class="proj-body">
-          <p class="proj-meta"><span>Plataforma Web</span><span>Cinema Promo</span><span>Fotografía de Lujo</span></p>
-          <h3 class="proj-t">DPhotography Studios</h3>
-          <p class="proj-d">Plataforma web interactiva, portafolio editorial y pieza audiovisual de lanzamiento para un estudio de fotografía de bodas, quinceañeras y producción cinematográfica en Louisville.</p>
-          <div class="proj-links">
-            <button class="proj-link" type="button" data-open-stage="dp">Abrir experiencia <small>web + reel con sonido +</small></button>
-            <a class="proj-link ext" href="https://www.dphotographystudios.com/" target="_blank" rel="noopener">dphotographystudios.com <small>↗</small></a>
-          </div>
-        </div>
-      </article>
-
-      <!-- 03. Tri-Lion Academy -->
-      <article class="proj" id="p-trilion" data-reveal>
-        <button class="proj-media" type="button" data-open-stage="trilion" aria-label="Explorar plataforma web de Tri-Lion Academy">
-          <span class="proj-num">03</span>
-          <img class="m-main" src="/hola/img/trilion-m-480.webp" srcset="/hola/img/trilion-m-480.webp 480w, /hola/img/trilion-m-820.webp 820w" sizes="(min-width:980px) 36vw, 64vw" width="480" height="831" alt="Tri-Lion Academy en vista mobile" loading="lazy" decoding="async">
-          <img class="m-sub" src="/hola/img/trilion-d-640.webp" srcset="/hola/img/trilion-d-640.webp 640w, /hola/img/trilion-d-1100.webp 1100w" sizes="(min-width:980px) 34vw, 58vw" width="640" height="315" alt="Tri-Lion Academy en vista desktop" loading="lazy" decoding="async">
-        </button>
-        <div class="proj-body">
-          <p class="proj-meta"><span>Plataforma Web</span><span>Educación &amp; Academia</span><span>Diseño UI/UX</span></p>
-          <h3 class="proj-t">Tri-Lion Academy</h3>
-          <p class="proj-d">Diseño y desarrollo web para academia de liderazgo, formación deportiva y programas educativos: arquitectura de inscripción clara, experiencia mobile-first y narrativa visual de alto impacto.</p>
-          <div class="proj-links">
-            <button class="proj-link" type="button" data-open-stage="trilion">Abrir experiencia <small>vista mobile + desktop +</small></button>
-            <a class="proj-link ext" href="https://trilionacademy.com/" target="_blank" rel="noopener">trilionacademy.com <small>↗</small></a>
-          </div>
-        </div>
-      </article>
-
-      <!-- 04. Prime Stone Builders -->
-      <article class="proj" id="p-primestone" data-reveal>
-        <button class="proj-media" type="button" data-open-stage="primestone" aria-label="Explorar showcase de Prime Stone Builders">
-          <span class="proj-num">04</span>
-          <video class="m-main" muted loop playsinline preload="none" poster="/hola/media/primestone-poster.jpg" data-loop-src="/hola/media/primestone-loop.mp4" width="480" height="854"></video>
-          <img class="m-sub" src="/hola/media/primestone-desk-poster.jpg" width="640" height="360" alt="Prime Stone Builders Desktop 16:9" loading="lazy" decoding="async">
-        </button>
-        <div class="proj-body">
-          <p class="proj-meta"><span>Arquitectura Digital</span><span>UI Espacial</span><span>Video Showcase</span></p>
-          <h3 class="proj-t">Prime Stone Builders</h3>
-          <p class="proj-d">Diseño de interfaz espacial y showcase audiovisual de construcción de alto nivel, producido tanto en formato panorámico Desktop (16:9) como en experiencia Mobile (9:16).</p>
-          <div class="proj-links">
-            <button class="proj-link" type="button" data-open-stage="primestone">Ver showcase completo <small>videos 16:9 y 9:16 +</small></button>
-          </div>
-        </div>
-      </article>
-    </div>
-  </section>
-
-  <!-- =================================================================
-       CAPÍTULO 03 — PLANOS & ARQUITECTURA 3D (PLANO PARA CIUDAD + RESIDENCIAL/MEP)
-       ================================================================= -->
-  <section class="sec arch-sec" id="cap-planos" aria-labelledby="planos-title">
-    <div class="wrap">
-      <p class="label" data-reveal><b>04</b> Capítulo 03 · Planos Técnicos &amp; Modelos 3D <i>/ Plano para Ciudad · My Chief CAD &amp; Barba Construction</i></p>
-      <h2 class="h2" id="planos-title" data-reveal>Del plano técnico <span class="amp">al</span> <em>modelo 3D vivo.</em></h2>
-      <p class="sec-sub" data-reveal>Explora nuestros modelos 3D interactivos (residencias de dos niveles, estructuras de cubierta y el Plano para Ciudad con luz diurna, LED nocturna de 12V, vista vectorial CAD y Rayos-X de cimentaciones) junto con láminas técnicas listas para construir.</p>
-
-      <!-- VISOR 3D INTERACTIVO -->
-      <div class="arch-stage-wrap" id="visor-3d" data-reveal>
-        <div class="arch-bar">
-          <div class="arch-tabs" role="tablist" aria-label="Seleccionar modelo 3D">
-            <button class="arch-btn active" type="button" data-iframe="/hola/mayor-viewer/index.html" data-glb-label="Modelo 01 / Plano para Ciudad · Monumento &amp; Plaza Cívica 3D">01 / Plano para Ciudad 3D</button>
-            <button class="arch-btn" type="button" data-glb="/hola/3d/casa-1607.glb" data-ar-key="casa" data-glb-label="Modelo 02 / Residencia de 2 Niveles (.GLB)">02 / Residencia 2 Niveles (.GLB)</button>
-            <button class="arch-btn" type="button" data-glb="/hola/3d/porche-7107.glb" data-ar-key="porche" data-glb-label="Modelo 03 / Porche Estructural y Cubierta (.GLB)">03 / Porche &amp; Estructura (.GLB)</button>
-            <button class="arch-btn" type="button" data-glb="/hola/3d/dame-la-letra-web-ar.glb" data-usdz="/hola/3d/dame-la-letra-web-ar.usdz#callToAction=Hablar%20con%20Miguel&amp;checkoutTitle=Dame%20la%20Letra&amp;checkoutSubtitle=Estudio%20Creativo%20%C2%B7%20Louisville%20KY" data-ar-key="web" data-glb-label="Modelo 04 / Instalación 3D Flotante de la Web de Dame la Letra (AR)">04 / Web Dame la Letra en AR</button>
-          </div>
-          <div class="arch-cams" id="arch-cams-glb" hidden aria-label="Ángulos de cámara">
-            <button class="arch-btn" type="button" data-orbit="0deg 78deg 105%">Frente</button>
-            <button class="arch-btn" type="button" data-orbit="35deg 72deg 105%">Isométrica</button>
-            <button class="arch-btn" type="button" data-orbit="180deg 78deg 105%">Reverso</button>
-            <button class="arch-btn active" type="button" data-toggle-ar>✦ Ver en tu espacio (AR)</button>
-          </div>
-          <div class="arch-cams" id="arch-cams-mayor" aria-label="Acciones del visor">
-            <button class="arch-btn active" type="button" data-open-ar-model="mayor">✦ Ver en tu espacio (AR)</button>
-            <button class="arch-btn" type="button" data-open-stage="mychief">Abrir en pantalla completa +</button>
-          </div>
-        </div>
-        <div class="arch-canvas" id="glb-stage">
-          <iframe id="mayor-inline-frame" src="/hola/mayor-viewer/index.html" title="Visor 3D Interactivo — Plano para Ciudad (Monumento &amp; Plaza Cívica)" loading="lazy" allow="fullscreen"></iframe>
-        </div>
-        <div class="arch-caption">
-          <span id="glb-current-label"><b>Modelo 01</b> / Plano para Ciudad · Monumento &amp; Plaza Cívica 3D</span>
-          <span>Arrastra para rotar 360° · Alterna Día / Noche LED / CAD / Rayos-X</span>
-        </div>
-      </div>
-
-      <!-- PLIEGOS TÉCNICOS (SELECCIÓN MULTIDISCIPLINARIA + PLANO PARA CIUDAD) -->
-      <div class="sheets-head" data-reveal>
-        <div>
-          <p class="label" style="margin-bottom:10px"><b>Pliegos</b> Arquitectura Residencial, Estructural IRC, Ingeniería MEP &amp; Plano para Ciudad</p>
-          <h3 class="h2" style="font-size:clamp(2rem,7.2vw,4.2rem)">Planos listos <em>para construir.</em></h3>
-        </div>
-        <p class="sec-sub" style="margin:0">Toca cualquier lámina para inspeccionarla en alta resolución (1800px).</p>
-      </div>
-
-      <div class="sheet-filters" role="tablist" aria-label="Filtrar láminas por especialidad">
-        <button class="arch-btn active" type="button" data-sheet-filter="destacados">Selección Destacada (6)</button>
-        <button class="arch-btn" type="button" data-sheet-filter="arq">Arquitectura &amp; Fachadas</button>
-        <button class="arch-btn" type="button" data-sheet-filter="estruct">Estructural &amp; Cimentación</button>
-        <button class="arch-btn" type="button" data-sheet-filter="mep">Ingeniería MEP, LED &amp; HVAC</button>
-        <button class="arch-btn" type="button" data-sheet-filter="mayor">Plano para Ciudad (9)</button>
-        <button class="arch-btn" type="button" data-sheet-filter="all">Ver las 20 láminas</button>
-      </div>
-
-      <div class="sheets-grid">
-        <!-- 6 LÁMINAS DESTACADAS POR DEFECTO (VARIEDAD DE PROYECTOS: CIUDAD + RESIDENCIAL + IRC + FACHADAS + MEP + 3D) -->
-        <button class="sheet" type="button" data-sheet-cat="arq" data-sheet-mayor="1" data-sheet-feat="1" data-sheet-full="/hola/img/plan-mayor-a1-1800.webp" data-sheet-title="Plano para Ciudad · A-1 Planta General, Emplazamiento y Geometría Radial">
-          <div class="sheet-paper"><img src="/hola/img/plan-mayor-a1-720.webp" width="720" height="480" alt="Plano para Ciudad A-1 Planta General" loading="lazy"></div>
-          <div class="sheet-meta"><span class="sheet-title">A-1 · Plano para Ciudad (Planta)</span><span class="sheet-cat">01 / Ciudad · Arq +</span></div>
-        </button>
-
-        <button class="sheet" type="button" data-sheet-cat="arq" data-sheet-feat="1" data-sheet-full="/hola/img/plan-floor-a-1800.webp" data-sheet-title="Planta Arquitectónica Acotada · Distribución Principal">
-          <div class="sheet-paper"><img src="/hola/img/plan-floor-a-720.webp" width="720" height="561" alt="Planta Arquitectónica Acotada" loading="lazy"></div>
-          <div class="sheet-meta"><span class="sheet-title">Planta Acotada Principal</span><span class="sheet-cat">02 / Arquitectura +</span></div>
-        </button>
-
-        <button class="sheet" type="button" data-sheet-cat="estruct" data-sheet-feat="1" data-sheet-full="/hola/img/plan-mychief-basement-1800.webp" data-sheet-title="My Chief CAD · Planta de Sótano y Ejes bajo Código IRC">
-          <div class="sheet-paper"><img src="/hola/img/plan-mychief-basement-720.webp" width="720" height="557" alt="Planta Sótano My Chief CAD" loading="lazy"></div>
-          <div class="sheet-meta"><span class="sheet-title">Planta de Sótano (IRC)</span><span class="sheet-cat">03 / My Chief CAD +</span></div>
-        </button>
-
-        <button class="sheet" type="button" data-sheet-cat="arq" data-sheet-feat="1" data-sheet-full="/hola/img/plan-elev-2story-1800.webp" data-sheet-title="Elevaciones Arquitectónicas · Residencia de 2 Niveles">
-          <div class="sheet-paper"><img src="/hola/img/plan-elev-2story-720.webp" width="720" height="563" alt="Elevaciones 2 Niveles" loading="lazy"></div>
-          <div class="sheet-meta"><span class="sheet-title">Fachadas 2 Niveles</span><span class="sheet-cat">04 / Elevaciones +</span></div>
-        </button>
-
-        <button class="sheet" type="button" data-sheet-cat="mep" data-sheet-feat="1" data-sheet-full="/hola/img/plan-mep-1800.webp" data-sheet-title="Ingeniería MEP · Eléctrico, Iluminación e Instalaciones">
-          <div class="sheet-paper"><img src="/hola/img/plan-mep-720.webp" width="720" height="563" alt="Plano MEP" loading="lazy"></div>
-          <div class="sheet-meta"><span class="sheet-title">Eléctrico &amp; MEP</span><span class="sheet-cat">05 / Ingeniería +</span></div>
-        </button>
-
-        <button class="sheet" type="button" data-sheet-cat="estruct" data-sheet-feat="1" data-sheet-full="/hola/img/plan-deck-3d-1800.webp" data-sheet-title="Isometría Estructural 3D de Madera y Cubierta">
-          <div class="sheet-paper"><img src="/hola/img/plan-deck-3d-720.webp" width="720" height="563" alt="Isometría 3D Deck" loading="lazy"></div>
-          <div class="sheet-meta"><span class="sheet-title">Isometría de Estructura</span><span class="sheet-cat">06 / Modelado 3D +</span></div>
-        </button>
-
-        <!-- RESTO DE LÁMINAS DE ARQUITECTURA, ESTRUCTURAL, MEP Y PLANO PARA CIUDAD -->
-        <button class="sheet" type="button" hidden data-sheet-cat="estruct" data-sheet-full="/hola/img/plan-mychief-details-1800.webp" data-sheet-title="My Chief CAD · Excavación, Muro de Contención y Secciones">
-          <div class="sheet-paper"><img src="/hola/img/plan-mychief-details-720.webp" width="720" height="557" alt="Detalles Muro de Contención" loading="lazy"></div>
-          <div class="sheet-meta"><span class="sheet-title">Excavación &amp; Contención</span><span class="sheet-cat">07 / Estructural +</span></div>
-        </button>
-
-        <button class="sheet" type="button" hidden data-sheet-cat="estruct" data-sheet-full="/hola/img/plan-deck-section-1800.webp" data-sheet-title="Sección Constructiva · Deck, Cimentación y Estructura de Cubierta">
-          <div class="sheet-paper"><img src="/hola/img/plan-deck-section-720.webp" width="720" height="561" alt="Corte Estructural de Deck" loading="lazy"></div>
-          <div class="sheet-meta"><span class="sheet-title">Corte de Deck &amp; Cubierta</span><span class="sheet-cat">08 / Detalle +</span></div>
-        </button>
-
-        <button class="sheet" type="button" hidden data-sheet-cat="mep" data-sheet-full="/hola/img/plan-hvac-1800.webp" data-sheet-title="Ingeniería HVAC · Red de Climatización y Ductería">
-          <div class="sheet-paper"><img src="/hola/img/plan-hvac-720.webp" width="720" height="542" alt="Plano HVAC" loading="lazy"></div>
-          <div class="sheet-meta"><span class="sheet-title">Red de Climatización HVAC</span><span class="sheet-cat">09 / HVAC +</span></div>
-        </button>
-
-        <button class="sheet" type="button" hidden data-sheet-cat="arq" data-sheet-full="/hola/img/plan-floor-b-1800.webp" data-sheet-title="Planta de Distribución y Cuadro de Vanos">
-          <div class="sheet-paper"><img src="/hola/img/plan-floor-b-720.webp" width="720" height="561" alt="Planta de Distribución" loading="lazy"></div>
-          <div class="sheet-meta"><span class="sheet-title">Planta &amp; Cuadro de Vanos</span><span class="sheet-cat">10 / Arquitectura +</span></div>
-        </button>
-
-        <button class="sheet" type="button" hidden data-sheet-cat="arq" data-sheet-full="/hola/img/plan-cottage-1800.webp" data-sheet-title="Elevaciones y Planta · Vivienda Auxiliar (ADU / Cottage)">
-          <div class="sheet-paper"><img src="/hola/img/plan-cottage-720.webp" width="720" height="563" alt="Plano Cottage ADU" loading="lazy"></div>
-          <div class="sheet-meta"><span class="sheet-title">Vivienda Auxiliar (ADU)</span><span class="sheet-cat">11 / Residencial +</span></div>
-        </button>
-
-        <button class="sheet" type="button" hidden data-sheet-cat="arq" data-sheet-full="/hola/img/plan-render-brick-1800.webp" data-sheet-title="Visualización Exterior · Ampliación en Ladrillo">
-          <div class="sheet-paper"><img src="/hola/img/plan-render-brick-720.webp" width="720" height="540" alt="Render Exterior Residencial" loading="lazy"></div>
-          <div class="sheet-meta"><span class="sheet-title">Visualización Exterior</span><span class="sheet-cat">12 / Render +</span></div>
-        </button>
-
-        <button class="sheet" type="button" hidden data-sheet-cat="arq" data-sheet-mayor="1" data-sheet-full="/hola/img/plan-mayor-a2-1800.webp" data-sheet-title="Plano para Ciudad · A-2 Elevaciones Frontal y Posterior Acotadas">
-          <div class="sheet-paper"><img src="/hola/img/plan-mayor-a2-720.webp" width="720" height="480" alt="Plano para Ciudad A-2 Elevaciones" loading="lazy"></div>
-          <div class="sheet-meta"><span class="sheet-title">A-2 · Elevaciones Monumento</span><span class="sheet-cat">13 / Ciudad · Arq +</span></div>
-        </button>
-
-        <button class="sheet" type="button" hidden data-sheet-cat="estruct" data-sheet-mayor="1" data-sheet-full="/hola/img/plan-mayor-s1-1800.webp" data-sheet-title="Plano para Ciudad · S-1 Planta de Cimentación, Zapatas Corridas (-36&quot;) y Pilares (-60&quot;)">
-          <div class="sheet-paper"><img src="/hola/img/plan-mayor-s1-720.webp" width="720" height="480" alt="Plano para Ciudad S-1 Cimentación" loading="lazy"></div>
-          <div class="sheet-meta"><span class="sheet-title">S-1 · Cimentación &amp; Zapatas</span><span class="sheet-cat">14 / Ciudad · Estruct +</span></div>
-        </button>
-
-        <button class="sheet" type="button" hidden data-sheet-cat="estruct" data-sheet-mayor="1" data-sheet-full="/hola/img/plan-mayor-s2-1800.webp" data-sheet-title="Plano para Ciudad · S-2 Secciones Estructurales, Acero de Refuerzo y Anclaje">
-          <div class="sheet-paper"><img src="/hola/img/plan-mayor-s2-720.webp" width="720" height="480" alt="Plano para Ciudad S-2 Secciones Estructurales" loading="lazy"></div>
-          <div class="sheet-meta"><span class="sheet-title">S-2 · Secciones &amp; Acero</span><span class="sheet-cat">15 / Ciudad · Estruct +</span></div>
-        </button>
-
-        <button class="sheet" type="button" hidden data-sheet-cat="estruct" data-sheet-mayor="1" data-sheet-full="/hola/img/plan-mayor-d1-1800.webp" data-sheet-title="Plano para Ciudad · D-1 Detalles Constructivos, Albardilla de Caliza y Escudo Cívico">
-          <div class="sheet-paper"><img src="/hola/img/plan-mayor-d1-720.webp" width="720" height="480" alt="Plano para Ciudad D-1 Detalles Constructivos" loading="lazy"></div>
-          <div class="sheet-meta"><span class="sheet-title">D-1 · Detalles &amp; Escudo Cívico</span><span class="sheet-cat">16 / Ciudad · Detalle +</span></div>
-        </button>
-
-        <button class="sheet" type="button" hidden data-sheet-cat="mep" data-sheet-mayor="1" data-sheet-full="/hola/img/plan-mayor-l1-1800.webp" data-sheet-title="Plano para Ciudad · L-1 Ingeniería de Iluminación LED 12V, Paisajismo y Fotocelda">
-          <div class="sheet-paper"><img src="/hola/img/plan-mayor-l1-720.webp" width="720" height="480" alt="Plano para Ciudad L-1 Iluminación LED y Paisajismo" loading="lazy"></div>
-          <div class="sheet-meta"><span class="sheet-title">L-1 · Iluminación LED 12V &amp; Plaza</span><span class="sheet-cat">17 / Ciudad · MEP +</span></div>
-        </button>
-
-        <button class="sheet" type="button" hidden data-sheet-cat="arq" data-sheet-mayor="1" data-sheet-full="/hola/img/plan-mayor-a3-1800.webp" data-sheet-title="Plano para Ciudad · A-3 Elevaciones Laterales, Perfiles y Geometría Curva">
-          <div class="sheet-paper"><img src="/hola/img/plan-mayor-a3-720.webp" width="720" height="480" alt="Plano para Ciudad A-3 Elevaciones Laterales" loading="lazy"></div>
-          <div class="sheet-meta"><span class="sheet-title">A-3 · Elevaciones Laterales</span><span class="sheet-cat">18 / Ciudad · Arq +</span></div>
-        </button>
-
-        <button class="sheet" type="button" hidden data-sheet-cat="estruct" data-sheet-mayor="1" data-sheet-full="/hola/img/plan-mayor-d2-1800.webp" data-sheet-title="Plano para Ciudad · D-2 Especificaciones de Materiales, Mortero y Juntas de Expansión">
-          <div class="sheet-paper"><img src="/hola/img/plan-mayor-d2-720.webp" width="720" height="480" alt="Plano para Ciudad D-2 Especificaciones" loading="lazy"></div>
-          <div class="sheet-meta"><span class="sheet-title">D-2 · Especificaciones &amp; Juntas</span><span class="sheet-cat">19 / Ciudad · Detalle +</span></div>
-        </button>
-
-        <button class="sheet" type="button" hidden data-sheet-cat="arq" data-sheet-mayor="1" data-sheet-full="/hola/img/plan-mayor-r1-1800.webp" data-sheet-title="Plano para Ciudad · R-1 Perspectiva Arquitectónica 3D y Visualización Cívica">
-          <div class="sheet-paper"><img src="/hola/img/plan-mayor-r1-720.webp" width="720" height="480" alt="Plano para Ciudad R-1 Perspectiva 3D" loading="lazy"></div>
-          <div class="sheet-meta"><span class="sheet-title">R-1 · Perspectiva Cívica 3D</span><span class="sheet-cat">20 / Ciudad · Render +</span></div>
-        </button>
-      </div>
-    </div>
-  </section>
-
-  <!-- =================================================================
-       CAPÍTULO 04 — SOFTWARE PROPIO, SAAS & PLATAFORMAS EN LÍNEA
-       ================================================================= -->
-  <section class="sec" id="cap-software" aria-labelledby="software-title" style="border-top:1px solid var(--line)">
-    <div class="wrap">
-      <p class="label" data-reveal><b>05</b> Capítulo 04 · Software Propio, SaaS &amp; Sistemas <i>/ Herramientas creadas para operar y escalar.</i></p>
-      <h2 class="h2" id="software-title" data-reveal>Sistemas que <em>operan negocios.</em></h2>
-      <p class="sec-sub" data-reveal>Aplicaciones móviles, suites omnicanal de IA inmobiliaria, visores arquitectónicos 3D en tiempo real y sistemas de inteligencia de adquisiciones.</p>
-
-      <div class="more" id="mas-sistemas" style="margin-top:clamp(36px,6vw,64px);padding-top:0;border-top:0" data-reveal>
-        <ul class="more-list">
-          <li>
-            <button class="more-card" type="button" data-open-stage="zhomes">
-              <img src="/hola/img/zhomes-mob-1.webp" width="600" height="1298" alt="ZHomes App en Vista Mobile" loading="lazy" decoding="async">
-              <span class="more-t">ZHomes</span>
-              <span class="more-d">App inmobiliaria · Capturas en vista mobile +</span>
-            </button>
-          </li>
-          <li>
-            <button class="more-card" type="button" data-open-stage="software">
-              <video muted loop playsinline preload="none" poster="/hola/media/newera-demo-poster.jpg" data-loop-src="/hola/media/newera-demo-loop.mp4" width="480" height="854"></video>
-              <span class="more-t">New Era · ARM</span>
-              <span class="more-d">Suite omnicanal de IA inmobiliaria +</span>
-            </button>
-          </li>
-          <li>
-            <button class="more-card" type="button" data-open-stage="mychief">
-              <img src="/hola/img/mayor-3d-vec.webp" width="1200" height="776" alt="My Chief CAD — Plano para Ciudad en 3D" loading="lazy" decoding="async" style="background:#f2f5f8;object-fit:cover;object-position:center">
-              <span class="more-t">My Chief CAD</span>
-              <span class="more-d">Visor 3D interactivo · Plano para Ciudad +</span>
-            </button>
-          </li>
-          <li>
-            <button class="more-card" type="button" data-open-stage="tzel">
-              <img src="/hola/img/tzel-card.webp" width="900" height="562" alt="Tzel Acquisition OS — tzel.vercel.app" loading="lazy" decoding="async" style="object-position:center">
-              <span class="more-t">Tzel</span>
-              <span class="more-d">Acquisition OS · Mapa de subastas &amp; GIS +</span>
-            </button>
-            <a class="proj-link ext" href="https://tzel.vercel.app/" target="_blank" rel="noopener" style="margin-top:8px;font-size:.86rem">tzel.vercel.app <small>↗</small></a>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  <!-- =================================================================
-       CAPÍTULO 05 — REALIZACIÓN AUDIOVISUAL & VIDEOS (DE ÚLTIMA)
-       ================================================================= -->
-  <section class="sec" id="cap-videos" aria-labelledby="videos-title" style="border-top:1px solid var(--line)">
-    <div class="wrap">
-      <div class="films-block" id="realizacion-video" style="margin-top:0;padding-top:0;border-top:0">
-        <p class="label" data-reveal><b>06</b> Capítulo 05 · Realización Audiovisual &amp; Reels <i>/ Toca cualquier pieza para reproducirla con sonido.</i></p>
-        <h2 class="h2" id="videos-title" data-reveal>Piezas que <em>detienen el scroll.</em></h2>
-        <p class="sec-sub" data-reveal>Producción de art films en 3D, piezas verticales de alto ritmo, animación editorial tipo collage y dirección en estudio.</p>
-
-        <div class="films-grid">
-          <button class="film-item" type="button" data-open-stage="reel-luxury" data-reveal>
-            <div class="film-frame">
-              <video muted loop playsinline preload="none" poster="/hola/media/labonita-film-poster.jpg" data-loop-src="/hola/media/labonita-film-loop.mp4"></video>
-            </div>
-            <span class="film-idx">Film 01 / Con sonido</span>
-            <span class="film-name">Luxury Jewelry Art Film</span>
-            <span class="film-sub">Escultura en mármol &amp; oro 14K</span>
-          </button>
-
-          <button class="film-item" type="button" data-open-stage="reel-agents" data-reveal>
-            <div class="film-frame">
-              <video muted loop playsinline preload="none" poster="/hola/media/vid-agents-poster.jpg" data-loop-src="/hola/media/vid-agents-loop.mp4"></video>
-            </div>
-            <span class="film-idx">Film 02 / Con sonido</span>
-            <span class="film-name">Top Agents · Collage</span>
-            <span class="film-sub">Animación editorial &amp; recorte</span>
-          </button>
-
-          <button class="film-item" type="button" data-open-stage="reel-sellers" data-reveal>
-            <div class="film-frame">
-              <video muted loop playsinline preload="none" poster="/hola/media/vid-sellers-poster.jpg" data-loop-src="/hola/media/vid-sellers-loop.mp4"></video>
-            </div>
-            <span class="film-idx">Film 03 / Con sonido</span>
-            <span class="film-name">Top Sellers · Cinético</span>
-            <span class="film-sub">Motion graphics &amp; ritmo</span>
-          </button>
-
-          <button class="film-item" type="button" data-open-stage="reel-shoot" data-reveal>
-            <div class="film-frame">
-              <video muted loop playsinline preload="none" poster="/hola/media/vid-shoot-poster.jpg" data-loop-src="/hola/media/vid-shoot-loop.mp4"></video>
-            </div>
-            <span class="film-idx">Film 04 / Con sonido</span>
-            <span class="film-name">Sesión Editorial</span>
-            <span class="film-sub">Dirección en set · B&amp;N a color</span>
-          </button>
-        </div>
-      </div>
     </div>
   </section>
 
@@ -1127,7 +780,7 @@ body.modal-open .fab{transform:translateY(160%)!important}
        ================================================================= -->
   <section class="sec founder-sec" id="fundador" aria-labelledby="founder-title">
     <div class="wrap">
-      <p class="label" data-reveal><b>07</b> Detrás de las ideas <i lang="en">/ Behind the ideas.</i></p>
+      <p class="label" data-reveal><b>02</b> Detrás de las ideas <i lang="en">/ Behind the ideas.</i></p>
 
       <div class="founder-grid">
         <div class="founder-head">
@@ -1160,7 +813,7 @@ body.modal-open .fab{transform:translateY(160%)!important}
   <section class="sec contact" id="contacto" aria-labelledby="contact-title">
     <div class="type-bg" aria-hidden="true"></div>
     <div class="wrap">
-      <p class="label"><b>08</b> Hablemos</p>
+      <p class="label"><b>03</b> Hablemos</p>
       <h2 class="contact-t" id="contact-title" lang="en">
         <span>Good ideas</span>
         <span class="sub-line">start with a</span>
@@ -1305,6 +958,11 @@ body.modal-open .fab{transform:translateY(160%)!important}
       it.addEventListener('touchstart',function(){setActiveSvc(it)},{passive:true});
       it.addEventListener('pointerenter',function(){setActiveSvc(it)},{passive:true});
       it.addEventListener('focusin',function(){setActiveSvc(it)});
+      it.addEventListener('click',function(e){
+        if(e.target&&e.target.closest&&e.target.closest('a'))return;
+        var href=it.getAttribute('data-href');
+        if(href)window.location.href=href;
+      });
     });
     var svcTick=false;
     var updateSvcOnScroll=function(){
@@ -1904,10 +1562,11 @@ body.modal-open .fab{transform:translateY(160%)!important}
 
   /* 7. Floating WhatsApp FAB & Share Toast */
   var fab=d.querySelector('.fab'), cta=d.getElementById('hero-cta'), contact=d.getElementById('contacto');
-  if('IntersectionObserver' in window&&fab&&cta&&contact){
-    var vis={hero:true,contact:false};
+  if('IntersectionObserver' in window&&fab&&contact){
+    var vis={hero:Boolean(cta),contact:false};
     var io2=new IntersectionObserver(function(es){es.forEach(function(e){vis[e.target===cta?'hero':'contact']=e.isIntersecting});fab.classList.toggle('show',!vis.hero&&!vis.contact)});
-    io2.observe(cta);io2.observe(contact);
+    if(cta)io2.observe(cta);
+    io2.observe(contact);
   } else if(fab){fab.classList.add('show')}
 
   var toast=d.querySelector('.toast'),tt;
@@ -2081,6 +1740,14 @@ body.modal-open .fab{transform:translateY(160%)!important}
   }else if(window.location.search.indexOf('ar=1')!==-1||window.location.hash==='#ar'){
     openArPortal();
   }
+
+  /* Legacy hash redirect when visiting home with a chapter anchor */
+  var hMap={'#cap-diseno':'/branding','#p-elys':'/branding#p-elys','#p-newera':'/branding#p-newera','#p-labonita':'/branding#p-labonita','#cap-codigo':'/web','#p-lucky':'/web#p-lucky','#p-dp':'/web#p-dp','#p-trilion':'/web#p-trilion','#p-primestone':'/web#p-primestone','#cap-planos':'/planos','#visor-3d':'/planos#visor-3d','#pliegos':'/planos#pliegos','#tu-software':'/software','#cap-software':'/software#cap-software','#cap-videos':'/videos','#realizacion-video':'/videos#realizacion-video'};
+  if(window.location.hash&&hMap[window.location.hash]&&!d.querySelector(window.location.hash)){
+    window.location.replace(hMap[window.location.hash]);
+  }
+
+
 })();
 </script>
 </body>

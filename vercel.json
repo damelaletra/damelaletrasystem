@@ -33,6 +33,46 @@
       "destination": "/hola/index.html"
     },
     {
+      "source": "/branding",
+      "destination": "/branding/index.html"
+    },
+    {
+      "source": "/branding/",
+      "destination": "/branding/index.html"
+    },
+    {
+      "source": "/web",
+      "destination": "/web/index.html"
+    },
+    {
+      "source": "/web/",
+      "destination": "/web/index.html"
+    },
+    {
+      "source": "/planos",
+      "destination": "/planos/index.html"
+    },
+    {
+      "source": "/planos/",
+      "destination": "/planos/index.html"
+    },
+    {
+      "source": "/software",
+      "destination": "/software/index.html"
+    },
+    {
+      "source": "/software/",
+      "destination": "/software/index.html"
+    },
+    {
+      "source": "/videos",
+      "destination": "/videos/index.html"
+    },
+    {
+      "source": "/videos/",
+      "destination": "/videos/index.html"
+    },
+    {
       "source": "/qr",
       "destination": "/hola/qr/index.html"
     },
