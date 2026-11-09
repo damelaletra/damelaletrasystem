@@ -180,7 +180,6 @@ body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:100;op
 .band.alt{background:var(--violeta);color:var(--paper);transform:rotate(1.8deg);transform-origin:50vw 50%}
 .band-track{display:flex;flex:none;animation:marquee 26s linear infinite}
 .band.alt .band-track{animation-direction:reverse;animation-duration:30s}
-.band:hover .band-track,.band:focus-within .band-track{animation-play-state:paused}
 .band-track span{display:inline-flex;align-items:center;gap:.5em;padding-right:.5em}
 .star{display:inline-block;width:.62em;height:.62em;background:currentColor;clip-path:polygon(50% 0,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%)}
 
@@ -588,12 +587,6 @@ body.modal-open .fab{transform:translateY(160%)!important}
   .bset-card:hover .bset-img{transform:none}
   .logo-item:hover{transform:none}
 }
-@media (prefers-reduced-motion:reduce){
-  html{scroll-behavior:auto}
-  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.12s!important}
-  .band-track,.logo-rail-track,.hero-glyph,.badge .ring,.ar-pill i,.dot,.kicker span,.stage-fruit,.stage-rose,.stage-gold,.stage-newera-svg path.spark,.ar-live-dot{animation:none!important;will-change:auto!important}
-  .js [data-reveal],.js .proj .m-main,.js .proj .m-sub{opacity:1!important;transform:none!important;translate:none!important;scale:1!important;transition:none!important}
-}
 
 .ts-sec{min-height:900px;background:var(--ink)}.ts-demo{min-height:580px}
 </style>
@@ -933,15 +926,13 @@ body.modal-open .fab{transform:translateY(160%)!important}
 
   /* 2. Lazy-load & play/pause inline loop videos */
   var loopVids=d.querySelectorAll('video[data-loop-src]');
-  var reduceMotionMq=window.matchMedia?window.matchMedia('(prefers-reduced-motion: reduce)'):null;
   if('IntersectionObserver' in window){
     var vio=new IntersectionObserver(function(es){
-      var noMotion=Boolean(reduceMotionMq&&reduceMotionMq.matches);
       es.forEach(function(entry){
         var v=entry.target;
         if(entry.isIntersecting){
           if(!v.getAttribute('src')){v.setAttribute('src',v.getAttribute('data-loop-src'));v.load();}
-          if(!noMotion){var p=v.play();if(p&&p.catch)p.catch(function(){});}
+          var p=v.play();if(p&&p.catch)p.catch(function(){});
         }else{
           if(!v.paused)v.pause();
         }
@@ -1513,9 +1504,7 @@ body.modal-open .fab{transform:translateY(160%)!important}
       vid.muted=Boolean(p.mainVideo.muted);
       vw.appendChild(vid);
       stShowcase.appendChild(vw);
-      if(!(reduceMotionMq&&reduceMotionMq.matches)){
-        setTimeout(function(){var pr=vid.play();if(pr&&pr.catch)pr.catch(function(){vid.muted=true;vid.play().catch(function(){})})},80);
-      }
+      setTimeout(function(){var pr=vid.play();if(pr&&pr.catch)pr.catch(function(){vid.muted=true;vid.play().catch(function(){})})},80);
     }
     if(p.leadImg){
       var lf=d.createElement('figure');
@@ -1572,7 +1561,7 @@ body.modal-open .fab{transform:translateY(160%)!important}
           if(item.poster)sv.poster=item.poster;
           sv.controls=true;sv.muted=true;sv.loop=true;sv.playsInline=true;
           fig.appendChild(sv);
-          if(!(reduceMotionMq&&reduceMotionMq.matches))sv.play().catch(function(){});
+          sv.play().catch(function(){});
         }else{
           var si=d.createElement('img');
           si.src=item.src;si.alt=item.caption||'';si.loading='lazy';
