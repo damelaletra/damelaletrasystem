@@ -27,6 +27,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false })); // Needed for Twilio Webhooks
 app.use(express.static(path.join(__dirname, "public")));
 
+// Stub Vercel Web Analytics script outside Vercel Edge so local/Railway consoles stay error-free
+app.get("/_vercel/insights/script.js", (_req, res) => {
+  res.type("application/javascript").send("/* vercel analytics stub */");
+});
+
 // Explicit Health Check for Railway
 app.get(["/", "/health"], (req, res) => {
   res.status(200).send("DML Engine Online");
