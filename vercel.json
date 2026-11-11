@@ -97,28 +97,28 @@
       "destination": "/api/index.js"
     },
     {
-      "source": "/css/(.*)",
-      "destination": "/public/css/$1"
-    },
-    {
-      "source": "/js/(.*)",
-      "destination": "/public/js/$1"
-    },
-    {
-      "source": "/simulator.html",
-      "destination": "/public/simulator.html"
-    },
-    {
       "source": "/simulator",
-      "destination": "/public/simulator.html"
+      "destination": "/simulator.html"
     },
     {
-      "source": "/provider.html",
-      "destination": "/public/provider.html"
+      "source": "/simulator/",
+      "destination": "/simulator.html"
     },
     {
-      "source": "/admin.html",
-      "destination": "/public/admin.html"
+      "source": "/provider",
+      "destination": "/provider.html"
+    },
+    {
+      "source": "/provider/",
+      "destination": "/provider.html"
+    },
+    {
+      "source": "/admin",
+      "destination": "/admin.html"
+    },
+    {
+      "source": "/admin/",
+      "destination": "/admin.html"
     },
     {
       "source": "/(.*)",

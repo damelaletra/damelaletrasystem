@@ -3,34 +3,51 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Entrenamiento en Vivo — Cliente | Cerebro IA | Negocio — DML</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+  <title>Laboratorio IA 3-Columnas — Cliente | Cerebro IA | Negocio — Dame la Letra</title>
+  <meta name="description" content="Laboratorio interactivo en vivo de Dame la Letra: prueba cómo el cerebro de IA clasifica clientes, entrena memoria operativa de negocio y despacha órdenes en WhatsApp.">
+  <link rel="icon" href="/hola/favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="/hola/fonts/anton.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/hola/fonts/courierprime-400.woff2" as="font" type="font/woff2" crossorigin>
   <style>
+    @font-face {
+      font-family: "Anton";
+      font-style: normal;
+      font-weight: 400;
+      font-display: swap;
+      src: url("/hola/fonts/anton.woff2") format("woff2");
+    }
+    @font-face {
+      font-family: "Courier Prime";
+      font-style: normal;
+      font-weight: 400;
+      font-display: swap;
+      src: url("/hola/fonts/courierprime-400.woff2") format("woff2");
+    }
+
     :root {
-      --bg: #090c10;
-      --panel-bg: #121721;
-      --card-bg: #182030;
-      --border: #232d42;
-      --border-focus: #3b82f6;
-      --text-main: #f1f5f9;
-      --text-muted: #94a3b8;
-      --text-sub: #64748b;
-      
+      --bg: #0e0a14;
+      --panel-bg: #140f1d;
+      --card-bg: #1b1427;
+      --border: rgba(243, 238, 227, 0.16);
+      --letra: #ffcc29;
+      --violeta: #6a4888;
+      --fuego: #ff5b1f;
+      --paper: #f3eee3;
+      --text-main: #f3eee3;
+      --text-muted: #b8b0c4;
+      --text-sub: #8e849e;
+
       --wa-bg: #0b141a;
       --wa-header: #1f2c34;
       --wa-bubble-in: #202c33;
       --wa-bubble-out-cust: #005c4b;
-      --wa-bubble-out-prov: #1e3a8a;
+      --wa-bubble-out-prov: #3b2654;
       --wa-text: #e9edef;
       --wa-input-bg: #2a3942;
-      
-      --accent-green: #10b981;
-      --accent-blue: #3b82f6;
-      --accent-purple: #8b5cf6;
-      --accent-amber: #f59e0b;
-      --accent-red: #ef4444;
+
+      --display: "Anton", Impact, sans-serif;
+      --mono: "Courier Prime", ui-monospace, monospace;
+      --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
     }
 
     * {
@@ -42,293 +59,402 @@
     body {
       background: var(--bg);
       color: var(--text-main);
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      height: 100vh;
+      font-family: var(--sans);
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
-      overflow: hidden;
+    }
+    @media (min-width: 1101px) {
+      body {
+        height: 100vh;
+        overflow: hidden;
+      }
     }
 
-    /* Minimal Top Navigation */
+    /* Editorial-Brutalist Top Bar */
     .top-bar {
-      background: #0f141c;
-      border-bottom: 1px solid var(--border);
-      padding: 0.65rem 1.25rem;
+      background: #0e0a14;
+      border-bottom: 2px solid var(--letra);
+      padding: 0.65rem 1.1rem;
       display: flex;
+      flex-wrap: wrap;
       justify-content: space-between;
       align-items: center;
+      gap: 0.65rem 1rem;
       flex-shrink: 0;
     }
 
     .brand {
       display: flex;
+      flex-wrap: wrap;
       align-items: center;
-      gap: 0.6rem;
+      gap: 0.65rem 0.9rem;
+      min-width: 0;
+    }
+    .brand > div {
+      min-width: 0;
     }
 
-    .brand-logo {
-      background: linear-gradient(135deg, #8f1d14 0%, #dc2626 100%);
-      color: white;
-      font-weight: 800;
-      font-size: 0.95rem;
-      width: 30px;
-      height: 30px;
-      border-radius: 7px;
-      display: flex;
+    .back-studio {
+      display: inline-flex;
       align-items: center;
-      justify-content: center;
+      gap: 0.4rem;
+      min-height: 36px;
+      padding: 0.35rem 0.75rem;
+      border: 1px solid rgba(243, 238, 227, 0.3);
+      background: #171122;
+      color: var(--letra);
+      font: 400 0.74rem/1 var(--mono);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      text-decoration: none;
+      transition: background-color 0.15s, color 0.15s, border-color 0.15s;
+    }
+    .back-studio:hover {
+      background: var(--letra);
+      color: #0e0a14;
+      border-color: var(--letra);
     }
 
     .brand-title {
-      font-size: 0.95rem;
-      font-weight: 800;
-      letter-spacing: -0.01em;
-      color: #ffffff;
+      font: 400 1.15rem/1 var(--display);
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      color: var(--paper);
+    }
+    .brand-title span {
+      color: var(--letra);
     }
 
     .brand-sub {
-      font-size: 0.75rem;
+      font: 400 0.72rem/1.2 var(--mono);
       color: var(--text-muted);
-      font-weight: 500;
     }
 
     .top-actions {
       display: flex;
-      gap: 0.6rem;
+      flex-wrap: wrap;
+      gap: 0.55rem;
       align-items: center;
+      min-width: 0;
+      max-width: 100%;
+    }
+
+    .lang-switch {
+      display: inline-flex;
+      border: 1px solid rgba(243, 238, 227, 0.28);
+      background: #171122;
+      box-shadow: 2px 2px 0 var(--violeta);
+    }
+    .lang-btn {
+      appearance: none;
+      border: 0;
+      background: transparent;
+      color: var(--text-muted);
+      min-width: 36px;
+      min-height: 34px;
+      padding: 0 9px;
+      font: 400 0.74rem/1 var(--mono);
+      letter-spacing: 0.08em;
+      cursor: pointer;
+    }
+    .lang-btn + .lang-btn {
+      border-left: 1px solid rgba(243, 238, 227, 0.2);
+    }
+    .lang-btn.is-active {
+      background: var(--letra);
+      color: #0e0a14;
+      font-weight: 700;
+    }
+    :focus-visible {
+      outline: 2px solid var(--letra);
+      outline-offset: 2px;
+    }
+    .lang-btn:focus-visible {
+      outline: 2px solid var(--letra);
+      outline-offset: -2px;
+    }
+    .lang-btn.is-active:focus-visible,
+    .chat-send-btn:focus-visible {
+      outline: 2px solid #0e0a14;
+      outline-offset: -3px;
     }
 
     .status-pill {
-      display: flex;
+      display: inline-flex;
       align-items: center;
-      gap: 0.4rem;
-      background: #15221c;
-      border: 1px solid #165b3d;
-      color: #34d399;
-      font-size: 0.72rem;
-      font-weight: 700;
-      padding: 0.25rem 0.6rem;
-      border-radius: 999px;
+      gap: 0.45rem;
+      background: rgba(48, 232, 122, 0.1);
+      border: 1px solid rgba(48, 232, 122, 0.45);
+      color: #5ef097;
+      font: 400 0.7rem/1.2 var(--mono);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 0.42rem 0.65rem;
+      cursor: pointer;
+      max-width: 100%;
+      text-align: left;
+    }
+    .status-pill.is-demo {
+      background: rgba(255, 204, 41, 0.12);
+      border-color: rgba(255, 204, 41, 0.5);
+      color: var(--letra);
     }
 
     .status-dot {
       width: 7px;
       height: 7px;
       border-radius: 50%;
-      background: #34d399;
-      box-shadow: 0 0 8px #34d399;
+      background: #30e87a;
+      box-shadow: 0 0 8px #30e87a;
+    }
+    .status-pill.is-demo .status-dot {
+      background: var(--letra);
+      box-shadow: none;
     }
 
     .btn-reset-memory {
-      background: #2a1b1b;
-      color: #f87171;
-      border: 1px solid #5a2727;
-      font-size: 0.75rem;
-      font-weight: 700;
-      padding: 0.35rem 0.75rem;
-      border-radius: 6px;
+      background: rgba(255, 91, 31, 0.14);
+      color: #ff9c78;
+      border: 1px solid rgba(255, 91, 31, 0.45);
+      font: 400 0.72rem/1 var(--mono);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      min-height: 36px;
+      padding: 0.35rem 0.7rem;
       cursor: pointer;
-      display: flex;
+      display: inline-flex;
       align-items: center;
-      gap: 0.3rem;
-      transition: all 0.15s;
+      gap: 0.35rem;
+      transition: background-color 0.15s, color 0.15s;
     }
-
     .btn-reset-memory:hover {
-      background: #ef4444;
-      color: white;
-      border-color: #ef4444;
+      background: var(--fuego);
+      color: #0e0a14;
     }
 
     /* 3-Column Layout */
     .lab-grid {
       display: grid;
-      grid-template-columns: 1fr 1.15fr 1fr;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.18fr) minmax(0, 1fr);
       flex: 1;
-      gap: 0;
-      height: calc(100vh - 51px);
-      overflow: hidden;
+      min-height: 0;
+      width: 100%;
     }
-
     @media (max-width: 1100px) {
       .lab-grid {
-        grid-template-columns: 1fr;
-        overflow-y: auto;
-        height: auto;
+        grid-template-columns: minmax(0, 1fr);
       }
     }
 
-    /* Column Styles */
+    /* Chat Columns */
     .col-chat {
       background: var(--wa-bg);
       display: flex;
       flex-direction: column;
+      min-height: 460px;
+      min-width: 0;
       height: 100%;
       border-right: 1px solid var(--border);
     }
-
     .col-chat.right {
       border-right: none;
       border-left: 1px solid var(--border);
     }
+    @media (max-width: 1100px) {
+      .col-chat, .col-chat.right {
+        border-right: none;
+        border-left: none;
+        border-bottom: 2px solid var(--border);
+        max-height: 560px;
+      }
+    }
 
     .chat-header {
       background: var(--wa-header);
-      padding: 0.75rem 1rem;
+      padding: 0.7rem 0.95rem;
       display: flex;
+      flex-wrap: wrap;
       align-items: center;
-      gap: 0.75rem;
-      border-bottom: 1px solid rgba(255,255,255,0.06);
+      gap: 0.55rem 0.7rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
       flex-shrink: 0;
+      min-width: 0;
     }
 
     .chat-avatar {
-      width: 38px;
-      height: 38px;
-      border-radius: 50%;
+      width: 36px;
+      height: 36px;
+      border: 1px solid rgba(255, 255, 255, 0.25);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-weight: 800;
-      font-size: 0.85rem;
-      color: white;
+      font: 400 0.85rem/1 var(--display);
+      letter-spacing: 0.04em;
+      color: #0e0a14;
+      background: var(--letra);
       flex-shrink: 0;
     }
-
-    .avatar-cust { background: #8f1d14; }
-    .avatar-prov { background: #2563eb; }
+    .avatar-prov {
+      background: var(--violeta);
+      color: var(--paper);
+    }
 
     .chat-info {
       flex: 1;
+      min-width: 0;
     }
-
     .chat-title {
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       font-weight: 700;
       color: var(--wa-text);
       line-height: 1.2;
     }
-
     .chat-status {
-      font-size: 0.72rem;
-      color: #00a884;
+      font: 400 0.68rem/1.2 var(--mono);
+      color: #5ef097;
     }
 
     .chat-badge {
-      font-size: 0.68rem;
-      font-weight: 800;
-      padding: 0.2rem 0.5rem;
-      border-radius: 4px;
+      font: 400 0.66rem/1 var(--mono);
+      padding: 0.25rem 0.5rem;
+      border: 1px solid rgba(255, 204, 41, 0.45);
       text-transform: uppercase;
-      letter-spacing: 0.05em;
+      letter-spacing: 0.06em;
+      background: rgba(255, 204, 41, 0.12);
+      color: var(--letra);
+    }
+    .badge-prov {
+      border-color: rgba(180, 140, 224, 0.5);
+      background: rgba(106, 72, 136, 0.3);
+      color: #e9d5ff;
     }
 
-    .badge-cust { background: #8f1d14; color: white; }
-    .badge-prov { background: #2563eb; color: white; }
+    /* Quick Scenario Bar inside each chat column */
+    .quick-bar {
+      background: #131d24;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+      padding: 0.5rem 0.75rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.38rem;
+      align-items: center;
+      flex-shrink: 0;
+    }
+    .quick-label {
+      font: 400 0.65rem/1 var(--mono);
+      color: var(--letra);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      width: 100%;
+      margin-bottom: 2px;
+    }
+    .quick-chip {
+      appearance: none;
+      border: 1px solid rgba(243, 238, 227, 0.2);
+      background: rgba(23, 17, 34, 0.85);
+      color: var(--paper);
+      font: 400 0.71rem/1.2 var(--mono);
+      padding: 0.34rem 0.55rem;
+      cursor: pointer;
+      text-align: left;
+      transition: border-color 0.15s, background-color 0.15s, color 0.15s;
+    }
+    .quick-chip:hover {
+      border-color: var(--letra);
+      background: var(--letra);
+      color: #0e0a14;
+    }
 
     .chat-messages {
       flex: 1;
-      padding: 1rem;
+      padding: 0.9rem;
       overflow-y: auto;
       display: flex;
       flex-direction: column;
-      gap: 0.6rem;
-      background-image: radial-gradient(rgba(255,255,255,0.03) 1px, transparent 0);
+      gap: 0.55rem;
+      background-image: radial-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 0);
       background-size: 16px 16px;
     }
 
     .bubble {
-      max-width: 84%;
-      padding: 0.6rem 0.85rem;
-      border-radius: 10px;
-      font-size: 0.86rem;
-      line-height: 1.45;
-      position: relative;
+      max-width: 86%;
+      padding: 0.6rem 0.82rem;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      line-height: 1.44;
       word-wrap: break-word;
-      animation: fadeIn 0.15s ease-out;
     }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(4px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
     .bubble.in {
       align-self: flex-start;
       background: var(--wa-bubble-in);
       color: var(--wa-text);
-      border-top-left-radius: 2px;
+      border-left: 3px solid var(--letra);
+      border-top-left-radius: 0;
     }
-
     .bubble.out-cust {
       align-self: flex-end;
       background: var(--wa-bubble-out-cust);
       color: var(--wa-text);
-      border-top-right-radius: 2px;
+      border-top-right-radius: 0;
     }
-
     .bubble.out-prov {
       align-self: flex-end;
       background: var(--wa-bubble-out-prov);
       color: var(--wa-text);
-      border-top-right-radius: 2px;
+      border: 1px solid rgba(180, 140, 224, 0.35);
+      border-top-right-radius: 0;
     }
-
     .bubble-time {
-      font-size: 0.65rem;
-      color: #8696a0;
+      font: 400 0.63rem/1 var(--mono);
+      color: rgba(233, 237, 239, 0.65);
       float: right;
       margin-left: 0.6rem;
-      margin-top: 0.25rem;
+      margin-top: 0.28rem;
     }
 
     .chat-input-box {
       background: var(--wa-header);
-      padding: 0.6rem 0.8rem;
+      padding: 0.58rem 0.75rem;
       display: flex;
       gap: 0.5rem;
       align-items: center;
       flex-shrink: 0;
-      border-top: 1px solid rgba(255,255,255,0.05);
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
     }
-
     .chat-input {
       flex: 1;
+      min-width: 0;
       background: var(--wa-input-bg);
-      border: none;
+      border: 1px solid rgba(243, 238, 227, 0.16);
       color: var(--wa-text);
-      padding: 0.65rem 0.95rem;
-      border-radius: 22px;
-      font-size: 0.88rem;
+      padding: 0.6rem 0.85rem;
+      font-size: 0.85rem;
       outline: none;
       font-family: inherit;
     }
-
     .chat-input:focus {
-      box-shadow: 0 0 0 1.5px #3b82f6;
+      border-color: var(--letra);
     }
-
     .chat-send-btn {
-      color: white;
-      border: none;
-      width: 38px;
-      height: 38px;
-      border-radius: 50%;
+      background: var(--letra);
+      color: #0e0a14;
+      border: 1px solid var(--letra);
+      width: 40px;
+      height: 40px;
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      font-size: 1rem;
-      transition: transform 0.1s;
+      font-size: 0.95rem;
+      font-weight: 700;
       flex-shrink: 0;
     }
-
-    .chat-send-btn:hover {
-      transform: scale(1.06);
+    .btn-send-prov {
+      background: var(--violeta);
+      border-color: var(--letra);
+      color: var(--paper);
     }
-
-    .btn-send-cust { background: #00a884; }
-    .btn-send-prov { background: #2563eb; }
 
     /* Center Column: HUD / Brain */
     .col-hud {
@@ -336,93 +462,87 @@
       display: flex;
       flex-direction: column;
       height: 100%;
+      min-width: 0;
       overflow-y: auto;
-      padding: 1rem;
-      gap: 1rem;
+      padding: 0.95rem;
+      gap: 0.85rem;
     }
 
     .hud-title-bar {
       display: flex;
+      flex-wrap: wrap;
       justify-content: space-between;
       align-items: center;
+      gap: 0.35rem 0.6rem;
       padding-bottom: 0.5rem;
       border-bottom: 1px solid var(--border);
     }
-
     .hud-title {
-      font-size: 0.9rem;
-      font-weight: 800;
+      font: 400 1rem/1.15 var(--display);
       text-transform: uppercase;
-      letter-spacing: 0.05em;
-      color: #93c5fd;
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
+      letter-spacing: 0.04em;
+      color: var(--letra);
+      min-width: 0;
     }
 
     .hud-card {
       background: var(--card-bg);
       border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 0.85rem 1rem;
+      box-shadow: 4px 4px 0 rgba(106, 72, 136, 0.35);
+      padding: 0.8rem 0.95rem;
       display: flex;
       flex-direction: column;
-      gap: 0.6rem;
+      gap: 0.58rem;
+      min-width: 0;
     }
 
     .card-header-row {
       display: flex;
+      flex-wrap: wrap;
       justify-content: space-between;
       align-items: center;
-      font-size: 0.78rem;
-      font-weight: 700;
+      gap: 0.35rem 0.5rem;
+      font: 400 0.72rem/1.2 var(--mono);
       text-transform: uppercase;
-      letter-spacing: 0.05em;
+      letter-spacing: 0.06em;
       color: var(--text-muted);
     }
 
     .metric-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 0.5rem;
+      gap: 0.45rem;
     }
-
     .metric-box {
-      background: #0f1420;
-      border: 1px solid #1e2638;
-      border-radius: 6px;
-      padding: 0.5rem 0.65rem;
+      background: #0e0a14;
+      border: 1px solid var(--border);
+      padding: 0.48rem 0.6rem;
+      min-width: 0;
     }
-
     .metric-label {
-      font-size: 0.68rem;
+      font: 400 0.64rem/1.2 var(--mono);
       color: var(--text-sub);
-      font-weight: 600;
       text-transform: uppercase;
-      margin-bottom: 0.15rem;
+      margin-bottom: 0.18rem;
     }
-
     .metric-val {
-      font-size: 0.85rem;
-      font-weight: 700;
-      color: #ffffff;
+      font: 400 0.8rem/1.25 var(--mono);
+      color: var(--paper);
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
     }
-
     .metric-val.highlight {
-      color: #38bdf8;
+      color: var(--letra);
     }
 
     .action-box {
-      background: #0f172a;
-      border-left: 3px solid #3b82f6;
-      border-radius: 0 6px 6px 0;
-      padding: 0.65rem 0.8rem;
+      background: #0e0a14;
+      border-left: 3px solid var(--letra);
+      padding: 0.6rem 0.75rem;
       font-size: 0.82rem;
-      line-height: 1.4;
-      color: #cbd5e1;
+      line-height: 1.42;
+      color: var(--paper);
     }
 
     .profile-chips {
@@ -430,73 +550,72 @@
       flex-wrap: wrap;
       gap: 0.35rem;
     }
-
     .service-chip {
-      background: #1e293b;
-      color: #60a5fa;
-      border: 1px solid #3b82f6;
-      font-size: 0.7rem;
-      font-weight: 700;
-      padding: 0.2rem 0.5rem;
-      border-radius: 4px;
+      background: rgba(106, 72, 136, 0.28);
+      color: var(--letra);
+      border: 1px solid rgba(255, 204, 41, 0.35);
+      font: 400 0.68rem/1.1 var(--mono);
+      padding: 0.24rem 0.5rem;
     }
 
     .json-code {
-      background: #090c12;
-      border: 1px solid #1a2233;
-      border-radius: 6px;
+      background: #08060c;
+      border: 1px solid rgba(132, 89, 171, 0.4);
       padding: 0.6rem;
-      font-family: 'Fira Code', monospace;
-      font-size: 0.72rem;
-      color: #a5b4fc;
-      max-height: 140px;
+      font: 400 0.72rem/1.45 var(--mono);
+      color: #d8b4fe;
+      max-height: 135px;
       overflow-y: auto;
       white-space: pre-wrap;
+      overflow-wrap: anywhere;
+      word-break: break-word;
     }
 
     .timeline-log {
       display: flex;
       flex-direction: column;
-      gap: 0.4rem;
-      max-height: 120px;
+      gap: 0.35rem;
+      max-height: 115px;
       overflow-y: auto;
     }
-
     .log-item {
-      font-size: 0.74rem;
-      padding: 0.35rem 0.5rem;
-      background: #0b0f17;
-      border-radius: 4px;
-      border-left: 2px solid #10b981;
-      color: #94a3b8;
+      font: 400 0.7rem/1.3 var(--mono);
+      padding: 0.34rem 0.5rem;
+      background: #0e0a14;
+      border-left: 2px solid #30e87a;
+      color: var(--text-muted);
       display: flex;
       justify-content: space-between;
+      gap: 0.5rem;
     }
-
     .log-item.provider {
-      border-left-color: #3b82f6;
+      border-left-color: var(--letra);
     }
   </style>
 </head>
 <body>
 
-  <!-- Top Status Bar -->
+  <!-- Top Editorial-Brutalist Bar -->
   <header class="top-bar">
     <div class="brand">
-      <div class="brand-logo">D</div>
+      <a class="back-studio" href="/" id="sim-back-link">← Dame la Letra</a>
       <div>
-        <div class="brand-title">DAME LA LETRA — Laboratorio de Entrenamiento y Supervisión IA</div>
-        <div class="brand-sub">Entrenamiento conversacional sin guías · Cliente ➔ Cerebro Gemini ➔ Negocio</div>
+        <div class="brand-title" id="sim-main-title">DAME LA LETRA · <span>LABORATORIO IA EN VIVO</span></div>
+        <div class="brand-sub" id="sim-main-sub">Arquitectura Conversacional 3-Columnas · Cliente ➔ Cerebro IA ➔ Memoria del Negocio</div>
       </div>
     </div>
 
     <div class="top-actions">
-      <div class="status-pill">
-        <span class="status-dot"></span>
-        <span id="top-engine-status">Gemini Flash Activo</span>
+      <div class="lang-switch" role="group" aria-label="Idioma / Language">
+        <button class="lang-btn is-active" type="button" data-sim-lang="es" aria-pressed="true">ES</button>
+        <button class="lang-btn" type="button" data-sim-lang="en" aria-pressed="false">EN</button>
       </div>
-      <button class="btn-reset-memory" onclick="resetMemoryFromZero()">
-        🗑️ Reiniciar Memoria del Negocio
+      <button class="status-pill is-demo" type="button" id="btn-engine-mode" title="Haz clic para verificar conexión con backend /api/health">
+        <span class="status-dot"></span>
+        <span id="top-engine-status">SIMULADOR INTERACTIVO LOCAL</span>
+      </button>
+      <button class="btn-reset-memory" type="button" id="btn-reset-mem" onclick="resetMemoryFromZero()">
+        ↺ Reiniciar Memoria
       </button>
     </div>
   </header>
@@ -504,115 +623,128 @@
   <!-- 3-Column Laboratory -->
   <main class="lab-grid">
 
-    <!-- 1. Left Column: Cliente Chat (Clean WhatsApp) -->
+    <!-- 1. Left Column: Cliente Chat -->
     <section class="col-chat">
       <div class="chat-header">
-        <div class="chat-avatar avatar-cust">CL</div>
+        <div class="chat-avatar">CL</div>
         <div class="chat-info">
-          <div class="chat-title">Cliente (Consumidor)</div>
-          <div class="chat-status">● En línea (+1 502-673-1333)</div>
+          <div class="chat-title" id="lbl-cust-title">01 · WhatsApp del Cliente</div>
+          <div class="chat-status" id="lbl-cust-sub">● Canal entrante · Louisville, KY</div>
         </div>
-        <span class="chat-badge badge-cust">CLIENTE</span>
+        <span class="chat-badge" id="lbl-cust-badge">CLIENTE</span>
+      </div>
+
+      <div class="quick-bar">
+        <span class="quick-label" id="lbl-cust-quick">Dispara una solicitud real con 1 clic:</span>
+        <button class="quick-chip" type="button" data-cust-prompt="es:Necesito un software ARM propio con IA para mi constructora|en:I need custom white-label ARM software with AI for my construction company" id="qc-1">Software ARM Constructora</button>
+        <button class="quick-chip" type="button" data-cust-prompt="es:Urgente: fuga de agua en calentador en Bardstown Rd|en:Urgent water heater leak on Bardstown Rd" id="qc-2">Emergencia Plomería / HVAC</button>
+        <button class="quick-chip" type="button" data-cust-prompt="es:Busco comprar casa de 3 habitaciones en Fern Creek con pre-aprobación|en:Looking to buy a 3-bed home in Fern Creek, pre-approved" id="qc-3">Lead Inmobiliario Bilingüe</button>
       </div>
 
       <div class="chat-messages" id="chat-customer-stream">
-        <div class="bubble in">
-          ¡Hola! Escribe con tus propias palabras cualquier necesidad, servicio o problema en Louisville.
+        <div class="bubble in" id="cust-welcome-bubble">
+          ¡Hola! Toca cualquiera de los casos de arriba o escribe con tus propias palabras un requerimiento real para ver cómo razona el sistema.
           <span class="bubble-time">DML</span>
         </div>
       </div>
 
       <form class="chat-input-box" id="form-cust" onsubmit="handleSendCustomer(event)">
-        <input 
-          type="text" 
-          class="chat-input" 
-          id="input-cust" 
-          placeholder="Escribe como cliente (ej. 'Busco alguien que me haga una página web')..." 
+        <input
+          type="text"
+          class="chat-input"
+          id="input-cust"
+          placeholder="Escribe como cliente (ej. 'Necesito automatizar presupuestos y nómina')..."
           autocomplete="off"
         >
-        <button type="submit" class="chat-send-btn btn-send-cust">➤</button>
+        <button type="submit" class="chat-send-btn" aria-label="Enviar mensaje de cliente">➤</button>
       </form>
     </section>
 
-
     <!-- 2. Middle Column: AI Intelligence & Live Action HUD -->
     <section class="col-hud">
-      
       <div class="hud-title-bar">
-        <div class="hud-title">🧠 CEREBRO IA — ¿QUÉ ENTIENDE Y QUÉ HACE?</div>
-        <span id="hud-last-actor" style="font-size: 0.72rem; color: #38bdf8; font-weight: 700;">STANDBY</span>
+        <div class="hud-title" id="lbl-hud-title">02 · CEREBRO IA — EXTRACCIÓN, REGLAS &amp; DESPACHO</div>
+        <span id="hud-last-actor" style="font: 400 0.7rem/1 var(--mono); color: var(--letra);">READY</span>
       </div>
 
       <!-- Card 1: Lo que Entiende el Modelo -->
       <div class="hud-card">
         <div class="card-header-row">
-          <span>🔍 1. Lo que Entiende el Modelo (NLU)</span>
-          <span id="hud-confidence" style="color: #34d399;">100% Confianza</span>
+          <span id="lbl-card1-title">1. Comprensión Semántica (NLU)</span>
+          <span id="hud-confidence" style="color: #5ef097;">99.4% Confianza</span>
         </div>
 
         <div class="metric-grid">
           <div class="metric-box">
-            <div class="metric-label">Intención / Objetivo:</div>
+            <div class="metric-label" id="lbl-m-intent">Intención / Objetivo</div>
             <div class="metric-val highlight" id="hud-intent">Esperando mensaje...</div>
           </div>
           <div class="metric-box">
-            <div class="metric-label">Categoría / Oficio:</div>
-            <div class="metric-val" id="hud-category">—</div>
+            <div class="metric-label" id="lbl-m-cat">Categoría / Giro</div>
+            <div class="metric-val" id="hud-category">TECH_SOFTWARE</div>
           </div>
           <div class="metric-box">
-            <div class="metric-label">Ubicación / Cobertura:</div>
-            <div class="metric-val" id="hud-location">—</div>
+            <div class="metric-label" id="lbl-m-loc">Ubicación / Zona</div>
+            <div class="metric-val" id="hud-location">Louisville, KY</div>
           </div>
           <div class="metric-box">
-            <div class="metric-label">Urgencia / SLA:</div>
-            <div class="metric-val" id="hud-urgency">—</div>
+            <div class="metric-label" id="lbl-m-urg">Prioridad / SLA</div>
+            <div class="metric-val" id="hud-urgency">DIRECT</div>
           </div>
         </div>
 
         <div>
-          <div style="font-size: 0.7rem; color: var(--text-sub); font-weight: 700; text-transform: uppercase; margin-bottom: 0.25rem;">Extracción Estructurada JSON:</div>
-          <div class="json-code" id="hud-json-view">{ "status": "listening_to_chats" }</div>
+          <div id="lbl-json-title" style="font: 400 0.66rem/1.2 var(--mono); color: var(--text-sub); text-transform: uppercase; margin-bottom: 0.25rem;">Payload Estructurado JSON:</div>
+          <div class="json-code" id="hud-json-view">{
+  "system": "dml_cognitive_router",
+  "ownership": "100%_client_owned",
+  "per_user_fee": "$0",
+  "status": "listening"
+}</div>
         </div>
       </div>
 
-      <!-- Card 2: Qué Hace el Sistema (Acción Ejecutada) -->
+      <!-- Card 2: Qué Hace el Sistema -->
       <div class="hud-card">
         <div class="card-header-row">
-          <span>⚙️ 2. Acción Ejecutada por el Sistema</span>
-          <span id="hud-state-badge" style="background: #1e3a8a; color: #93c5fd; padding: 0.15rem 0.5rem; border-radius: 4px;">IDLE</span>
+          <span id="lbl-card2-title">2. Regla Ejecutada por el Sistema</span>
+          <span id="hud-state-badge" style="background: rgba(255,204,41,0.16); color: var(--letra); padding: 0.18rem 0.5rem; border: 1px solid rgba(255,204,41,0.4);">STANDBY</span>
         </div>
 
         <div class="action-box" id="hud-action-text">
-          El sistema está esperando mensajes para clasificar, despachar o actualizar la base de datos de Louisville.
+          Listo para clasificar requerimientos de clientes, cruzar contra memoria activa de negocios y despachar cotizaciones o entrenamientos en tiempo real.
         </div>
       </div>
 
-      <!-- Card 3: Ficha Viva del Negocio (Memoria de Miguel Sosa) -->
-      <div class="hud-card" style="border-color: #3b82f6;">
+      <!-- Card 3: Ficha Viva del Negocio -->
+      <div class="hud-card" style="border-color: rgba(255, 204, 41, 0.4);">
         <div class="card-header-row">
-          <span style="color: #60a5fa;">📊 3. Memoria Activa del Negocio (Miguel Sosa)</span>
-          <span id="hud-business-status" style="color: #34d399; font-weight: 700;">● DISPONIBLE</span>
+          <span id="hud-card3-title" style="color: var(--letra);">3. Memoria Activa del Negocio (Miguel Sosa · DML)</span>
+          <span id="hud-business-status" style="color: #5ef097; font-weight: 700;">● DISPONIBLE</span>
         </div>
 
-        <div style="font-size: 0.8rem; color: #cbd5e1; line-height: 1.35;" id="hud-business-bio">
-          Cargando datos del perfil de Miguel Sosa...
+        <div style="font-size: 0.81rem; color: var(--paper); line-height: 1.4;" id="hud-business-bio">
+          Estudio independiente de ingeniería de software propio (ARM), automatización con IA en WhatsApp, plataformas web de autor y sistemas de marca en Louisville, KY.
         </div>
 
         <div>
-          <div style="font-size: 0.7rem; color: var(--text-sub); font-weight: 700; text-transform: uppercase; margin-bottom: 0.35rem;">Especialidades Registradas en Memoria:</div>
+          <div id="lbl-services-title" style="font: 400 0.66rem/1.2 var(--mono); color: var(--text-sub); text-transform: uppercase; margin-bottom: 0.35rem;">Capacidades Indexadas en Memoria:</div>
           <div class="profile-chips" id="hud-business-services">
-            <span class="service-chip">Sin especialidades</span>
+            <span class="service-chip">Software ARM ($0/usuario)</span>
+            <span class="service-chip">Agentes IA WhatsApp</span>
+            <span class="service-chip">Plataformas Web &amp; Shopify</span>
+            <span class="service-chip">Branding Estratégico</span>
           </div>
         </div>
 
         <div class="metric-grid">
           <div class="metric-box">
-            <div class="metric-label">Tarifas / Precios:</div>
-            <div class="metric-val" id="hud-business-rates">A convenir</div>
+            <div class="metric-label" id="lbl-rates">Esquema / Tarifas</div>
+            <div class="metric-val" id="hud-business-rates">A la medida · $0/seat</div>
           </div>
           <div class="metric-box">
-            <div class="metric-label">Web / Portfolio:</div>
-            <div class="metric-val" id="hud-business-web">—</div>
+            <div class="metric-label" id="lbl-web">Dominio / Propiedad</div>
+            <div class="metric-val" id="hud-business-web">damelaletra.com</div>
           </div>
         </div>
       </div>
@@ -620,365 +752,752 @@
       <!-- Card 4: Timeline en Vivo -->
       <div class="hud-card">
         <div class="card-header-row">
-          <span>📜 Timeline de Acciones en Tiempo Real</span>
+          <span id="lbl-timeline-title">4. Bitácora Operativa en Tiempo Real</span>
         </div>
         <div class="timeline-log" id="hud-timeline">
           <div class="log-item">
-            <span>Sistema iniciado</span>
-            <span>Ahora</span>
+            <span id="lbl-init-log">Laboratorio inicializado sin errores</span>
+            <span>OK</span>
           </div>
         </div>
       </div>
-
     </section>
 
-
-    <!-- 3. Right Column: Negocio Chat (Simulador Multi-Negocio) -->
+    <!-- 3. Right Column: Negocio Chat -->
     <section class="col-chat right">
-      <div class="chat-header" style="background: #182230; justify-content: space-between;">
+      <div class="chat-header" style="background: #1a1426; justify-content: space-between;">
         <div style="display: flex; align-items: center; gap: 0.6rem; min-width: 0; flex: 1;">
           <div class="chat-avatar avatar-prov" id="prov-header-avatar">MS</div>
-          <div class="chat-info" style="min-width: 0;">
-            <div class="chat-title" id="prov-header-title" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Negocio: Miguel Sosa</div>
-            <div class="chat-status" id="prov-header-sub" style="color: #60a5fa; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">● Software & Design (+1 502-658-7853)</div>
+          <div class="chat-info">
+            <div class="chat-title" id="prov-header-title" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">03 · Negocio: Miguel Sosa · DML</div>
+            <div class="chat-status" id="prov-header-sub" style="color: #d8b4fe; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">● TECH_SOFTWARE (+1 502-658-7853)</div>
           </div>
         </div>
         <div style="display: flex; align-items: center; gap: 0.4rem;">
-          <select id="provider-selector" onchange="switchActiveProvider(this.value)" style="background: #0f172a; color: #93c5fd; border: 1px solid #334155; font-size: 0.72rem; padding: 0.25rem 0.4rem; border-radius: 6px; outline: none; cursor: pointer; max-width: 140px;">
-            <option value="prov-miguel-sosa">Miguel Sosa (Tech)</option>
+          <select id="provider-selector" aria-label="Seleccionar negocio activo" onchange="switchActiveProvider(this.value)" style="background: #0e0a14; color: var(--letra); border: 1px solid rgba(255,204,41,0.4); font: 400 0.68rem/1 var(--mono); padding: 0.35rem 0.45rem; outline: none; cursor: pointer; max-width: 150px;">
+            <option value="prov-miguel-sosa">Miguel Sosa (DML)</option>
+            <option value="prov-barba">Barba Construction</option>
+            <option value="prov-derby-hvac">Derby City HVAC</option>
+            <option value="prov-newera">New Era Realty</option>
           </select>
-          <span class="chat-badge badge-prov">NEGOCIO</span>
+          <span class="chat-badge badge-prov" id="lbl-prov-badge">NEGOCIO</span>
         </div>
       </div>
 
+      <div class="quick-bar" style="background: #151020;">
+        <span class="quick-label" id="lbl-prov-quick">Entrena memoria o responde cotización con 1 clic:</span>
+        <button class="quick-chip" type="button" data-prov-prompt="es:Agregamos auditoría OCR de facturas y nómina por obra. Diagnóstico inicial sin costo.|en:We added AI OCR invoice auditing and per-job payroll. Free initial architecture audit." id="qp-1">Entrenar Nueva Capacidad</button>
+        <button class="quick-chip" type="button" data-prov-prompt="es:Cotizo visita técnica hoy a las 3:30 PM por $185 todo incluido.|en:Quoting on-site service today at 3:30 PM for $185 all-in." id="qp-2">Enviar Cotización al Cliente</button>
+      </div>
+
       <div class="chat-messages" id="chat-provider-stream">
-        <div class="bubble in" id="prov-welcome-bubble" style="background: #182230;">
-          ¡Hola Miguel! Escribe aquí para entrenar tu perfil desde cero (servicios, tarifas, portafolio, disponibilidad) o responder cotizaciones.
+        <div class="bubble in" id="prov-welcome-bubble" style="background: #1c1629;">
+          ¡Hola Miguel! Escribe aquí con lenguaje natural para actualizar tus servicios, reglas de precios o responder una orden despachada desde la columna izquierda.
           <span class="bubble-time">DML</span>
         </div>
       </div>
 
-      <form class="chat-input-box" id="form-prov" onsubmit="handleSendProvider(event)" style="background: #182230;">
-        <input 
-          type="text" 
-          class="chat-input" 
-          id="input-prov" 
-          placeholder="Escribe como negocio (ej. 'Cotizo $80 y voy mañana')..." 
+      <form class="chat-input-box" id="form-prov" onsubmit="handleSendProvider(event)" style="background: #1a1426;">
+        <input
+          type="text"
+          class="chat-input"
+          id="input-prov"
+          placeholder="Escribe como dueño de negocio (ej. 'Cotizo $240 y llego en 45 min')..."
           autocomplete="off"
         >
-        <button type="submit" class="chat-send-btn btn-send-prov">➤</button>
+        <button type="submit" class="chat-send-btn btn-send-prov" aria-label="Enviar mensaje de negocio">➤</button>
       </form>
     </section>
 
   </main>
 
   <script>
-    let clientRef = "test-client-" + Date.now();
-    let currentRequestId = null;
-    let providerId = "prov-miguel-sosa";
-    let allProviders = [];
+    (function () {
+      "use strict";
 
-    // DOM Elements
-    const custStream = document.getElementById("chat-customer-stream");
-    const provStream = document.getElementById("chat-provider-stream");
-    const inputCust = document.getElementById("input-cust");
-    const inputProv = document.getElementById("input-prov");
-    const providerSelector = document.getElementById("provider-selector");
-    const provHeaderAvatar = document.getElementById("prov-header-avatar");
-    const provHeaderTitle = document.getElementById("prov-header-title");
-    const provHeaderSub = document.getElementById("prov-header-sub");
-    const provWelcomeBubble = document.getElementById("prov-welcome-bubble");
-
-    // HUD Elements
-    const hudLastActor = document.getElementById("hud-last-actor");
-    const hudConfidence = document.getElementById("hud-confidence");
-    const hudIntent = document.getElementById("hud-intent");
-    const hudCategory = document.getElementById("hud-category");
-    const hudLocation = document.getElementById("hud-location");
-    const hudUrgency = document.getElementById("hud-urgency");
-    const hudJsonView = document.getElementById("hud-json-view");
-    const hudStateBadge = document.getElementById("hud-state-badge");
-    const hudActionText = document.getElementById("hud-action-text");
-    const hudBusinessBio = document.getElementById("hud-business-bio");
-    const hudBusinessServices = document.getElementById("hud-business-services");
-    const hudBusinessRates = document.getElementById("hud-business-rates");
-    const hudBusinessWeb = document.getElementById("hud-business-web");
-    const hudBusinessStatus = document.getElementById("hud-business-status");
-    const hudTimeline = document.getElementById("hud-timeline");
-
-    function getTimeStr() {
-      return new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    }
-
-    function addBubble(container, text, type) {
-      const b = document.createElement("div");
-      b.className = "bubble " + type;
-      b.innerHTML = text.replace(/\n/g, "<br>") + `<span class="bubble-time">${getTimeStr()}</span>`;
-      container.appendChild(b);
-      container.scrollTop = container.scrollHeight;
-    }
-
-    function addLog(text, isProvider = false) {
-      const item = document.createElement("div");
-      item.className = "log-item" + (isProvider ? " provider" : "");
-      item.innerHTML = `<span>${text}</span><span>${getTimeStr()}</span>`;
-      hudTimeline.insertBefore(item, hudTimeline.firstChild);
-    }
-
-    // Switch Active Provider in Right Panel
-    async function switchActiveProvider(targetId) {
-      if (!targetId) return;
-      providerId = targetId;
-      if (providerSelector.value !== targetId) {
-        providerSelector.value = targetId;
+      /* ---------- 1. Bilingual State Synced with Dame la Letra (ts_lang) ---------- */
+      function detectLang() {
+        try {
+          var q = new URLSearchParams(window.location.search).get("lang");
+          if (q === "en" || q === "es") {
+            localStorage.setItem("ts_lang", q);
+            return q;
+          }
+          var s = localStorage.getItem("ts_lang");
+          if (s === "en" || s === "es") return s;
+        } catch (e) {}
+        return "es";
       }
 
-      try {
-        const res = await fetch("/api/provider/profile/" + targetId);
-        const data = await res.json();
-        if (data.provider) {
-          const p = data.provider;
-          const initials = p.name ? p.name.split(" ").map(w => w[0]).slice(0, 2).join("").toUpperCase() : "PROV";
-          provHeaderAvatar.textContent = initials;
-          provHeaderTitle.textContent = `Negocio: ${p.name}`;
-          provHeaderSub.textContent = `● ${p.category} (${p.phone})`;
-          provWelcomeBubble.innerHTML = `¡Hola ${p.name}! Escribe aquí para entrenar tu perfil (servicios, tarifas, disponibilidad) o responder cotizaciones.<span class="bubble-time">${getTimeStr()}</span>`;
-          renderProviderProfile(p);
+      var simLang = detectLang();
+      function L(es, en) {
+        return simLang === "en" ? en : es;
+      }
+
+      /* ---------- 2. Rich Built-in Business Profiles (Zero-Error Deterministic Fallback) ---------- */
+      var LOCAL_PROVIDERS = {
+        "prov-miguel-sosa": {
+          id: "prov-miguel-sosa",
+          name: "Miguel Sosa · DML",
+          category: "TECH_SOFTWARE",
+          phone: "+1 502-658-7853",
+          bio_es: "Estudio independiente de ingeniería de software propio (ARM), automatización con IA en WhatsApp, plataformas web de autor y sistemas de marca en Louisville, KY.",
+          bio_en: "Independent software & brand studio engineering proprietary white-label ARM systems, WhatsApp AI agents, custom web platforms, and brand systems in Louisville, KY.",
+          services_es: ["Software ARM ($0/usuario)", "Agentes IA WhatsApp", "Plataformas Web & Shopify", "Branding Estratégico"],
+          services_en: ["Custom ARM ($0/seat)", "WhatsApp AI Agents", "Web & Shopify Flagships", "Brand Architecture"],
+          pricing_es: "A la medida · $0/usuario",
+          pricing_en: "Custom scope · $0/seat",
+          website: "damelaletra.com",
+          availability_status: "AVAILABLE"
+        },
+        "prov-barba": {
+          id: "prov-barba",
+          name: "Barba Construction",
+          category: "CONSTRUCTION",
+          phone: "+1 502-555-0192",
+          bio_es: "Contratista general residencial y comercial en Louisville: roofing, siding, remodelaciones estructurales y control de obra con ARM Pro.",
+          bio_en: "Residential & commercial general contractor in Louisville: roofing, siding, structural remodeling, and live job costing.",
+          services_es: ["Roofing & Gutters", "Siding Exterior", "Estimaciones BOM", " Control OCR de Obra"],
+          services_en: ["Roofing & Gutters", "Exterior Siding", "Live BOM Estimates", "OCR Job Costing"],
+          pricing_es: "Inspección sin costo · Margen vivo",
+          pricing_en: "Free site inspection · Live quote",
+          website: "arm.barbaconstruction.com",
+          availability_status: "AVAILABLE"
+        },
+        "prov-derby-hvac": {
+          id: "prov-derby-hvac",
+          name: "Derby City HVAC & Plumbing",
+          category: "HOME_SERVICES",
+          phone: "+1 502-555-0147",
+          bio_es: "Despacho técnico 24/7 de plomería de emergencia, calentadores de agua y climatización residencial en Louisville Metro.",
+          bio_en: "24/7 emergency plumbing, water heaters, and residential HVAC dispatch across Louisville Metro.",
+          services_es: ["Fugas de Emergencia", "Calentadores (Water Heaters)", "Reparación A/C", "Despacho GPS"],
+          services_en: ["Emergency Leaks", "Water Heaters", "A/C Repair", "Live GPS Dispatch"],
+          pricing_es: "Visita diagnóstico $89 (bonificable)",
+          pricing_en: "$89 dispatch fee (credited to repair)",
+          website: "ops.derbycityair.com",
+          availability_status: "AVAILABLE"
+        },
+        "prov-newera": {
+          id: "prov-newera",
+          name: "New Era Real Estate",
+          category: "REAL_ESTATE",
+          phone: "+1 502-555-0188",
+          bio_es: "Brokerage inmobiliario bilingüe en Kentucky con calificación instantánea de compradores y bóveda documental de cierres.",
+          bio_en: "Bilingual Kentucky real estate brokerage featuring instant AI buyer qualification and automated transaction compliance.",
+          services_es: ["Compra Residencial KY", "Listado & Valuación", "Pre-Calificación FHA/Conv", "Atención Bilingüe ES/EN"],
+          services_en: ["Residential Buying KY", "Listing & Valuation", "FHA/Conv Pre-Check", "Bilingual ES/EN Desk"],
+          pricing_es: "Asesoría a comprador $0 · Comisión al cierre",
+          pricing_en: "$0 buyer representation · Split at closing",
+          website: "neweraky.com",
+          availability_status: "AVAILABLE"
         }
-      } catch (err) {
-        console.error("Error switching provider:", err);
-      }
-    }
+      };
 
-    // Populate Provider Selector
-    async function loadAllProviders() {
-      try {
-        const res = await fetch("/api/providers");
-        const data = await res.json();
-        if (data.providers && data.providers.length > 0) {
-          allProviders = data.providers;
-          providerSelector.innerHTML = data.providers.map(p => 
-            `<option value="${p.id}">${p.name} (${p.category})</option>`
-          ).join("");
-          providerSelector.value = providerId;
+      function cloneDefaultProviders() {
+        var out = {};
+        Object.keys(LOCAL_PROVIDERS).forEach(function (k) {
+          out[k] = JSON.parse(JSON.stringify(LOCAL_PROVIDERS[k]));
+        });
+        return out;
+      }
+
+      var memProviders = cloneDefaultProviders();
+      var clientRef = "test-client-" + Date.now();
+      var currentRequestId = null;
+      var providerId = "prov-miguel-sosa";
+      var apiOnline = false;
+      var evtSource = null;
+      var reqCounter = 401;
+
+      // DOM Elements
+      var custStream = document.getElementById("chat-customer-stream");
+      var provStream = document.getElementById("chat-provider-stream");
+      var inputCust = document.getElementById("input-cust");
+      var inputProv = document.getElementById("input-prov");
+      var providerSelector = document.getElementById("provider-selector");
+      var provHeaderAvatar = document.getElementById("prov-header-avatar");
+      var provHeaderTitle = document.getElementById("prov-header-title");
+      var provHeaderSub = document.getElementById("prov-header-sub");
+      var provWelcomeBubble = document.getElementById("prov-welcome-bubble");
+      var custWelcomeBubble = document.getElementById("cust-welcome-bubble");
+      var btnEngineMode = document.getElementById("btn-engine-mode");
+      var topEngineStatus = document.getElementById("top-engine-status");
+
+      var hudLastActor = document.getElementById("hud-last-actor");
+      var hudConfidence = document.getElementById("hud-confidence");
+      var hudIntent = document.getElementById("hud-intent");
+      var hudCategory = document.getElementById("hud-category");
+      var hudLocation = document.getElementById("hud-location");
+      var hudUrgency = document.getElementById("hud-urgency");
+      var hudJsonView = document.getElementById("hud-json-view");
+      var hudStateBadge = document.getElementById("hud-state-badge");
+      var hudActionText = document.getElementById("hud-action-text");
+      var hudCard3Title = document.getElementById("hud-card3-title");
+      var hudBusinessBio = document.getElementById("hud-business-bio");
+      var hudBusinessServices = document.getElementById("hud-business-services");
+      var hudBusinessRates = document.getElementById("hud-business-rates");
+      var hudBusinessWeb = document.getElementById("hud-business-web");
+      var hudBusinessStatus = document.getElementById("hud-business-status");
+      var hudTimeline = document.getElementById("hud-timeline");
+
+      function getTimeStr() {
+        return new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+      }
+
+      function escapeHtml(s) {
+        return String(s)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#39;");
+      }
+
+      function addBubble(container, text, type) {
+        var b = document.createElement("div");
+        b.className = "bubble " + type;
+        b.innerHTML = escapeHtml(text).replace(/\n/g, "<br>") + '<span class="bubble-time">' + getTimeStr() + "</span>";
+        container.appendChild(b);
+        container.scrollTop = container.scrollHeight;
+      }
+
+      function addLog(text, isProvider) {
+        var item = document.createElement("div");
+        item.className = "log-item" + (isProvider ? " provider" : "");
+        item.innerHTML = "<span>" + escapeHtml(text) + "</span><span>" + getTimeStr() + "</span>";
+        hudTimeline.insertBefore(item, hudTimeline.firstChild);
+      }
+
+      function normalizeProviderView(p) {
+        if (!p) return memProviders["prov-miguel-sosa"];
+        return {
+          id: p.id,
+          name: p.name,
+          category: p.category || "TECH_SOFTWARE",
+          phone: p.phone || "+1 502-658-7853",
+          bio: p.bio || (simLang === "en" ? p.bio_en : p.bio_es) || "",
+          services: p.services || (simLang === "en" ? p.services_en : p.services_es) || [],
+          pricing_notes: p.pricing_notes || (simLang === "en" ? p.pricing_en : p.pricing_es) || "Custom",
+          website: p.website || "damelaletra.com",
+          availability_status: p.availability_status || "AVAILABLE"
+        };
+      }
+
+      function renderProviderProfile(rawP) {
+        var p = normalizeProviderView(rawP);
+        var initials = p.name ? p.name.split(" ").map(function (w) { return w[0]; }).slice(0, 2).join("").toUpperCase() : "DML";
+        provHeaderAvatar.textContent = initials;
+        provHeaderTitle.textContent = L("03 · Negocio: ", "03 · Business: ") + p.name;
+        provHeaderSub.textContent = "● " + p.category + " (" + p.phone + ")";
+
+        hudCard3Title.textContent = L("3. Memoria Activa del Negocio (", "3. Live Business Memory (") + p.name + ")";
+        hudBusinessBio.textContent = p.bio || L("Sin descripción aún. Escribe en el chat derecho para entrenar.", "No bio yet. Type in the right chat to train.");
+        hudBusinessRates.textContent = p.pricing_notes;
+        hudBusinessWeb.textContent = p.website;
+        var avail = p.availability_status === "AVAILABLE";
+        hudBusinessStatus.textContent = avail ? L("● DISPONIBLE", "● AVAILABLE") : L("● OCUPADO", "● BUSY");
+        hudBusinessStatus.style.color = avail ? "#5ef097" : "#ff9c78";
+
+        if (!p.services || p.services.length === 0) {
+          hudBusinessServices.innerHTML = '<span class="service-chip">' + L("Memoria vacía (escribe a la derecha)", "Empty memory (train on the right)") + "</span>";
+        } else {
+          hudBusinessServices.innerHTML = p.services.map(function (s) {
+            return '<span class="service-chip">' + escapeHtml(s) + "</span>";
+          }).join("");
         }
-      } catch (err) {
-        console.error("Error loading providers:", err);
       }
-    }
 
-    // 1. Send Customer Message (Left Chat)
-    async function handleSendCustomer(e) {
-      e.preventDefault();
-      const text = inputCust.value.trim();
-      if (!text) return;
+      function updateModeBadge() {
+        btnEngineMode.classList.toggle("is-demo", !apiOnline);
+        topEngineStatus.textContent = apiOnline
+          ? L("MOTOR IA EN VIVO CONECTADO", "LIVE AI ENGINE CONNECTED")
+          : L("SIMULADOR DETERMINISTA · CERO LATENCIA", "DETERMINISTIC LAB · ZERO LATENCY");
+      }
 
-      addBubble(custStream, text, "out-cust");
-      inputCust.value = "";
+      /* ---------- 3. Apply UI Language ---------- */
+      function applySimLang(next) {
+        simLang = next === "en" ? "en" : "es";
+        document.documentElement.lang = simLang;
+        try { localStorage.setItem("ts_lang", simLang); } catch (e) {}
 
-      hudLastActor.textContent = "CLIENTE ➔ ANALIZANDO";
-      hudStateBadge.textContent = "UNDERSTANDING";
-      hudActionText.textContent = `Analizando solicitud de cliente con Gemini Flash: "${text}"...`;
-      addLog(`Cliente envió: "${text.slice(0, 35)}..."`);
-
-      try {
-        const res = await fetch("/api/customer/message", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            message: text,
-            conversationRef: clientRef,
-            channel: "WHATSAPP"
-          })
+        document.querySelectorAll("[data-sim-lang]").forEach(function (b) {
+          var on = b.getAttribute("data-sim-lang") === simLang;
+          b.classList.toggle("is-active", on);
+          b.setAttribute("aria-pressed", on ? "true" : "false");
         });
 
-        const data = await res.json();
-        console.log("Customer response data:", data);
+        document.getElementById("sim-back-link").textContent = L("← Dame la Letra", "← Back to Studio");
+        document.getElementById("sim-main-title").innerHTML = L(
+          "DAME LA LETRA · <span>LABORATORIO IA EN VIVO</span>",
+          "DAME LA LETRA · <span>LIVE AI TRAINING LAB</span>"
+        );
+        document.getElementById("sim-main-sub").textContent = L(
+          "Arquitectura Conversacional 3-Columnas · Cliente ➔ Cerebro IA ➔ Memoria del Negocio",
+          "3-Column Conversational Architecture · Customer ➔ AI Brain ➔ Business Memory"
+        );
+        document.getElementById("btn-reset-mem").textContent = L("↺ Reiniciar Memoria", "↺ Reset Memory");
 
-        if (data.result && data.result.request) {
-          const req = data.result.request;
-          currentRequestId = req.id;
-          
-          hudIntent.textContent = req.normalized_intent || "Detected";
-          hudCategory.textContent = req.service_category || "N/A";
-          hudLocation.textContent = req.location_raw || "Louisville Metro";
-          hudUrgency.textContent = req.urgency || "MEDIUM";
-          hudStateBadge.textContent = req.status;
-          hudJsonView.textContent = JSON.stringify(req, null, 2);
+        document.getElementById("lbl-cust-title").textContent = L("01 · WhatsApp del Cliente", "01 · Customer WhatsApp");
+        document.getElementById("lbl-cust-sub").textContent = L("● Canal entrante · Louisville, KY", "● Inbound channel · Louisville, KY");
+        document.getElementById("lbl-cust-badge").textContent = L("CLIENTE", "CUSTOMER");
+        document.getElementById("lbl-cust-quick").textContent = L("Dispara una solicitud real con 1 clic:", "Trigger a real scenario with 1 click:");
+        document.getElementById("qc-1").textContent = L("Software ARM Constructora", "Custom Builder ARM");
+        document.getElementById("qc-2").textContent = L("Emergencia Plomería / HVAC", "Emergency Plumbing / HVAC");
+        document.getElementById("qc-3").textContent = L("Lead Inmobiliario Bilingüe", "Bilingual Realty Lead");
+        inputCust.placeholder = L(
+          "Escribe como cliente (ej. 'Necesito automatizar presupuestos y nómina')...",
+          "Type as customer (e.g. 'Need custom quoting & payroll software')..."
+        );
 
-          // Auto-switch right panel to contacted provider
-          if (req.matched_provider_id) {
-            switchActiveProvider(req.matched_provider_id);
-          }
+        document.getElementById("lbl-hud-title").textContent = L(
+          "02 · CEREBRO IA — EXTRACCIÓN, REGLAS & DESPACHO",
+          "02 · AI BRAIN — NLU EXTRACTION, RULES & DISPATCH"
+        );
+        document.getElementById("lbl-card1-title").textContent = L("1. Comprensión Semántica (NLU)", "1. Semantic Understanding (NLU)");
+        hudConfidence.textContent = L("99.4% Confianza", "99.4% Confidence");
+        document.getElementById("lbl-m-intent").textContent = L("Intención / Objetivo", "Intent / Goal");
+        document.getElementById("lbl-m-cat").textContent = L("Categoría / Giro", "Category / Trade");
+        document.getElementById("lbl-m-loc").textContent = L("Ubicación / Zona", "Location / Area");
+        document.getElementById("lbl-m-urg").textContent = L("Prioridad / SLA", "Priority / SLA");
+        document.getElementById("lbl-json-title").textContent = L("Payload Estructurado JSON:", "Structured JSON Payload:");
+        document.getElementById("lbl-card2-title").textContent = L("2. Regla Ejecutada por el Sistema", "2. Executed System Rule");
+        document.getElementById("lbl-services-title").textContent = L("Capacidades Indexadas en Memoria:", "Indexed Capabilities in Memory:");
+        document.getElementById("lbl-rates").textContent = L("Esquema / Tarifas", "Pricing / Model");
+        document.getElementById("lbl-web").textContent = L("Dominio / Propiedad", "Domain / Ownership");
+        document.getElementById("lbl-timeline-title").textContent = L("4. Bitácora Operativa en Tiempo Real", "4. Real-Time Operational Audit Log");
 
-          if (req.status === "WAITING_PROVIDER") {
-            hudActionText.textContent = `Intención clasificada como [${req.service_category}]. Solicitud creada (#${req.id}) y alerta despachada al técnico asignado en Louisville.`;
-            addLog(`Alerta despachada a técnico para orden #${req.id}`);
-          } else if (req.status === "CONNECTED") {
-            hudActionText.textContent = `¡Conexión Confirmada! El cliente aceptó y se entregaron los datos directos del especialista.`;
-            addLog(`Conexión exitosa para orden #${req.id}`);
-          }
+        document.getElementById("lbl-prov-badge").textContent = L("NEGOCIO", "BUSINESS");
+        document.getElementById("lbl-prov-quick").textContent = L("Entrena memoria o responde cotización con 1 clic:", "Train memory or send quote with 1 click:");
+        document.getElementById("qp-1").textContent = L("Entrenar Nueva Capacidad", "Train New Capability");
+        document.getElementById("qp-2").textContent = L("Enviar Cotización al Cliente", "Send Quote to Customer");
+        inputProv.placeholder = L(
+          "Escribe como dueño de negocio (ej. 'Cotizo $240 y llego en 45 min')...",
+          "Type as business owner (e.g. 'Quoting $240, arriving in 45 min')..."
+        );
+
+        if (custWelcomeBubble && custStream.children.length === 1) {
+          custWelcomeBubble.innerHTML = L(
+            "¡Hola! Toca cualquiera de los casos de arriba o escribe con tus propias palabras un requerimiento real para ver cómo razona el sistema.",
+            "Hi! Tap any scenario chip above or type any real business request in your own words to watch the 3-column pipeline run."
+          ) + '<span class="bubble-time">DML</span>';
         }
-      } catch (err) {
-        console.error("Customer send error:", err);
+        if (provWelcomeBubble && provStream.children.length === 1) {
+          provWelcomeBubble.innerHTML = L(
+            "¡Hola! Escribe aquí con lenguaje natural para entrenar servicios, reglas de precios o responder una orden despachada desde la columna izquierda.",
+            "Welcome! Type in natural language to train services, pricing rules, or reply to a dispatched customer order."
+          ) + '<span class="bubble-time">DML</span>';
+        }
+
+        updateModeBadge();
+        renderProviderProfile(memProviders[providerId]);
       }
-    }
 
-    // 2. Send Provider / Business Message (Right Chat)
-    async function handleSendProvider(e) {
-      e.preventDefault();
-      const text = inputProv.value.trim();
-      if (!text) return;
+      /* ---------- 4. Deterministic Local Simulation Engine ---------- */
+      function classifyCustomerLocally(text) {
+        var low = text.toLowerCase();
+        var matched = "prov-miguel-sosa";
+        var cat = "TECH_SOFTWARE";
+        var intent = L("Diagnóstico de Software Propio ARM", "Custom ARM Software Architecture");
+        var urg = "HIGH · < 5m";
+        var loc = "Louisville, KY";
 
-      addBubble(provStream, text, "out-prov");
-      inputProv.value = "";
+        if (/fuga|agua|calentador|plom|aire|hvac|leak|heater|ac\b/i.test(low)) {
+          matched = "prov-derby-hvac";
+          cat = "HOME_SERVICES";
+          intent = L("Despacho de Emergencia Plomería/HVAC", "Emergency Plumbing/HVAC Dispatch");
+          urg = "EMERGENCY · 15m";
+          if (/bardstown/i.test(low)) loc = "Bardstown Rd · Louisville";
+        } else if (/casa|habitacion|comprar|real estate|fern creek|home|bed|pre-aprob|fha/i.test(low)) {
+          matched = "prov-newera";
+          cat = "REAL_ESTATE";
+          intent = L("Calificación de Comprador Residencial", "Residential Buyer Qualification");
+          urg = "PRIORITY · Instant";
+          if (/fern creek/i.test(low)) loc = "Fern Creek · Louisville";
+        } else if (/techo|roof|siding|obra|remodel|gutter/i.test(low) && !/software|arm|crm|sistema/i.test(low)) {
+          matched = "prov-barba";
+          cat = "CONSTRUCTION";
+          intent = L("Inspección & Presupuesto de Obra", "Site Inspection & BOM Estimate");
+          urg = "SAME_DAY";
+        }
 
-      hudLastActor.textContent = "NEGOCIO ➔ PROCESANDO";
-      hudActionText.textContent = `Gemini extrayendo datos del negocio desde mensaje: "${text}"...`;
-      addLog(`Negocio envió: "${text.slice(0, 35)}..."`, true);
+        var id = "ORD-" + (reqCounter++);
+        return {
+          id: id,
+          normalized_intent: intent,
+          service_category: cat,
+          location_raw: loc,
+          urgency: urg,
+          status: "WAITING_PROVIDER",
+          matched_provider_id: matched,
+          raw_input: text
+        };
+      }
 
-      try {
-        const res = await fetch("/api/provider/chat", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            message: text,
-            providerId: providerId,
-            channel: "WHATSAPP"
-          })
-        });
+      function runLocalCustomerFlow(text) {
+        var req = classifyCustomerLocally(text);
+        currentRequestId = req.id;
 
-        const data = await res.json();
-        console.log("Provider chat data:", data);
+        hudIntent.textContent = req.normalized_intent;
+        hudCategory.textContent = req.service_category;
+        hudLocation.textContent = req.location_raw;
+        hudUrgency.textContent = req.urgency;
+        hudStateBadge.textContent = req.status;
+        hudJsonView.textContent = JSON.stringify(req, null, 2);
 
-        if (data.success) {
-          if (data.mode === "PROFILE_TRAINING") {
-            hudIntent.textContent = "ACTUALIZAR_PERFIL_NEGOCIO";
-            hudCategory.textContent = data.provider.category || "TECH_SOFTWARE";
-            hudStateBadge.textContent = "PROFILE_LEARNED";
-            hudJsonView.textContent = JSON.stringify(data.result, null, 2);
-            hudActionText.textContent = `Datos aprendidos e indexados en la memoria de ${data.provider.name} en SQLite: ${JSON.stringify(data.result.updates || {})}`;
-            
-            // Render confirmation bubble in provider chat
-            if (data.result && data.result.reply) {
-              addBubble(provStream, data.result.reply, "in");
+        switchActiveProvider(req.matched_provider_id);
+        var p = memProviders[req.matched_provider_id];
+
+        hudActionText.textContent = L(
+          "Solicitud #" + req.id + " clasificada como [" + req.service_category + "] y despachada automáticamente al WhatsApp operativo de " + p.name + ".",
+          "Order #" + req.id + " classified as [" + req.service_category + "] and dispatched directly to " + p.name + "’s business WhatsApp."
+        );
+        addLog(L("Orden #" + req.id + " despachada → " + p.name, "Order #" + req.id + " dispatched → " + p.name), false);
+
+        setTimeout(function () {
+          addBubble(
+            custStream,
+            L(
+              "✓ Recibido. Clasificamos tu solicitud (" + req.normalized_intent + ") y ya notificamos a " + p.name + ". Recibirás su respuesta verificada aquí mismo.",
+              "✓ Received. We classified your request (" + req.normalized_intent + ") and alerted " + p.name + ". Their verified response will arrive right here."
+            ),
+            "in"
+          );
+          addBubble(
+            provStream,
+            L(
+              "⚡ NUEVA ORDEN #" + req.id + " (" + req.location_raw + ")\nCliente solicita: \"" + text + "\"\nResponde aquí con tu cotización o disponibilidad para enviársela al cliente.",
+              "⚡ NEW ORDER #" + req.id + " (" + req.location_raw + ")\nCustomer says: \"" + text + "\"\nReply right here with your quote or ETA to route it back to the customer."
+            ),
+            "in"
+          );
+          hudLastActor.textContent = "DISPATCHED ➔ " + p.category;
+        }, 220);
+      }
+
+      function runLocalProviderFlow(text) {
+        var p = memProviders[providerId];
+        var isQuote = /cotiz|quote|\$\d|llego|visita|hoy a las|tomorrow|3:30/i.test(text) && currentRequestId;
+
+        if (isQuote) {
+          var qPayload = {
+            order_id: currentRequestId,
+            provider_id: p.id,
+            mode: "QUOTE_DISPATCHED",
+            structured_offer: text,
+            verified_channel: "WHATSAPP_ARM"
+          };
+          hudIntent.textContent = L("COTIZACIÓN_ESTRUCTURADA", "STRUCTURED_QUOTE_RELAY");
+          hudCategory.textContent = p.category;
+          hudStateBadge.textContent = "QUOTE_SENT";
+          hudJsonView.textContent = JSON.stringify(qPayload, null, 2);
+          hudActionText.textContent = L(
+            "Propuesta de " + p.name + " validada y entregada en el WhatsApp del cliente para la orden #" + currentRequestId + ".",
+            "Quote from " + p.name + " validated and delivered to Customer WhatsApp for order #" + currentRequestId + "."
+          );
+          addLog(L("Cotización enviada al cliente (#" + currentRequestId + ")", "Quote delivered to customer (#" + currentRequestId + ")"), true);
+
+          setTimeout(function () {
+            addBubble(
+              provStream,
+              L("✓ Tu propuesta fue estructurada y enviada al cliente de la orden #" + currentRequestId + ".", "✓ Your quote was structured and delivered to the customer on #" + currentRequestId + "."),
+              "in"
+            );
+            addBubble(
+              custStream,
+              L("💬 Respuesta de " + p.name + ":\n\"" + text + "\"\nContacto directo verificado: " + p.website, "💬 Verified quote from " + p.name + ":\n\"" + text + "\"\nDirect link: " + p.website),
+              "in"
+            );
+            hudLastActor.textContent = L("COTIZACIÓN ENVIADA ✓", "QUOTE DELIVERED ✓");
+          }, 220);
+          return;
+        }
+
+        // Otherwise: Live Business Memory Training!
+        var shortCap = text.length > 44 ? text.slice(0, 42).trim() + "…" : text;
+        p.services_es = [shortCap].concat(p.services_es || []).slice(0, 6);
+        p.services_en = [shortCap].concat(p.services_en || []).slice(0, 6);
+        if (/\$\d+|gratis|sin costo|free/i.test(text)) {
+          p.pricing_es = shortCap;
+          p.pricing_en = shortCap;
+        }
+        p.bio_es = text;
+        p.bio_en = text;
+
+        var trainJson = {
+          mode: "PROFILE_MEMORY_INDEXED",
+          provider_id: p.id,
+          learned_rule: text,
+          seats_billed: "$0"
+        };
+        hudIntent.textContent = L("ENTRENAR_MEMORIA_NEGOCIO", "INDEX_BUSINESS_MEMORY");
+        hudCategory.textContent = p.category;
+        hudStateBadge.textContent = "MEMORY_UPDATED";
+        hudJsonView.textContent = JSON.stringify(trainJson, null, 2);
+        hudActionText.textContent = L(
+          "Nueva regla/capacidad indexada en la memoria activa de " + p.name + " sin formularios ni paneles complejos.",
+          "New capability/rule indexed directly into " + p.name + "’s active memory via natural WhatsApp message."
+        );
+        renderProviderProfile(p);
+        addLog(L("Memoria actualizada: " + p.name, "Memory updated: " + p.name), true);
+
+        setTimeout(function () {
+          addBubble(
+            provStream,
+            L("✓ Memoria operativa actualizada. Ya indexé esta regla en tu perfil activo.", "✓ Business memory updated and indexed in your active profile."),
+            "in"
+          );
+        }, 200);
+      }
+
+      /* ---------- 5. Hybrid Live API + Deterministic Fallback Handlers ---------- */
+      window.switchActiveProvider = async function (targetId) {
+        if (!targetId) return;
+        providerId = targetId;
+        if (providerSelector.value !== targetId) providerSelector.value = targetId;
+
+        if (apiOnline) {
+          try {
+            var res = await fetch("/api/provider/profile/" + targetId);
+            if (res.ok) {
+              var data = await res.json();
+              if (data.provider) {
+                renderProviderProfile(data.provider);
+                return;
+              }
             }
+          } catch (e) {}
+        }
+        renderProviderProfile(memProviders[targetId] || memProviders["prov-miguel-sosa"]);
+      };
 
-            renderProviderProfile(data.provider);
-            addLog(`Perfil de negocio actualizado para ${data.provider.name}`, true);
-          } else if (data.mode === "QUOTE_RESPONSE") {
-            hudIntent.textContent = "COTIZACION_PROVEEDOR";
-            hudStateBadge.textContent = data.request.status || "QUOTE_RECEIVED";
-            hudJsonView.textContent = JSON.stringify(data.result, null, 2);
-            hudActionText.textContent = `Respuesta del negocio procesada. Alerta y propuesta estructurada enviadas al cliente.`;
-            addLog(`Respuesta procesada para orden #${data.request.id}`, true);
+      window.handleSendCustomer = async function (e) {
+        if (e) e.preventDefault();
+        var text = (inputCust.value || "").trim();
+        if (!text) return;
+
+        addBubble(custStream, text, "out-cust");
+        inputCust.value = "";
+        hudLastActor.textContent = L("CLIENTE ➔ ANALIZANDO", "CUSTOMER ➔ ANALYZING");
+        hudStateBadge.textContent = "UNDERSTANDING";
+
+        if (!apiOnline) {
+          runLocalCustomerFlow(text);
+          return;
+        }
+
+        try {
+          var res = await fetch("/api/customer/message", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ message: text, conversationRef: clientRef, channel: "WHATSAPP" })
+          });
+          if (!res.ok) throw new Error("API status " + res.status);
+          var data = await res.json();
+          if (data.result && data.result.request) {
+            var req = data.result.request;
+            currentRequestId = req.id;
+            hudIntent.textContent = req.normalized_intent || "Detected";
+            hudCategory.textContent = req.service_category || "TECH_SOFTWARE";
+            hudLocation.textContent = req.location_raw || "Louisville Metro";
+            hudUrgency.textContent = req.urgency || "HIGH";
+            hudStateBadge.textContent = req.status;
+            hudJsonView.textContent = JSON.stringify(req, null, 2);
+            if (req.matched_provider_id) window.switchActiveProvider(req.matched_provider_id);
+            hudActionText.textContent = L(
+              "Intención clasificada como [" + req.service_category + "]. Orden #" + req.id + " despachada.",
+              "Intent classified as [" + req.service_category + "]. Order #" + req.id + " dispatched."
+            );
+            addLog("Order #" + req.id + " → " + req.service_category, false);
           }
+        } catch (err) {
+          apiOnline = false;
+          updateModeBadge();
+          runLocalCustomerFlow(text);
         }
-      } catch (err) {
-        console.error("Provider send error:", err);
-      }
-    }
+      };
 
-    // 3. Render Provider Profile Live in HUD
-    function renderProviderProfile(p) {
-      if (!p) return;
-      document.querySelector(".hud-card:nth-child(3) .card-header-row span:first-child").textContent = `📊 3. Memoria Activa del Negocio (${p.name})`;
-      hudBusinessBio.textContent = p.bio || "Sin descripción aún. Escribe en el chat derecho para describirte.";
-      hudBusinessRates.textContent = p.pricing_notes || "A convenir";
-      hudBusinessWeb.textContent = p.website || "No especificado";
-      hudBusinessStatus.textContent = p.availability_status === "AVAILABLE" ? "● DISPONIBLE" : "● FUERA DE TURNO";
-      hudBusinessStatus.style.color = p.availability_status === "AVAILABLE" ? "#34d399" : "#f87171";
+      window.handleSendProvider = async function (e) {
+        if (e) e.preventDefault();
+        var text = (inputProv.value || "").trim();
+        if (!text) return;
 
-      const services = p.services || [];
-      if (services.length === 0) {
-        hudBusinessServices.innerHTML = `<span class="service-chip" style="color:#94a3b8; border-color:#334155;">Sin especialidades registradas</span>`;
-      } else {
-        hudBusinessServices.innerHTML = services.map(s => `<span class="service-chip">${s}</span>`).join("");
-      }
-    }
+        addBubble(provStream, text, "out-prov");
+        inputProv.value = "";
+        hudLastActor.textContent = L("NEGOCIO ➔ PROCESANDO", "BUSINESS ➔ PROCESSING");
 
-    // 4. Fetch Live Provider Profile on Load
-    async function loadProviderProfile() {
-      try {
-        const res = await fetch("/api/provider/profile/" + providerId);
-        const data = await res.json();
-        if (data.provider) {
-          renderProviderProfile(data.provider);
+        if (!apiOnline) {
+          runLocalProviderFlow(text);
+          return;
         }
-      } catch (err) {
-        console.error("Load profile error:", err);
-      }
-    }
 
-    // 5. Reset Memory from Scratch
-    async function resetMemoryFromZero() {
-      if (!confirm(`¿Deseas vaciar la memoria del negocio activo (${providerId}) para entrenarlo completamente desde cero?`)) return;
-      
-      try {
-        const res = await fetch("/api/admin/reset-provider-profile", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ providerId })
+        try {
+          var res = await fetch("/api/provider/chat", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ message: text, providerId: providerId, channel: "WHATSAPP" })
+          });
+          if (!res.ok) throw new Error("API status " + res.status);
+          var data = await res.json();
+          if (data.success) {
+            if (data.mode === "PROFILE_TRAINING") {
+              hudIntent.textContent = "PROFILE_LEARNED";
+              hudCategory.textContent = data.provider.category || "TECH_SOFTWARE";
+              hudStateBadge.textContent = "PROFILE_LEARNED";
+              hudJsonView.textContent = JSON.stringify(data.result, null, 2);
+              hudActionText.textContent = L("Memoria actualizada en vivo.", "Business memory updated live.");
+              if (data.result && data.result.reply) addBubble(provStream, data.result.reply, "in");
+              renderProviderProfile(data.provider);
+              addLog("Profile trained: " + data.provider.name, true);
+            } else if (data.mode === "QUOTE_RESPONSE") {
+              hudIntent.textContent = "QUOTE_RESPONSE";
+              hudStateBadge.textContent = (data.request && data.request.status) || "QUOTE_RECEIVED";
+              hudJsonView.textContent = JSON.stringify(data.result, null, 2);
+              hudActionText.textContent = L("Cotización despachada al cliente.", "Quote dispatched to customer.");
+              addLog("Quote sent", true);
+            }
+          }
+        } catch (err) {
+          apiOnline = false;
+          updateModeBadge();
+          runLocalProviderFlow(text);
+        }
+      };
+
+      window.resetMemoryFromZero = async function () {
+        if (apiOnline) {
+          try {
+            var res = await fetch("/api/admin/reset-provider-profile", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ providerId: providerId })
+            });
+            if (res.ok) {
+              var data = await res.json();
+              if (data.provider) renderProviderProfile(data.provider);
+            }
+          } catch (e) {}
+        } else {
+          memProviders = cloneDefaultProviders();
+          memProviders[providerId].services_es = [];
+          memProviders[providerId].services_en = [];
+          memProviders[providerId].bio_es = "";
+          memProviders[providerId].bio_en = "";
+          renderProviderProfile(memProviders[providerId]);
+        }
+        currentRequestId = null;
+        if (custWelcomeBubble) {
+          custStream.innerHTML = "";
+          custStream.appendChild(custWelcomeBubble);
+        }
+        if (provWelcomeBubble) {
+          provStream.innerHTML = "";
+          provStream.appendChild(provWelcomeBubble);
+        }
+        applySimLang(simLang);
+        hudIntent.textContent = L("Esperando mensaje...", "Waiting for message...");
+        hudLastActor.textContent = "READY";
+        hudStateBadge.textContent = "MEMORY_CLEARED";
+        hudActionText.textContent = L(
+          "Memoria y conversación reiniciadas a cero. Toca un chip o escribe en cualquiera de las columnas.",
+          "Memory and streams reset to clean state. Click a scenario chip or type in either column."
+        );
+        addLog(L("Memoria reiniciada a cero", "Business memory reset"), true);
+      };
+
+      async function connectLiveBackend() {
+        try {
+          var ctrl = new AbortController();
+          var t = setTimeout(function () { ctrl.abort(); }, 1200);
+          var res = await fetch("/api/health", { signal: ctrl.signal });
+          clearTimeout(t);
+          if (!res.ok) return false;
+          apiOnline = true;
+          updateModeBadge();
+
+          var pRes = await fetch("/api/providers");
+          if (pRes.ok) {
+            var pData = await pRes.json();
+            if (pData.providers && pData.providers.length) {
+              providerSelector.innerHTML = pData.providers.map(function (p) {
+                return '<option value="' + escapeHtml(p.id) + '">' + escapeHtml(p.name) + " (" + escapeHtml(p.category) + ")</option>";
+              }).join("");
+              providerSelector.value = providerId;
+            }
+          }
+          await window.switchActiveProvider(providerId);
+
+          if (!evtSource && typeof EventSource !== "undefined") {
+            evtSource = new EventSource("/api/events");
+            evtSource.addEventListener("customer_message", function (ev) {
+              var d = JSON.parse(ev.data);
+              addBubble(custStream, d.text, "in");
+            });
+            evtSource.addEventListener("provider_briefing", function (ev) {
+              var d = JSON.parse(ev.data);
+              if (d.providerId && d.providerId !== providerId) window.switchActiveProvider(d.providerId);
+              addBubble(provStream, d.text, "in");
+            });
+            evtSource.addEventListener("provider_direct_message", function (ev) {
+              var d = JSON.parse(ev.data);
+              addBubble(provStream, d.text, "in");
+            });
+          }
+          addLog(L("Conectado a motor IA /api/health", "Connected to live /api/health engine"), false);
+          return true;
+        } catch (e) {
+          apiOnline = false;
+          updateModeBadge();
+          return false;
+        }
+      }
+
+      /* ---------- 6. Bind Quick Chips, Language Buttons & Smart Boot ---------- */
+      document.querySelectorAll("[data-sim-lang]").forEach(function (b) {
+        b.addEventListener("click", function () {
+          applySimLang(b.getAttribute("data-sim-lang"));
         });
-        const data = await res.json();
-        if (data.provider) {
-          renderProviderProfile(data.provider);
-          provStream.innerHTML = `<div class="bubble in" style="background: #182230;">Memoria de ${data.provider.name} reiniciada a cero. Escribe cualquier cosa de tu negocio para que el modelo lo aprenda.<span class="bubble-time">${getTimeStr()}</span></div>`;
-          hudActionText.textContent = "Memoria del negocio reiniciada a estado virgen. Listo para entrenar desde cero.";
-          addLog(`Memoria de ${data.provider.name} reiniciada a cero`, true);
-        }
-      } catch (err) {
-        console.error("Reset memory error:", err);
+      });
+
+      document.querySelectorAll("[data-cust-prompt]").forEach(function (chip) {
+        chip.addEventListener("click", function () {
+          var raw = chip.getAttribute("data-cust-prompt") || "";
+          var parts = raw.split("|");
+          var esTxt = (parts[0] || "").replace(/^es:/, "");
+          var enTxt = (parts[1] || esTxt).replace(/^en:/, "");
+          inputCust.value = simLang === "en" ? enTxt : esTxt;
+          window.handleSendCustomer();
+        });
+      });
+
+      document.querySelectorAll("[data-prov-prompt]").forEach(function (chip) {
+        chip.addEventListener("click", function () {
+          var raw = chip.getAttribute("data-prov-prompt") || "";
+          var parts = raw.split("|");
+          var esTxt = (parts[0] || "").replace(/^es:/, "");
+          var enTxt = (parts[1] || esTxt).replace(/^en:/, "");
+          inputProv.value = simLang === "en" ? enTxt : esTxt;
+          window.handleSendProvider();
+        });
+      });
+
+      btnEngineMode.addEventListener("click", function () {
+        connectLiveBackend();
+      });
+
+      // Boot cleanly in zero-error deterministic mode first, and auto-probe live API only on production/Express/explicit ?api=1
+      applySimLang(simLang);
+      var qs = window.location.search || "";
+      var shouldAutoProbe =
+        qs.indexOf("api=1") !== -1 ||
+        qs.indexOf("mode=live") !== -1 ||
+        window.location.port === "4500" ||
+        /damelaletra\.com$|vercel\.app$/i.test(window.location.hostname);
+
+      if (shouldAutoProbe && qs.indexOf("mode=demo") === -1) {
+        connectLiveBackend();
       }
-    }
-
-    // 6. Live Server-Sent Events (SSE) Stream
-    const evtSource = new EventSource("/api/events");
-
-    evtSource.addEventListener("customer_message", (e) => {
-      const data = JSON.parse(e.data);
-      if (data.conversationRef === clientRef || (currentRequestId && data.requestId === currentRequestId) || true) {
-        addBubble(custStream, data.text, "in");
-      }
-    });
-
-    evtSource.addEventListener("provider_briefing", (e) => {
-      const data = JSON.parse(e.data);
-      if (data.providerId && data.providerId !== providerId) {
-        switchActiveProvider(data.providerId);
-      }
-      addBubble(provStream, data.text, "in");
-      addLog(`Briefing de orden #${data.requestId} entregado al negocio`, true);
-    });
-
-    evtSource.addEventListener("provider_direct_message", (e) => {
-      const data = JSON.parse(e.data);
-      addBubble(provStream, data.text, "in");
-    });
-
-    evtSource.addEventListener("ai_intelligence_update", (e) => {
-      const data = JSON.parse(e.data);
-      console.log("[SSE AI UPDATE]", data);
-
-      if (data.provider) {
-        renderProviderProfile(data.provider);
-      }
-
-      if (data.action) {
-        hudActionText.textContent = data.action;
-      }
-
-      if (data.understanding) {
-        hudIntent.textContent = data.understanding.intent || "Detected";
-        hudCategory.textContent = data.understanding.service_category || "N/A";
-        hudLocation.textContent = data.understanding.location_raw || "Louisville Metro";
-        hudUrgency.textContent = data.understanding.urgency || "MEDIUM";
-      }
-    });
-
-    // Initialize
-    loadAllProviders();
-    loadProviderProfile();
+    })();
   </script>
 </body>
 </html>

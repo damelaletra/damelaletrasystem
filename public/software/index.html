@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Tu Software · ARM a la Medida & Sistemas Propios · Capítulo 04 — Dame la Letra</title>
-<meta name="description" content="Construimos el sistema operativo de tu empresa con tu marca, en tu dominio y bajo tu control ($0 por usuario, sin contratos de permanencia). Explora el simulador interactivo y los 4 sistemas en producción: ZHomes, New Era ARM, My Chief CAD y Tzel.">
+<title>Software Propio, ARM & Sistemas IA · Capítulo 01 — Dame la Letra</title>
+<meta name="description" content="Construimos el sistema operativo de tu empresa con tu marca, en tu dominio y bajo tu control ($0 por usuario, sin contratos de permanencia). Explora el simulador interactivo de 6 industrias y sistemas reales: Barba ARM Pro, ZHomes, New Era ARM, My Chief CAD y TZEL OS.">
 <link rel="canonical" href="https://www.damelaletra.com/software">
 <meta name="robots" content="index, follow">
 <meta name="theme-color" content="#0e0a14">
@@ -15,8 +15,8 @@
 <meta property="og:site_name" content="Dame la Letra">
 <meta property="og:locale" content="es_US">
 <meta property="og:url" content="https://www.damelaletra.com/software">
-<meta property="og:title" content="Tu Software · ARM a la Medida & Sistemas Propios · Capítulo 04 — Dame la Letra">
-<meta property="og:description" content="Construimos el sistema operativo de tu empresa con tu marca, en tu dominio y bajo tu control ($0 por usuario, sin contratos de permanencia). Explora el simulador interactivo y los 4 sistemas en producción: ZHomes, New Era ARM, My Chief CAD y Tzel.">
+<meta property="og:title" content="Software Propio, ARM & Sistemas IA · Capítulo 01 — Dame la Letra">
+<meta property="og:description" content="Construimos el sistema operativo de tu empresa con tu marca, en tu dominio y bajo tu control ($0 por usuario, sin contratos de permanencia). Explora el simulador interactivo de 6 industrias y sistemas reales: Barba ARM Pro, ZHomes, New Era ARM, My Chief CAD y TZEL OS.">
 <meta property="og:image" content="https://www.damelaletra.com/hola/og.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -697,6 +697,7 @@ html[data-motion="off"] :is(.hero-roller,.caret){display:none!important}
 .hchap:hover::after{transform:scaleX(1);transform-origin:0 50%}
 html[data-motion="off"] :is(.btn-primary,.btn-ink,.fab,.ar-cta){translate:none!important}
 </style>
+<link rel="stylesheet" href="/hola/css/dml-evolution.css">
 </head>
 <body>
 
@@ -708,96 +709,105 @@ html[data-motion="off"] :is(.btn-primary,.btn-ink,.fab,.ar-cta){translate:none!i
       <a class="brand" href="/"><img src="/hola/img/dame-la-letra-logo.png" width="1102" height="161" alt="Dame la Letra" fetchpriority="high" decoding="async"></a>
     </div>
     <div class="top-right">
-      <button class="ar-pill" type="button" data-toggle-ar aria-label="Ver en tu espacio en Realidad Aumentada"><i>✦</i> Ver en tu espacio (AR)</button>
+      <div class="lang-switch" role="group" aria-label="Idioma / Language">
+        <button class="lang-btn is-active" type="button" data-dml-lang="es" aria-pressed="true">ES</button>
+        <button class="lang-btn" type="button" data-dml-lang="en" aria-pressed="false">EN</button>
+      </div>
+      <button class="ar-pill" type="button" data-toggle-ar aria-label="Experiencia espacial en Realidad Aumentada"><i>✦</i> Experiencia AR</button>
       <p class="top-meta"><span class="dot" aria-hidden="true"></span>Louisville, KY</p>
     </div>
   </div>
-  <nav class="sub-chapters" aria-label="Capítulos del portafolio">
-    <a class="hchap" href="/"><span>00 /</span> Inicio</a>
-    <a class="hchap" href="/branding"><span>01 /</span> Branding</a>
-    <a class="hchap" href="/web"><span>02 /</span> Web &amp; Código</a>
-    <a class="hchap" href="/planos"><span>03 /</span> Planos 3D</a>
-    <a class="hchap is-current" href="/software" aria-current="page"><span>04 /</span> Tu Software · ARM</a>
-    <a class="hchap" href="/videos"><span>05 /</span> Videos &amp; Reels</a>
+  <nav class="sub-chapters" aria-label="Capítulos del portafolio" data-aria-es="Capítulos del portafolio" data-aria-en="Studio disciplines">
+    <a class="hchap" href="/" data-html-es="&lt;span&gt;00 /&lt;/span&gt; Inicio" data-html-en="&lt;span&gt;00 /&lt;/span&gt; Home"><span>00 /</span> Inicio</a>
+    <a class="hchap is-current" href="/software" aria-current="page" data-html-es="&lt;span&gt;01 /&lt;/span&gt; Software &amp;amp; Sistemas IA" data-html-en="&lt;span&gt;01 /&lt;/span&gt; Software &amp;amp; AI Systems"><span>01 /</span> Software &amp; Sistemas IA</a>
+    <a class="hchap" href="/web" data-html-es="&lt;span&gt;02 /&lt;/span&gt; Web &amp;amp; Plataformas" data-html-en="&lt;span&gt;02 /&lt;/span&gt; Web &amp;amp; Platforms"><span>02 /</span> Web &amp; Plataformas</a>
+    <a class="hchap" href="/branding" data-html-es="&lt;span&gt;03 /&lt;/span&gt; Branding &amp;amp; Identidad" data-html-en="&lt;span&gt;03 /&lt;/span&gt; Brand &amp;amp; Identity"><span>03 /</span> Branding &amp; Identidad</a>
   </nav>
-  <div class="sub-jumps"><b>En este capítulo:</b> <a href="#tu-software">Tu Software · ARM a la Medida (Simulador 6 Industrias)</a> <a href="#cap-software">6 Sistemas en Producción (ZHomes · Barba ARM · New Era · My Chief CAD · Tzel · Dame la Letra)</a></div>
+  <div class="sub-jumps"><b data-es="En este capítulo:" data-en="In this chapter:">En este capítulo:</b> <a href="#tu-software" data-es="Simulador ARM (6 Industrias)" data-en="ARM Simulator (6 Industries)">Simulador ARM (6 Industrias)</a> <a href="#cap-software" data-es="6 Sistemas Desarrollados (Barba · ZHomes · New Era · My Chief · TZEL · DML)" data-en="6 Engineered Systems (Barba · ZHomes · New Era · My Chief · TZEL · DML)">6 Sistemas Desarrollados (Barba · ZHomes · New Era · My Chief · TZEL · DML)</a> <a href="/simulator" data-es="Laboratorio IA 3-Columnas ↗" data-en="3-Column AI Training Lab ↗">Laboratorio IA 3-Columnas ↗</a></div>
 </header>
 
 <main id="main">
   <section class="sec ts-sec" id="tu-software" aria-labelledby="ts-main-title" lang="es" style="padding-top:clamp(44px,6vw,84px)"><svg hidden aria-hidden="true" style="display:none"><defs><g id="ts-i-wa"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></g><g id="ts-i-no"><path d="M18 6 6 18M6 6l12 12"/></g><g id="ts-i-yes"><path d="M20 6 9 17l-5-5"/></g><g id="ts-i-arr"><path d="M5 12h14M13 6l6 6-6 6"/></g></defs></svg></section>
 
   <!-- =================================================================
-       CAPÍTULO 04 — SOFTWARE PROPIO, SAAS & PLATAFORMAS EN LÍNEA
+       CAPÍTULO 01 — SOFTWARE PROPIO, SAAS & PLATAFORMAS EN LÍNEA
        ================================================================= -->
   <section class="sec" id="cap-software" aria-labelledby="software-title" style="border-top:1px solid var(--line)">
     <div class="wrap">
-      <p class="label" data-reveal><b>04</b> Capítulo 04 · Software Propio, SaaS &amp; Sistemas <i>/ Herramientas creadas para operar y escalar.</i></p>
-      <h2 class="h2" id="software-title" data-reveal>Sistemas que <em>operan negocios.</em></h2>
-      <p class="sec-sub" data-reveal>Aplicaciones móviles, suites omnicanal de IA inmobiliaria, visores arquitectónicos 3D en tiempo real y sistemas de inteligencia de adquisiciones.</p>
+      <p class="label" data-reveal data-html-es="&lt;b&gt;01&lt;/b&gt; Capítulo 01 · Software Propio, SaaS &amp;amp; Sistemas IA &lt;i&gt;/ Herramientas creadas para operar y escalar.&lt;/i&gt;" data-html-en="&lt;b&gt;01&lt;/b&gt; Chapter 01 · Proprietary Software, SaaS &amp;amp; AI Systems &lt;i&gt;/ Engineered to run real operations.&lt;/i&gt;"><b>01</b> Capítulo 01 · Software Propio, SaaS &amp; Sistemas IA <i>/ Herramientas creadas para operar y escalar.</i></p>
+      <h2 class="h2" id="software-title" data-reveal data-html-es="Sistemas que &lt;em&gt;operan negocios reales.&lt;/em&gt;" data-html-en="Systems that &lt;em&gt;run real businesses.&lt;/em&gt;">Sistemas que <em>operan negocios reales.</em></h2>
+      <p class="sec-sub" data-reveal data-es="ERPs de construcción, plataformas SaaS inmobiliarias, suites omnicanal de IA, motores CAD/BIM 3D y sistemas de inteligencia de adquisiciones. Distinguimos con claridad los sistemas en producción con clientes de nuestros prototipos de laboratorio." data-en="Construction ERPs, real estate SaaS platforms, omnichannel AI suites, 3D CAD/BIM engines, and property acquisition intelligence. Every system is transparently labeled between live client deployments and DML internal lab builds.">ERPs de construcción, plataformas SaaS inmobiliarias, suites omnicanal de IA, motores CAD/BIM 3D y sistemas de inteligencia de adquisiciones. Distinguimos con claridad los sistemas en producción con clientes de nuestros prototipos de laboratorio.</p>
 
       <div class="more" id="mas-sistemas" style="margin-top:clamp(36px,6vw,64px);padding-top:0;border-top:0" data-reveal>
         <ul class="more-list">
           <li>
             <button class="more-card" type="button" data-open-stage="zhomes">
               <video muted loop playsinline preload="none" poster="/hola/media/zhomes-demo-poster.png" data-loop-src="/hola/media/zhomes-demo-vertical.mp4" width="540" height="960"></video>
+              <span class="more-cls-row"><span class="cls-badge cls-live">CASO REAL · EN PRODUCCIÓN</span></span>
               <span class="more-t">ZHomes App</span>
-              <span class="more-d">SaaS inmobiliario · Match, Vault &amp; Radar IA +</span>
+              <span class="more-d" data-es="SaaS inmobiliario · Match, Vault &amp; Radar IA +" data-en="Real estate SaaS · Match, Vault &amp; AI Radar +">SaaS inmobiliario · Match, Vault &amp; Radar IA +</span>
             </button>
             <a class="proj-link ext" href="https://zhomesapp.com/" target="_blank" rel="noopener" style="margin-top:8px;font-size:.86rem">zhomesapp.com <small>↗</small></a>
           </li>
           <li>
             <button class="more-card" type="button" data-open-stage="barba">
               <video muted loop playsinline preload="none" poster="/hola/media/barba-demo-poster.png" data-loop-src="/hola/media/barba-demo-vertical.mp4" width="540" height="960"></video>
+              <span class="more-cls-row"><span class="cls-badge cls-live">CASO REAL · EN PRODUCCIÓN</span></span>
               <span class="more-t">Barba · ARM Pro</span>
-              <span class="more-d">ERP de construcción · Presupuestos, OCR &amp; nómina +</span>
+              <span class="more-d" data-es="ERP de construcción · Presupuestos, OCR &amp; nómina +" data-en="Construction ERP · Estimates, AI OCR &amp; payroll +">ERP de construcción · Presupuestos, OCR &amp; nómina +</span>
             </button>
           </li>
           <li>
             <button class="more-card" type="button" data-open-stage="software">
               <video muted loop playsinline preload="none" poster="/hola/media/newera-demo-poster.jpg" data-loop-src="/hola/media/newera-demo-loop.mp4" width="480" height="854"></video>
+              <span class="more-cls-row"><span class="cls-badge cls-live">CASO REAL · EN PRODUCCIÓN</span></span>
               <span class="more-t">New Era · ARM</span>
-              <span class="more-d">Suite omnicanal de IA inmobiliaria +</span>
+              <span class="more-d" data-es="Suite omnicanal de IA inmobiliaria +" data-en="Omnichannel real estate AI suite +">Suite omnicanal de IA inmobiliaria +</span>
             </button>
             <a class="proj-link ext" href="https://www.neweraky.com/" target="_blank" rel="noopener" style="margin-top:8px;font-size:.86rem">neweraky.com <small>↗</small></a>
           </li>
           <li>
             <button class="more-card" type="button" data-open-stage="mychief">
               <video muted loop playsinline preload="none" poster="/hola/media/mychief-demo-poster.png" data-loop-src="/hola/media/mychief-demo-vertical.mp4" width="540" height="960"></video>
+              <span class="more-cls-row"><span class="cls-badge cls-live">CASO REAL · EN PRODUCCIÓN</span></span>
               <span class="more-t">My Chief CAD</span>
-              <span class="more-d">Motor CAD &amp; BIM 3D · Plano para Ciudad +</span>
+              <span class="more-d" data-es="Motor CAD &amp; BIM 3D · Ingeniería &amp; Ciudad +" data-en="3D CAD &amp; BIM Engine · Permit Engineering +">Motor CAD &amp; BIM 3D · Ingeniería &amp; Ciudad +</span>
             </button>
           </li>
           <li>
             <button class="more-card" type="button" data-open-stage="tzel">
               <video muted loop playsinline preload="none" poster="/hola/media/tzel-demo-poster.png" data-loop-src="/hola/media/tzel-demo-vertical.mp4" width="540" height="960"></video>
+              <span class="more-cls-row"><span class="cls-badge cls-live">CASO REAL · EN PRODUCCIÓN</span></span>
               <span class="more-t">Tzel · Acquisition OS</span>
-              <span class="more-d">Inteligencia inmobiliaria · Subastas &amp; GIS +</span>
+              <span class="more-d" data-es="Inteligencia inmobiliaria · Subastas &amp; GIS +" data-en="Acquisition OS · Tax Liens, Auctions &amp; GIS +">Inteligencia inmobiliaria · Subastas &amp; GIS +</span>
             </button>
             <a class="proj-link ext" href="https://tzel.vercel.app/" target="_blank" rel="noopener" style="margin-top:8px;font-size:.86rem">tzel.vercel.app <small>↗</small></a>
           </li>
           <li>
             <button class="more-card" type="button" data-open-stage="dml-arm">
               <video muted loop playsinline preload="none" poster="/hola/media/dml-arm-demo-poster.png" data-loop-src="/hola/media/dml-arm-demo-vertical.mp4" width="540" height="960"></video>
+              <span class="more-cls-row"><span class="cls-badge cls-lab">INGENIERÍA DML · DEMO INTERACTIVA</span></span>
               <span class="more-t">Dame la Letra · ARM</span>
-              <span class="more-d">AI Concierge, despacho creativo &amp; laboratorio +</span>
+              <span class="more-d" data-es="AI Concierge, despacho creativo &amp; laboratorio +" data-en="AI Concierge, creative dispatch &amp; live lab +">AI Concierge, despacho creativo &amp; laboratorio +</span>
             </button>
+            <a class="proj-link ext" href="/simulator" style="margin-top:8px;font-size:.86rem" data-html-es="Abrir Laboratorio IA &lt;small&gt;→&lt;/small&gt;" data-html-en="Open AI Training Lab &lt;small&gt;→&lt;/small&gt;">Abrir Laboratorio IA <small>→</small></a>
           </li>
         </ul>
       </div>
-      <p style="margin-top:28px" data-reveal><a class="proj-link" href="#tu-software">↑ Volver arriba al simulador de Tu software · ARM</a></p>
+      <p style="margin-top:28px" data-reveal><a class="proj-link" href="#tu-software" data-es="↑ Volver arriba al simulador de Tu Software · ARM" data-en="↑ Back to the 6-Industry ARM Simulator">↑ Volver arriba al simulador de Tu Software · ARM</a></p>
     </div>
   </section>
 
-  <section class="chap-pager" aria-label="Navegación entre capítulos">
+  <section class="chap-pager" aria-label="Navegación entre capítulos" data-aria-es="Navegación entre capítulos" data-aria-en="Chapter navigation">
     <div class="chap-pager-in">
       <div>
-        <p class="chap-pager-meta">Explorar más disciplinas de Dame la Letra</p>
-        <h3 class="chap-pager-title">Siguiente capítulo: <em>05 · Realización de Video &amp; Reels</em></h3>
+        <p class="chap-pager-meta" data-es="Explorar los tres frentes de Dame la Letra" data-en="Explore Dame la Letra’s three core disciplines">Explorar los tres frentes de Dame la Letra</p>
+        <h3 class="chap-pager-title" data-html-es="Siguiente capítulo: &lt;em&gt;02 · Web, E-Commerce &amp;amp; Plataformas&lt;/em&gt;" data-html-en="Next chapter: &lt;em&gt;02 · Web, E-Commerce &amp;amp; Platforms&lt;/em&gt;">Siguiente capítulo: <em>02 · Web, E-Commerce &amp; Plataformas</em></h3>
       </div>
       <div class="chap-pager-btns">
-        <a class="btn btn-ghost" href="/">← Volver a Inicio</a>
-        <a class="btn btn-primary" href="/videos">
-          Ir a Capítulo 05 · Videos
+        <a class="btn btn-ghost" href="/" data-es="← Volver a Inicio" data-en="← Back to Home">← Volver a Inicio</a>
+        <a class="btn btn-primary" href="/web">
+          <span data-es="Ir a Capítulo 02 · Web &amp; Plataformas" data-en="Go to Chapter 02 · Web &amp; Platforms">Ir a Capítulo 02 · Web &amp; Plataformas</span>
           <svg class="arr" viewBox="0 0 24 24" aria-hidden="true"><path d="M13.2 5.3 19.9 12l-6.7 6.7-1.4-1.4 4.3-4.3H4v-2h12.1l-4.3-4.3z"/></svg>
         </a>
       </div>
@@ -805,16 +815,16 @@ html[data-motion="off"] :is(.btn-primary,.btn-ink,.fab,.ar-cta){translate:none!i
   </section>
 
   <div class="band-wrap" aria-hidden="true">
-    <div class="band alt"><div class="band-track"><span>Diseño <i class="star"></i> Negocio <i class="star"></i> Código <i class="star"></i> Arquitectura <i class="star"></i></span><span>Diseño <i class="star"></i> Negocio <i class="star"></i> Código <i class="star"></i> Arquitectura <i class="star"></i></span></div><div class="band-track"><span>Diseño <i class="star"></i> Negocio <i class="star"></i> Código <i class="star"></i> Arquitectura <i class="star"></i></span><span>Diseño <i class="star"></i> Negocio <i class="star"></i> Código <i class="star"></i> Arquitectura <i class="star"></i></span></div></div>
+    <div class="band alt"><div class="band-track"><span data-html-es="Software Propio &lt;i class=&quot;star&quot;&gt;&lt;/i&gt; Inteligencia Artificial &lt;i class=&quot;star&quot;&gt;&lt;/i&gt; Diseño &lt;i class=&quot;star&quot;&gt;&lt;/i&gt; Negocio &lt;i class=&quot;star&quot;&gt;&lt;/i&gt;" data-html-en="Proprietary Software &lt;i class=&quot;star&quot;&gt;&lt;/i&gt; Artificial Intelligence &lt;i class=&quot;star&quot;&gt;&lt;/i&gt; Design &lt;i class=&quot;star&quot;&gt;&lt;/i&gt; Business &lt;i class=&quot;star&quot;&gt;&lt;/i&gt;">Software Propio <i class="star"></i> Inteligencia Artificial <i class="star"></i> Diseño <i class="star"></i> Negocio <i class="star"></i></span><span data-html-es="Software Propio &lt;i class=&quot;star&quot;&gt;&lt;/i&gt; Inteligencia Artificial &lt;i class=&quot;star&quot;&gt;&lt;/i&gt; Diseño &lt;i class=&quot;star&quot;&gt;&lt;/i&gt; Negocio &lt;i class=&quot;star&quot;&gt;&lt;/i&gt;" data-html-en="Proprietary Software &lt;i class=&quot;star&quot;&gt;&lt;/i&gt; Artificial Intelligence &lt;i class=&quot;star&quot;&gt;&lt;/i&gt; Design &lt;i class=&quot;star&quot;&gt;&lt;/i&gt; Business &lt;i class=&quot;star&quot;&gt;&lt;/i&gt;">Software Propio <i class="star"></i> Inteligencia Artificial <i class="star"></i> Diseño <i class="star"></i> Negocio <i class="star"></i></span></div><div class="band-track"><span data-html-es="Software Propio &lt;i class=&quot;star&quot;&gt;&lt;/i&gt; Inteligencia Artificial &lt;i class=&quot;star&quot;&gt;&lt;/i&gt; Diseño &lt;i class=&quot;star&quot;&gt;&lt;/i&gt; Negocio &lt;i class=&quot;star&quot;&gt;&lt;/i&gt;" data-html-en="Proprietary Software &lt;i class=&quot;star&quot;&gt;&lt;/i&gt; Artificial Intelligence &lt;i class=&quot;star&quot;&gt;&lt;/i&gt; Design &lt;i class=&quot;star&quot;&gt;&lt;/i&gt; Business &lt;i class=&quot;star&quot;&gt;&lt;/i&gt;">Software Propio <i class="star"></i> Inteligencia Artificial <i class="star"></i> Diseño <i class="star"></i> Negocio <i class="star"></i></span><span data-html-es="Software Propio &lt;i class=&quot;star&quot;&gt;&lt;/i&gt; Inteligencia Artificial &lt;i class=&quot;star&quot;&gt;&lt;/i&gt; Diseño &lt;i class=&quot;star&quot;&gt;&lt;/i&gt; Negocio &lt;i class=&quot;star&quot;&gt;&lt;/i&gt;" data-html-en="Proprietary Software &lt;i class=&quot;star&quot;&gt;&lt;/i&gt; Artificial Intelligence &lt;i class=&quot;star&quot;&gt;&lt;/i&gt; Design &lt;i class=&quot;star&quot;&gt;&lt;/i&gt; Business &lt;i class=&quot;star&quot;&gt;&lt;/i&gt;">Software Propio <i class="star"></i> Inteligencia Artificial <i class="star"></i> Diseño <i class="star"></i> Negocio <i class="star"></i></span></div></div>
   </div>
 
   <!-- =================================================================
-       SECCIÓN 07 — HABLEMOS / CONTACTO
+       HABLEMOS / CONTACTO
        ================================================================= -->
   <section class="sec contact" id="contacto" aria-labelledby="contact-title" data-ll-lantern>
     <div class="type-bg" aria-hidden="true"></div>
     <div class="wrap">
-      <p class="label"><b>05</b> Hablemos</p>
+      <p class="label" data-html-es="&lt;b&gt;04&lt;/b&gt; Hablemos" data-html-en="&lt;b&gt;04&lt;/b&gt; Let’s Talk"><b>04</b> Hablemos</p>
       <h2 class="contact-t" id="contact-title" lang="en">
         <span>Good ideas</span>
         <span class="sub-line">start with a</span>
@@ -1654,6 +1664,7 @@ html[data-motion="off"] :is(.btn-primary,.btn-ink,.fab,.ar-cta){translate:none!i
     d.body.classList.add('modal-open');
     syncPageInert();
     if(!wasOpen)focusFirstInModal(stage,'.stage-close');
+    window.dispatchEvent(new CustomEvent('dml:stageopen',{detail:{id:id}}));
   }
 
   function closeStage(){
@@ -1672,6 +1683,7 @@ html[data-motion="off"] :is(.btn-primary,.btn-ink,.fab,.ar-cta){translate:none!i
       try{window.history.replaceState(null,'',window.location.pathname+window.location.search)}catch(e){}
     }
   }
+  window.__DML_STAGE_API={open:openStage,close:closeStage,stages:STAGES,getCurrent:function(){return currentStageId;}};
 
   d.querySelectorAll('[data-open-stage]').forEach(function(b){
     b.addEventListener('click',function(){openStage(b.getAttribute('data-open-stage'))});
@@ -2183,5 +2195,6 @@ var tsSec=d.getElementById('tu-software');if(tsSec){var lzD=function(s){var o=''
 /* [[TS_JS_END]] */
 })();
 </script>
+<script src="/hola/js/dml-evolution.js" defer></script>
 </body>
 </html>
