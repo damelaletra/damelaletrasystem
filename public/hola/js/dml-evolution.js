@@ -1552,6 +1552,124 @@
     }
   }
 
+  /* ---------- 7b. Editorial Print-Shop Watermarks, Domain Plates & Montage Deck ---------- */
+  var PROJ_WM_MAP = {
+    "p-lucky": "SHOPIFY · 60FPS",
+    "p-newera": "MLS · AI SUITE",
+    "p-labonita": "14K · 3D ART",
+    "p-dp": "CINEMA · LUXURY",
+    "p-primestone": "SPATIAL · 16:9",
+    "p-gn": "SCROLL · 3D",
+    "p-consoliday": "SAAS · FINTECH",
+    "p-elys": "ATELIER · BRAND",
+    "p-trilion": "ACADEMY · UX",
+    "p-berta": "PODCAST · CMS",
+    "p-marielys": "EDTECH · LMS",
+    "p-pool": "LIQUID · GLASS",
+    "p-campestre": "DRIVER · PIN"
+  };
+
+  var PROJ_PLATE_I18N = {
+    "p-marielys": ["reto 21 días · lms", "21-day academy · lms"],
+    "p-campestre": ["sistema + pin móvil", "system + driver pin"]
+  };
+
+  function initEditorialSurfaces() {
+    d.querySelectorAll("article.proj").forEach(function (proj) {
+      var pid = proj.id || "";
+      if (!proj.hasAttribute("data-wm")) {
+        var wm = PROJ_WM_MAP[pid];
+        if (!wm) {
+          var firstMeta = proj.querySelector(".proj-meta span");
+          wm = firstMeta ? firstMeta.textContent.trim().toUpperCase() : "DML · STUDIO";
+        }
+        proj.setAttribute("data-wm", wm);
+      }
+
+      var media = proj.querySelector(".proj-media");
+      if (media && !media.querySelector(".proj-plate")) {
+        var plate = ce("span", "proj-plate");
+        plate.setAttribute("aria-hidden", "true");
+        var dot = ce("i");
+        var txt = ce("span");
+        var customPair = PROJ_PLATE_I18N[pid];
+        if (customPair) {
+          txt.setAttribute("data-es", customPair[0]);
+          txt.setAttribute("data-en", customPair[1]);
+          txt.textContent = customPair[0];
+        } else {
+          var extLink = proj.querySelector(".proj-link.ext[href]");
+          var host = "";
+          if (extLink) {
+            try {
+              var u = new URL(extLink.getAttribute("href"), window.location.origin);
+              if (/^https?:$/.test(u.protocol) && !/\.vercel\.app$|\.github\.io$/i.test(u.hostname)) {
+                host = u.hostname.replace(/^www\./i, "");
+              }
+            } catch (e) {}
+          }
+          if (host) {
+            txt.textContent = host;
+          } else {
+            txt.setAttribute("data-es", "en producción");
+            txt.setAttribute("data-en", "live build");
+            txt.textContent = "en producción";
+          }
+        }
+        plate.appendChild(dot);
+        plate.appendChild(txt);
+        media.appendChild(plate);
+      }
+    });
+
+    var collage = d.querySelector(".web-collage");
+    if (collage) {
+      var cVid = collage.querySelector("video");
+      var syncCollageVideo = function () {
+        if (!cVid) return;
+        var motionOff = root.getAttribute("data-motion") === "off" ||
+          (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+        if (motionOff) {
+          try { cVid.pause(); } catch (e) {}
+        } else {
+          var p = cVid.play && cVid.play();
+          if (p && p.catch) p.catch(function () {});
+        }
+      };
+      syncCollageVideo();
+      d.querySelectorAll("[data-toggle-motion]").forEach(function (mb) {
+        mb.addEventListener("click", function () {
+          setTimeout(syncCollageVideo, 20);
+        });
+      });
+
+      if (window.matchMedia && window.matchMedia("(pointer: fine)").matches) {
+        var rafId = 0;
+        var nextX = 0;
+        var nextY = 0;
+        var reducedMotionMq = window.matchMedia("(prefers-reduced-motion: reduce)");
+        collage.addEventListener("pointermove", function (ev) {
+          if (root.getAttribute("data-motion") === "off" || reducedMotionMq.matches) return;
+          var r = collage.getBoundingClientRect();
+          if (!r.width || !r.height) return;
+          nextX = ((ev.clientX - r.left) / r.width - 0.5) * 14;
+          nextY = ((ev.clientY - r.top) / r.height - 0.5) * 12;
+          if (!rafId) {
+            rafId = requestAnimationFrame(function () {
+              rafId = 0;
+              collage.style.setProperty("--cx", nextX.toFixed(1) + "px");
+              collage.style.setProperty("--cy", nextY.toFixed(1) + "px");
+            });
+          }
+        }, { passive: true });
+        collage.addEventListener("pointerleave", function () {
+          collage.style.setProperty("--cx", "0px");
+          collage.style.setProperty("--cy", "0px");
+        }, { passive: true });
+      }
+    }
+  }
+
   /* ---------- 8. Boot & Event Listeners ---------- */
   function boot() {
     // Bind global ES | EN buttons
@@ -1606,6 +1724,7 @@
     initDemoVivo();
     renderAnatomia();
     initSoftwareDeepLink();
+    initEditorialSurfaces();
     setDmlLang(dmlLang, false);
 
     window.__DML_EVOLUTION = {
