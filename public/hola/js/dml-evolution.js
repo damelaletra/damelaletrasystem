@@ -223,16 +223,16 @@
     },
     elys: {
       cls: "live",
-      kickerEn: "01 / Brand Identity · Packaging · Web Catalog & Launch Film",
-      descEn: "Complete identity system for a boutique charcuterie atelier in Louisville: rose monogram in burgundy and gold, bespoke packaging and grazing cups, reveal film, and bilingual WhatsApp ordering catalog.",
+      kickerEn: "Brand Identity · Packaging · Web Platform & Launch Film",
+      descEn: "Complete identity system and custom web platform for a boutique charcuterie atelier in Louisville (elyscharcuterie.com): rose monogram in burgundy and gold, bespoke packaging, seasonal promotions, bilingual catalog, and admin console.",
       fxBtnEn: "Animate rose emblems",
-      urlLabelEn: "Visit Ely’s live catalog ↗",
-      problem: "Transformar pedidos artesanales por DM en una marca gourmet de regalo corporativo y eventos con presencia boutique.|Turn informal DM orders into a high-perceived-value gourmet gifting and events brand.",
-      arch: "Identidad visual + sistema de empaque físico (bolsas y grazing cups en oro) + catálogo digital con pedido directo.|Visual identity + physical packaging system (gold-foil bags & grazing cups) + direct WhatsApp ordering catalog."
+      urlLabelEn: "Visit elyscharcuterie.com ↗",
+      problem: "Transformar pedidos artesanales por DM en una marca gourmet de regalo corporativo y eventos con presencia boutique y sitio web propio.|Turn informal DM orders into a high-perceived-value gourmet gifting and events brand with its own flagship platform.",
+      arch: "Identidad visual + sistema de empaque físico + plataforma web bilingüe (elyscharcuterie.com) con promociones dinámicas y pedidos directos.|Visual identity + physical packaging system + bilingual web platform (elyscharcuterie.com) with seasonal promos and direct ordering."
     },
     dp: {
       cls: "live",
-      kickerEn: "02 / Digital Platform · Cinema Promo · Luxury Photography",
+      kickerEn: "Digital Platform · Cinema Promo · Luxury Photography",
       descEn: "Interactive editorial portfolio and launch film for a luxury wedding, quinceañera, and cinema studio in Louisville, Kentucky.",
       urlLabelEn: "Visit dphotographystudios.com ↗",
       problem: "Estudio audiovisual de alto nivel necesitaba una vitrina digital a la altura de sus producciones cinematográficas.|High-end cinema & portrait studio needed a digital flagship worthy of its production value.",
@@ -240,7 +240,7 @@
     },
     trilion: {
       cls: "live",
-      kickerEn: "03 / Web Platform · Leadership, Sports & Education",
+      kickerEn: "Web Platform · Leadership, Sports & Education",
       descEn: "Web architecture and UX design for a leadership, athletics, and education academy: clear enrollment paths, mobile-first layout, and high-impact visual storytelling.",
       urlLabelEn: "Visit trilionacademy.com ↗",
       problem: "Organizar múltiples programas deportivos y formativos en una arquitectura clara para padres y estudiantes en móvil.|Organize multiple sports and leadership programs into a frictionless mobile enrollment experience.",
@@ -248,19 +248,67 @@
     },
     labonita: {
       cls: "live",
-      kickerEn: "03 / Art Direction · 3D Campaign Film · 10K & 14K Gold Shopify",
+      kickerEn: "Art Direction · 3D Campaign Film · 10K & 14K Gold Shopify",
       descEn: "Editorial art direction and bespoke Shopify store: classical marble sculpture, Reimagined 3D campaign films, karat-filtered catalog, and live daily gold-buying calculator.",
       fxBtnEn: "Trigger 14K gold sparks",
       urlLabelEn: "Visit labonitajewelry.com ↗",
       problem: "Diferenciar una joyería de oro real de 10K y 14K frente a catálogos genéricos y automatizar el cálculo diario de compra de oro.|Differentiate a real 10K/14K gold jeweler from cookie-cutter stores and automate live gold-buying quotes.",
-      arch: " Universo visual en mármol y 3D + tienda Shopify por quilataje + calculadora de cotización en vivo.|3D classical marble art direction + karat-filtered Shopify store + live daily gold calculator."
+      arch: "Universo visual en mármol y 3D + tienda Shopify por quilataje + calculadora de cotización en vivo.|3D classical marble art direction + karat-filtered Shopify store + live daily gold calculator."
     },
     primestone: {
-      cls: "lab",
-      kickerEn: "04 / Digital Architecture · Spatial UI Showcase",
-      descEn: "Spatial interface design and architectural showcase produced in panoramic Desktop (16:9) and vertical Mobile (9:16) formats.",
-      problem: "Demostrar cómo una constructora de alto ticket puede presentar proyectos residenciales como una experiencia inmersiva.|Demonstrate how a high-ticket builder can present residential architecture as an immersive digital showcase.",
-      arch: "Dirección espacial 16:9 y 9:16 + narrativa visual de materiales y volumetría.|16:9 & 9:16 spatial UI direction + architectural motion showcase."
+      cls: "live",
+      kickerEn: "Digital Flagship · Spatial UI · General Construction",
+      descEn: "Spatial digital platform and interactive showcase for Prime Stone Builders LLC (primestonebuildersllc.com), engineered in panoramic Desktop (16:9) and vertical Mobile (9:16) formats.",
+      urlLabelEn: "Visit primestonebuildersllc.com ↗",
+      problem: "Posicionar una constructora residencial de alto crecimiento en Kentucky con una presencia digital inmersiva muy por encima del contratista promedio.|Position a high-growth general construction firm in Kentucky with an immersive digital presence far above local competitors.",
+      arch: "Plataforma web en producción (primestonebuildersllc.com) + interfaz espacial 16:9/9:16 + sistema de cotización y portafolio de obras.|Production web platform (primestonebuildersllc.com) + spatial 16:9/9:16 UI + project showcase and quote capture."
+    },
+    gn: {
+      cls: "live",
+      kickerEn: "Real Estate Acquisition · Scroll-Driven 3D Hero · Lead Engine",
+      descEn: "Direct property acquisition platform in Louisville, Kentucky (gninvestmentsky.com): cinematic scroll-driven 3D crest reveal, interior perspective storytelling, instant cash-offer intake, and admin pipeline.",
+      urlLabelEn: "Visit gninvestmentsky.com ↗",
+      problem: "Captar propietarios que necesitan vender su casa tal como está (As-Is) en Louisville transmitiendo solidez financiera y confianza inmediata.|Capture motivated homeowners selling as-is in Louisville while projecting immediate institutional trust and speed.",
+      arch: "Experiencia web cinemática controlada por scroll (GSAP) + captura directa de propiedades + panel administrativo conectado a Supabase.|Scroll-choreographed web experience (GSAP) + direct seller intake flow + Supabase-backed admin pipeline."
+    },
+    consoliday: {
+      cls: "live",
+      kickerEn: "FinTech / InsurTech Web Platform · Commission Reconciliation",
+      descEn: "Bilingual SaaS web platform built for insurance agencies and brokers (consoliday.com): automated commission reconciliation, multi-carrier financial clarity, Stripe subscriptions, and agency analytics.",
+      urlLabelEn: "Visit consoliday.com ↗",
+      problem: "Las agencias de seguros perdían decenas de horas conciliando estados de comisiones dispersos en hojas de Excel propensas a errores.|Insurance agencies spent dozens of hours reconciling carrier commission statements across error-prone spreadsheets.",
+      arch: "Frontend React multi-idioma (ES/EN) + motor backend en Python y Supabase + pagos con Stripe y panel ejecutivo de agencias.|Bilingual React platform (ES/EN) + Python & Supabase reconciliation engine + Stripe billing and agency dashboard."
+    },
+    berta: {
+      cls: "live",
+      kickerEn: "Editorial & Podcast Platform · Bilingual Hub · Admin CMS",
+      descEn: "Bilingual digital home for award-winning educator and host Berta Weyenberg (conbertaciones.com): integrated audio player for 96+ episodes (ConBERTAciones & Under the Umbrella), blog reflections, speaker booking, and custom CMS.",
+      urlLabelEn: "Visit conbertaciones.com ↗",
+      problem: "Unificar dos programas de audio, casi cien episodios bilingües, artículos y contrataciones de conferencias en una experiencia cálida y fácil de administrar.|Unify two shows, 96+ bilingual audio episodes, essays, and speaking inquiries into an accessible, self-managed hub.",
+      arch: "Plataforma web bilingüe (ES/EN) con reproductor de episodios en vivo + agenda de conferencias + panel de administración propio.|Bilingual web platform (ES/EN) with integrated episode player + speaker booking + custom admin view."
+    },
+    marielys: {
+      cls: "live",
+      kickerEn: "EdTech & Launch Platform · 21-Day Challenge + Student LMS",
+      descEn: "Enrollment flagship and online learning platform (LMS) for Balloons by Marielys: conversion-focused curriculum presentation, student authentication, video lesson dashboard, and progress tracking.",
+      urlLabelEn: "Visit live platform ↗",
+      problem: "Lanzar un programa práctico de 21 días con su propia academia privada de alumnas sin depender de plataformas externas genéricas.|Launch a hands-on 21-day training program with a private student LMS without relying on generic third-party course marketplaces.",
+      arch: "Plataforma Next.js + autenticación y base de datos en Supabase SSR + aula virtual LMS integrada y sistema de marca (#18).|Next.js web platform + Supabase SSR auth & database + integrated student LMS dashboard."
+    },
+    pool: {
+      cls: "live",
+      kickerEn: "Music Streaming & DJ Pool · Liquid Glass 3D Interface",
+      descEn: "Next-generation remix and extended-track platform for professional DJs (Pool Extended): WebGL Liquid Ether backdrop, interactive 3D emblem, persistent waveform audio player, BPM/Key filters, and membership dashboard.",
+      urlLabelEn: "Visit poolextended.com ↗",
+      problem: "Renovar la experiencia de descarga musical para DJs latinos y de club con reproducción fluida, metadatos técnicos (BPM/Key) y estética de vanguardia.|Elevate the track-discovery and download workflow for club and Latin DJs with instant playback, BPM/Key metadata, and standout visual craft.",
+      arch: "Interfaz React + Three.js Liquid Glass + reproductor persistente de audio + gestión de membresías, categorías y archivos en Supabase.|React + Three.js Liquid Glass UI + persistent audio player + Supabase membership and track vault."
+    },
+    campestre: {
+      cls: "live",
+      kickerEn: "Cross-Border E-Commerce · Logistics Timeline & Driver App",
+      descEn: "Mobile-first e-commerce and delivery ecosystem for Restaurant Al Campestre: live currency rates, recipient directory, asynchronous delivery timeline, warehouse barcode scanner, and PIN-protected street driver app.",
+      problem: "Conectar compras familiares desde EE.UU. con entregas puerta a puerta, control de almacén y despacho de choferes en ruta desde el teléfono.|Connect cross-border family grocery orders from the US with warehouse inventory, route dispatch, and street-level driver confirmation.",
+      arch: "Tienda Next.js + asistente IA + portal móvil de repartidores con PIN y notificación WhatsApp + escáner de inventario para almacén.|Next.js storefront + AI assistant + PIN-secured mobile driver portal with WhatsApp dispatch + warehouse scanner."
     },
     zhomes: {
       cls: "live",
@@ -442,6 +490,8 @@
             act.textContent = "View Omnichannel AI Suite →";
           } else if (tx.indexOf("Ver su Plataforma Web") !== -1 || tx.indexOf("Ver su Sitio Web") !== -1) {
             act.textContent = "View Live Web Platform →";
+          } else if (tx.indexOf("Coming Soon") !== -1) {
+            act.textContent = "View Upcoming Web Platform (Coming Soon) →";
           }
         });
       }
@@ -1254,6 +1304,20 @@
     });
     d.querySelectorAll("[data-aria-es]").forEach(function (el) {
       el.setAttribute("aria-label", dmlLang === "en" ? el.getAttribute("data-aria-en") : el.getAttribute("data-aria-es"));
+    });
+    d.querySelectorAll(".proj .proj-media").forEach(function (btn) {
+      if (btn.hasAttribute("data-aria-es")) return;
+      if (!btn.hasAttribute("data-orig-aria-es")) {
+        btn.setAttribute("data-orig-aria-es", btn.getAttribute("aria-label") || "");
+      }
+      if (dmlLang === "en") {
+        var proj = btn.closest(".proj");
+        var tEl = proj && proj.querySelector(".proj-t");
+        var tTxt = tEl ? tEl.textContent.trim() : "project";
+        btn.setAttribute("aria-label", "Explore interactive showcase: " + tTxt);
+      } else {
+        btn.setAttribute("aria-label", btn.getAttribute("data-orig-aria-es"));
+      }
     });
     d.querySelectorAll("[data-placeholder-es]").forEach(function (el) {
       el.setAttribute("placeholder", dmlLang === "en" ? el.getAttribute("data-placeholder-en") : el.getAttribute("data-placeholder-es"));

@@ -103,6 +103,15 @@
 .cls-badge.cls-lab::before {
   background: var(--letra);
 }
+.cls-badge.cls-soon {
+  border-color: rgba(255, 91, 31, 0.55);
+  background: rgba(255, 91, 31, 0.12);
+  color: #ff9c73;
+}
+.cls-badge.cls-soon::before {
+  background: var(--fuego);
+  box-shadow: 0 0 8px rgba(255, 91, 31, 0.75);
+}
 .proj-cls-row,
 .more-cls-row {
   margin-bottom: 10px;
@@ -815,13 +824,117 @@
   gap: 10px;
 }
 
+/* ---------- 6. En el Taller · Coming Soon Editorial Pipeline (/web) ---------- */
+.soon-sec {
+  margin-top: clamp(96px, 14vw, 156px);
+  padding-top: clamp(44px, 6.5vw, 80px);
+  border-top: 1px solid var(--line);
+}
+.soon-grid {
+  list-style: none;
+  margin: clamp(32px, 5vw, 52px) 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 24px;
+}
+@media (min-width: 720px) {
+  .soon-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (min-width: 1040px) {
+  .soon-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+.soon-card {
+  position: relative;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 24px 22px 22px;
+  border: 1px dashed rgba(243, 238, 227, 0.28);
+  background:
+    radial-gradient(ellipse 90% 70% at 92% 8%, rgba(106, 72, 136, 0.22), transparent 65%),
+    var(--ink2);
+  box-shadow: 6px 6px 0 var(--violeta-deep);
+  transition: transform 0.28s var(--spring), border-color 0.25s, box-shadow 0.28s var(--spring);
+}
+.soon-card:hover {
+  transform: translate(-2px, -3px);
+  border-color: var(--letra);
+  border-style: solid;
+  box-shadow: 8px 8px 0 var(--letra);
+}
+.soon-top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.soon-idx {
+  font: 400 0.75rem/1 var(--mono);
+  letter-spacing: 0.12em;
+  color: var(--letra);
+}
+.soon-kicker {
+  margin-top: 12px;
+  font: 400 0.74rem/1.4 var(--mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--letra);
+}
+.soon-title {
+  margin: 8px 0 10px;
+  font: 400 clamp(1.7rem, 5.2vw, 2.35rem) / 0.94 var(--display);
+  text-transform: uppercase;
+  color: var(--paper);
+  text-wrap: balance;
+}
+.soon-desc {
+  font-size: 0.96rem;
+  line-height: 1.5;
+  color: var(--mute);
+  text-wrap: pretty;
+}
+.soon-specs {
+  list-style: none;
+  margin: 14px 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.soon-specs li {
+  padding: 4px 8px;
+  border: 1px solid rgba(243, 238, 227, 0.16);
+  background: rgba(14, 10, 20, 0.68);
+  font: 400 0.68rem/1.2 var(--mono);
+  color: var(--paper);
+}
+.soon-foot {
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  font: 400 0.72rem/1.3 var(--mono);
+  color: var(--mute);
+}
+
 /* Reduced motion compliance */
-html[data-motion="off"] :is(.dc-ind-btn, .dc-chip, .dc-link-btn, .anat-tab) {
+html[data-motion="off"] :is(.dc-ind-btn, .dc-chip, .dc-link-btn, .anat-tab, .soon-card) {
   transition: none !important;
   transform: none !important;
 }
 @media (prefers-reduced-motion: reduce) {
-  :is(.dc-ind-btn, .dc-chip, .dc-link-btn, .anat-tab) {
+  :is(.dc-ind-btn, .dc-chip, .dc-link-btn, .anat-tab, .soon-card) {
     transition: none !important;
     transform: none !important;
   }
