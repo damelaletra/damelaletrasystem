@@ -902,7 +902,7 @@
   }
 }
 
-/* Lithographic stipple grain + 4-column drafting hairlines + ambient studio washes */
+/* Lithographic stipple grain + seamless ambient studio washes */
 #cap-codigo,
 #cap-diseno,
 #cap-identidad,
@@ -914,29 +914,12 @@
   isolation: isolate;
   background-color: var(--ink);
   background-image:
-    radial-gradient(rgba(243, 238, 227, 0.042) 1px, transparent 0),
-    linear-gradient(
-      90deg,
-      transparent 0%,
-      rgba(243, 238, 227, 0.032) 6%,
-      transparent 6.12%,
-      transparent 49.94%,
-      rgba(255, 204, 41, 0.035) 50%,
-      transparent 50.08%,
-      transparent 93.88%,
-      rgba(243, 238, 227, 0.032) 94%,
-      transparent 100%
-    ),
-    linear-gradient(180deg, rgba(243, 238, 227, 0.022) 1px, transparent 1px),
-    radial-gradient(ellipse 68% 22% at 88% 12%, rgba(106, 72, 136, 0.22), transparent 70%),
-    radial-gradient(ellipse 64% 24% at 10% 38%, rgba(61, 37, 82, 0.3), transparent 72%),
-    radial-gradient(ellipse 66% 22% at 90% 66%, rgba(106, 72, 136, 0.2), transparent 70%),
-    radial-gradient(ellipse 60% 20% at 15% 90%, rgba(255, 204, 41, 0.055), transparent 70%);
+    radial-gradient(rgba(243, 238, 227, 0.038) 1px, transparent 0),
+    radial-gradient(ellipse 75% 38% at 88% 14%, rgba(106, 72, 136, 0.2), transparent 72%),
+    radial-gradient(ellipse 70% 40% at 12% 46%, rgba(61, 37, 82, 0.26), transparent 74%),
+    radial-gradient(ellipse 72% 36% at 86% 78%, rgba(106, 72, 136, 0.18), transparent 72%);
   background-size:
-    20px 20px,
-    100% 100%,
-    100% 180px,
-    100% 100%,
+    22px 22px,
     100% 100%,
     100% 100%,
     100% 100%;
